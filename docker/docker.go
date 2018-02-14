@@ -15,6 +15,21 @@ const DockerImage = "mdelapenya/liferay-portal-nightlies"
 // dockerContainerName represents the name of the container to be run
 const dockerContainerName = "liferay-portal-nightly"
 
+// checkDockerContainerExists checks if the container is running
+func checkDockerContainerExists() bool {
+	cmdName := "docker"
+	cmdArgs := []string{"container", "inspect", dockerContainerName}
+
+	cmd := exec.Command(cmdName, cmdArgs...)
+
+	err := cmd.Run()
+	if err != nil {
+		return false
+	}
+
+	return true
+}
+
 // DownloadDockerImage downloads the image
 func downloadDockerImage(dockerImage string) {
 	var stdoutBuf, stderrBuf bytes.Buffer
@@ -69,7 +84,9 @@ func removeDockerContainer() {
 func RunDockerImage(dockerImage string) {
 	downloadDockerImage(dockerImage)
 
-	removeDockerContainer()
+	if checkDockerContainerExists() {
+		removeDockerContainer()
+	}
 
 	cmd := exec.Command("docker", "run", "-d", "--name", dockerContainerName, dockerImage)
 	stdoutStderr, err := cmd.CombinedOutput()
