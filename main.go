@@ -22,7 +22,7 @@ func main() {
 	imageTag, _ = reader.ReadString('\n')
 	fmt.Println(imageTag)
 
-	if imageTag != "" {
+	if imageTag == "" {
 		imageTag = currentDate
 	}
 
