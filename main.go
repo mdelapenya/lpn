@@ -2,10 +2,15 @@ package main
 
 import "fmt"
 
-// this is a comment
+const dockerImage = "mdelapenya/liferay-portal-nightlies"
 
 func main() {
-	var message = "Hello World"
+	fmt.Print("Enter the Image Tag you want to use for [" + dockerImage + "]: ")
+	var imageTag string
 
-	fmt.Println(message)
+	fmt.Scanf("%s", &imageTag)
+
+	var image = dockerImage + ":" + imageTag
+
+	fmt.Println(image)
 }
