@@ -15,16 +15,18 @@ const DockerImage = "mdelapenya/liferay-portal-nightlies"
 // dockerContainerName represents the name of the container to be run
 const dockerContainerName = "liferay-portal-nightly"
 
+// dockerBinary represents the name of the binary to execute Docker commands
+const dockerBinary = "docker"
+
 // checkDockerContainerExists checks if the container is running
 func checkDockerContainerExists() bool {
-	cmdName := "docker"
 	cmdArgs := []string{
 		"container",
 		"inspect",
 		dockerContainerName,
 	}
 
-	cmd := exec.Command(cmdName, cmdArgs...)
+	cmd := exec.Command(dockerBinary, cmdArgs...)
 
 	err := cmd.Run()
 	if err != nil {
@@ -36,14 +38,13 @@ func checkDockerContainerExists() bool {
 
 // checkDockerImageExists checks if the image is already present
 func checkDockerImageExists(dockerImage string) bool {
-	cmdName := "docker"
 	cmdArgs := []string{
 		"image",
 		"inspect",
 		dockerImage,
 	}
 
-	cmd := exec.Command(cmdName, cmdArgs...)
+	cmd := exec.Command(dockerBinary, cmdArgs...)
 
 	err := cmd.Run()
 	if err != nil {
@@ -60,14 +61,13 @@ func downloadDockerImage(dockerImage string) {
 		return
 	}
 
-	cmdName := "docker"
 	cmdArgs := []string{
 		"pull",
 		dockerImage,
 	}
 
 	var stdoutBuf, stderrBuf bytes.Buffer
-	cmd := exec.Command(cmdName, cmdArgs...)
+	cmd := exec.Command(dockerBinary, cmdArgs...)
 
 	stdoutIn, _ := cmd.StdoutPipe()
 	stderrIn, _ := cmd.StderrPipe()
@@ -105,14 +105,13 @@ func downloadDockerImage(dockerImage string) {
 
 // removeDockerContainer removes the running container
 func removeDockerContainer() {
-	cmdName := "docker"
 	cmdArgs := []string{
 		"rm",
 		"-fv",
 		dockerContainerName,
 	}
 
-	cmd := exec.Command(cmdName, cmdArgs...)
+	cmd := exec.Command(dockerBinary, cmdArgs...)
 	stdoutStderr, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Fatal(err)
@@ -129,7 +128,6 @@ func RunDockerImage(dockerImage string) {
 		removeDockerContainer()
 	}
 
-	cmdName := "docker"
 	cmdArgs := []string{
 		"run",
 		"-d",
@@ -137,7 +135,7 @@ func RunDockerImage(dockerImage string) {
 		dockerImage,
 	}
 
-	cmd := exec.Command(cmdName, cmdArgs...)
+	cmd := exec.Command(dockerBinary, cmdArgs...)
 	stdoutStderr, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Fatal(err)
