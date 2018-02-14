@@ -69,7 +69,7 @@ func downloadDockerImage(dockerImage string) {
 	fmt.Printf("%s", outStr)
 }
 
-// removeDockerContainer runs the image
+// removeDockerContainer removes the running container
 func removeDockerContainer() {
 	cmd := exec.Command("docker", "rm", "-fv", dockerContainerName)
 	stdoutStderr, err := cmd.CombinedOutput()
