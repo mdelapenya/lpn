@@ -24,38 +24,16 @@ func getDockerImage(imageTag string) string {
 	return dockerImage + ":" + imageTag
 }
 
-// CapturingPassThroughWriter is a writer that remembers
-// data written to it and passes it to w
-type CapturingPassThroughWriter struct {
-	buf bytes.Buffer
-	w   io.Writer
-}
-
-// NewCapturingPassThroughWriter creates new CapturingPassThroughWriter
-func NewCapturingPassThroughWriter(w io.Writer) *CapturingPassThroughWriter {
-	return &CapturingPassThroughWriter{
-		w: w,
-	}
-}
-
-func (w *CapturingPassThroughWriter) Write(d []byte) (int, error) {
-	w.buf.Write(d)
-	return w.w.Write(d)
-}
-
-// Bytes returns bytes written to the writer
-func (w *CapturingPassThroughWriter) Bytes() []byte {
-	return w.buf.Bytes()
-}
-
 func downloadDockerImage(dockerImage string) {
-	var errStdout, errStderr error
+	var stdoutBuf, stderrBuf bytes.Buffer
 	cmd := exec.Command("docker", "pull", dockerImage)
 
 	stdoutIn, _ := cmd.StdoutPipe()
 	stderrIn, _ := cmd.StderrPipe()
-	stdout := NewCapturingPassThroughWriter(os.Stdout)
-	stderr := NewCapturingPassThroughWriter(os.Stderr)
+
+	var errStdout, errStderr error
+	stdout := io.MultiWriter(os.Stdout, &stdoutBuf)
+	stderr := io.MultiWriter(os.Stderr, &stderrBuf)
 
 	err := cmd.Start()
 	if err != nil {
@@ -76,10 +54,10 @@ func downloadDockerImage(dockerImage string) {
 	}
 
 	if errStdout != nil || errStderr != nil {
-		log.Fatalf("failed to capture stdout or stderr\n")
+		log.Fatal("failed to capture stdout or stderr\n")
 	}
 
-	outStr, errStr := string(stdout.Bytes()), string(stderr.Bytes())
-
-	fmt.Printf("\nout:\n%s\nerr:\n%s\n", outStr, errStr)
+	outStr, errStr := string(stdoutBuf.Bytes()), string(stderrBuf.Bytes())
+	fmt.Printf("%s", errStr)
+	fmt.Printf("%s", outStr)
 }
