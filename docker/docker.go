@@ -30,8 +30,28 @@ func checkDockerContainerExists() bool {
 	return true
 }
 
+// checkDockerImageExists checks if the image is already present
+func checkDockerImageExists(dockerImage string) bool {
+	cmdName := "docker"
+	cmdArgs := []string{"image", "inspect", dockerImage}
+
+	cmd := exec.Command(cmdName, cmdArgs...)
+
+	err := cmd.Run()
+	if err != nil {
+		return false
+	}
+
+	return true
+}
+
 // DownloadDockerImage downloads the image
 func downloadDockerImage(dockerImage string) {
+	if checkDockerImageExists(dockerImage) {
+		log.Println("Skipping pulling [" + dockerImage + "] as it's already present locally.")
+		return
+	}
+
 	var stdoutBuf, stderrBuf bytes.Buffer
 	cmd := exec.Command("docker", "pull", dockerImage)
 
