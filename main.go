@@ -10,7 +10,9 @@ func main() {
 
 	fmt.Scanf("%s", &imageTag)
 
-	var image = dockerImage + ":" + imageTag
+	fmt.Println(getDockerImage(imageTag))
+}
 
-	fmt.Println(image)
+func getDockerImage(imageTag string) string {
+	return dockerImage + ":" + imageTag
 }
