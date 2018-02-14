@@ -13,7 +13,7 @@ import (
 const DockerImage = "mdelapenya/liferay-portal-nightlies"
 
 // DownloadDockerImage downloads the image
-func DownloadDockerImage(dockerImage string) {
+func downloadDockerImage(dockerImage string) {
 	var stdoutBuf, stderrBuf bytes.Buffer
 	cmd := exec.Command("docker", "pull", dockerImage)
 
@@ -49,4 +49,10 @@ func DownloadDockerImage(dockerImage string) {
 	outStr, errStr := string(stdoutBuf.Bytes()), string(stderrBuf.Bytes())
 	fmt.Printf("%s", errStr)
 	fmt.Printf("%s", outStr)
+}
+
+// RunDockerImage runs the image
+func RunDockerImage(dockerImage string) {
+	cmd := exec.Command("docker", "run", "-d", dockerImage)
+	cmd.Run()
 }
