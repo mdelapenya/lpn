@@ -18,7 +18,11 @@ const dockerContainerName = "liferay-portal-nightly"
 // checkDockerContainerExists checks if the container is running
 func checkDockerContainerExists() bool {
 	cmdName := "docker"
-	cmdArgs := []string{"container", "inspect", dockerContainerName}
+	cmdArgs := []string{
+		"container",
+		"inspect",
+		dockerContainerName,
+	}
 
 	cmd := exec.Command(cmdName, cmdArgs...)
 
@@ -33,7 +37,11 @@ func checkDockerContainerExists() bool {
 // checkDockerImageExists checks if the image is already present
 func checkDockerImageExists(dockerImage string) bool {
 	cmdName := "docker"
-	cmdArgs := []string{"image", "inspect", dockerImage}
+	cmdArgs := []string{
+		"image",
+		"inspect",
+		dockerImage,
+	}
 
 	cmd := exec.Command(cmdName, cmdArgs...)
 
@@ -52,8 +60,14 @@ func downloadDockerImage(dockerImage string) {
 		return
 	}
 
+	cmdName := "docker"
+	cmdArgs := []string{
+		"pull",
+		dockerImage,
+	}
+
 	var stdoutBuf, stderrBuf bytes.Buffer
-	cmd := exec.Command("docker", "pull", dockerImage)
+	cmd := exec.Command(cmdName, cmdArgs...)
 
 	stdoutIn, _ := cmd.StdoutPipe()
 	stderrIn, _ := cmd.StderrPipe()
@@ -91,7 +105,14 @@ func downloadDockerImage(dockerImage string) {
 
 // removeDockerContainer removes the running container
 func removeDockerContainer() {
-	cmd := exec.Command("docker", "rm", "-fv", dockerContainerName)
+	cmdName := "docker"
+	cmdArgs := []string{
+		"rm",
+		"-fv",
+		dockerContainerName,
+	}
+
+	cmd := exec.Command(cmdName, cmdArgs...)
 	stdoutStderr, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Fatal(err)
@@ -108,7 +129,15 @@ func RunDockerImage(dockerImage string) {
 		removeDockerContainer()
 	}
 
-	cmd := exec.Command("docker", "run", "-d", "--name", dockerContainerName, dockerImage)
+	cmdName := "docker"
+	cmdArgs := []string{
+		"run",
+		"-d",
+		"--name", dockerContainerName,
+		dockerImage,
+	}
+
+	cmd := exec.Command(cmdName, cmdArgs...)
 	stdoutStderr, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Fatal(err)
