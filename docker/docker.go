@@ -12,6 +12,9 @@ import (
 // DockerImage represents the base namespace for the Docker image
 const DockerImage = "mdelapenya/liferay-portal-nightlies"
 
+// dockerContainerName represents the name of the container to be run
+const dockerContainerName = "liferay-portal-nightly"
+
 // DownloadDockerImage downloads the image
 func downloadDockerImage(dockerImage string) {
 	var stdoutBuf, stderrBuf bytes.Buffer
@@ -51,9 +54,24 @@ func downloadDockerImage(dockerImage string) {
 	fmt.Printf("%s", outStr)
 }
 
+// removeDockerContainer runs the image
+func removeDockerContainer() {
+	cmd := exec.Command("docker", "rm", "-fv", dockerContainerName)
+	stdoutStderr, err := cmd.CombinedOutput()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%s\n", stdoutStderr)
+}
+
 // RunDockerImage runs the image
 func RunDockerImage(dockerImage string) {
-	cmd := exec.Command("docker", "run", "-d", dockerImage)
+	downloadDockerImage(dockerImage)
+
+	removeDockerContainer()
+
+	cmd := exec.Command("docker", "run", "-d", "--name", dockerContainerName, dockerImage)
 	stdoutStderr, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Fatal(err)
