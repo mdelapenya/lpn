@@ -9,7 +9,7 @@ func main() {
 
 	fmt.Scanf("%s", &imageTag)
 
-	docker.DownloadDockerImage(getDockerImage(imageTag))
+	docker.RunDockerImage(getDockerImage(imageTag))
 }
 
 func getDockerImage(imageTag string) string {
