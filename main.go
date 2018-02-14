@@ -9,5 +9,9 @@ func main() {
 
 	fmt.Scanf("%s", &imageTag)
 
-	docker.DownloadDockerImage(docker.GetDockerImage(imageTag))
+	docker.DownloadDockerImage(getDockerImage(imageTag))
+}
+
+func getDockerImage(imageTag string) string {
+	return docker.DockerImage + ":" + imageTag
 }

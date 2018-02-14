@@ -50,8 +50,3 @@ func DownloadDockerImage(dockerImage string) {
 	fmt.Printf("%s", errStr)
 	fmt.Printf("%s", outStr)
 }
-
-// GetDockerImage returns the full name of th image to use
-func GetDockerImage(imageTag string) string {
-	return DockerImage + ":" + imageTag
-}
