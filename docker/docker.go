@@ -54,5 +54,10 @@ func downloadDockerImage(dockerImage string) {
 // RunDockerImage runs the image
 func RunDockerImage(dockerImage string) {
 	cmd := exec.Command("docker", "run", "-d", dockerImage)
-	cmd.Run()
+	stdoutStderr, err := cmd.CombinedOutput()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%s\n", stdoutStderr)
 }
