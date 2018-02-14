@@ -17,10 +17,10 @@ func main() {
 	fmt.Print("If you leave it empty, we will use [" + currentDate + "]: ")
 
 	var imageTag string
-
-	reader := bufio.NewReader(os.Stdin)
-	imageTag, _ = reader.ReadString('\n')
-	fmt.Println(imageTag)
+	scanner := bufio.NewScanner(os.Stdin)
+	if scanner.Scan() {
+		imageTag = scanner.Text()
+	}
 
 	if imageTag == "" {
 		imageTag = currentDate
