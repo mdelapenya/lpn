@@ -129,6 +129,8 @@ func RunDockerImage(dockerImage string) {
 	cmdArgs := []string{
 		"run",
 		"-d",
+		"-p", "8080:8080",
+		"-p", "11311:11311",
 		"--name", dockerContainerName,
 		dockerImage,
 	}
