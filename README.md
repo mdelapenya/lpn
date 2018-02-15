@@ -59,6 +59,10 @@ Help about any command.
 
 Pulls a Liferay Portal nightly Docker image from `mdelapenya/liferay-portal-nightlies` repository. If no image tag is passed to the command, the tag representing the current date will be used.
 
+### rm
+
+Removes the Liferay Portal nightly instance, identified by [`liferay-portal-nightly`].
+
 ### run
 
 Runs a Liferay Portal nightly instance, obtained from `mdelapenya/liferay-portal-nightlies`. If no image tag is passed to the command, the tag representing the current date [`liferay-portal-nightly`] will be used.
