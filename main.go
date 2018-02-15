@@ -1,7 +1,7 @@
 package main
 
 import (
-	"lpn/cmd"
+	"github.com/mdelapenya/lpn/cmd"
 )
 
 func main() {

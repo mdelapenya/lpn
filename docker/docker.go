@@ -3,7 +3,8 @@ package docker
 import (
 	"fmt"
 	"log"
-	shell "lpn/shell"
+
+	shell "github.com/mdelapenya/lpn/shell"
 )
 
 // DockerImage represents the base namespace for the Docker image

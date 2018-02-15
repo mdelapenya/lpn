@@ -2,8 +2,9 @@ package cmd
 
 import (
 	"errors"
-	date "lpn/date"
-	docker "lpn/docker"
+
+	date "github.com/mdelapenya/lpn/date"
+	docker "github.com/mdelapenya/lpn/docker"
 
 	"github.com/spf13/cobra"
 )
