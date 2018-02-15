@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	shell "lpn/shell"
 	"os"
 	"os/exec"
 )
@@ -18,18 +19,6 @@ const DockerContainerName = "liferay-portal-nightly"
 // dockerBinary represents the name of the binary to execute Docker commands
 const dockerBinary = "docker"
 
-// checkDockerContainerExists checks if the container is running
-func check(cmdArgs []string) bool {
-	cmd := exec.Command(dockerBinary, cmdArgs...)
-
-	err := cmd.Run()
-	if err != nil {
-		return false
-	}
-
-	return true
-}
-
 // CheckDockerContainerExists checks if the container is running
 func CheckDockerContainerExists() bool {
 	cmdArgs := []string{
@@ -38,7 +27,7 @@ func CheckDockerContainerExists() bool {
 		DockerContainerName,
 	}
 
-	return check(cmdArgs)
+	return shell.Run(dockerBinary, cmdArgs)
 }
 
 // CheckDockerImageExists checks if the image is already present
@@ -49,7 +38,7 @@ func CheckDockerImageExists(dockerImage string) bool {
 		dockerImage,
 	}
 
-	return check(cmdArgs)
+	return shell.Run(dockerBinary, cmdArgs)
 }
 
 // LogDockerContainer downloads the image
