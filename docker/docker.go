@@ -103,8 +103,8 @@ func PullDockerImage(dockerImage string) {
 	fmt.Printf("%s", outStr)
 }
 
-// removeDockerContainer removes the running container
-func removeDockerContainer() {
+// RemoveDockerContainer removes the running container
+func RemoveDockerContainer() {
 	cmdArgs := []string{
 		"rm",
 		"-fv",
@@ -125,7 +125,7 @@ func RunDockerImage(dockerImage string) {
 	PullDockerImage(dockerImage)
 
 	if CheckDockerContainerExists() {
-		removeDockerContainer()
+		RemoveDockerContainer()
 	}
 
 	cmdArgs := []string{
