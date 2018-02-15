@@ -1,15 +1,15 @@
 package cmd
 
 import (
-	"bufio"
-	"fmt"
+	"errors"
 	docker "lpn/docker"
-	"os"
 	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/vjeantet/jodaTime"
 )
+
+var currentDate = jodaTime.Format("YYYYMMdd", time.Now())
 
 func init() {
 	rootCmd.AddCommand(runCmd)
@@ -18,24 +18,25 @@ func init() {
 var runCmd = &cobra.Command{
 	Use:   "run",
 	Short: "Runs a Liferay Portal nightly instance",
-	Long:  `Runs a Liferay Portal nightly instance, using current date if no version is passed`,
+	Long: `Runs a Liferay Portal nightly instance, obtained from ` + docker.DockerImage + `.
+	If no image tag is passed to the command, the tag representing the current date [` + currentDate + `]
+	will be used.`,
+	Args: func(cmd *cobra.Command, args []string) error {
+		if len(args) > 1 {
+			return errors.New("run requires zero or one argument representing the image tag to be run")
+		}
+
+		return nil
+	},
 	Run: func(cmd *cobra.Command, args []string) {
-		var currentDate = jodaTime.Format("YYYYMMdd", time.Now())
+		var tag string
 
-		fmt.Println("Enter the Image Tag you want to use for [" + docker.DockerImage + "]")
-		fmt.Print("If you leave it empty, we will use [" + currentDate + "]: ")
-
-		var imageTag string
-		scanner := bufio.NewScanner(os.Stdin)
-
-		if scanner.Scan() {
-			imageTag = scanner.Text()
+		if len(args) == 0 {
+			tag = currentDate
+		} else {
+			tag = args[0]
 		}
 
-		if imageTag == "" {
-			imageTag = currentDate
-		}
-
-		docker.RunDockerImage(docker.DockerImage + ":" + imageTag)
+		docker.RunDockerImage(docker.DockerImage + ":" + tag)
 	},
 }
