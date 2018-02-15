@@ -1,4 +1,4 @@
-# Liferay Gowl
+# lpn (Liferay Portal Nightly)
 
 This Golang CLI makes it easier to run Liferay Portal's nightly builds.
 
