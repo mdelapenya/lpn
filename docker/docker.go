@@ -59,6 +59,8 @@ func downloadDockerImage(dockerImage string) {
 		return
 	}
 
+	log.Println("Pulling [" + dockerImage + "].")
+
 	cmdArgs := []string{
 		"pull",
 		dockerImage,
