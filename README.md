@@ -4,6 +4,17 @@ This Golang CLI makes it easier to run Liferay Portal's nightly builds.
 
 It wraps Docker commands so you just have to run this tool, and pass the specific tag you want to run.
 
+## Install
+
+Install this tool downloading it from our [stable release channel](https://dl.equinox.io/mdelapenya/lpn/stable).
+
+### Brew (Mac Users)
+
+```shell
+$ brew tap eqnxio/mdelapenya
+$ brew install lpn
+```
+
 ## Requirements
 
 You have to install Docker on your machine first. Check [this guide](https://docs.docker.com/install).
