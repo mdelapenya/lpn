@@ -8,8 +8,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var httpPort int
+
 func init() {
 	rootCmd.AddCommand(runCmd)
+
+	runCmd.Flags().IntVarP(&httpPort, "httpPort", "p", 8080, "HTTP Port")
 }
 
 var runCmd = &cobra.Command{
@@ -34,6 +38,6 @@ var runCmd = &cobra.Command{
 			tag = args[0]
 		}
 
-		docker.RunDockerImage(docker.DockerImage + ":" + tag)
+		docker.RunDockerImage(docker.DockerImage+":"+tag, httpPort)
 	},
 }
