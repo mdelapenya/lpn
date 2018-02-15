@@ -14,7 +14,7 @@ platforms: [
 EOF
 
 equinox release \
-  --config=".equinox/config.yaml" \
+  --config="$DIR/config.yaml" \
   --version="0.1.1" \
   --channel="stable" \
   github.com/mdelapenya/lpn
