@@ -2,7 +2,8 @@ package cmd
 
 import (
 	"log"
-	docker "lpn/docker"
+
+	docker "github.com/mdelapenya/lpn/docker"
 
 	"github.com/spf13/cobra"
 )
