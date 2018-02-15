@@ -22,6 +22,7 @@ Available Commands:
   checkContainer Checks if there is a container created by lpn (Liferay Portal Nightly)
   checkImage     Checks if the proper Liferay Portal nightly image has been pulled by lpn (Liferay Portal Nightly)
   help           Help about any command
+  log            Displays logs for the Liferay Portal nightly instance
   pull           Pulls a Liferay Portal nightly Docker image
   rm             Removes the Liferay Portal nightly instance
   run            Runs a Liferay Portal nightly instance
@@ -48,6 +49,10 @@ Uses `docker image inspect` to check if the proper Liferay Portal nightly image 
 ### help
 
 Help about any command.
+
+### log
+
+Displays logs for the Liferay Portal nightly instance, identified by [`liferay-portal-nightly`].
 
 ### pull
 
