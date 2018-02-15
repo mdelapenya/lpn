@@ -23,8 +23,8 @@ func CombinedOutput(cmdBinary string, cmdArgs []string) error {
 	return nil
 }
 
-// Run runs a shell program with arguments
-func Run(cmdBinary string, cmdArgs []string) bool {
+// RunCheck runs a shell program with arguments
+func RunCheck(cmdBinary string, cmdArgs []string) bool {
 	cmd := exec.Command(cmdBinary, cmdArgs...)
 
 	err := cmd.Run()
