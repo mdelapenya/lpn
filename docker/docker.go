@@ -114,7 +114,7 @@ func RemoveDockerContainer() {
 	cmd := exec.Command(dockerBinary, cmdArgs...)
 	stdoutStderr, err := cmd.CombinedOutput()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Impossible to remove the container: ", err)
 	}
 
 	fmt.Printf("%s\n", stdoutStderr)
