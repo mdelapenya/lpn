@@ -65,7 +65,7 @@ Removes the Liferay Portal nightly instance, identified by [`liferay-portal-nigh
 ### run
 
 ```shell
-go run main.go run -h
+lpn run -h
 Runs a Liferay Portal nightly instance, obtained from mdelapenya/liferay-portal-nightlies.
 	If no image tag is passed to the command, the tag representing the current date [20180215]
 	will be used.
