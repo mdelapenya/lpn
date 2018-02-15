@@ -98,7 +98,6 @@ func RunDockerImage(dockerImage string, httpPort int) {
 		"run",
 		"-d",
 		"-p", port + ":8080",
-		"-p", "11311:11311",
 		"--name", DockerContainerName,
 		dockerImage,
 	}
