@@ -22,7 +22,7 @@ func CheckDockerContainerExists() bool {
 		DockerContainerName,
 	}
 
-	return shell.Run(dockerBinary, cmdArgs)
+	return shell.RunCheck(dockerBinary, cmdArgs)
 }
 
 // CheckDockerImageExists checks if the image is already present
@@ -33,7 +33,7 @@ func CheckDockerImageExists(dockerImage string) bool {
 		dockerImage,
 	}
 
-	return shell.Run(dockerBinary, cmdArgs)
+	return shell.RunCheck(dockerBinary, cmdArgs)
 }
 
 // LogDockerContainer downloads the image
