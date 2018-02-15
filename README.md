@@ -37,6 +37,7 @@ Available Commands:
   pull           Pulls a Liferay Portal nightly Docker image
   rm             Removes the Liferay Portal nightly instance
   run            Runs a Liferay Portal nightly instance
+  update         Updates lpn (Liferay Portal Nightly) to the latest version
   version        Print the version number of lpn (Liferay Portal Nightly)
 
 Flags:
@@ -100,6 +101,10 @@ To achieve that:
 - It downloads the Docker image to the local engine.
 - It checks whether the Docker container this tool spins up is running. In that case, the tool deletes it.
 - It spins up a Docker container, using the port configured for Tomcat, and 11311 for OSGi console. The name of the container will be `liferay-portal-nightly`. Once started, please open a web browser in [https://localhost:8080](http://localhost:8080) to check the portal.
+
+### update
+
+Updates lpn (Liferay Portal Nightly) to the latest version on stable channel.
 
 ### version
 
