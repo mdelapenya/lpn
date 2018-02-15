@@ -64,7 +64,23 @@ Removes the Liferay Portal nightly instance, identified by [`liferay-portal-nigh
 
 ### run
 
+```shell
+go run main.go run -h
+Runs a Liferay Portal nightly instance, obtained from mdelapenya/liferay-portal-nightlies.
+	If no image tag is passed to the command, the tag representing the current date [20180215]
+	will be used.
+
+Usage:
+  lpn run [flags]
+
+Flags:
+  -h, --help           help for run
+  -p, --httpPort int   HTTP Port (default 8080)
+```
+
 Runs a Liferay Portal nightly instance, obtained from `mdelapenya/liferay-portal-nightlies`. If no image tag is passed to the command, the tag representing the current date [`liferay-portal-nightly`] will be used.
+
+This command accepts a flag `-p | --httpPort` to configure the HTTP port of Liferay Portal's bundle. By default it uses 8080.
 
 To achieve that:
 
@@ -72,7 +88,7 @@ To achieve that:
   - If no tag is provided, then it will use current date as tag, i.e. `20180214`.
 - It downloads the Docker image to the local engine.
 - It checks whether the Docker container this tool spins up is running. In that case, the tool deletes it.
-- It spins up a Docker container, using port 8080 for Tomcat, and 11311 for OSGi console. The name of the container will be `liferay-portal-nightly`. Once started, please open a web browser in [https://localhost:8080](http://localhost:8080) to check the portal.
+- It spins up a Docker container, using the port configured for Tomcat, and 11311 for OSGi console. The name of the container will be `liferay-portal-nightly`. Once started, please open a web browser in [https://localhost:8080](http://localhost:8080) to check the portal.
 
 ### version
 
