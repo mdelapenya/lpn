@@ -1,6 +1,7 @@
 package docker
 
 import (
+	"fmt"
 	"log"
 	shell "lpn/shell"
 )
@@ -83,18 +84,20 @@ func RemoveDockerContainer() {
 	}
 }
 
-// RunDockerImage runs the image
-func RunDockerImage(dockerImage string) {
+// RunDockerImage runs the image, setting the HTTP port for bundle
+func RunDockerImage(dockerImage string, httpPort int) {
 	PullDockerImage(dockerImage)
 
 	if CheckDockerContainerExists() {
 		RemoveDockerContainer()
 	}
 
+	port := fmt.Sprintf("%d", httpPort)
+
 	cmdArgs := []string{
 		"run",
 		"-d",
-		"-p", "8080:8080",
+		"-p", port + ":8080",
 		"-p", "11311:11311",
 		"--name", DockerContainerName,
 		dockerImage,
