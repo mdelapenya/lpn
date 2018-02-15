@@ -52,8 +52,8 @@ func CheckDockerImageExists(dockerImage string) bool {
 	return check(cmdArgs)
 }
 
-// DownloadDockerImage downloads the image
-func downloadDockerImage(dockerImage string) {
+// PullDockerImage downloads the image
+func PullDockerImage(dockerImage string) {
 	if CheckDockerImageExists(dockerImage) {
 		log.Println("Skipping pulling [" + dockerImage + "] as it's already present locally.")
 		return
@@ -122,7 +122,7 @@ func removeDockerContainer() {
 
 // RunDockerImage runs the image
 func RunDockerImage(dockerImage string) {
-	downloadDockerImage(dockerImage)
+	PullDockerImage(dockerImage)
 
 	if CheckDockerContainerExists() {
 		removeDockerContainer()
