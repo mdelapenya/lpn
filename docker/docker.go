@@ -1,10 +1,8 @@
 package docker
 
 import (
-	"fmt"
 	"log"
 	shell "lpn/shell"
-	"os/exec"
 )
 
 // DockerImage represents the base namespace for the Docker image
@@ -79,13 +77,10 @@ func RemoveDockerContainer() {
 		DockerContainerName,
 	}
 
-	cmd := exec.Command(dockerBinary, cmdArgs...)
-	stdoutStderr, err := cmd.CombinedOutput()
+	err := shell.CombinedOutput(dockerBinary, cmdArgs)
 	if err != nil {
 		log.Fatal("Impossible to remove the container")
 	}
-
-	fmt.Printf("%s\n", stdoutStderr)
 }
 
 // RunDockerImage runs the image
@@ -105,11 +100,8 @@ func RunDockerImage(dockerImage string) {
 		dockerImage,
 	}
 
-	cmd := exec.Command(dockerBinary, cmdArgs...)
-	stdoutStderr, err := cmd.CombinedOutput()
+	err := shell.CombinedOutput(dockerBinary, cmdArgs)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Impossible to run the container")
 	}
-
-	fmt.Printf("%s\n", stdoutStderr)
 }
