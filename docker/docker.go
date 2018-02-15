@@ -12,8 +12,8 @@ import (
 // DockerImage represents the base namespace for the Docker image
 const DockerImage = "mdelapenya/liferay-portal-nightlies"
 
-// dockerContainerName represents the name of the container to be run
-const dockerContainerName = "liferay-portal-nightly"
+// DockerContainerName represents the name of the container to be run
+const DockerContainerName = "liferay-portal-nightly"
 
 // dockerBinary represents the name of the binary to execute Docker commands
 const dockerBinary = "docker"
@@ -30,19 +30,19 @@ func check(cmdArgs []string) bool {
 	return true
 }
 
-// checkDockerContainerExists checks if the container is running
-func checkDockerContainerExists() bool {
+// CheckDockerContainerExists checks if the container is running
+func CheckDockerContainerExists() bool {
 	cmdArgs := []string{
 		"container",
 		"inspect",
-		dockerContainerName,
+		DockerContainerName,
 	}
 
 	return check(cmdArgs)
 }
 
-// checkDockerImageExists checks if the image is already present
-func checkDockerImageExists(dockerImage string) bool {
+// CheckDockerImageExists checks if the image is already present
+func CheckDockerImageExists(dockerImage string) bool {
 	cmdArgs := []string{
 		"image",
 		"inspect",
@@ -54,7 +54,7 @@ func checkDockerImageExists(dockerImage string) bool {
 
 // DownloadDockerImage downloads the image
 func downloadDockerImage(dockerImage string) {
-	if checkDockerImageExists(dockerImage) {
+	if CheckDockerImageExists(dockerImage) {
 		log.Println("Skipping pulling [" + dockerImage + "] as it's already present locally.")
 		return
 	}
@@ -106,7 +106,7 @@ func removeDockerContainer() {
 	cmdArgs := []string{
 		"rm",
 		"-fv",
-		dockerContainerName,
+		DockerContainerName,
 	}
 
 	cmd := exec.Command(dockerBinary, cmdArgs...)
@@ -122,7 +122,7 @@ func removeDockerContainer() {
 func RunDockerImage(dockerImage string) {
 	downloadDockerImage(dockerImage)
 
-	if checkDockerContainerExists() {
+	if CheckDockerContainerExists() {
 		removeDockerContainer()
 	}
 
@@ -131,7 +131,7 @@ func RunDockerImage(dockerImage string) {
 		"-d",
 		"-p", "8080:8080",
 		"-p", "11311:11311",
-		"--name", dockerContainerName,
+		"--name", DockerContainerName,
 		dockerImage,
 	}
 
