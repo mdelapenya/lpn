@@ -50,11 +50,13 @@ Use "lpn [command] --help" for more information about a command.
 
 ### checkContainer
 
+Checks if there is a container created by lpn (Liferay Portal Nook).
+
 Uses `docker container inspect` to check if there is a container with name `liferay-portal-nook` created by lpn (Liferay Portal Nook).
 
 ### checkImage
 
-Checks if the proper Liferay Portal Docker image has been pulled by lpn (Liferay Portal Nook).
+Checks if the proper Liferay Portal Docker image has been pulled by lpn.
 
 Uses `docker image inspect` to check if the proper Liferay Portal Docker image has been pulled by lpn (Liferay Portal Nook). If no image tag is passed to the command, the tag `latest` will be used.
 

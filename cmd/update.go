@@ -23,7 +23,7 @@ func init() {
 
 var updateCmd = &cobra.Command{
 	Use:   "update",
-	Short: "Updates lpn (Liferay Portal Nook) to the latest version",
+	Short: "Updates lpn to the latest version",
 	Long:  `Updates lpn (Liferay Portal Nook) to the latest version on stable channel`,
 	Run: func(cmd *cobra.Command, args []string) {
 		equinoxUpdate()
