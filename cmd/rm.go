@@ -12,8 +12,8 @@ func init() {
 
 var rmCmd = &cobra.Command{
 	Use:   "rm",
-	Short: "Removes the Liferay Portal nightly instance",
-	Long:  `Removes the Liferay Portal nightly instance, identified by [` + docker.DockerContainerName + `].`,
+	Short: "Removes the Liferay Portal nook instance",
+	Long:  `Removes the Liferay Portal nook instance, identified by [` + docker.DockerContainerName + `].`,
 	Run: func(cmd *cobra.Command, args []string) {
 		docker.RemoveDockerContainer()
 	},
