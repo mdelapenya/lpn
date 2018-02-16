@@ -9,8 +9,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var tagToCheck string
+
 func init() {
 	rootCmd.AddCommand(checkImageCmd)
+
+	checkImageCmd.Flags().StringVarP(&tagToCheck, "tag", "t", "latest", "Image tag to check")
 }
 
 var checkImageCmd = &cobra.Command{
@@ -27,15 +31,7 @@ var checkImageCmd = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		var tag string
-
-		if len(args) == 0 {
-			tag = "latest"
-		} else {
-			tag = args[0]
-		}
-
-		dockerImage := docker.DockerImage + ":" + tag
+		dockerImage := docker.DockerImage + ":" + tagToCheck
 
 		if docker.CheckDockerImageExists(dockerImage) {
 			log.Println("The image [" + dockerImage + "] has been pulled from Docker Hub.")
