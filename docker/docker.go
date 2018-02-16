@@ -86,7 +86,7 @@ func RemoveDockerContainer() {
 }
 
 // RunDockerImage runs the image, setting the HTTP port for bundle and debug mode if needed
-func RunDockerImage(dockerImage string, httpPort int, enableDebug bool) {
+func RunDockerImage(dockerImage string, httpPort int, enableDebug bool, debugPort int) {
 	PullDockerImage(dockerImage)
 
 	if CheckDockerContainerExists() {
@@ -103,7 +103,8 @@ func RunDockerImage(dockerImage string, httpPort int, enableDebug bool) {
 	}
 
 	if enableDebug {
-		cmdArgs = append(cmdArgs, "-e", "DEBUG_MODE=true", "-p", "9000:9000")
+		debugPortFlag := fmt.Sprintf("%d", debugPort) + ":9000"
+		cmdArgs = append(cmdArgs, "-e", "DEBUG_MODE=true", "-p", debugPortFlag)
 	}
 
 	cmdArgs = append(cmdArgs, dockerImage)

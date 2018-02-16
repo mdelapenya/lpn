@@ -10,6 +10,7 @@ import (
 )
 
 var enableDebug bool
+var debugPort int
 var httpPort int
 
 func init() {
@@ -17,6 +18,7 @@ func init() {
 
 	runCmd.Flags().IntVarP(&httpPort, "httpPort", "p", 8080, "Sets the HTTP port of Liferay Portal's bundle.")
 	runCmd.Flags().BoolVarP(&enableDebug, "debug", "d", false, "Enables debug mode on port 9000")
+	runCmd.Flags().IntVarP(&debugPort, "debugPort", "D", 9000, "Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled")
 }
 
 var runCmd = &cobra.Command{
@@ -41,6 +43,6 @@ var runCmd = &cobra.Command{
 			tag = args[0]
 		}
 
-		docker.RunDockerImage(docker.DockerImage+":"+tag, httpPort, enableDebug)
+		docker.RunDockerImage(docker.DockerImage+":"+tag, httpPort, enableDebug, debugPort)
 	},
 }
