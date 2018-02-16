@@ -14,8 +14,9 @@ func init() {
 
 var checkCmd = &cobra.Command{
 	Use:   "checkContainer",
-	Short: "Check if there is a container created by lpn (Liferay Portal Nook)",
-	Long:  `Uses docker container inspect to check if there is a container with name [` + docker.DockerContainerName + `] created by lpn (Liferay Portal Nook)`,
+	Short: "Checks if there is a container created by lpn",
+	Long: `Checks if there is a container created by lpn (Liferay Portal Nook).
+	Uses docker container inspect to check if there is a container with name [` + docker.DockerContainerName + `] created by lpn (Liferay Portal Nook)`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if docker.CheckDockerContainerExists() {
 			log.Println("The container [" + docker.DockerContainerName + "] is running.")
