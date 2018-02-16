@@ -85,7 +85,7 @@ Removes the Liferay Portal nook instance, identified by [`liferay-portal-nook`].
 ```shell
 lpn run -h
 Runs a Liferay Portal instance, obtained from the unofficial repositories: `mdelapenya/liferay-portal` or `mdelapenya/liferay-portal-nightlies`.
-	If no image tag is passed to the command, the tag representing the current date [20180215]
+	If no image tag is passed to the command, the tag representing the current date [yyyyMMdd]
 	will be used.
 
 Usage:
@@ -98,7 +98,7 @@ Flags:
   -p, --httpPort int    Sets the HTTP port of Liferay Portal's bundle. (default 8080)
 ```
 
-Runs a Liferay Portal instance, obtained from the unofficial repositories: `mdelapenya/liferay-portal` or `mdelapenya/liferay-portal-nightlies`. If no image tag is passed to the command, the tag representing the current date [`liferay-portal-nightly`] will be used.
+Runs a Liferay Portal instance, obtained from the unofficial repositories: `mdelapenya/liferay-portal` or `mdelapenya/liferay-portal-nightlies`. If no image tag is passed to the command, the tag representing the current date [`yyyyMMdd`] will be used.
 
 This command accepts following flags:
 
