@@ -12,9 +12,9 @@ func init() {
 
 var versionCmd = &cobra.Command{
 	Use:   "version",
-	Short: "Print the version number of lpn (Liferay Portal Nightly)",
-	Long:  `All software has versions. This is lpn (Liferay Portal Nightly)`,
+	Short: "Print the version number of lpn (Liferay Portal Nook)",
+	Long:  `All software has versions. This is lpn (Liferay Portal Nook)`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("lpn (Liferay Portal Nightly) v0.1.2 -- HEAD")
+		fmt.Println("lpn (Liferay Portal Nook) v0.1.2 -- HEAD")
 	},
 }

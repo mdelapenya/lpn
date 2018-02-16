@@ -23,8 +23,8 @@ func init() {
 
 var runCmd = &cobra.Command{
 	Use:   "run",
-	Short: "Runs a Liferay Portal nightly instance",
-	Long: `Runs a Liferay Portal nightly instance, obtained from ` + docker.DockerImage + `.
+	Short: "Runs a Liferay Portal instance",
+	Long: `Runs a Liferay Portal instance, obtained from the unofficial repositories: ` + docker.DockerImage + ` or ` + docker.DockerImage + `.
 	If no image tag is passed to the command, the tag representing the current date [` + date.CurrentDate + `]
 	will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {

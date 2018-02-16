@@ -15,8 +15,8 @@ func init() {
 
 var pullCmd = &cobra.Command{
 	Use:   "pull",
-	Short: "Pulls a Liferay Portal nightly Docker image",
-	Long: `Pulls a Liferay Portal nightly Docker image from ` + docker.DockerImage + ` repository.
+	Short: "Pulls a Liferay Portal Docker image",
+	Long: `Pulls a Liferay Portal Docker image from ` + docker.DockerImage + ` repository.
 	If no image tag is passed to the command, the tag representing the current date [` + date.CurrentDate + `]
 	will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {

@@ -11,7 +11,7 @@ import (
 const DockerImage = "mdelapenya/liferay-portal-nightlies"
 
 // DockerContainerName represents the name of the container to be run
-const DockerContainerName = "liferay-portal-nightly"
+const DockerContainerName = "liferay-portal-nook"
 
 // dockerBinary represents the name of the binary to execute Docker commands
 const dockerBinary = "docker"
