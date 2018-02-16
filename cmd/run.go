@@ -15,7 +15,7 @@ var httpPort int
 func init() {
 	rootCmd.AddCommand(runCmd)
 
-	runCmd.Flags().IntVarP(&httpPort, "httpPort", "p", 8080, "HTTP Port")
+	runCmd.Flags().IntVarP(&httpPort, "httpPort", "p", 8080, "Sets the HTTP port of Liferay Portal's bundle.")
 	runCmd.Flags().BoolVarP(&enableDebug, "debug", "d", false, "Enables debug mode on port 9000")
 }
 
