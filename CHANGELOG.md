@@ -1,9 +1,8 @@
-
-
-#### :rocket: Enhancements
+# Changelog
 
 <a name="0.1.2"></a>
 ### 0.1.2
+#### :rocket: Enhancements
 * Add a flag for `run` command to set up the `debugPort` to use when debugging.
 * Support for :sparkles: **debug mode** :sparkles:
 * Add a flag for `checkImage` command to set up the `tag` to be checked.
@@ -11,6 +10,7 @@
 
 <a name="0.1.1"></a>
 ### 0.1.1
+#### :rocket: Enhancements
 * Add a flag for `run` command to set up the `httpPort` to be used.
 * Minor improvement: reorganise code to be more reusable.
 * Modularise using `Cobra` as command manager.
