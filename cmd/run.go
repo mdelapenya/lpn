@@ -9,12 +9,14 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var enableDebug bool
 var httpPort int
 
 func init() {
 	rootCmd.AddCommand(runCmd)
 
 	runCmd.Flags().IntVarP(&httpPort, "httpPort", "p", 8080, "HTTP Port")
+	runCmd.Flags().BoolVarP(&enableDebug, "debug", "d", false, "Enables debug mode on port 9000")
 }
 
 var runCmd = &cobra.Command{
@@ -39,6 +41,6 @@ var runCmd = &cobra.Command{
 			tag = args[0]
 		}
 
-		docker.RunDockerImage(docker.DockerImage+":"+tag, httpPort)
+		docker.RunDockerImage(docker.DockerImage+":"+tag, httpPort, enableDebug)
 	},
 }

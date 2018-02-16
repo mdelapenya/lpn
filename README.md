@@ -86,13 +86,19 @@ Usage:
   lpn run [flags]
 
 Flags:
+  -d, --debug          Enables debug mode on port 9000
   -h, --help           help for run
   -p, --httpPort int   HTTP Port (default 8080)
 ```
 
 Runs a Liferay Portal nightly instance, obtained from `mdelapenya/liferay-portal-nightlies`. If no image tag is passed to the command, the tag representing the current date [`liferay-portal-nightly`] will be used.
 
-This command accepts a flag `-p | --httpPort` to configure the HTTP port of Liferay Portal's bundle. By default it uses 8080.
+This command accepts following flags:
+
+| Flag | Description | Default value |
+|------|-------------|---------------|
+|`-d`, `--debug`| Enables debug mode on port 9000.| false |
+|`-p`, `--httpPort` | Configure the HTTP port of Liferay Portal's bundle.| 8080|
 
 To achieve that:
 
