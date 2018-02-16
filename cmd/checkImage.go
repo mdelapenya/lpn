@@ -14,7 +14,7 @@ var tagToCheck string
 func init() {
 	rootCmd.AddCommand(checkImageCmd)
 
-	checkImageCmd.Flags().StringVarP(&tagToCheck, "tag", "t", "latest", "Image tag to check")
+	checkImageCmd.Flags().StringVarP(&tagToCheck, "tag", "t", "latest", "Sets the image tag to check")
 }
 
 var checkImageCmd = &cobra.Command{

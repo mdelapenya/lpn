@@ -58,6 +58,12 @@ Checks if the proper Liferay Portal nightly image has been pulled by lpn (Lifera
 
 Uses `docker image inspect` to check if the proper Liferay Portal nightly image has been pulled by lpn (Liferay Portal Nightly). If no image tag is passed to the command, the tag `latest` will be used.
 
+This command accepts following flags:
+
+| Flag | Description | Default value |
+|------|-------------|---------------|
+|`-t`, `--tag`| Sets the image tag to check.| latest|
+
 ### help
 
 Help about any command.
@@ -98,7 +104,7 @@ This command accepts following flags:
 | Flag | Description | Default value |
 |------|-------------|---------------|
 |`-d`, `--debug`| Enables debug mode on port 9000.| false |
-|`-p`, `--httpPort` | Configure the HTTP port of Liferay Portal's bundle.| 8080|
+|`-p`, `--httpPort` | Sets the HTTP port of Liferay Portal's bundle.| 8080|
 
 To achieve that:
 
