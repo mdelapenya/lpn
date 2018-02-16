@@ -92,7 +92,7 @@ Usage:
   lpn run [flags]
 
 Flags:
-  -d, --debug           Enables debug mode on port 9000
+  -d, --debug           Enables debug mode. (default false)
   -D, --debugPort int   Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled (default 9000)
   -h, --help            help for run
   -p, --httpPort int    Sets the HTTP port of Liferay Portal's bundle. (default 8080)
