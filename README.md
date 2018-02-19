@@ -1,5 +1,7 @@
 # lpn (Liferay Portal Nook)
 
+[![Build Status](https://travis-ci.org/mdelapenya/lpn.svg?branch=master)](https://travis-ci.org/mdelapenya/lpn)
+
 This Golang CLI makes it easier to run Liferay Portal's Docker images.
 
 It wraps Docker commands so you just have to run this tool, and pass the specific tag you want to run.
