@@ -7,9 +7,6 @@ import (
 	shell "github.com/mdelapenya/lpn/shell"
 )
 
-// DockerImage represents the base namespace for the Docker image
-const DockerImage = "mdelapenya/liferay-portal-nightlies"
-
 // DockerContainerName represents the name of the container to be run
 const DockerContainerName = "liferay-portal-nook"
 
