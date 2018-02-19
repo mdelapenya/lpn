@@ -15,6 +15,6 @@ EOF
 
 equinox release \
   --config="$DIR/config.yaml" \
-  --version="0.2.0" \
+  --version="$(cat ../VERSION.txt)" \
   --channel="stable" \
   github.com/mdelapenya/lpn

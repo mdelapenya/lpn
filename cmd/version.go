@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"io/ioutil"
 
 	"github.com/spf13/cobra"
 )
@@ -15,6 +16,12 @@ var versionCmd = &cobra.Command{
 	Short: "Print the version number of lpn",
 	Long:  `All software has versions. This is lpn (Liferay Portal Nook)`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("lpn (Liferay Portal Nook) v0.2.0 -- HEAD")
+		version, err := ioutil.ReadFile("VERSION.txt")
+
+		if err != nil {
+			fmt.Print(err)
+		}
+
+		fmt.Println("lpn (Liferay Portal Nook) v" + string(version) + " -- HEAD")
 	},
 }
