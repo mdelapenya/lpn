@@ -56,15 +56,59 @@ Uses `docker container inspect` to check if there is a container with name `life
 
 ### checkImage
 
-Checks if the proper Liferay Portal Docker image has been pulled by lpn.
+```shell
+$ lpn checkImage
+Checks if the proper Liferay Portal image has been pulled by lpn.
+	Uses "docker image inspect" to check if the proper Liferay Portal image has
+	been pulled by lpn (Liferay Portal Nook). If no image tag is passed to the command,
+	the tag "latest" will be used.
 
-Uses `docker image inspect` to check if the proper Liferay Portal Docker image has been pulled by lpn (Liferay Portal Nook). If no image tag is passed to the command, the tag `latest` will be used.
+Usage:
+  lpn checkImage [flags]
+  lpn checkImage [command]
 
-This command accepts following flags:
+Available Commands:
+  nightly     Check if the proper Liferay Portal Nightly Build image has been pulled by lpn
+  release     Check if the proper Liferay Portal release image has been pulled by lpn
 
-| Flag | Description | Default value |
-|------|-------------|---------------|
-|`-t`, `--tag`| Sets the image tag to check.| latest|
+Flags:
+  -h, --help   help for checkImage
+
+Use "lpn checkImage [command] --help" for more information about a command.
+```
+
+#### checkImage nightly
+
+```shell
+$ lpn checkImage nightly
+Checks if the proper Liferay Portal Nightly Build image has been pulled by lpn.
+	Uses docker image inspect to check if the proper Liferay Portal image has
+	been pulled by lpn (Liferay Portal Nook). If no image tag is passed to the command,
+	the tag "latest" will be used.
+
+Usage:
+  lpn checkImage nightly [flags]
+
+Flags:
+  -h, --help         help for nightly
+  -t, --tag string   Sets the image tag to check (default "latest")
+```
+
+#### checkImage release
+
+```shell
+Check if the proper Liferay Portal release image has been pulled by lpn.
+	Uses docker image inspect to check if the proper Liferay Portal image has
+	been pulled by lpn (Liferay Portal Nook). If no image tag is passed to the command,
+	the tag "latest" will be used.
+
+Usage:
+  lpn checkImage release [flags]
+
+Flags:
+  -h, --help         help for release
+  -t, --tag string   Sets the image tag to check (default "latest")
+```
 
 ### help
 
