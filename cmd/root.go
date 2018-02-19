@@ -24,3 +24,9 @@ func Execute() {
 		os.Exit(1)
 	}
 }
+
+// SubCommandInfo Shows a message for subcommands
+func SubCommandInfo() {
+	// delegate to subcommands
+	fmt.Println("Please run this command adding 'nightly' or 'release' subcommands.")
+}
