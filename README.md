@@ -85,30 +85,54 @@ Removes the Liferay Portal nook instance, identified by [`liferay-portal-nook`].
 ### run
 
 ```shell
-lpn run -h
-Runs a Liferay Portal instance, obtained from the unofficial repositories: `mdelapenya/liferay-portal` or `mdelapenya/liferay-portal-nightlies`.
-	If no image tag is passed to the command, the tag representing the current date [yyyyMMdd]
-	will be used.
+$ lpn run -h
+Runs a Liferay Portal instance, obtained from the unofficial repositories: `mdelapenya/liferay-portal` or `mdelapenya/liferay-portal-nightlies`. For that, please run this command adding `release` or `nightly` subcommands. If no image tag is passed to the subcommand, the tag representing the current date [`yyyyMMdd`] will be used.
 
 Usage:
   lpn run [flags]
+  lpn run [command]
+
+Available Commands:
+  nightly     Runs a Liferay Portal instance from Nightly Builds
+  release     Runs a Liferay Portal instance from releases
+
+Flags:
+  -h, --help            help for run
+```
+
+#### run nightly
+
+```shell
+$ lpn run nightly -h
+Runs a Liferay Portal instance, obtained from Nightly Builds repository: mdelapenya/liferay-portal-nightlies.
+	If no image tag is passed to the command, the tag representing the current date [yyyyMMdd] will be used.
+
+Usage:
+  lpn run nightly [flags]
 
 Flags:
   -d, --debug           Enables debug mode. (default false)
   -D, --debugPort int   Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled (default 9000)
-  -h, --help            help for run
+  -h, --help            help for nightly
   -p, --httpPort int    Sets the HTTP port of Liferay Portal's bundle. (default 8080)
 ```
 
-Runs a Liferay Portal instance, obtained from the unofficial repositories: `mdelapenya/liferay-portal` or `mdelapenya/liferay-portal-nightlies`. If no image tag is passed to the command, the tag representing the current date [`yyyyMMdd`] will be used.
+#### run release
 
-This command accepts following flags:
+```shell
+$ lpn run release -h
+Runs a Liferay Portal instance, obtained from the unofficial releases repository: mdelapenya/liferay-portal.
+	If no image tag is passed to the command, the "latest" tag will be used.
 
-| Flag | Description | Default value |
-|------|-------------|---------------|
-|`-d`, `--debug`| Enables debug mode.| false |
-|`-D`, `--debugPort` | Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled.| 9000 |
-|`-p`, `--httpPort` | Sets the HTTP port of Liferay Portal's bundle.| 8080|
+Usage:
+  lpn run release [flags]
+
+Flags:
+  -d, --debug           Enables debug mode. (default false)
+  -D, --debugPort int   Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled (default 9000)
+  -h, --help            help for release
+  -p, --httpPort int    Sets the HTTP port of Liferay Portal's bundle. (default 8080)
+```
 
 To achieve that:
 
