@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"errors"
-	"fmt"
 
 	liferay "github.com/mdelapenya/lpn/liferay"
 
@@ -26,7 +25,6 @@ var pullCmd = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		// delegate to subcommands
-		fmt.Println("Please run this command adding 'nightly' or 'release' subcommands.")
+		SubCommandInfo()
 	},
 }
