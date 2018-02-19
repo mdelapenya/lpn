@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"errors"
-	"log"
 
 	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
@@ -33,10 +32,6 @@ var checkImageNightly = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		dockerImage := liferay.GetNightlyBuildsRepository() + ":" + tagToCheck
 
-		if docker.CheckDockerImageExists(dockerImage) {
-			log.Println("The image [" + dockerImage + "] has been pulled from Docker Hub.")
-		} else {
-			log.Println("The image [" + dockerImage + "] has NOT been pulled from Docker Hub.")
-		}
+		docker.CheckDockerImageExists(dockerImage)
 	},
 }

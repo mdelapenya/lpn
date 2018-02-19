@@ -32,7 +32,14 @@ func CheckDockerImageExists(dockerImage string) bool {
 		dockerImage,
 	}
 
-	return shell.RunCheck(dockerBinary, cmdArgs)
+	result := shell.RunCheck(dockerBinary, cmdArgs)
+	if result {
+		log.Println("The image [" + dockerImage + "] has been pulled from Docker Hub.")
+	} else {
+		log.Println("The image [" + dockerImage + "] has NOT been pulled from Docker Hub.")
+	}
+
+	return result
 }
 
 // LogDockerContainer downloads the image
