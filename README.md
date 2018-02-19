@@ -52,9 +52,16 @@ Use "lpn [command] --help" for more information about a command.
 
 ### checkContainer
 
+```shell
 Checks if there is a container created by lpn (Liferay Portal Nook).
+	Uses docker container inspect to check if there is a container with name [liferay-portal-nook] created by lpn (Liferay Portal Nook)
 
-Uses `docker container inspect` to check if there is a container with name `liferay-portal-nook` created by lpn (Liferay Portal Nook).
+Usage:
+  lpn checkContainer [flags]
+
+Flags:
+  -h, --help   help for checkContainer
+```
 
 ### checkImage
 
@@ -114,11 +121,28 @@ Flags:
 
 ### help
 
-Help about any command.
+```shell
+Help provides help for any command in the application.
+Simply type lpn help [path to command] for full details.
+
+Usage:
+  lpn help [command] [flags]
+
+Flags:
+  -h, --help   help for help
+```
 
 ### log
 
-Displays logs for the Liferay Portal instance, identified by [`liferay-portal-nook`].
+```shell
+Displays logs for the Liferay Portal instance, identified by [liferay-portal-nook].
+
+Usage:
+  lpn log [flags]
+
+Flags:
+  -h, --help   help for log
+```
 
 ### pull
 
@@ -172,7 +196,16 @@ Flags:
 
 ### rm
 
-Removes the Liferay Portal nook instance, identified by [`liferay-portal-nook`].
+```shell
+$ lpn rm -h
+Removes the Liferay Portal nook instance, identified by [liferay-portal-nook].
+
+Usage:
+  lpn rm [flags]
+
+Flags:
+  -h, --help   help for rm
+```
 
 ### run
 
@@ -236,8 +269,26 @@ To achieve that:
 
 ### update
 
-Updates lpn (Liferay Portal Nook) to the latest version on stable channel.
+```shell
+$ lpn update -h
+Updates lpn (Liferay Portal Nook) to the latest version on stable channel
+
+Usage:
+  lpn update [flags]
+
+Flags:
+  -h, --help   help for update
+```
 
 ### version
 
-All software has versions. This is lpn (Liferay Portal Nook).
+```shell
+$ lpn version -h
+All software has versions. This is lpn (Liferay Portal Nook)
+
+Usage:
+  lpn version [flags]
+
+Flags:
+  -h, --help   help for version
+```
