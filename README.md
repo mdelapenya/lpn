@@ -76,7 +76,53 @@ Displays logs for the Liferay Portal instance, identified by [`liferay-portal-no
 
 ### pull
 
-Pulls a Liferay Portal Docker image from the unofficial repositories: `mdelapenya/liferay-portal` or `mdelapenya/liferay-portal-nightlies`. If no image tag is passed to the command, the tag representing the current date will be used.
+```shell
+$ lpn pull -h
+Pulls a Liferay Portal Docker image from the unofficial repositories "mdelapenya/liferay-portal" and "mdelapenya/liferay-portal-nightlies".
+	For that, please run this command adding "release" or "nightly" subcommands.
+	If no image tag is passed to the command, the tag representing the current date [yyyyMMdd] will be used.
+
+Usage:
+  lpn pull [flags]
+  lpn pull [command]
+
+Available Commands:
+  nightly        Pulls a Liferay Portal Docker image from Nightly Builds
+  release        Pulls a Liferay Portal Docker image from releases
+
+Flags:
+  -h, --help   help for pull
+
+Use "lpn pull [command] --help" for more information about a command.
+```
+
+#### pull nightly
+
+```shell
+$ lpn pull nightly -h
+Pulls a Liferay Portal Docker image from the Nighlty Builds repository: "mdelapenya/liferay-portal-nightlies".
+ If no image tag is passed to the command, the tag representing the current date [20180219] will be used.
+
+Usage:
+  lpn pull nightly [flags]
+
+Flags:
+  -h, --help   help for nightly
+```
+
+#### pull release
+
+```shell
+$ lpn pull release -h
+Pulls a Liferay Portal instance, obtained from the unofficial releases repository: "mdelapenya/liferay-portal".
+	If no image tag is passed to the command, the "latest" tag will be used.
+
+Usage:
+  lpn pull release [flags]
+
+Flags:
+  -h, --help   help for release
+```
 
 ### rm
 
