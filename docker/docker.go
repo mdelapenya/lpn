@@ -118,3 +118,16 @@ func RunDockerImage(dockerImage string, httpPort int, enableDebug bool, debugPor
 		log.Fatal("Impossible to run the container")
 	}
 }
+
+// StopDockerContainer stops the running container
+func StopDockerContainer() {
+	cmdArgs := []string{
+		"stop",
+		DockerContainerName,
+	}
+
+	err := shell.CombinedOutput(dockerBinary, cmdArgs)
+	if err != nil {
+		log.Fatal("Impossible to stop the container")
+	}
+}
