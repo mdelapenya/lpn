@@ -39,6 +39,7 @@ Available Commands:
   pull           Pulls a Liferay Portal Docker image
   rm             Removes the Liferay Portal instance
   run            Runs a Liferay Portal instance
+  stop           Stops the Liferay Portal instance
   update         Updates lpn (Liferay Portal Nook) to the latest version
   version        Print the version number of lpn (Liferay Portal Nook)
 
@@ -266,6 +267,19 @@ To achieve that:
 - It downloads the Docker image to the local engine.
 - It checks whether the Docker container this tool spins up is running. In that case, the tool deletes it.
 - It spins up a Docker container, using the port configured for Tomcat, and 11311 for OSGi console. The name of the container will be `liferay-portal-nook`. Once started, please open a web browser in [https://localhost:8080](http://localhost:8080) to check the portal.
+
+### stop
+
+```shell
+$ lpn stop -h
+Stops the Liferay Portal nook instance, identified by [liferay-portal-nook].
+
+Usage:
+  lpn stop [flags]
+
+Flags:
+  -h, --help   help for stop
+```
 
 ### update
 
