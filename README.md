@@ -34,6 +34,7 @@ Usage:
 Available Commands:
   checkContainer Checks if there is a container created by lpn (Liferay Portal Nook)
   checkImage     Checks if the proper Liferay Portal image has been pulled by lpn (Liferay Portal Nook)
+  deploy         Deploys a file to Liferay Portal's deploy folder in the container run by lpn
   help           Help about any command
   log            Displays logs for the Liferay Portal instance
   pull           Pulls a Liferay Portal Docker image
@@ -118,6 +119,55 @@ Usage:
 Flags:
   -h, --help         help for release
   -t, --tag string   Sets the image tag to check (default "latest")
+```
+
+### deploy
+
+```shell
+$ lpn deploy -h
+Deploys a file to Liferay Portal's deploy folder in the container run by lpn.
+
+Usage:
+  lpn deploy [flags]
+  lpn deploy [command]
+
+Available Commands:
+  nightly     Deploys a file to Liferay Portal's deploy folder in the container run by lpn
+  release     Deploys a file to Liferay Portal's deploy folder in the container run by lpn
+
+Flags:
+  -h, --help   help for checkImage
+
+Use "lpn deploy [command] --help" for more information about a command.
+```
+
+#### deploy nightly
+
+```shell
+$ lpn deploy nightly -h
+Deploys a file to Liferay Portal's deploy folder in the container run by lpn
+
+Usage:
+  lpn deploy nightly [flags]
+
+Flags:
+  -f, --file string   The file to deploy
+  -h, --help          help for nightly
+```
+
+#### deploy release
+
+```shell
+$ lpn deploy release -h
+Deploys a file to Liferay Portal's deploy folder in the container run by lpn.
+	The appropriate tag is calculated from the image the container was build from.
+
+Usage:
+  lpn deploy release [flags]
+
+Flags:
+  -f, --file string   The file to deploy
+  -h, --help          help for release
 ```
 
 ### help
