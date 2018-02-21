@@ -4,7 +4,6 @@ env:
   - DEP_VERSION="0.4.1"
 
 go:
-  - 1.8.x
   - 1.9.x
 
 before_install:
