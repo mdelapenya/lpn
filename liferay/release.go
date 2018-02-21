@@ -6,5 +6,5 @@ type Release struct {
 
 // GetRepository returns the repository for releases
 func (r Release) GetRepository() string {
-	return GetReleasesRepository()
+	return Releases
 }

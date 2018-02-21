@@ -19,8 +19,8 @@ func init() {
 var runCmd = &cobra.Command{
 	Use:   "run",
 	Short: "Runs a Liferay Portal instance",
-	Long: `Runs a Liferay Portal instance, obtained from the unofficial repositories: ` + liferay.GetReleasesRepository() +
-		` or ` + liferay.GetNightlyBuildsRepository() + `.
+	Long: `Runs a Liferay Portal instance, obtained from the unofficial repositories: ` + liferay.Releases +
+		` or ` + liferay.Nightlies + `.
 		For that, please run this command adding "release" or "nightly" subcommands.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
