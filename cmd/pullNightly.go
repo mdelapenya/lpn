@@ -34,8 +34,8 @@ var pullNightly = &cobra.Command{
 			tag = args[0]
 		}
 
-		nightly := liferay.Nightly{}
+		nightly := liferay.Nightly{Tag: tag}
 
-		PullDockerImage(nightly, tag)
+		PullDockerImage(nightly)
 	},
 }

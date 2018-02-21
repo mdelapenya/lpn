@@ -29,8 +29,8 @@ var checkImageRelease = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		release := liferay.Release{}
+		release := liferay.Release{Tag: tagToCheck}
 
-		CheckImage(release, tagToCheck)
+		CheckImage(release)
 	},
 }

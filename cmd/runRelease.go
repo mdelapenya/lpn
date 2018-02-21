@@ -37,8 +37,8 @@ var runReleaseCmd = &cobra.Command{
 			tag = args[0]
 		}
 
-		release := liferay.Release{}
+		release := liferay.Release{Tag: tag}
 
-		RunDockerImage(release, tag, httpPort, enableDebug, debugPort)
+		RunDockerImage(release, httpPort, enableDebug, debugPort)
 	},
 }

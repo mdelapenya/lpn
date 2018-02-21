@@ -33,8 +33,8 @@ var pullRelease = &cobra.Command{
 			tag = args[0]
 		}
 
-		release := liferay.Release{}
+		release := liferay.Release{Tag: tag}
 
-		PullDockerImage(release, tag)
+		PullDockerImage(release)
 	},
 }

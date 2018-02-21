@@ -38,8 +38,8 @@ var runNightlyCmd = &cobra.Command{
 			tag = args[0]
 		}
 
-		nightly := liferay.Nightly{}
+		nightly := liferay.Nightly{Tag: tag}
 
-		RunDockerImage(nightly, tag, httpPort, enableDebug, debugPort)
+		RunDockerImage(nightly, httpPort, enableDebug, debugPort)
 	},
 }

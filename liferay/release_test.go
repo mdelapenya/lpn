@@ -6,6 +6,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestGetFullyQualifiedNameRelease(t *testing.T) {
+	release := Release{Tag: "foo"}
+
+	assert := assert.New(t)
+
+	assert.Equal("mdelapenya/liferay-portal:foo", release.GetFullyQualifiedName())
+}
+
 func TestGetLiferayHomeRelease7Ga5(t *testing.T) {
 	testGetLiferayHomeRelease7Ga(t, "5")
 }
@@ -27,9 +35,7 @@ func TestGetLiferayHomeRelease7Ga1(t *testing.T) {
 }
 
 func TestGetLiferayHomeRelease6_2Ga6(t *testing.T) {
-	release := Release{}
-
-	release.tag = "6.2-ce-ga6-tomcat-hsql"
+	release := Release{Tag: "6.2-ce-ga6-tomcat-hsql"}
 
 	assert := assert.New(t)
 
@@ -37,9 +43,7 @@ func TestGetLiferayHomeRelease6_2Ga6(t *testing.T) {
 }
 
 func TestGetLiferayHomeRelease6_1Ga1(t *testing.T) {
-	release := Release{}
-
-	release.tag = "6.1-ce-ga1-tomcat-hsql"
+	release := Release{Tag: "6.1-ce-ga1-tomcat-hsql"}
 
 	assert := assert.New(t)
 
@@ -64,9 +68,7 @@ func TestGetReleaseRepository(t *testing.T) {
 }
 
 func testGetLiferayHomeRelease7Ga(t *testing.T, ga string) {
-	release := Release{}
-
-	release.tag = "7-ce-ga" + ga + "-tomcat-hsql"
+	release := Release{Tag: "7-ce-ga" + ga + "-tomcat-hsql"}
 
 	assert := assert.New(t)
 

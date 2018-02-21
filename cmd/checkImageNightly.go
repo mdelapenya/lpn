@@ -29,8 +29,8 @@ var checkImageNightly = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		nightly := liferay.Nightly{}
+		nightly := liferay.Nightly{Tag: tagToCheck}
 
-		CheckImage(nightly, tagToCheck)
+		CheckImage(nightly)
 	},
 }
