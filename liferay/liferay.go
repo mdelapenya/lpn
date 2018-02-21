@@ -22,7 +22,7 @@ func GetReleasesRepository() string {
 	return repositories[0]
 }
 
-// GetRepositories Return an array with the available repositories
-func GetRepositories() []string {
+// getRepositories Return an array with the available repositories
+func getRepositories() []string {
 	return repositories
 }
