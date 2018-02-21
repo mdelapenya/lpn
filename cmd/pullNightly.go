@@ -4,7 +4,6 @@ import (
 	"errors"
 
 	date "github.com/mdelapenya/lpn/date"
-	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
 	"github.com/spf13/cobra"
@@ -37,6 +36,6 @@ var pullNightly = &cobra.Command{
 
 		nightly := liferay.Nightly{}
 
-		docker.PullDockerImage(nightly.GetRepository() + ":" + tag)
+		PullDockerImage(nightly, tag)
 	},
 }
