@@ -3,7 +3,6 @@ package cmd
 import (
 	"errors"
 
-	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
 	"github.com/spf13/cobra"
@@ -32,8 +31,6 @@ var checkImageRelease = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		release := liferay.Release{}
 
-		dockerImage := release.GetRepository() + ":" + tagToCheck
-
-		docker.CheckDockerImageExists(dockerImage)
+		CheckImage(release, tagToCheck)
 	},
 }
