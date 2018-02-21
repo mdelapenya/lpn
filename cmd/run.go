@@ -3,6 +3,7 @@ package cmd
 import (
 	"errors"
 
+	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
 	"github.com/spf13/cobra"
@@ -32,4 +33,12 @@ var runCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()
 	},
+}
+
+// RunDockerImage runs the image
+func RunDockerImage(
+	image liferay.Image, tag string, httpPort int, enableDebug bool, debugPort int) {
+
+	docker.RunDockerImage(
+		image.GetRepository()+":"+tag, httpPort, enableDebug, debugPort)
 }
