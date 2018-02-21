@@ -7,8 +7,10 @@ import (
 )
 
 func TestGetNightlyRepository(t *testing.T) {
+	nightly := Nightly{}
+
 	assert := assert.New(t)
-	nightlies := GetNightlyBuildsRepository()
+	nightlies := nightly.GetRepository()
 
 	assert.Equal("mdelapenya/liferay-portal-nightlies", nightlies)
 }
@@ -21,8 +23,10 @@ func TestGetRepositories(t *testing.T) {
 }
 
 func TestGetStableRepository(t *testing.T) {
+	release := Release{}
+
 	assert := assert.New(t)
-	releases := GetReleasesRepository()
+	releases := release.GetRepository()
 
 	assert.Equal("mdelapenya/liferay-portal", releases)
 }

@@ -8,6 +8,11 @@ const releases = "mdelapenya/liferay-portal"
 
 var repositories []string
 
+// Image interface defining the contract for Liferay Portal docker images
+type Image interface {
+	GetRepository() string
+}
+
 func init() {
 	repositories = append(repositories, releases, nightlies)
 }
