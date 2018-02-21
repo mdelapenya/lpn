@@ -23,11 +23,27 @@ func CombinedOutput(cmdBinary string, cmdArgs []string) error {
 	return nil
 }
 
-// RunCheck runs a shell program with arguments
-func RunCheck(cmdBinary string, cmdArgs []string) bool {
+// Command returns the output of an execution
+func Command(cmdBinary string, cmdArgs []string) string {
+	out, err := exec.Command(cmdBinary, cmdArgs...).Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return string(out)
+}
+
+// Run runs a shell program with arguments
+func Run(cmdBinary string, cmdArgs []string) error {
 	cmd := exec.Command(cmdBinary, cmdArgs...)
 
-	err := cmd.Run()
+	return cmd.Run()
+}
+
+// RunCheck runs a shell program with arguments
+func RunCheck(cmdBinary string, cmdArgs []string) bool {
+	err := Run(cmdBinary, cmdArgs)
+
 	if err != nil {
 		return false
 	}
