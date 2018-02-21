@@ -38,7 +38,9 @@ var runReleaseCmd = &cobra.Command{
 			tag = args[0]
 		}
 
+		release := liferay.Release{}
+
 		docker.RunDockerImage(
-			liferay.GetReleasesRepository()+":"+tag, httpPort, enableDebug, debugPort)
+			release.GetRepository()+":"+tag, httpPort, enableDebug, debugPort)
 	},
 }

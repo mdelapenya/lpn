@@ -34,6 +34,8 @@ var pullRelease = &cobra.Command{
 			tag = args[0]
 		}
 
-		docker.PullDockerImage(liferay.GetReleasesRepository() + ":" + tag)
+		release := liferay.Release{}
+
+		docker.PullDockerImage(release.GetRepository() + ":" + tag)
 	},
 }

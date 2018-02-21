@@ -30,7 +30,9 @@ var checkImageRelease = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		dockerImage := liferay.GetReleasesRepository() + ":" + tagToCheck
+		release := liferay.Release{}
+
+		dockerImage := release.GetRepository() + ":" + tagToCheck
 
 		docker.CheckDockerImageExists(dockerImage)
 	},

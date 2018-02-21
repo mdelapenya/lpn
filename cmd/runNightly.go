@@ -39,7 +39,9 @@ var runNightlyCmd = &cobra.Command{
 			tag = args[0]
 		}
 
+		nightly := liferay.Nightly{}
+
 		docker.RunDockerImage(
-			liferay.GetNightlyBuildsRepository()+":"+tag, httpPort, enableDebug, debugPort)
+			nightly.GetRepository()+":"+tag, httpPort, enableDebug, debugPort)
 	},
 }
