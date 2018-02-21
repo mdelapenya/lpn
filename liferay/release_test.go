@@ -55,7 +55,7 @@ func TestGetLiferayHomeReleaseNoTag(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("/usr/local/liferay", release.GetLiferayHome())
+	assert.Equal("/liferay", release.GetLiferayHome())
 }
 
 func TestGetReleaseRepository(t *testing.T) {
