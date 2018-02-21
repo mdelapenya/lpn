@@ -15,7 +15,7 @@ func TestGetNightlyRepository(t *testing.T) {
 
 func TestGetRepositories(t *testing.T) {
 	assert := assert.New(t)
-	repositories := GetRepositories()
+	repositories := getRepositories()
 
 	assert.Equal(2, len(repositories), "There must be only two repositories")
 }
