@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetStableRepository(t *testing.T) {
+func TestGetReleaseRepository(t *testing.T) {
 	release := Release{}
 
 	assert := assert.New(t)
