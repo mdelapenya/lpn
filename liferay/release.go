@@ -14,7 +14,7 @@ func (r Release) GetFullyQualifiedName() string {
 func (r Release) GetLiferayHome() string {
 	home := "/usr/local/"
 
-	if r.Tag == "7-ce-ga5-tomcat-hsql" {
+	if r.Tag == "7-ce-ga5-tomcat-hsql" || r.Tag == "latest" {
 		return home + "liferay-ce-portal-7.0-ga5"
 	} else if r.Tag == "7-ce-ga4-tomcat-hsql" {
 		return home + "liferay-ce-portal-7.0-ga4"
