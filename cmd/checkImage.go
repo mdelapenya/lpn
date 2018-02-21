@@ -3,6 +3,9 @@ package cmd
 import (
 	"errors"
 
+	docker "github.com/mdelapenya/lpn/docker"
+	liferay "github.com/mdelapenya/lpn/liferay"
+
 	"github.com/spf13/cobra"
 )
 
@@ -29,4 +32,11 @@ var checkImageCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()
 	},
+}
+
+// CheckImage uses the image interface to check if it exists
+func CheckImage(image liferay.Image, tag string) {
+	dockerImage := image.GetRepository() + ":" + tag
+
+	docker.CheckDockerImageExists(dockerImage)
 }
