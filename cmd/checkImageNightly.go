@@ -30,7 +30,9 @@ var checkImageNightly = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		dockerImage := liferay.GetNightlyBuildsRepository() + ":" + tagToCheck
+		nightly := liferay.Nightly{}
+
+		dockerImage := nightly.GetRepository() + ":" + tagToCheck
 
 		docker.CheckDockerImageExists(dockerImage)
 	},

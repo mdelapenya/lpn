@@ -35,6 +35,8 @@ var pullNightly = &cobra.Command{
 			tag = args[0]
 		}
 
-		docker.PullDockerImage(liferay.GetNightlyBuildsRepository() + ":" + tag)
+		nightly := liferay.Nightly{}
+
+		docker.PullDockerImage(nightly.GetRepository() + ":" + tag)
 	},
 }
