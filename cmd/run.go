@@ -37,8 +37,8 @@ var runCmd = &cobra.Command{
 
 // RunDockerImage runs the image
 func RunDockerImage(
-	image liferay.Image, tag string, httpPort int, enableDebug bool, debugPort int) {
+	image liferay.Image, httpPort int, enableDebug bool, debugPort int) {
 
 	docker.RunDockerImage(
-		image.GetRepository()+":"+tag, httpPort, enableDebug, debugPort)
+		image.GetFullyQualifiedName(), httpPort, enableDebug, debugPort)
 }

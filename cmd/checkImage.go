@@ -35,8 +35,6 @@ var checkImageCmd = &cobra.Command{
 }
 
 // CheckImage uses the image interface to check if it exists
-func CheckImage(image liferay.Image, tag string) {
-	dockerImage := image.GetRepository() + ":" + tag
-
-	docker.CheckDockerImageExists(dockerImage)
+func CheckImage(image liferay.Image) {
+	docker.CheckDockerImageExists(image.GetFullyQualifiedName())
 }

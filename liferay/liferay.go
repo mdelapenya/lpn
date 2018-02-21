@@ -8,6 +8,8 @@ const Releases = "mdelapenya/liferay-portal"
 
 // Image interface defining the contract for Liferay Portal docker images
 type Image interface {
+	GetFullyQualifiedName() string
 	GetLiferayHome() string
 	GetRepository() string
+	GetTag() string
 }

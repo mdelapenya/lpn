@@ -6,6 +6,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestGetFullyQualifiedNameNightly(t *testing.T) {
+	nightly := Nightly{Tag: "foo"}
+
+	assert := assert.New(t)
+
+	assert.Equal("mdelapenya/liferay-portal-nightlies:foo", nightly.GetFullyQualifiedName())
+}
+
 func TestGetLiferayHomeNightly(t *testing.T) {
 	nightly := Nightly{}
 

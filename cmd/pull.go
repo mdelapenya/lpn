@@ -31,6 +31,6 @@ var pullCmd = &cobra.Command{
 }
 
 // PullDockerImage uses the image interface to pull it from Docker Hub
-func PullDockerImage(image liferay.Image, tag string) {
-	docker.PullDockerImage(image.GetRepository() + ":" + tag)
+func PullDockerImage(image liferay.Image) {
+	docker.PullDockerImage(image.GetFullyQualifiedName())
 }
