@@ -16,7 +16,7 @@ func init() {
 var pullRelease = &cobra.Command{
 	Use:   "release",
 	Short: "Pulls a Liferay Portal Docker image from releases",
-	Long: `Pulls a Liferay Portal instance, obtained from the unofficial releases repository: "` + liferay.GetReleasesRepository() + `".
+	Long: `Pulls a Liferay Portal instance, obtained from the unofficial releases repository: "` + liferay.Releases + `".
 	If no image tag is passed to the command, the "latest" tag will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {

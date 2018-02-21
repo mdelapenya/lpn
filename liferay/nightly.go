@@ -6,5 +6,5 @@ type Nightly struct {
 
 // GetRepository returns the repository for nightly builds
 func (n Nightly) GetRepository() string {
-	return GetNightlyBuildsRepository()
+	return Nightlies
 }
