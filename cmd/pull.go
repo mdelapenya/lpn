@@ -3,6 +3,7 @@ package cmd
 import (
 	"errors"
 
+	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
 	"github.com/spf13/cobra"
@@ -27,4 +28,9 @@ var pullCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()
 	},
+}
+
+// PullDockerImage uses the image interface to pull it from Docker Hub
+func PullDockerImage(image liferay.Image, tag string) {
+	docker.PullDockerImage(image.GetRepository() + ":" + tag)
 }

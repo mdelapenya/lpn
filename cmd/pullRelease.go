@@ -3,7 +3,6 @@ package cmd
 import (
 	"errors"
 
-	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
 	"github.com/spf13/cobra"
@@ -36,6 +35,6 @@ var pullRelease = &cobra.Command{
 
 		release := liferay.Release{}
 
-		docker.PullDockerImage(release.GetRepository() + ":" + tag)
+		PullDockerImage(release, tag)
 	},
 }
