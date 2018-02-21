@@ -1,15 +1,15 @@
 package liferay
 
-// Nightlies Namespace for the Docker nightly builds
-const Nightlies = "mdelapenya/liferay-portal-nightlies"
+// nightlies Namespace for the Docker nightly builds
+const nightlies = "mdelapenya/liferay-portal-nightlies"
 
-// Releases Namespace for the Docker releases
-const Releases = "mdelapenya/liferay-portal"
+// releases Namespace for the Docker releases
+const releases = "mdelapenya/liferay-portal"
 
 var repositories []string
 
 func init() {
-	repositories = append(repositories, Releases, Nightlies)
+	repositories = append(repositories, releases, nightlies)
 }
 
 // GetNightlyBuildsRepository Return the nightly builds repository
