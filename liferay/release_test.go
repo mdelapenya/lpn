@@ -14,6 +14,14 @@ func TestGetFullyQualifiedNameRelease(t *testing.T) {
 	assert.Equal("mdelapenya/liferay-portal:foo", release.GetFullyQualifiedName())
 }
 
+func TestGetLiferayHomeReleaseLatest(t *testing.T) {
+	release := Release{Tag: "latest"}
+
+	assert := assert.New(t)
+
+	assert.Equal("/usr/local/liferay-ce-portal-7.0-ga5", release.GetLiferayHome())
+}
+
 func TestGetLiferayHomeRelease7Ga5(t *testing.T) {
 	testGetLiferayHomeRelease7Ga(t, "5")
 }
