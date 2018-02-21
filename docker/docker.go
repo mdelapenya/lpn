@@ -3,7 +3,9 @@ package docker
 import (
 	"fmt"
 	"log"
+	"os"
 
+	liferay "github.com/mdelapenya/lpn/liferay"
 	shell "github.com/mdelapenya/lpn/shell"
 )
 
@@ -40,6 +42,43 @@ func CheckDockerImageExists(dockerImage string) bool {
 	}
 
 	return result
+}
+
+// CopyFileToContainer copies a file to the running container
+func CopyFileToContainer(image liferay.Image, path string) {
+	if !CheckDockerContainerExists() {
+		log.Println("The container [" + DockerContainerName + "] is NOT running.")
+		return
+	}
+
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		log.Fatalln("The file [" + path + "] does NOT exist.")
+		return
+	}
+
+	cmdArgs := []string{
+		"cp",
+		path,
+		DockerContainerName + ":" + image.GetDeployFolder() + "/",
+	}
+
+	log.Println("Deploying [" + path + "] to " + image.GetDeployFolder())
+
+	err := shell.Run(dockerBinary, cmdArgs)
+	if err != nil {
+		log.Fatal("Impossible to deploy the file to the container")
+	}
+}
+
+// GetDockerImageFromRunningContainer gets the image name of the container
+func GetDockerImageFromRunningContainer() string {
+	cmdArgs := []string{
+		"inspect",
+		"--format='{{.Config.Image}}'",
+		DockerContainerName,
+	}
+
+	return shell.Command(dockerBinary, cmdArgs)
 }
 
 // LogDockerContainer downloads the image

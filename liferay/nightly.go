@@ -5,6 +5,11 @@ type Nightly struct {
 	Tag string
 }
 
+// GetDeployFolder returns the deploy folder under Liferay Home
+func (n Nightly) GetDeployFolder() string {
+	return n.GetLiferayHome() + "/deploy"
+}
+
 // GetFullyQualifiedName returns the fully qualified name of the image
 func (n Nightly) GetFullyQualifiedName() string {
 	return n.GetRepository() + ":" + n.GetTag()

@@ -6,6 +6,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestDeployFolderRelease(t *testing.T) {
+	release := Release{}
+
+	assert := assert.New(t)
+
+	assert.Equal(release.GetLiferayHome()+"/deploy", release.GetDeployFolder())
+}
+
 func TestGetFullyQualifiedNameRelease(t *testing.T) {
 	release := Release{Tag: "foo"}
 

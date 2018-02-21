@@ -6,6 +6,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestDeployFolderNightly(t *testing.T) {
+	nightly := Nightly{}
+
+	assert := assert.New(t)
+
+	assert.Equal("/liferay/deploy", nightly.GetDeployFolder())
+}
+
 func TestGetFullyQualifiedNameNightly(t *testing.T) {
 	nightly := Nightly{Tag: "foo"}
 

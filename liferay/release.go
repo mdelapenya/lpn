@@ -5,6 +5,11 @@ type Release struct {
 	Tag string
 }
 
+// GetDeployFolder returns the deploy folder under Liferay Home
+func (r Release) GetDeployFolder() string {
+	return r.GetLiferayHome() + "/deploy"
+}
+
 // GetFullyQualifiedName returns the fully qualified name of the image
 func (r Release) GetFullyQualifiedName() string {
 	return r.GetRepository() + ":" + r.GetTag()
