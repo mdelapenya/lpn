@@ -72,6 +72,10 @@ func CopyFileToContainer(image liferay.Image, path string) {
 
 // GetDockerImageFromRunningContainer gets the image name of the container
 func GetDockerImageFromRunningContainer() string {
+	if !CheckDockerContainerExists() {
+		log.Fatalf("The container [" + DockerContainerName + "] is NOT running.")
+	}
+
 	cmdArgs := []string{
 		"inspect",
 		"--format='{{.Config.Image}}'",
