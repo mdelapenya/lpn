@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"strings"
+	"time"
 
 	"github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
@@ -29,6 +30,7 @@ func deployFile(image liferay.Image, path string) {
 	paths := strings.Split(path, ",")
 
 	for i := range paths {
-		docker.CopyFileToContainer(image, paths[i])
+		go docker.CopyFileToContainer(image, paths[i])
+		time.Sleep(1 * time.Second)
 	}
 }
