@@ -1,7 +1,9 @@
 package cmd
 
 import (
-	docker "github.com/mdelapenya/lpn/docker"
+	"strings"
+
+	"github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
 	"github.com/spf13/cobra"
@@ -24,5 +26,9 @@ var deployCmd = &cobra.Command{
 
 // deployFile deploys a file to the running container
 func deployFile(image liferay.Image, path string) {
-	docker.CopyFileToContainer(image, path)
+	paths := strings.Split(path, ",")
+
+	for i := range paths {
+		docker.CopyFileToContainer(image, paths[i])
+	}
 }
