@@ -47,7 +47,7 @@ func CheckDockerImageExists(dockerImage string) bool {
 // CopyFileToContainer copies a file to the running container
 func CopyFileToContainer(image liferay.Image, path string) {
 	if !CheckDockerContainerExists() {
-		log.Println("The container [" + DockerContainerName + "] is NOT running.")
+		log.Fatalln("The container [" + DockerContainerName + "] is NOT running.")
 		return
 	}
 
@@ -73,7 +73,7 @@ func CopyFileToContainer(image liferay.Image, path string) {
 // GetDockerImageFromRunningContainer gets the image name of the container
 func GetDockerImageFromRunningContainer() string {
 	if !CheckDockerContainerExists() {
-		log.Fatalf("The container [" + DockerContainerName + "] is NOT running.")
+		log.Fatalln("The container [" + DockerContainerName + "] is NOT running.")
 	}
 
 	cmdArgs := []string{
@@ -88,7 +88,7 @@ func GetDockerImageFromRunningContainer() string {
 // LogDockerContainer downloads the image
 func LogDockerContainer() {
 	if !CheckDockerContainerExists() {
-		log.Println("The container [" + DockerContainerName + "] is NOT running.")
+		log.Fatalln("The container [" + DockerContainerName + "] is NOT running.")
 		return
 	}
 
@@ -128,7 +128,7 @@ func RemoveDockerContainer() {
 
 	err := shell.CombinedOutput(dockerBinary, cmdArgs)
 	if err != nil {
-		log.Fatal("Impossible to remove the container")
+		log.Fatalln("Impossible to remove the container")
 	}
 }
 
@@ -158,7 +158,7 @@ func RunDockerImage(dockerImage string, httpPort int, enableDebug bool, debugPor
 
 	err := shell.CombinedOutput(dockerBinary, cmdArgs)
 	if err != nil {
-		log.Fatal("Impossible to run the container")
+		log.Fatalln("Impossible to run the container")
 	}
 }
 
@@ -171,6 +171,6 @@ func StopDockerContainer() {
 
 	err := shell.CombinedOutput(dockerBinary, cmdArgs)
 	if err != nil {
-		log.Fatal("Impossible to stop the container")
+		log.Fatalln("Impossible to stop the container")
 	}
 }
