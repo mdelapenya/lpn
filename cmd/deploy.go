@@ -1,10 +1,11 @@
 package cmd
 
 import (
+	"log"
+	"os"
 	"strings"
-	"time"
 
-	"github.com/mdelapenya/lpn/docker"
+	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
 	"github.com/spf13/cobra"
@@ -25,12 +26,62 @@ var deployCmd = &cobra.Command{
 	},
 }
 
-// deployFile deploys a file to the running container
-func deployFile(image liferay.Image, path string) {
+// deployFiles deploys a file to the running container
+func deployFiles(image liferay.Image, path string) {
 	paths := strings.Split(path, ",")
 
+	filesChannel := make(chan string, len(paths))
 	for i := range paths {
-		go docker.CopyFileToContainer(image, paths[i])
-		time.Sleep(1 * time.Second)
+		filesChannel <- paths[i]
+	}
+	close(filesChannel)
+
+	workers := 8
+	if len(paths) < workers {
+		workers = len(paths)
+	}
+
+	errorChannel := make(chan error, 1)
+	resultChannel := make(chan bool, len(paths))
+
+	for i := 0; i < workers; i++ {
+		go func() {
+			// Consume work from filesChannel. Loop will end when no more work.
+			for file := range filesChannel {
+				if _, err := os.Stat(file); os.IsNotExist(err) {
+					select {
+					case errorChannel <- err:
+						// will break parent goroutine out of loop
+					default:
+						// don't care, first error wins
+					}
+					return
+				}
+
+				err := docker.CopyFileToContainer(image, file)
+				if err != nil {
+					select {
+					case errorChannel <- err:
+						// will break parent goroutine out of loop
+					default:
+						// don't care, first error wins
+					}
+					return
+				}
+
+				resultChannel <- true
+			}
+		}()
+	}
+
+	// Collect results from workers
+
+	for i := 0; i < len(paths); i++ {
+		select {
+		case <-resultChannel:
+			log.Println("[" + paths[i] + "] deployed sucessfully to " + image.GetDeployFolder())
+		case <-errorChannel:
+			log.Println("Impossible to deploy the file to the container")
+		}
 	}
 }

@@ -3,7 +3,6 @@ package docker
 import (
 	"fmt"
 	"log"
-	"os"
 
 	liferay "github.com/mdelapenya/lpn/liferay"
 	shell "github.com/mdelapenya/lpn/shell"
@@ -53,10 +52,6 @@ func CheckDockerImageExists(dockerImage string) bool {
 
 // CopyFileToContainer copies a file to the running container
 func CopyFileToContainer(image liferay.Image, path string) error {
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		return err
-	}
-
 	cmdArgs := []string{
 		"cp",
 		path,
@@ -67,7 +62,6 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 
 	err := shell.Run(dockerBinary, cmdArgs)
 	if err != nil {
-		log.Println("Impossible to deploy the file to the container")
 		return err
 	}
 

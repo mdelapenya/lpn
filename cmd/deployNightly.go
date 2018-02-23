@@ -19,6 +19,6 @@ var deployNightly = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		nightly := liferay.Nightly{}
 
-		deployFile(nightly, filePath)
+		deployFiles(nightly, filePath)
 	},
 }
