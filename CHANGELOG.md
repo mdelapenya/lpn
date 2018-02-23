@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="0.3.0"></a>
+### 0.3.0
+#### :rocket: Enhancements
+* Add :sparkles:`deploy`:sparkles: command, which deploys files to Liferay Portal's deploy directory
+* Add `dep` as dependency manager
+* Add `stop` command
+
 <a name="0.2.0"></a>
 ### 0.2.0
 #### :rocket: Enhancements
