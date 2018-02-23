@@ -33,6 +33,6 @@ var deployRelease = &cobra.Command{
 
 		release := liferay.Release{Tag: tag}
 
-		deployFile(release, filePath)
+		deployFiles(release, filePath)
 	},
 }
