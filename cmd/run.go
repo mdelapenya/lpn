@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"errors"
+	"log"
 
 	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
@@ -39,6 +40,10 @@ var runCmd = &cobra.Command{
 func RunDockerImage(
 	image liferay.Image, httpPort int, enableDebug bool, debugPort int) {
 
-	docker.RunDockerImage(
+	err := docker.RunDockerImage(
 		image.GetFullyQualifiedName(), httpPort, enableDebug, debugPort)
+
+	if err != nil {
+		log.Fatalln("Impossible to run the container")
+	}
 }

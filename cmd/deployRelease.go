@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"log"
 	"strings"
 
 	"github.com/mdelapenya/lpn/docker"
@@ -21,7 +22,10 @@ var deployRelease = &cobra.Command{
 	Long: `Deploys a file to Liferay Portal's deploy folder in the container run by lpn.
 	The appropriate tag is calculated from the image the container was build from.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		imageName := docker.GetDockerImageFromRunningContainer()
+		imageName, err := docker.GetDockerImageFromRunningContainer()
+		if err != nil {
+			log.Fatalln("The container [" + docker.DockerContainerName + "] is NOT running.")
+		}
 
 		index := strings.LastIndex(imageName, ":")
 

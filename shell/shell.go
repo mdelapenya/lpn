@@ -24,13 +24,10 @@ func CombinedOutput(cmdBinary string, cmdArgs []string) error {
 }
 
 // Command returns the output of an execution
-func Command(cmdBinary string, cmdArgs []string) string {
+func Command(cmdBinary string, cmdArgs []string) (string, error) {
 	out, err := exec.Command(cmdBinary, cmdArgs...).Output()
-	if err != nil {
-		log.Fatal(err)
-	}
 
-	return string(out)
+	return string(out), err
 }
 
 // Run runs a shell program with arguments
@@ -38,17 +35,6 @@ func Run(cmdBinary string, cmdArgs []string) error {
 	cmd := exec.Command(cmdBinary, cmdArgs...)
 
 	return cmd.Run()
-}
-
-// RunCheck runs a shell program with arguments
-func RunCheck(cmdBinary string, cmdArgs []string) bool {
-	err := Run(cmdBinary, cmdArgs)
-
-	if err != nil {
-		return false
-	}
-
-	return true
 }
 
 // StartAndWait starts a program with arguments and waits for its output
