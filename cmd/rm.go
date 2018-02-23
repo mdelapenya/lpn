@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"log"
+
 	docker "github.com/mdelapenya/lpn/docker"
 
 	"github.com/spf13/cobra"
@@ -15,6 +17,9 @@ var rmCmd = &cobra.Command{
 	Short: "Removes the Liferay Portal nook instance",
 	Long:  `Removes the Liferay Portal nook instance, identified by [` + docker.DockerContainerName + `].`,
 	Run: func(cmd *cobra.Command, args []string) {
-		docker.RemoveDockerContainer()
+		err := docker.RemoveDockerContainer()
+		if err != nil {
+			log.Fatalln("Impossible to remove the container")
+		}
 	},
 }

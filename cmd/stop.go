@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"log"
+
 	docker "github.com/mdelapenya/lpn/docker"
 
 	"github.com/spf13/cobra"
@@ -15,6 +17,9 @@ var stopCmd = &cobra.Command{
 	Short: "Stops the Liferay Portal nook instance",
 	Long:  `Stops the Liferay Portal nook instance, identified by [` + docker.DockerContainerName + `].`,
 	Run: func(cmd *cobra.Command, args []string) {
-		docker.StopDockerContainer()
+		err := docker.StopDockerContainer()
+		if err != nil {
+			log.Fatalln("Impossible to stop the container")
+		}
 	},
 }
