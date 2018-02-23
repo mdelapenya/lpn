@@ -1,3 +1,5 @@
 .equinox/config.yaml
 .equinox/equinox.key
 .equinox/token
+
+debug.test
