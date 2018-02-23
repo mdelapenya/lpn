@@ -126,8 +126,6 @@ func RemoveDockerContainer() error {
 
 // RunDockerImage runs the image, setting the HTTP port for bundle and debug mode if needed
 func RunDockerImage(dockerImage string, httpPort int, enableDebug bool, debugPort int) error {
-	PullDockerImage(dockerImage)
-
 	err := CheckDockerContainerExists()
 	if err != nil {
 		_ = RemoveDockerContainer()
