@@ -11,6 +11,8 @@ import (
 
 func init() {
 	pullCmd.AddCommand(pullNightly)
+
+	pullNightly.Flags().StringVarP(&tagToPull, "tag", "t", date.CurrentDate, "Sets the image tag to pull")
 }
 
 var pullNightly = &cobra.Command{
@@ -26,15 +28,7 @@ var pullNightly = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		var tag string
-
-		if len(args) == 0 {
-			tag = date.CurrentDate
-		} else {
-			tag = args[0]
-		}
-
-		nightly := liferay.Nightly{Tag: tag}
+		nightly := liferay.Nightly{Tag: tagToPull}
 
 		PullDockerImage(nightly)
 	},
