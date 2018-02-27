@@ -13,6 +13,7 @@ import (
 var enableDebug bool
 var debugPort int
 var httpPort int
+var tagToRun string
 
 func init() {
 	rootCmd.AddCommand(runCmd)
