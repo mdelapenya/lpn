@@ -15,6 +15,7 @@ func init() {
 	runNightlyCmd.Flags().IntVarP(&httpPort, "httpPort", "p", 8080, "Sets the HTTP port of Liferay Portal's bundle.")
 	runNightlyCmd.Flags().BoolVarP(&enableDebug, "debug", "d", false, "Enables debug mode. (default false)")
 	runNightlyCmd.Flags().IntVarP(&debugPort, "debugPort", "D", 9000, "Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled")
+	runNightlyCmd.Flags().StringVarP(&tagToRun, "tag", "t", date.CurrentDate, "Sets the image tag to run")
 }
 
 var runNightlyCmd = &cobra.Command{
@@ -30,15 +31,7 @@ var runNightlyCmd = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		var tag string
-
-		if len(args) == 0 {
-			tag = date.CurrentDate
-		} else {
-			tag = args[0]
-		}
-
-		nightly := liferay.Nightly{Tag: tag}
+		nightly := liferay.Nightly{Tag: tagToRun}
 
 		RunDockerImage(nightly, httpPort, enableDebug, debugPort)
 	},

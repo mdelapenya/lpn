@@ -14,6 +14,7 @@ func init() {
 	runReleaseCmd.Flags().IntVarP(&httpPort, "httpPort", "p", 8080, "Sets the HTTP port of Liferay Portal's bundle.")
 	runReleaseCmd.Flags().BoolVarP(&enableDebug, "debug", "d", false, "Enables debug mode. (default false)")
 	runReleaseCmd.Flags().IntVarP(&debugPort, "debugPort", "D", 9000, "Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled")
+	runReleaseCmd.Flags().StringVarP(&tagToRun, "tag", "t", "latest", "Sets the image tag to run")
 }
 
 var runReleaseCmd = &cobra.Command{
@@ -29,15 +30,7 @@ var runReleaseCmd = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		var tag string
-
-		if len(args) == 0 {
-			tag = "latest"
-		} else {
-			tag = args[0]
-		}
-
-		release := liferay.Release{Tag: tag}
+		release := liferay.Release{Tag: tagToRun}
 
 		RunDockerImage(release, httpPort, enableDebug, debugPort)
 	},
