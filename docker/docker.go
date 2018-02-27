@@ -33,21 +33,14 @@ func CheckDockerContainerExists() bool {
 }
 
 // CheckDockerImageExists checks if the image is already present
-func CheckDockerImageExists(dockerImage string) bool {
+func CheckDockerImageExists(dockerImage string) error {
 	cmdArgs := []string{
 		"image",
 		"inspect",
 		dockerImage,
 	}
 
-	err := shell.Run(dockerBinary, cmdArgs)
-	if err != nil {
-		log.Println("The image [" + dockerImage + "] has NOT been pulled from Docker Hub.")
-		return false
-	}
-
-	log.Println("The image [" + dockerImage + "] has been pulled from Docker Hub.")
-	return true
+	return shell.Run(dockerBinary, cmdArgs)
 }
 
 // CopyFileToContainer copies a file to the running container

@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"errors"
+	"log"
 
 	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
@@ -36,5 +37,10 @@ var checkImageCmd = &cobra.Command{
 
 // CheckImage uses the image interface to check if it exists
 func CheckImage(image liferay.Image) {
-	docker.CheckDockerImageExists(image.GetFullyQualifiedName())
+	err := docker.CheckDockerImageExists(image.GetFullyQualifiedName())
+	if err != nil {
+		log.Fatalln("The image [" + image.GetFullyQualifiedName() + "] has NOT been pulled from Docker Hub.")
+	} else {
+		log.Println("The image [" + image.GetFullyQualifiedName() + "] has been pulled from Docker Hub.")
+	}
 }
