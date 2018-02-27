@@ -1,7 +1,9 @@
 language: go
 
 env:
-  - DEP_VERSION="0.4.1"
+  global:
+    - DEP_VERSION="0.4.1"
+env:
   - COMMAND=checkContainer
   - COMMAND=checkImage
   - COMMAND=pull
