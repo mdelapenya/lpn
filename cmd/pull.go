@@ -9,6 +9,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var tagToPull string
+
 func init() {
 	rootCmd.AddCommand(pullCmd)
 }

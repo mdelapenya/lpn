@@ -10,6 +10,8 @@ import (
 
 func init() {
 	pullCmd.AddCommand(pullRelease)
+
+	pullRelease.Flags().StringVarP(&tagToPull, "tag", "t", "latest", "Sets the image tag to pull")
 }
 
 var pullRelease = &cobra.Command{
@@ -25,15 +27,7 @@ var pullRelease = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		var tag string
-
-		if len(args) == 0 {
-			tag = "latest"
-		} else {
-			tag = args[0]
-		}
-
-		release := liferay.Release{Tag: tag}
+		release := liferay.Release{Tag: tagToPull}
 
 		PullDockerImage(release)
 	},
