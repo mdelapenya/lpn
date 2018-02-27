@@ -2,6 +2,12 @@ language: go
 
 env:
   - DEP_VERSION="0.4.1"
+  - COMMAND=checkContainer
+  - COMMAND=checkImage
+  - COMMAND=pull
+  - COMMAND=rm
+  - COMMAND=run
+  - COMMAND=stop
 
 go:
   - 1.9.x
@@ -12,5 +18,8 @@ before_install:
 
 install:
   - dep ensure
+  - go build
 
-script: go test ./...
+script:
+  - go test ./...
+  - .travis/tests-${COMMAND}.sh
