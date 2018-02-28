@@ -13,7 +13,7 @@ function test_deploy_nightly() {
   image="${NIGHTLY_IMAGE}"
   tag="latest"
 
-  $LPN_GO_BINARY run nightly -t "${tag}"
+  docker run -d  --name ${CONTAINER_ID} ${image}:${tag}
 
   $LPN_GO_BINARY deploy nightly -f ${DIR}/scripts/resources/a.txt
 
@@ -37,7 +37,7 @@ function test_deploy_nightly_multiple_files() {
   image="${NIGHTLY_IMAGE}"
   tag="latest"
 
-  $LPN_GO_BINARY run nightly -t "${tag}"
+  docker run -d  --name ${CONTAINER_ID} ${image}:${tag}
 
   $LPN_GO_BINARY deploy nightly -f ${DIR}/scripts/resources/a.txt,${DIR}/scripts/resources/b.txt
 
@@ -62,7 +62,7 @@ function test_deploy_release() {
   image="${RELEASE_IMAGE}"
   tag="7-ce-ga5-tomcat-hsql"
 
-  $LPN_GO_BINARY run release -t "${tag}"
+  docker run -d  --name ${CONTAINER_ID} ${image}:${tag}
 
   create_deploy_folder ${tag}
 
@@ -88,7 +88,7 @@ function test_deploy_release_multiple_files() {
   image="${RELEASE_IMAGE}"
   tag="7-ce-ga5-tomcat-hsql"
 
-  $LPN_GO_BINARY run release -t "${tag}"
+  docker run -d  --name ${CONTAINER_ID} ${image}:${tag}
 
   create_deploy_folder ${tag}
 
