@@ -2,7 +2,7 @@
 
 readonly DIR="$(realpath $(dirname ${BASH_SOURCE[0]}))"
 
-cat <<EOF > $DIR/config.yaml
+cat <<EOF >$DIR/config.yaml
 app: app_dK5yVpq7ybd
 signing-key: .equinox/equinox.key
 token: $(cat .equinox/token)
