@@ -76,10 +76,10 @@ func deployFiles(image liferay.Image, path string) {
 
 	// Collect results from workers
 
-	for i := 0; i < len(paths); i++ {
+	for file := range filesChannel {
 		select {
 		case <-resultChannel:
-			log.Println("[" + paths[i] + "] deployed sucessfully to " + image.GetDeployFolder())
+			log.Println("[" + file + "] deployed sucessfully to " + image.GetDeployFolder())
 		case <-errorChannel:
 			log.Println("Impossible to deploy the file to the container")
 		}
