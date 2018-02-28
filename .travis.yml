@@ -25,5 +25,8 @@ install:
   - go build
 
 script:
-  - go test -v $(go list ./... | grep -v /vendor/)
+  - ./scripts/coverage.sh
   - .travis/tests-${COMMAND}.sh
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
