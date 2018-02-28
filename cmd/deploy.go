@@ -80,8 +80,8 @@ func deployFiles(image liferay.Image, path string) {
 		select {
 		case <-resultChannel:
 			log.Println("[" + paths[i] + "] deployed sucessfully to " + image.GetDeployFolder())
-		case <-errorChannel:
-			log.Println("Impossible to deploy the file to the container")
+		case err := <-errorChannel:
+			log.Println("Impossible to deploy the file to the container", err)
 		}
 	}
 }
