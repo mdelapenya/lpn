@@ -15,7 +15,7 @@ function test_deploy_nightly() {
 
   $LPN_GO_BINARY run nightly -t "${tag}"
 
-  $LPN_GO_BINARY deploy nightly -f ${DIR}/.travis/resources/a.txt
+  $LPN_GO_BINARY deploy nightly -f ${DIR}/scripts/resources/a.txt
 
   exists=$(
     docker exec ${CONTAINER_ID} ls -l /liferay/deploy | grep "${DEPLOY_FILE_A}" | wc -l | xargs
@@ -39,7 +39,7 @@ function test_deploy_nightly_multiple_files() {
 
   $LPN_GO_BINARY run nightly -t "${tag}"
 
-  $LPN_GO_BINARY deploy nightly -f ${DIR}/.travis/resources/a.txt,${DIR}/.travis/resources/b.txt
+  $LPN_GO_BINARY deploy nightly -f ${DIR}/scripts/resources/a.txt,${DIR}/scripts/resources/b.txt
 
   # As file a.txt has been checked before, here we only check the second file
   exists=$(
@@ -66,7 +66,7 @@ function test_deploy_release() {
 
   create_deploy_folder ${tag}
 
-  $LPN_GO_BINARY deploy release -f ${DIR}/.travis/resources/a.txt
+  $LPN_GO_BINARY deploy release -f ${DIR}/scripts/resources/a.txt
 
   exists=$(
     docker exec ${CONTAINER_ID} ls -l /usr/local/${tag}/deploy | grep "${DEPLOY_FILE_A}" | wc -l | xargs
@@ -92,7 +92,7 @@ function test_deploy_release_multiple_files() {
 
   create_deploy_folder ${tag}
 
-  $LPN_GO_BINARY deploy release -f ${DIR}/.travis/resources/a.txt,${DIR}/.travis/resources/b.txt
+  $LPN_GO_BINARY deploy release -f ${DIR}/scripts/resources/a.txt,${DIR}/scripts/resources/b.txt
 
   exists=$(
     docker exec ${CONTAINER_ID} ls -l /usr/local/${tag}/deploy | grep "${DEPLOY_FILE_B}" | wc -l | xargs
