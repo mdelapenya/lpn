@@ -6,6 +6,8 @@
 * Add :sparkles:`deploy`:sparkles: command, which deploys files to Liferay Portal's deploy directory
 * Add `dep` as dependency manager
 * Add `stop` command
+* Add `codecov` support
+* Add functional tests for the CLI :tada:
 
 <a name="0.2.0"></a>
 ### 0.2.0
