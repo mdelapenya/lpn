@@ -25,5 +25,5 @@ install:
   - go build
 
 script:
-  - go test ./...
+  - go test ./... -v
   - .travis/tests-${COMMAND}.sh
