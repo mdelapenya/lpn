@@ -25,5 +25,5 @@ install:
   - go build
 
 script:
-  - go test ./... -v
+  - go test -v $(go list ./... | grep -v /vendor/)
   - .travis/tests-${COMMAND}.sh
