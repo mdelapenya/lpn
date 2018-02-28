@@ -21,7 +21,6 @@ before_install:
   - chmod +x $GOPATH/bin/dep
 
 install:
-  - dep ensure
   - go build
 
 script:
