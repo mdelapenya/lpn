@@ -5,6 +5,7 @@ readonly DIR="${TRAVIS_BUILD_DIR:-.}"
 readonly NIGHTLY_IMAGE="mdelapenya/liferay-portal-nightlies"
 readonly LPN_GO_BINARY="${DIR}/lpn"
 readonly RELEASE_IMAGE="mdelapenya/liferay-portal"
+readonly RELEASE_HOME="liferay-ce-portal-7.0-ga5"
 readonly DEPLOY_FILE_A="a.txt"
 readonly DEPLOY_FILE_B="b.txt"
 
@@ -69,7 +70,7 @@ function test_deploy_release() {
   $LPN_GO_BINARY deploy release -f ${DIR}/scripts/resources/a.txt
 
   exists=$(
-    docker exec ${CONTAINER_ID} ls -l /usr/local/${tag}/deploy | grep "${DEPLOY_FILE_A}" | wc -l | xargs
+    docker exec ${CONTAINER_ID} ls -l /usr/local/${RELEASE_HOME}/deploy | grep "${DEPLOY_FILE_A}" | wc -l | xargs
   )
 
   if [[ "$exists" == "1" ]]; then
@@ -95,7 +96,7 @@ function test_deploy_release_multiple_files() {
   $LPN_GO_BINARY deploy release -f ${DIR}/scripts/resources/a.txt,${DIR}/scripts/resources/b.txt
 
   exists=$(
-    docker exec ${CONTAINER_ID} ls -l /usr/local/${tag}/deploy | grep "${DEPLOY_FILE_B}" | wc -l | xargs
+    docker exec ${CONTAINER_ID} ls -l /usr/local/${RELEASE_HOME}/deploy | grep "${DEPLOY_FILE_B}" | wc -l | xargs
   )
 
   if [[ "$exists" == "1" ]]; then
@@ -119,11 +120,10 @@ main() {
 
 function create_deploy_folder() {
   tag=${1}
-  deploy="/usr/local/${tag}/deploy"
+  deploy="/usr/local/${RELEASE_HOME}/deploy"
 
   echo "Creating ${deploy} folder to avoid waiting for Liferay Portal to create it"
   docker exec ${CONTAINER_ID} mkdir -p ${deploy}
-  docker exec ${CONTAINER_ID} ls -l ${deploy}
 }
 
 main
