@@ -8,6 +8,7 @@ services:
 env:
   - COMMAND=checkContainer
   - COMMAND=checkImage
+  - COMMAND=deploy
   - COMMAND=pull
   - COMMAND=rm
   - COMMAND=run
