@@ -45,33 +45,10 @@ func deployFiles(image liferay.Image, path string) {
 	resultChannel := make(chan bool, len(paths))
 
 	for i := 0; i < workers; i++ {
-		go func() {
-			// Consume work from filesChannel. Loop will end when no more work.
-			for file := range filesChannel {
-				if _, err := os.Stat(file); os.IsNotExist(err) {
-					select {
-					case errorChannel <- err:
-						// will break parent goroutine out of loop
-					default:
-						// don't care, first error wins
-					}
-					return
-				}
-
-				err := docker.CopyFileToContainer(image, file)
-				if err != nil {
-					select {
-					case errorChannel <- err:
-						// will break parent goroutine out of loop
-					default:
-						// don't care, first error wins
-					}
-					return
-				}
-
-				resultChannel <- true
-			}
-		}()
+		// Consume work from filesChannel. Loop will end when no more work.
+		for file := range filesChannel {
+			go deployFile(file, image, resultChannel, errorChannel)
+		}
 	}
 
 	// Collect results from workers
@@ -84,4 +61,32 @@ func deployFiles(image liferay.Image, path string) {
 			log.Println("Impossible to deploy the file to the container", err)
 		}
 	}
+}
+
+func deployFile(
+	file string, image liferay.Image, resultChannel chan bool,
+	errorChannel chan error) {
+
+	if _, err := os.Stat(file); os.IsNotExist(err) {
+		select {
+		case errorChannel <- err:
+			// will break parent goroutine out of loop
+		default:
+			// don't care, first error wins
+		}
+		return
+	}
+
+	err := docker.CopyFileToContainer(image, file)
+	if err != nil {
+		select {
+		case errorChannel <- err:
+			// will break parent goroutine out of loop
+		default:
+			// don't care, first error wins
+		}
+		return
+	}
+
+	resultChannel <- true
 }
