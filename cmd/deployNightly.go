@@ -28,6 +28,12 @@ var deployNightly = &cobra.Command{
 
 		validateArguments()
 
-		deployFiles(nightly, filePath)
+		if filePath != "" {
+			deployFiles(nightly, filePath)
+		}
+
+		if directoryPath != "" {
+			deployDirectory(nightly, directoryPath)
+		}
 	},
 }
