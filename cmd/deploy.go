@@ -91,3 +91,9 @@ func deployFile(
 
 	resultChannel <- true
 }
+
+func validateArguments() {
+	if filePath == "" && directoryPath == "" {
+		log.Fatalln("Please pass a valid path to a file or to a directory as argument")
+	}
+}

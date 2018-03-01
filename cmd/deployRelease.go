@@ -29,9 +29,7 @@ var deployRelease = &cobra.Command{
 	Long: `Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn.
 	The appropriate tag is calculated from the image the container was build from.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if filePath == "" {
-			log.Fatalln("Path cannot be empty")
-		}
+		validateArguments()
 
 		imageName, err := docker.GetDockerImageFromRunningContainer()
 		if err != nil {

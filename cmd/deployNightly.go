@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"log"
-
 	liferay "github.com/mdelapenya/lpn/liferay"
 
 	"github.com/spf13/cobra"
@@ -28,9 +26,7 @@ var deployNightly = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		nightly := liferay.Nightly{}
 
-		if filePath == "" {
-			log.Fatalln("Path cannot be empty")
-		}
+		validateArguments()
 
 		deployFiles(nightly, filePath)
 	},
