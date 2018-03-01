@@ -10,11 +10,11 @@ readonly RELEASE_IMAGE_LATEST="mdelapenya/liferay-portal:latest"
 main() {
   cat <<EOF >.tmp_images
 ${NIGHTLY_IMAGE}
-${RELEASE_IMAGE}
 ${RELEASE_IMAGE_LATEST}
 EOF
 
   pull_images_concurrently "$(cat .tmp_images)"
+  pull_images_concurrently "${RELEASE_IMAGE}"
 
   rm .tmp_images
 }
