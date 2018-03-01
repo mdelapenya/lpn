@@ -30,3 +30,9 @@ script:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+
+deploy:
+ provider: script
+ script: ./.equinox/release.sh
+ on:
+   branch: master
