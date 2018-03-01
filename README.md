@@ -127,18 +127,18 @@ Flags:
 
 ```shell
 $ lpn deploy -h
-Deploys a file to Liferay Portal's deploy folder in the container run by lpn.
+Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn
 
 Usage:
   lpn deploy [flags]
   lpn deploy [command]
 
 Available Commands:
-  nightly     Deploys a file to Liferay Portal's deploy folder in the container run by lpn
-  release     Deploys a file to Liferay Portal's deploy folder in the container run by lpn
+  nightly     Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn
+  release     Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn
 
 Flags:
-  -h, --help   help for checkImage
+  -h, --help   help for deploy
 
 Use "lpn deploy [command] --help" for more information about a command.
 ```
@@ -147,29 +147,31 @@ Use "lpn deploy [command] --help" for more information about a command.
 
 ```shell
 $ lpn deploy nightly -h
-Deploys a file to Liferay Portal's deploy folder in the container run by lpn
+Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn
 
 Usage:
   lpn deploy nightly [flags]
 
 Flags:
-  -f, --file string   The file to deploy
-  -h, --help          help for nightly
+  -d, --dir string     The directory to deploy its content. Only first-level files will be deployed, so no recursive deployment will happen
+  -f, --files string   The file or files to deploy. A comma-separated list of files is accepted to deploy multiple files at the same time
+  -h, --help           help for nightly
 ```
 
 #### deploy release
 
 ```shell
 $ lpn deploy release -h
-Deploys a file to Liferay Portal's deploy folder in the container run by lpn.
+Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn.
 	The appropriate tag is calculated from the image the container was build from.
 
 Usage:
   lpn deploy release [flags]
 
 Flags:
-  -f, --file string   The file to deploy
-  -h, --help          help for release
+  -d, --dir string     The directory to deploy its content. Only first-level files will be deployed, so no recursive deployment will happen
+  -f, --files string   The file or files to deploy. A comma-separated list of files is accepted to deploy multiple files at the same time
+  -h, --help           help for release
 ```
 
 ### help
