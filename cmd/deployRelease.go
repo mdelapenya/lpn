@@ -13,13 +13,20 @@ import (
 func init() {
 	deployCmd.AddCommand(deployRelease)
 
-	deployRelease.Flags().StringVarP(&filePath, "file", "f", "", "The file to deploy")
+	deployRelease.Flags().StringVarP(
+		&filePath, "files", "f", "",
+		`The file or files to deploy. A comma-separated list of files is accepted to deploy
+							multiple files at the same time`)
+	deployRelease.Flags().StringVarP(
+		&directoryPath, "dir", "d", "",
+		`The directory to deploy its content. Only first-level files will be deployed, so no
+							recursive deployment will happen`)
 }
 
 var deployRelease = &cobra.Command{
 	Use:   "release",
-	Short: "Deploys a file to Liferay Portal's deploy folder in the container run by lpn",
-	Long: `Deploys a file to Liferay Portal's deploy folder in the container run by lpn.
+	Short: "Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn",
+	Long: `Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn.
 	The appropriate tag is calculated from the image the container was build from.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		imageName, err := docker.GetDockerImageFromRunningContainer()

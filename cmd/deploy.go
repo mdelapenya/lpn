@@ -12,6 +12,7 @@ import (
 )
 
 var filePath string
+var directoryPath string
 
 func init() {
 	rootCmd.AddCommand(deployCmd)
@@ -19,14 +20,14 @@ func init() {
 
 var deployCmd = &cobra.Command{
 	Use:   "deploy",
-	Short: "Deploys a file to Liferay Portal's deploy folder in the container run by lpn",
-	Long:  `Deploys a file to Liferay Portal's deploy folder in the container run by lpn`,
+	Short: "Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn",
+	Long:  `Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn`,
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()
 	},
 }
 
-// deployFiles deploys a file to the running container
+// deployFiles deploys files to the running container
 func deployFiles(image liferay.Image, path string) {
 	paths := strings.Split(path, ",")
 
