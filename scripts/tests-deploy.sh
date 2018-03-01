@@ -14,7 +14,7 @@ function test_deploy_nightly() {
   image="${NIGHTLY_IMAGE}"
   tag="latest"
 
-  docker run -d  --name ${CONTAINER_ID} ${image}:${tag}
+  docker run -d --name ${CONTAINER_ID} ${image}:${tag}
 
   $LPN_GO_BINARY deploy nightly -f ${DIR}/scripts/resources/a.txt
 
@@ -42,10 +42,9 @@ function test_deploy_nightly_directory() {
 
   $LPN_GO_BINARY deploy nightly -d ${DIR}/scripts/resources
 
-  files=( $(find ${DIR}/scripts/resources -maxdepth 1 -not -type d -and -not -name '.*' -exec basename {} \;) )
+  files=($(find ${DIR}/scripts/resources -maxdepth 1 -not -type d -and -not -name '.*' -exec basename {} \;))
 
-  for file in "${files[@]}"
-  do
+  for file in "${files[@]}"; do
     exists=$(
       docker exec ${CONTAINER_ID} ls -l /liferay/deploy | grep "${file}" | wc -l | xargs
     )
@@ -57,10 +56,9 @@ function test_deploy_nightly_directory() {
     fi
   done
 
-  directories=( $(find ${DIR}/scripts/resources -mindepth 1 -maxdepth 1 -type d -exec basename {} \;) )
+  directories=($(find ${DIR}/scripts/resources -mindepth 1 -maxdepth 1 -type d -exec basename {} \;))
 
-  for directory in "${directories[@]}"
-  do
+  for directory in "${directories[@]}"; do
     exists=$(
       docker exec ${CONTAINER_ID} ls -l /liferay/deploy | grep "${directory}" | wc -l | xargs
     )
@@ -82,7 +80,7 @@ function test_deploy_nightly_multiple_files() {
   image="${NIGHTLY_IMAGE}"
   tag="latest"
 
-  docker run -d  --name ${CONTAINER_ID} ${image}:${tag}
+  docker run -d --name ${CONTAINER_ID} ${image}:${tag}
 
   $LPN_GO_BINARY deploy nightly -f ${DIR}/scripts/resources/a.txt,${DIR}/scripts/resources/b.txt
 
@@ -119,7 +117,7 @@ function test_deploy_release() {
   image="${RELEASE_IMAGE}"
   tag="7-ce-ga5-tomcat-hsql"
 
-  docker run -d  --name ${CONTAINER_ID} ${image}:${tag}
+  docker run -d --name ${CONTAINER_ID} ${image}:${tag}
 
   create_deploy_folder ${tag}
 
@@ -151,10 +149,9 @@ function test_deploy_release_directory() {
 
   $LPN_GO_BINARY deploy release -d ${DIR}/scripts/resources
 
-  files=( $(find ${DIR}/scripts/resources -maxdepth 1 -not -type d -and -not -name '.*' -exec basename {} \;) )
+  files=($(find ${DIR}/scripts/resources -maxdepth 1 -not -type d -and -not -name '.*' -exec basename {} \;))
 
-  for file in "${files[@]}"
-  do
+  for file in "${files[@]}"; do
     exists=$(
       docker exec ${CONTAINER_ID} ls -l /usr/local/${RELEASE_HOME}/deploy | grep "${file}" | wc -l | xargs
     )
@@ -166,10 +163,9 @@ function test_deploy_release_directory() {
     fi
   done
 
-  directories=( $(find ${DIR}/scripts/resources -mindepth 1 -maxdepth 1 -type d -exec basename {} \;) )
+  directories=($(find ${DIR}/scripts/resources -mindepth 1 -maxdepth 1 -type d -exec basename {} \;))
 
-  for directory in "${directories[@]}"
-  do
+  for directory in "${directories[@]}"; do
     exists=$(
       docker exec ${CONTAINER_ID} ls -l /usr/local/${RELEASE_HOME}/deploy | grep "${directory}" | wc -l | xargs
     )
@@ -191,7 +187,7 @@ function test_deploy_release_multiple_files() {
   image="${RELEASE_IMAGE}"
   tag="7-ce-ga5-tomcat-hsql"
 
-  docker run -d  --name ${CONTAINER_ID} ${image}:${tag}
+  docker run -d --name ${CONTAINER_ID} ${image}:${tag}
 
   create_deploy_folder ${tag}
 
