@@ -36,82 +36,22 @@ func deployDirectory(image liferay.Image, dirPath string) {
 		log.Fatalln("The directory is not valid", err)
 	}
 
-	var onlyFiles []os.FileInfo
+	var onlyFilePaths []string
 
 	for _, f := range files {
 		if !f.Mode().IsDir() {
-			onlyFiles = append(onlyFiles, f)
+			onlyFilePaths = append(onlyFilePaths, path.Join(dirPath, f.Name()))
 		}
 	}
 
-	filesChannel := make(chan string, len(onlyFiles))
-	for _, f := range onlyFiles {
-		filesChannel <- path.Join(dirPath, f.Name())
-	}
-	close(filesChannel)
-
-	workers := 8
-	if len(files) < workers {
-		workers = len(onlyFiles)
-	}
-
-	errorChannel := make(chan error, 1)
-	resultChannel := make(chan bool, len(onlyFiles))
-
-	for i := 0; i < workers; i++ {
-		// Consume work from filesChannel. Loop will end when no more work.
-		for file := range filesChannel {
-			go deployFile(file, image, resultChannel, errorChannel)
-		}
-	}
-
-	// Collect results from workers
-
-	for _, file := range onlyFiles {
-		select {
-		case <-resultChannel:
-			log.Println("[" + file.Name() + "] deployed sucessfully to " + image.GetDeployFolder())
-		case err := <-errorChannel:
-			log.Println("Impossible to deploy the file to the container", err)
-		}
-	}
+	deployPaths(image, onlyFilePaths)
 }
 
 // deployFiles deploys files to the running container
 func deployFiles(image liferay.Image, path string) {
 	paths := strings.Split(path, ",")
 
-	filesChannel := make(chan string, len(paths))
-	for i := range paths {
-		filesChannel <- paths[i]
-	}
-	close(filesChannel)
-
-	workers := 8
-	if len(paths) < workers {
-		workers = len(paths)
-	}
-
-	errorChannel := make(chan error, 1)
-	resultChannel := make(chan bool, len(paths))
-
-	for i := 0; i < workers; i++ {
-		// Consume work from filesChannel. Loop will end when no more work.
-		for file := range filesChannel {
-			go deployFile(file, image, resultChannel, errorChannel)
-		}
-	}
-
-	// Collect results from workers
-
-	for i := 0; i < len(paths); i++ {
-		select {
-		case <-resultChannel:
-			log.Println("[" + paths[i] + "] deployed sucessfully to " + image.GetDeployFolder())
-		case err := <-errorChannel:
-			log.Println("Impossible to deploy the file to the container", err)
-		}
-	}
+	deployPaths(image, paths)
 }
 
 func deployFile(
@@ -140,6 +80,41 @@ func deployFile(
 	}
 
 	resultChannel <- true
+}
+
+// deployPaths deploys files to the running container
+func deployPaths(image liferay.Image, paths []string) {
+	filesChannel := make(chan string, len(paths))
+	for i := range paths {
+		filesChannel <- paths[i]
+	}
+	close(filesChannel)
+
+	workers := 8
+	if len(filesChannel) < workers {
+		workers = len(filesChannel)
+	}
+
+	errorChannel := make(chan error, 1)
+	resultChannel := make(chan bool, len(paths))
+
+	for i := 0; i < workers; i++ {
+		// Consume work from filesChannel. Loop will end when no more work.
+		for file := range filesChannel {
+			go deployFile(file, image, resultChannel, errorChannel)
+		}
+	}
+
+	// Collect results from workers
+
+	for i := 0; i < len(paths); i++ {
+		select {
+		case <-resultChannel:
+			log.Println("[" + paths[i] + "] deployed sucessfully to " + image.GetDeployFolder())
+		case err := <-errorChannel:
+			log.Println("Impossible to deploy the file to the container", err)
+		}
+	}
 }
 
 func validateArguments() {
