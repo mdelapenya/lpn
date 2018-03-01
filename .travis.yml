@@ -12,34 +12,18 @@ before_install:
   - curl -L -s https://github.com/golang/dep/releases/download/v0.4.1/dep-linux-amd64 -o $GOPATH/bin/dep
   - chmod +x $GOPATH/bin/dep
 
-env:
-  - COMMAND=checkContainer
-  - COMMAND=checkImage
-  - COMMAND=deploy
-  - COMMAND=pull
-  - COMMAND=rm
-  - COMMAND=run
-  - COMMAND=stop
+install:
+  - go build
 
-stages:
-  - build
-  - unit tests
-  - test
-  - release
+script:
+  - ./scripts/coverage.sh
+  - ./scripts/tests-functional.sh
 
-jobs:
-  include:
-    - stage: build
-      script: go build
-      env: STAGE=noTest
-    - stage: unit tests
-      script: ./scripts/coverage.sh
-      env: STAGE=noTest
-      after_success:
-        - bash <(curl -s https://codecov.io/bash)
-    - stage: test
-      script: ./scripts/tests-${COMMAND}.sh
-    - stage: release
-      env: STAGE=noTest
-      if: branch = master
-      script: .equinox/release.sh
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+deploy:
+ provider: script
+ script: cd $TRAVIS_BUILD_DIR && .equinox/release.sh
+ on:
+   branch: master
