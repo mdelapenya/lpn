@@ -58,6 +58,18 @@ function test_deploy_nightly_multiple_files() {
   $LPN_GO_BINARY rm
 }
 
+function test_deploy_nightly_no_flag_returns_error() {
+  echo "Test: test_deploy_nightly_no_flag_returns_error"
+  $LPN_GO_BINARY deploy nightly
+
+  if [[ "$?" == "1" ]]; then
+    echo "Deploy nightly invoked with no commands successfully."
+  else
+    echo "Deploy nightly invoked with no commands did not raise an error."
+    exit 1
+  fi
+}
+
 function test_deploy_release() {
   echo "Test: test_deploy_release"
   image="${RELEASE_IMAGE}"
@@ -110,12 +122,26 @@ function test_deploy_release_multiple_files() {
   $LPN_GO_BINARY rm
 }
 
+function test_deploy_release_no_flag_returns_error() {
+  echo "Test: test_deploy_release_no_flag_returns_error"
+  $LPN_GO_BINARY deploy release
+
+  if [[ "$?" == "1" ]]; then
+    echo "Deploy release invoked with no commands successfully."
+  else
+    echo "Deploy release invoked with no commands did not raise an error."
+    exit 1
+  fi
+}
+
 main() {
   test_deploy_nightly
   test_deploy_nightly_multiple_files
+  test_deploy_nightly_no_flag_returns_error
 
   test_deploy_release
   test_deploy_release_multiple_files
+  test_deploy_release_no_flag_returns_error
 }
 
 function create_deploy_folder() {

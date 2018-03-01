@@ -29,6 +29,10 @@ var deployCmd = &cobra.Command{
 
 // deployFiles deploys files to the running container
 func deployFiles(image liferay.Image, path string) {
+	if path == "" {
+		log.Fatalln("Path cannot be empty")
+	}
+
 	paths := strings.Split(path, ",")
 
 	filesChannel := make(chan string, len(paths))
