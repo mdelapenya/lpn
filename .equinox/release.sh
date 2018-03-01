@@ -1,6 +1,7 @@
 #!/bin/bash
 
-readonly VERSION=$(cat ../VERSION.txt)
+readonly DIR="$(realpath $(dirname ${BASH_SOURCE[0]}))"
+readonly VERSION=$(cat ${DIR}/../VERSION.txt)
 
 function main() {
   installEquinox
@@ -14,10 +15,10 @@ function installEquinox() {
 }
 
 function pushToEquinox() {
-  cat <<EOF >config.yaml
+  cat <<EOF >${DIR}/config.yaml
 app: app_dK5yVpq7ybd
-signing-key: equinox.key
-token: $(cat token)
+signing-key: ${DIR}/equinox.key
+token: $(cat ${DIR}/token)
 platforms: [
   darwin_amd64,
   linux_amd64,
@@ -26,7 +27,7 @@ platforms: [
 EOF
 
   equinox release \
-    --config="config.yaml" \
+    --config="${DIR}/config.yaml" \
     --version="$VERSION" \
     --channel="stable" \
     github.com/mdelapenya/lpn
