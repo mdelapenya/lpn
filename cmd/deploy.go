@@ -36,19 +36,27 @@ func deployDirectory(image liferay.Image, dirPath string) {
 		log.Fatalln("The directory is not valid", err)
 	}
 
-	filesChannel := make(chan string, len(files))
+	var onlyFiles []os.FileInfo
+
 	for _, f := range files {
+		if !f.Mode().IsDir() {
+			onlyFiles = append(onlyFiles, f)
+		}
+	}
+
+	filesChannel := make(chan string, len(onlyFiles))
+	for _, f := range onlyFiles {
 		filesChannel <- path.Join(dirPath, f.Name())
 	}
 	close(filesChannel)
 
 	workers := 8
 	if len(files) < workers {
-		workers = len(files)
+		workers = len(onlyFiles)
 	}
 
 	errorChannel := make(chan error, 1)
-	resultChannel := make(chan bool, len(files))
+	resultChannel := make(chan bool, len(onlyFiles))
 
 	for i := 0; i < workers; i++ {
 		// Consume work from filesChannel. Loop will end when no more work.
@@ -59,7 +67,7 @@ func deployDirectory(image liferay.Image, dirPath string) {
 
 	// Collect results from workers
 
-	for _, file := range files {
+	for _, file := range onlyFiles {
 		select {
 		case <-resultChannel:
 			log.Println("[" + file.Name() + "] deployed sucessfully to " + image.GetDeployFolder())
