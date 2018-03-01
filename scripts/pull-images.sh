@@ -5,11 +5,13 @@ set -o nounset
 
 readonly NIGHTLY_IMAGE="mdelapenya/liferay-portal-nightlies:latest"
 readonly RELEASE_IMAGE="mdelapenya/liferay-portal:7-ce-ga5-tomcat-hsql"
+readonly RELEASE_IMAGE_LATEST="mdelapenya/liferay-portal:latest"
 
 main() {
   cat <<EOF >.tmp_images
 ${NIGHTLY_IMAGE}
 ${RELEASE_IMAGE}
+${RELEASE_IMAGE_LATEST}
 EOF
 
   pull_images_concurrently "$(cat .tmp_images)"
@@ -35,7 +37,7 @@ pull_images_concurrently() {
   echo "INFO: Starting to pull images."
 
   while read -r image_name; do
-    printf "\n\e[1;31m Pushing: [$image_name] \e[0m\n"
+    printf "\n\e[1;31m Pulling: [$image_name] \e[0m\n"
     _pull_image $image_name &
     pidlist+=($!)
     images+=($image_name)
