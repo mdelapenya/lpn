@@ -42,6 +42,12 @@ var deployRelease = &cobra.Command{
 
 		release := liferay.Release{Tag: tag}
 
-		deployFiles(release, filePath)
+		if filePath != "" {
+			deployFiles(release, filePath)
+		}
+
+		if directoryPath != "" {
+			deployDirectory(release, directoryPath)
+		}
 	},
 }

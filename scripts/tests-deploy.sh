@@ -33,6 +33,33 @@ function test_deploy_nightly() {
   $LPN_GO_BINARY rm
 }
 
+function test_deploy_nightly_directory() {
+  echo "Test: test_deploy_nightly_directory"
+  image="${NIGHTLY_IMAGE}"
+  tag="latest"
+
+  docker run -d --name ${CONTAINER_ID} ${image}:${tag}
+
+  $LPN_GO_BINARY deploy nightly -d ${DIR}/scripts/resources
+
+  files=( $(ls ${DIR}/scripts/resources) )
+
+  for file in "${files[@]}"
+  do
+    exists=$(
+      docker exec ${CONTAINER_ID} ls -l /liferay/deploy | grep "${file}" | wc -l | xargs
+    )
+
+    if [[ "$exists" != "1" ]]; then
+      echo "File ${file} has not been deployed."
+      $LPN_GO_BINARY rm
+      exit 1
+    fi
+  done
+
+  $LPN_GO_BINARY rm
+}
+
 function test_deploy_nightly_multiple_files() {
   echo "Test: test_deploy_nightly_multiple_files"
   image="${NIGHTLY_IMAGE}"
@@ -96,6 +123,35 @@ function test_deploy_release() {
   $LPN_GO_BINARY rm
 }
 
+function test_deploy_release_directory() {
+  echo "Test: test_deploy_release_directory"
+  image="${RELEASE_IMAGE}"
+  tag="7-ce-ga5-tomcat-hsql"
+
+  docker run -d --name ${CONTAINER_ID} ${image}:${tag}
+
+  create_deploy_folder ${tag}
+
+  $LPN_GO_BINARY deploy release -d ${DIR}/scripts/resources
+
+  files=( $(ls ${DIR}/scripts/resources) )
+
+  for file in "${files[@]}"
+  do
+    exists=$(
+      docker exec ${CONTAINER_ID} ls -l /usr/local/${RELEASE_HOME}/deploy | grep "${file}" | wc -l | xargs
+    )
+
+    if [[ "$exists" != "1" ]]; then
+      echo "File ${file} has not been deployed."
+      $LPN_GO_BINARY rm
+      exit 1
+    fi
+  done
+
+  $LPN_GO_BINARY rm
+}
+
 function test_deploy_release_multiple_files() {
   echo "Test: test_deploy_release_multiple_files"
   image="${RELEASE_IMAGE}"
@@ -136,10 +192,12 @@ function test_deploy_release_no_flag_returns_error() {
 
 main() {
   test_deploy_nightly
+  test_deploy_nightly_directory
   test_deploy_nightly_multiple_files
   test_deploy_nightly_no_flag_returns_error
 
   test_deploy_release
+  test_deploy_release_directory
   test_deploy_release_multiple_files
   test_deploy_release_no_flag_returns_error
 }
