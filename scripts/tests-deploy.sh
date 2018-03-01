@@ -42,7 +42,7 @@ function test_deploy_nightly_directory() {
 
   $LPN_GO_BINARY deploy nightly -d ${DIR}/scripts/resources
 
-  files=( $(ls ${DIR}/scripts/resources) )
+  files=( $(find ${DIR}/scripts/resources -maxdepth 1 -not -type d -and -not -name '.*' -exec basename {} \;) )
 
   for file in "${files[@]}"
   do
@@ -54,6 +54,23 @@ function test_deploy_nightly_directory() {
       echo "File ${file} has not been deployed."
       $LPN_GO_BINARY rm
       exit 1
+    fi
+  done
+
+  directories=( $(find ${DIR}/scripts/resources -mindepth 1 -maxdepth 1 -type d -exec basename {} \;) )
+
+  for directory in "${directories[@]}"
+  do
+    exists=$(
+      docker exec ${CONTAINER_ID} ls -l /liferay/deploy | grep "${directory}" | wc -l | xargs
+    )
+
+    if [[ "$exists" != "0" ]]; then
+      echo "Directory ${directory} has been deployed, which was wrong."
+      $LPN_GO_BINARY rm
+      exit 1
+    else
+      echo "Directory ${directory} skipped. Cool!."
     fi
   done
 
@@ -134,7 +151,7 @@ function test_deploy_release_directory() {
 
   $LPN_GO_BINARY deploy release -d ${DIR}/scripts/resources
 
-  files=( $(ls ${DIR}/scripts/resources) )
+  files=( $(find ${DIR}/scripts/resources -maxdepth 1 -not -type d -and -not -name '.*' -exec basename {} \;) )
 
   for file in "${files[@]}"
   do
@@ -146,6 +163,23 @@ function test_deploy_release_directory() {
       echo "File ${file} has not been deployed."
       $LPN_GO_BINARY rm
       exit 1
+    fi
+  done
+
+  directories=( $(find ${DIR}/scripts/resources -mindepth 1 -maxdepth 1 -type d -exec basename {} \;) )
+
+  for directory in "${directories[@]}"
+  do
+    exists=$(
+      docker exec ${CONTAINER_ID} ls -l /usr/local/${RELEASE_HOME}/deploy | grep "${directory}" | wc -l | xargs
+    )
+
+    if [[ "$exists" != "0" ]]; then
+      echo "Directory ${directory} has been deployed, which was wrong."
+      $LPN_GO_BINARY rm
+      exit 1
+    else
+      echo "Directory ${directory} skipped. Cool!."
     fi
   done
 
