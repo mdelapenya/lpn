@@ -10,7 +10,7 @@ function main() {
 function installEquinox() {
   sudo apt-get install realpath -y
   curl -O https://bin.equinox.io/c/mBWdkfai63v/release-tool-stable-linux-amd64.zip
-  unzip release-tool-stable-darwin-amd64.zip -d /usr/local/bin
+  unzip release-tool-stable-linux-amd64.zip -d /usr/local/bin
 }
 
 function pushToEquinox() {
