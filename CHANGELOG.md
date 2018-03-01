@@ -3,7 +3,8 @@
 <a name="0.3.0"></a>
 ### 0.3.0
 #### :rocket: Enhancements
-* Add :sparkles:`deploy`:sparkles: command, which deploys files to Liferay Portal's deploy directory
+* Add :sparkles:`deploy -f`:sparkles: command, which deploys files to Liferay Portal's deploy directory
+* Add :sparkles:`deploy -t`:sparkles: command, which deploys the contents of directory to Liferay Portal's deploy directory
 * Add `dep` as dependency manager
 * Add `stop` command
 * Add `codecov` support
