@@ -5,6 +5,13 @@ language: go
 services:
   - docker
 
+go:
+  - 1.9.x
+
+before_install:
+  - curl -L -s https://github.com/golang/dep/releases/download/v0.4.1/dep-linux-amd64 -o $GOPATH/bin/dep
+  - chmod +x $GOPATH/bin/dep
+
 env:
   - COMMAND=checkContainer
   - COMMAND=checkImage
@@ -14,25 +21,25 @@ env:
   - COMMAND=run
   - COMMAND=stop
 
-go:
-  - 1.9.x
+stages:
+  - build
+  - unit tests
+  - test
+  - release
 
-before_install:
-  - curl -L -s https://github.com/golang/dep/releases/download/v0.4.1/dep-linux-amd64 -o $GOPATH/bin/dep
-  - chmod +x $GOPATH/bin/dep
-
-install:
-  - go build
-
-script:
-  - ./scripts/coverage.sh
-  - ./scripts/tests-${COMMAND}.sh
-
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
-
-deploy:
- provider: script
- script: cd $TRAVIS_BUILD_DIR && .equinox/release.sh
- on:
-   branch: master
+jobs:
+  include:
+    - stage: build
+      script: go build
+      env: STAGE=noTest
+    - stage: unit tests
+      script: ./scripts/coverage.sh
+      env: STAGE=noTest
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
+    - stage: test
+      script: ./scripts/tests-${COMMAND}.sh
+    - stage: release
+      env: STAGE=noTest
+      if: branch = master
+      script: .equinox/release.sh
