@@ -61,7 +61,7 @@ function main() {
 }
 
 function pushToEquinox() {
-  cat <<EOF >$DIR/config.yaml
+  cat <<EOF >.equinox/config.yaml
 app: app_dK5yVpq7ybd
 signing-key: .equinox/equinox.key
 token: $(cat .equinox/token)
@@ -73,8 +73,8 @@ platforms: [
 EOF
 
   equinox release \
-    --config="$DIR/config.yaml" \
-    --version="$(cat $DIR/../VERSION.txt)" \
+    --config=".equinox/config.yaml" \
+    --version="$(VERSION)" \
     --channel="stable" \
     github.com/mdelapenya/lpn
 
