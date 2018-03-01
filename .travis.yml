@@ -15,6 +15,7 @@ before_install:
   - chmod +x $GOPATH/bin/dep
 
 install:
+  - ./scripts/pull-images.sh
   - go build
 
 script:
