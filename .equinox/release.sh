@@ -1,6 +1,7 @@
 #!/bin/bash
 
 readonly DIR="$(realpath $(dirname ${BASH_SOURCE[0]}))"
+readonly EQUINOX_APP_ID=app_dK5yVpq7ybd
 readonly VERSION=$(cat ${DIR}/../VERSION.txt)
 
 function main() {
@@ -15,10 +16,12 @@ function installEquinox() {
 }
 
 function pushToEquinox() {
+  openssl aes-256-cbc -K $encrypted_2aabfcb2deac_key -iv $encrypted_2aabfcb2deac_iv -in equinox.key.enc -out equinox.key -d
+
   cat <<EOF >${DIR}/config.yaml
-app: app_dK5yVpq7ybd
+app: ${EQUINOX_APP_ID}
 signing-key: ${DIR}/equinox.key
-token: $(cat ${DIR}/token)
+token: ${EQUINOX_TOKEN}
 platforms: [
   darwin_amd64,
   linux_amd64,
