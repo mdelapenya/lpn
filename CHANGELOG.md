@@ -9,6 +9,7 @@
 * Add `stop` command
 * Add `codecov` support
 * Add functional tests for the CLI :tada:
+* Use BSD-3 license
 
 <a name="0.2.0"></a>
 ### 0.2.0
