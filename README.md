@@ -38,6 +38,7 @@ Available Commands:
   checkImage     Checks if the proper Liferay Portal image has been pulled by lpn (Liferay Portal Nook)
   deploy         Deploys a file to Liferay Portal's deploy folder in the container run by lpn
   help           Help about any command
+  license        Print the license of lpn
   log            Displays logs for the Liferay Portal instance
   pull           Pulls a Liferay Portal Docker image
   rm             Removes the Liferay Portal instance
@@ -185,6 +186,19 @@ Usage:
 
 Flags:
   -h, --help   help for help
+```
+
+### license
+
+```shell
+$ lpn license -h
+All software has a license. This is lpn (Liferay Portal Nook)
+
+Usage:
+  lpn license [flags]
+
+Flags:
+  -h, --help   help for license
 ```
 
 ### log
