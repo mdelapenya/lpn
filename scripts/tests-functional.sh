@@ -1,7 +1,7 @@
 #!/bin/bash
 
 readonly DIR="$(realpath $(dirname ${BASH_SOURCE[0]}))"
-readonly COMMANDS=( deploy rm run stop )
+readonly COMMANDS=( deploy run stop )
 
 for command in "${COMMANDS[@]}"; do
     echo "-------------------------------------------------"
