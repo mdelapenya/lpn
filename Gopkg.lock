@@ -33,12 +33,6 @@
   version = "v1.0.0"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/ryanuber/go-license"
-  packages = ["."]
-  revision = "3878fc8f33ea4637cf02cf8a0bf926288a246ceb"
-
-[[projects]]
   name = "github.com/spf13/cobra"
   packages = ["."]
   revision = "7b2c5ac9fc04fc5efafb60700713d4fa609b777b"
@@ -65,6 +59,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "bc9976dadd10643ead1bf0bef7a84dbdc7eae20c8e01e589c60c79486ed19937"
+  inputs-digest = "054f4e22e62fee858a3ec10805b291e63865e5baf46ccdb5b82eb69cd3029310"
   solver-name = "gps-cdcl"
   solver-version = 1
