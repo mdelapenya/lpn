@@ -1,7 +1,7 @@
 #!/bin/bash
 
 readonly DIR="$(realpath $(dirname ${BASH_SOURCE[0]}))"
-readonly COMMANDS=( checkContainer checkImage deploy pull rm run stop )
+readonly COMMANDS=( checkImage deploy pull rm run stop )
 
 for command in "${COMMANDS[@]}"; do
     echo "-------------------------------------------------"
