@@ -24,11 +24,9 @@ func CheckDockerContainerExists() bool {
 
 	err := shell.Run(dockerBinary, cmdArgs)
 	if err != nil {
-		log.Println("The container [" + DockerContainerName + "] is NOT running.")
 		return false
 	}
 
-	log.Println("The container [" + DockerContainerName + "] is running.")
 	return true
 }
 
@@ -109,6 +107,7 @@ func RemoveDockerContainer() error {
 // RunDockerImage runs the image, setting the HTTP port for bundle and debug mode if needed
 func RunDockerImage(dockerImage string, httpPort int, enableDebug bool, debugPort int) error {
 	if CheckDockerContainerExists() {
+		log.Println("The container [" + DockerContainerName + "] is not running.")
 		_ = RemoveDockerContainer()
 	}
 
