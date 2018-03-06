@@ -27,7 +27,15 @@ func TestGetLiferayHomeReleaseLatest(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("/usr/local/liferay-ce-portal-7.0-ga5", release.GetLiferayHome())
+	assert.Equal("/liferay", release.GetLiferayHome())
+}
+
+func TestGetLiferayHomeRelease7_1M1(t *testing.T) {
+	release := Release{Tag: "7.1-ce-m1-tomcat-hsql"}
+
+	assert := assert.New(t)
+
+	assert.Equal("/liferay", release.GetLiferayHome())
 }
 
 func TestGetLiferayHomeRelease7Ga5(t *testing.T) {
