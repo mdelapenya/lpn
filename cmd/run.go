@@ -47,4 +47,6 @@ func RunDockerImage(
 	if err != nil {
 		log.Fatalln("Impossible to run the container")
 	}
+
+	log.Println("The container [" + docker.DockerContainerName + "] has been run sucessfully")
 }
