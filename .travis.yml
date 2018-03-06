@@ -21,7 +21,7 @@ install:
 
 script:
   - ./scripts/coverage.sh
-  - ./scripts/tests-functional.sh
+  - mv ./lpn bin/lpn && cucumber -r features
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
