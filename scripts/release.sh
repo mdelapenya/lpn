@@ -3,6 +3,12 @@
 readonly DIR="$(realpath $(dirname ${BASH_SOURCE[0]}))"
 readonly VERSION=$(cat ./VERSION.txt)
 
+function bind_static_files() {
+  go-bindata -pkg assets -o assets/license/license.go ./LICENSE.txt
+  go-bindata -pkg assets -o assets/version/version.go ./VERSION.txt
+  echo ">>> LICENSE and VERSION files bound into the binary sucessfully"
+}
+
 function git_branch_name() {
   echo $(git symbolic-ref --short HEAD)
 }
@@ -61,6 +67,8 @@ function main() {
 }
 
 function release() {
+  bind_static_files
+
   gitChecks=$(git_checks)
 
   if [[ "$gitChecks" != "0" ]]; then
