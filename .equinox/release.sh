@@ -34,7 +34,7 @@ EOF
 
   if [[ "$BRANCH" == "develop" ]]; then
     CHANNEL="unstable"
-    VERSION="$VERSION-snaphot"
+    VERSION="$VERSION-snapshot"
   fi
 
   equinox release \
