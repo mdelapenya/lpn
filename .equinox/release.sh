@@ -4,6 +4,10 @@ readonly DIR="$(realpath $(dirname ${BASH_SOURCE[0]}))"
 readonly EQUINOX_APP_ID=app_dK5yVpq7ybd
 readonly VERSION=$(cat ${DIR}/../VERSION.txt)
 
+function git_branch_name() {
+  echo $(git symbolic-ref --short HEAD)
+}
+
 function main() {
   installEquinox
   pushToEquinox
@@ -29,10 +33,18 @@ platforms: [
 ]
 EOF
 
+  CHANNEL="stable"
+
+  branch=$(git_branch_name)
+  if [[ "$branch" == "develop" ]]; then
+    CHANNEL="unstable"
+    VERSION="$VERSION-snaphot"
+  fi
+
   equinox release \
     --config="${DIR}/config.yaml" \
     --version="$VERSION" \
-    --channel="stable" \
+    --channel="$CHANNEL" \
     github.com/mdelapenya/lpn
 
   echo ">>> Release $VERSION pushed to Equinox successfully."
