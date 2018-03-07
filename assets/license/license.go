@@ -83,7 +83,7 @@ func licenseTxt() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "LICENSE.txt", size: 1512, mode: os.FileMode(420), modTime: time.Unix(1520240954, 0)}
+	info := bindataFileInfo{name: "LICENSE.txt", size: 1512, mode: os.FileMode(420), modTime: time.Unix(1520776257, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
