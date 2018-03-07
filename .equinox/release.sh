@@ -3,10 +3,7 @@
 readonly DIR="$(realpath $(dirname ${BASH_SOURCE[0]}))"
 readonly EQUINOX_APP_ID=app_dK5yVpq7ybd
 readonly VERSION=$(cat ${DIR}/../VERSION.txt)
-
-function git_branch_name() {
-  echo $(git symbolic-ref --short HEAD)
-}
+readonly BRANCH="${TRAVIS_BRANCH:-develop}"
 
 function main() {
   installEquinox
@@ -35,8 +32,7 @@ EOF
 
   CHANNEL="stable"
 
-  branch=$(git_branch_name)
-  if [[ "$branch" == "develop" ]]; then
+  if [[ "$BRANCH" == "develop" ]]; then
     CHANNEL="unstable"
     VERSION="$VERSION-snaphot"
   fi
