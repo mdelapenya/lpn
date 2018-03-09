@@ -58,7 +58,16 @@ function getChangelogMarkup(changelogElement, outputArray, label, emoji) {
 </h4>`;
 
     if (!changelogElement || changelogElement.length == 0) {
-        return header + `Nothing interesting here`;
+        const nothing = `<div class="alert alert-info" role="alert">
+    <span class="alert-indicator">
+        <svg aria-hidden="true" class="lexicon-icon lexicon-icon-info-circle">
+            <use xlink:href="/css/icons.svg#info-circle"></use>
+        </svg>
+    </span>
+    <strong class="lead">Ups!</strong> Nothing interesting here.
+</div>`;
+
+        return header + nothing;
     }
 
     $.each(changelogElement, function(id, element) {
