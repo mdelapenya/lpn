@@ -26,7 +26,7 @@ function getReleaseHtml(index, release) {
                     <use xlink:href="/css/icons.svg#simulation-menu-closed" />
                 </svg>
             </div>
-            <div class="timeline-item-label">` + release.commitDate + `</div>
+            <div class="timeline-item-label"><a href="https://github.com/mdelapenya/lpn/releases/tag/` + release.version + `" target="_blank">` + release.releaseDate + `</a></div>
         </a>
         <div aria-labelledby="headingTimelineSpacing` + index + `" class="collapse panel-collapse" id="panelCollapseTimelineSpacing` + index + `" role="tabpanel">
             <div id="panelBody` + index + `" class="panel-body">
