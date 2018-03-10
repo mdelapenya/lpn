@@ -30,7 +30,7 @@ function getReleaseHtml(index, release) {
         </a>
         <div aria-labelledby="headingTimelineSpacing` + index + `" class="collapse panel-collapse" id="panelCollapseTimelineSpacing` + index + `" role="tabpanel">
             <div id="panelBody` + index + `" class="panel-body">
-                ` + getChangelog(index, release) + `
+                ` + getChangelog(release) + `
             </div>
         </div>
     </div>
@@ -39,7 +39,7 @@ function getReleaseHtml(index, release) {
     return markup;
 }
 
-function getChangelog(index, release) {
+function getChangelog(release) {
     let changelog = release.changelog;
     let enhacements = [];
     let breakings = [];
