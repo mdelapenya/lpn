@@ -49,7 +49,7 @@ function getChangelog(release) {
     changelogHtml += getChangelogMarkup(changelog.breakings, breakings, "Breaking Changes", "skull");
     changelogHtml += getChangelogMarkup(changelog.fixes, fixes, "Fixes", "ant");
 
-    return changelogHtml;
+    return `<h3><a aria-hidden="true">Changelog</a></h3>` + changelogHtml;
 }
 
 function getChangelogMarkup(changelogElement, outputArray, label, emoji) {
