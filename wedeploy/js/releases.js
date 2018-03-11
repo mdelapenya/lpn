@@ -31,6 +31,7 @@ function getReleaseHtml(index, release) {
         <div aria-labelledby="headingTimelineSpacing` + index + `" class="collapse panel-collapse" id="panelCollapseTimelineSpacing` + index + `" role="tabpanel">
             <div id="panelBody` + index + `" class="panel-body">
                 ` + getChangelog(release) + `
+                ` + getDownloadLinks(release) + `
             </div>
         </div>
     </div>
@@ -79,4 +80,33 @@ function getChangelogMarkup(changelogElement, outputArray, label, emoji) {
 
 function getDescription(change) {
     return `<li>` + change.description + `</li>`;
+}
+
+function getDownloadLinks(release) {
+    const header = `<h3><a aria-hidden="true"> <i class="em em-heart"></i> Downloads</a></h3>`;
+
+    const oss = ['darwin', 'linux', 'windows'];
+    const platforms = ['386', 'amd64'];
+
+    let basePath = `/bin/` + release.channel + `/` + release.version;
+
+    let linksHtml = '';
+
+    $.each(oss, function(id, os) {
+        let extension = '';
+
+        if (os === 'windows') {
+            extension = '.exe';
+        }
+
+        $.each(platforms, function(id, platform) {
+            let url = basePath + `/` + os + `/` + platform + `/lpn` + extension;
+
+            linksHtml += `<li>
+    <a href='` + url + `' target='_blank'>` + os + ` - ` + platform + `</a>
+</li>`
+        });
+    });
+
+    return header + `<ul>` + linksHtml + `</ul>`;
 }
