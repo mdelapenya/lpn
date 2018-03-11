@@ -1,0 +1,129 @@
+[
+    {
+        "channel": "unstable",
+        "version": "0.4.0-snapshot",
+        "releaseDate": "2018-03-02",
+        "changelog": {
+            "enhacements": [
+                {
+                    "description": "I1"
+                },
+                {
+                    "description": "I2"
+                }
+            ],
+            "breaking": [
+                {
+                    "description": "B1"
+                },
+                {
+                    "description": "B2"
+                }
+            ],
+            "fixes": [
+                {
+                    "description": "F1"
+                },
+                {
+                    "description": "F2"
+                }
+            ]
+        }
+    },
+    {
+        "channel": "stable",
+        "version": "0.3.0",
+        "releaseDate": "2018-03-02 00:57",
+        "changelog": {
+            "enhacements": [
+                {
+                    "description": "Add <i class='em em-sparkles'></i>deploy -f<i class='em em-sparkles'></i> command, which deploys files to Liferay Portal's deploy directory."
+                },
+                {
+                    "description": "Add <i class='em em-sparkles'></i>deploy -d<i class='em em-sparkles'></i> command, which deploys the contents of directory to Liferay Portal's deploy directory."
+                },
+                {
+                    "description": "Add dep as dependency manager."
+                },
+                {
+                    "description": "Add stop command."
+                },
+                {
+                    "description": "Add codecov support."
+                },
+                {
+                    "description": "Add functional tests for the CLI <i class='em em-tada'></i>."
+                },
+                {
+                    "description": "Use BSD-3 license."
+                }
+            ]
+        }
+    },
+    {
+        "channel": "stable",
+        "version": "0.2.0",
+        "releaseDate": "2018-02-19 12:09",
+        "changelog": {
+            "enhacements": [
+                {
+                    "description": "Support running releases of Liferay Portal."
+                }
+            ]
+        }
+    },
+    {
+        "channel": "stable",
+        "version": "0.1.2",
+        "releaseDate": "2018-02-16 09:40",
+        "changelog": {
+            "enhacements": [
+                {
+                    "description": "Add a flag for 'run' command to set up the 'debugPort' to use when debugging."
+                },
+                {
+                    "description": "Support for <i class='em em-sparkles'></i><strong>debug mode</strong><i class='em em-sparkles'></i>"
+                },
+                {
+                    "description": "Add a flag for 'checkImage' command to set up the 'tag' to be checked."
+                },
+                {
+                    "description": "Include Windows support."
+                }
+            ]
+        }
+    },
+    {
+        "channel": "stable",
+        "version": "0.1.1",
+        "releaseDate": "2018-02-15 20:39",
+        "changelog": {
+            "enhacements": [
+                {
+                    "description": "Add a flag for 'run' command to set up the 'httpPort' to be used"
+                },
+                {
+                    "description": "Minor improvement: reorganise code to be more reusable."
+                },
+                {
+                    "description": "Modularise using `Cobra` as command manager."
+                },
+                {
+                    "description": "Add <strong>update</strong>, <strong>log</strong>, <strong>rm</strong>, <strong>pull</strong>, <strong>run</strong>, <strong>version</strong>, <strong>checkImage</strong> and <strong>checkContainer</strong> commands."
+                }
+            ]
+        }
+    },
+    {
+        "channel": "stable",
+        "version": "0.1.0",
+        "releaseDate": "2018-02-15 10:54",
+        "changelog": {
+            "enhacements": [
+                {
+                    "description": "Run a Docker container from Liferay Portal nightly builds."
+                }
+            ]
+        }
+    }
+]
