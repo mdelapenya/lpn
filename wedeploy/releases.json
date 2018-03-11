@@ -2,6 +2,7 @@
     {
         "channel": "unstable",
         "version": "0.4.0-snapshot",
+        "equinox": false,
         "releaseDate": "2018-03-02",
         "changelog": {
             "enhacements": [
@@ -33,6 +34,7 @@
     {
         "channel": "stable",
         "version": "0.3.0",
+        "equinox": true,
         "releaseDate": "2018-03-02 00:57",
         "changelog": {
             "enhacements": [
@@ -63,6 +65,7 @@
     {
         "channel": "stable",
         "version": "0.2.0",
+        "equinox": true,
         "releaseDate": "2018-02-19 12:09",
         "changelog": {
             "enhacements": [
@@ -75,6 +78,7 @@
     {
         "channel": "stable",
         "version": "0.1.2",
+        "equinox": false,
         "releaseDate": "2018-02-16 09:40",
         "changelog": {
             "enhacements": [
@@ -96,6 +100,7 @@
     {
         "channel": "stable",
         "version": "0.1.1",
+        "equinox": true,
         "releaseDate": "2018-02-15 20:39",
         "changelog": {
             "enhacements": [
@@ -117,6 +122,7 @@
     {
         "channel": "stable",
         "version": "0.1.0",
+        "equinox": true,
         "releaseDate": "2018-02-15 10:54",
         "changelog": {
             "enhacements": [
