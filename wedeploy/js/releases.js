@@ -83,6 +83,12 @@ function getDescription(change) {
 }
 
 function getDownloadLinks(release) {
+    if (release.equinox) {
+        const equinoxUrl = 'https://dl.equinox.io/mdelapenya/lpn/stable';
+
+        return `<a href='` + equinoxUrl + `' target='_blank'>Download from Equinox</a>`;
+    }
+
     const header = `<h3><a aria-hidden="true"> <i class="em em-heart"></i> Downloads</a></h3>`;
 
     const oss = ['darwin', 'linux', 'windows'];
