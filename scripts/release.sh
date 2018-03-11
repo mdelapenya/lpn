@@ -1,12 +1,40 @@
 #!/bin/bash
 
+readonly BRANCH="${TRAVIS_BRANCH:-develop}"
 readonly DIR="$(realpath $(dirname ${BASH_SOURCE[0]}))"
-readonly VERSION=$(cat ./VERSION.txt)
+readonly GO_VERSION="1.9"
+readonly GO_WORKSPACE="/usr/local/go/src/github.com/mdelapenya/lpn"
+readonly RELEASE_VERSION=$(cat ./VERSION.txt)
+
+CHANNEL="unstable"
+VERSION="$RELEASE_VERSION-snapshot"
+
+if [[ "$BRANCH" == "master" ]]; then
+  channel="stable"
+  VERSION="$RELEASE_VERSION"
+fi
 
 function bind_static_files() {
   go-bindata -pkg assets -o assets/license/license.go ./LICENSE.txt
   go-bindata -pkg assets -o assets/version/version.go ./VERSION.txt
   echo ">>> LICENSE and VERSION files bound into the binary sucessfully"
+}
+
+function build_binaries() {
+  for GOOS in darwin linux windows; do
+    extension=""
+
+    if [[ "$GOOS" == "windows" ]]; then
+        extension=".exe"
+    fi
+
+    for GOARCH in 386 amd64; do
+        echo ">>> Building for ${GOOS}/${GOARCH}"
+        docker run --rm -v "$(pwd)":${GO_WORKSPACE} -w ${GO_WORKSPACE} \
+            -e GOOS=${GOOS} -e GOARCH=${GOARCH} golang:${GO_VERSION} \
+            go build -v -o ${GO_WORKSPACE}/wedeploy/bin/${CHANNEL}/${VERSION}/${GOOS}/${GOARCH}/lpn${extension}
+    done
+  done
 }
 
 function git_branch_name() {
@@ -33,8 +61,8 @@ function git_checks() {
   fi
 
   branch=$(git_branch_name)
-  if [[ "$branch" != "master" ]]; then
-    echo "Please create a release from master branch. You are actually in '$branch'."
+  if [[ "$branch" != "master" || "$branch" != "develop" ]]; then
+    echo "Please create a release from master or develop branch. You are actually in '$branch'."
     exit 1
   fi
 
@@ -66,6 +94,12 @@ function main() {
   esac
 }
 
+function publish_binaries() {
+  cd wedeploy
+  we login --no-browser
+  we deploy -p lpn
+}
+
 function release() {
   bind_static_files
 
@@ -89,6 +123,14 @@ function release() {
   git push origin master --tags
 
   echo ">>> Release $VERSION pushed to Github successfully."
+
+  build_binaries
+
+  echo ">>> Binaries for $VERSION built successfully."
+
+  publish_binaries
+
+  echo ">>> Binaries for $VERSION published to WeDeploy successfully."
 }
 
 main
