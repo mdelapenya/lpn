@@ -14193,7 +14193,7 @@ mark,
 
 .nav.nav-tabs.nav-code-tabs > li.active > button {
   border-width: 0;
-  color: #B3472D; }
+  color: #007BFF; }
 
 #clay-custom-controls-stacked .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-custom-radio .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-custom-checkbox .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-select-element .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-lexicon-icons .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-sticker-position .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-stickers-variantions .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-sticker-sizes .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-sticker-colors .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-progress-bar .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-modal-configurations .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-modal .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-management-bar .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-list .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-list-sections .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-labels .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-labels-size .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-labels-variations .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-dropdown .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-dropdown-sorting-actions .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-alert-embedded .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-image-card .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-file-card .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-user-card .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-folder-card .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-alert-toast .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-alert-stripe .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-alert-mixed-html-content .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-alert-dismissible .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-navbar-navigation-bar .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-button .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button, #clay-button-sizes .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button,
 #clay-badges .nav.nav-tabs.nav-code-tabs li:nth-of-type(2) > button {
@@ -14271,7 +14271,7 @@ mark,
   padding-top: 30px;
   transition: all 0.4s ease-in-out; }
   .navbar-clay-site.scroll {
-    background-color: #B3472D;
+    background-color: #007BFF;
     box-shadow: 0 2px 6px rgba(62, 28, 20, 0.2);
     padding: 13.992px; }
   .navbar-clay-site .navbar-brand span {
@@ -14373,7 +14373,7 @@ mark,
   transition: all 0.4s; }
   .home .card:hover {
     background-color: #FFF6F5;
-    border-color: #B3472D;
+    border-color: #007BFF;
     box-shadow: 6px 9px 36px rgba(48, 49, 63, 0.2);
     transform: translateY(-3px); }
   .home .card h2 {
@@ -14398,7 +14398,7 @@ mark,
     width: 98px; }
 
 .intro {
-  background-color: #B3472D;
+  background-color: #007BFF;
   background-image: url(/images/home/patternbg.svg);
   background-size: auto;
   color: #FFF;
@@ -14421,7 +14421,7 @@ mark,
     padding: 18px 64px; }
   .intro .btn-light {
     border-color: #FFF;
-    color: #B3472D;
+    color: #007BFF;
     font-size: 13px;
     letter-spacing: 1.5px;
     line-height: 24px;
@@ -14479,7 +14479,7 @@ mark,
   .contact-us .media-body p {
     line-height: 1.5; }
   .contact-us .media-body a {
-    border-bottom: 5px solid #B3472D;
+    border-bottom: 5px solid #007BFF;
     color: #393A4A;
     font-weight: 700;
     padding-bottom: 4px;
@@ -14509,7 +14509,7 @@ mark,
       height: 60px;
       margin: 32px 0 40px; }
     .link-blocks .card a {
-      border-bottom: 3px solid #B3472D;
+      border-bottom: 3px solid #007BFF;
       color: #FFF;
       display: inline-block;
       font-weight: 700;
