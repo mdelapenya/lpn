@@ -61,7 +61,7 @@ function git_checks() {
   fi
 
   branch=$(git_branch_name)
-  if [[ "$branch" != "master" || "$branch" != "develop" ]]; then
+  if [[ "$branch" != "master" ]] && [[ "$branch" != "develop" ]]; then
     echo "Please create a release from master or develop branch. You are actually in '$branch'."
     exit 1
   fi
