@@ -110,6 +110,11 @@ function release() {
     exit 1
   fi
 
+  if [[ "$VERSION" == "$RELEASE_VERSION-snapshot" ]]; then
+    git tag -d $VERSION
+    git push origin :$VERSION
+  fi
+
   result=$(git tag "$VERSION")
 
   if [[ "$result" != "" ]]; then
