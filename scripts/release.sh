@@ -1,6 +1,10 @@
 #!/bin/bash
 
-readonly BRANCH="${TRAVIS_BRANCH:-develop}"
+function git_branch_name() {
+  echo $(git symbolic-ref --short HEAD)
+}
+
+readonly BRANCH="${TRAVIS_BRANCH:-$(git_branch_name)}"
 readonly DIR="$(realpath $(dirname ${BASH_SOURCE[0]}))"
 readonly GO_VERSION="1.9"
 readonly GO_WORKSPACE="/usr/local/go/src/github.com/mdelapenya/lpn"
@@ -35,10 +39,6 @@ function build_binaries() {
             go build -v -o ${GO_WORKSPACE}/wedeploy/bin/${CHANNEL}/${VERSION}/${GOOS}/${GOARCH}/lpn${extension}
     done
   done
-}
-
-function git_branch_name() {
-  echo $(git symbolic-ref --short HEAD)
 }
 
 function git_checks() {
