@@ -23,6 +23,10 @@ $ brew install lpn
 
 You have to install Docker on your machine first. Check [this guide](https://docs.docker.com/install).
 
+## Downloads and Changelog
+
+Please visit [downloads page](https://releases-lpn.wedeploy.io/index.html) to get `lpn` releases.
+
 ## What does it do?
 
 ```shell
