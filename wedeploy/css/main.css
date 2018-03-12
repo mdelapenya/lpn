@@ -14399,7 +14399,7 @@ mark,
 
 .intro {
   background-color: #007BFF;
-  background-image: url(/images/home/patternbg.svg);
+  background-image: url(/images/patternbg.svg);
   background-size: auto;
   color: #FFF;
   margin-bottom: 32px;
@@ -14468,7 +14468,7 @@ mark,
 .contact-us {
   background-attachment: fixed;
   background-color: #FFF;
-  background-image: url(/images/home/bg_white.svg);
+  background-image: url(/images/bg_white.svg);
   background-position: center;
   padding: 96px 0; }
   @media (min-width: 576px) {
