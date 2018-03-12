@@ -110,6 +110,10 @@ function release() {
     exit 1
   fi
 
+  build_binaries
+
+  echo ">>> Binaries for $VERSION built successfully."
+
   if [[ "$VERSION" == "$RELEASE_VERSION-snapshot" ]]; then
     git tag -d $VERSION
     git push origin :$VERSION
@@ -128,10 +132,6 @@ function release() {
   git push origin $BRANCH --tags
 
   echo ">>> Release $VERSION pushed to Github successfully."
-
-  build_binaries
-
-  echo ">>> Binaries for $VERSION built successfully."
 
   publish_binaries
 
