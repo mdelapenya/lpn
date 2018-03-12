@@ -31,8 +31,3 @@ deploy:
  script: cd $TRAVIS_BUILD_DIR/.equinox && ./release.sh
  on:
    branch: master
-deploy:
- provider: script
- script: cd $TRAVIS_BUILD_DIR/.equinox && ./release.sh
- on:
-   branch: develop
