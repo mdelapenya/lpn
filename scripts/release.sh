@@ -125,7 +125,7 @@ function release() {
     echo ">>> Git tag $VERSION created successfully."
   fi
 
-  git push origin master --tags
+  git push origin $BRANCH --tags
 
   echo ">>> Release $VERSION pushed to Github successfully."
 
