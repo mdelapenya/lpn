@@ -26,7 +26,7 @@ function getReleaseHtml(index, release) {
                     <use xlink:href="/css/icons.svg#simulation-menu-closed" />
                 </svg>
             </div>
-            <div class="timeline-item-label"><a href="https://github.com/mdelapenya/lpn/releases/tag/` + release.version + `" target="_blank">` + release.releaseDate + `</a></div>
+            <div class="timeline-item-label">` + release.releaseDate + `</div>
         </a>
         <div aria-labelledby="headingTimelineSpacing` + index + `" class="collapse panel-collapse" id="panelCollapseTimelineSpacing` + index + `" role="tabpanel">
             <div id="panelBody` + index + `" class="panel-body">
@@ -50,7 +50,9 @@ function getChangelog(release) {
     changelogHtml += getChangelogMarkup(changelog.breakings, breakings, "Breaking Changes", "skull");
     changelogHtml += getChangelogMarkup(changelog.fixes, fixes, "Fixes", "ant");
 
-    return `<h3><a aria-hidden="true">Changelog</a></h3>` + changelogHtml;
+    return `<h3>
+    <a aria-hidden="true">Changelog</a>. <a href="https://github.com/mdelapenya/lpn/releases/tag/` + release.version + `" target="_blank">See on Github</a>
+</h3>` + changelogHtml;
 }
 
 function getChangelogMarkup(changelogElement, outputArray, label, emoji) {
