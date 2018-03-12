@@ -7,7 +7,7 @@ $.getJSON( "releases.json", function( data ) {
     $( "<ul/>", {
         "class": "timeline timeline-center timeline-spacing-xl",
         html: releases.join( "" )
-    }).appendTo( "body" );
+    }).appendTo( "#releases" );
 });
 
 function getReleaseHtml(index, release) {
