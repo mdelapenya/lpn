@@ -1,3 +1,12 @@
+footer {
+    position: relative;
+    padding:5px 0px;
+    clear: both;
+    background: #30313f;
+    text-align: center;
+    color: #fff;
+}
+
 .panel-body h3, .panel-body h4 {
     margin-top: 0.5rem
 }
