@@ -7,26 +7,18 @@
         "changelog": {
             "enhacements": [
                 {
-                    "description": "I1"
+                    "description": "Migrate shell scripts for functional tests to Cucumber + Aruba"
                 },
                 {
-                    "description": "I2"
-                }
-            ],
-            "breaking": [
-                {
-                    "description": "B1"
+                    "description": "Support for Liferay Portal 7.1 Milestone 1"
                 },
                 {
-                    "description": "B2"
+                    "description": "Publish releases to WeDeploy!"
                 }
             ],
             "fixes": [
                 {
-                    "description": "F1"
-                },
-                {
-                    "description": "F2"
+                    "description": "Fix error when executing 'license' and 'version' commands, as the static resources where not loaded into the binary properly."
                 }
             ]
         }
