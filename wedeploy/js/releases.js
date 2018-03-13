@@ -13,8 +13,11 @@ $.getJSON( "releases.json", function( data ) {
 function getReleaseHtml(index, release) {
     let reverseCssClass = "";
 
+    let timeLineItemLabel = "In development";
+
     if (release.channel === "stable") {
         reverseCssClass = "timeline-item-reverse"
+        timeLineItemLabel = release.releaseDate;
     }
 
     let markup = `<li class="timeline-item ` + reverseCssClass + `">
@@ -26,7 +29,7 @@ function getReleaseHtml(index, release) {
                     <use xlink:href="/css/icons.svg#simulation-menu-closed" />
                 </svg>
             </div>
-            <div class="timeline-item-label">` + release.releaseDate + `</div>
+            <div class="timeline-item-label">` + timeLineItemLabel + `</div>
         </a>
         <div aria-labelledby="headingTimelineSpacing` + index + `" class="collapse panel-collapse" id="panelCollapseTimelineSpacing` + index + `" role="tabpanel">
             <div id="panelBody` + index + `" class="panel-body">
