@@ -14372,7 +14372,7 @@ mark,
   min-height: 100%;
   transition: all 0.4s; }
   .home .card:hover {
-    background-color: #FFF6F5;
+    background-color: #F1F5FE;
     border-color: #007BFF;
     box-shadow: 6px 9px 36px rgba(48, 49, 63, 0.2);
     transform: translateY(-3px); }
