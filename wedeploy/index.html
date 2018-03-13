@@ -17,17 +17,101 @@
 </head>
 
 <body>
-    <nav class="application-bar application-bar-dark navbar navbar-expand-md">
-        <div class="container">
-            <div class="navbar-title navbar-text-truncate">Liferay Portal Nook Releases</div>
-        </div>
-    </nav>
-    <div id="releases"></div>
+    <div class="home">
+        <main class="content">
+            <header class="header">
+                <nav class="navbar fixed-top navbar-clay-site navbar-expand-lg navbar-dark scroll">
+                    <div class="container-fluid container-fluid-max-lg">
+                        <div class="navbar-brand">
+                            <img class="logo mr-2" src="/images/home/clay_logo_w.svg" alt="">
+                            <span class="title align-middle">lpn</span>
+                        </div>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="mx-3 mr-lg-0" href="https://github.com/mdelapenya/lpn" target="_blank">
+                                    <img src="/images/GitHub-Mark-64px.svg" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="intro text-center col">
+                            <div class="container-fluid container-fluid-max-lg">
+                                <h1 class="h1">This is lpn</h1>
+                                <h2 class="h3">Make it easy to run Liferay Portal's Docker images</h2>
+                                <a class="btn btn-lg btn-light font-weight-bold mx-3 mb-4" href="#">
+                                    Get Started
+                                </a>
+                                <a class="btn btn-lg btn-outline-light font-weight-bold mx-3 mb-4" href="#releasesSection">
+                                    <img class="mr-2" src="/images/file-download.svg" alt="">Go to Downloads
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="teasers" id="teasers">
+                <div class="container-fluid container-fluid-max-lg">
+                    <div class="row mb-4">
+                        <div class="col-1 d-none d-md-block">
+                            <div class="vertical-title text-uppercase text-nowrap">Explore lpn</div>
+                        </div>
+
+                        <div class="col-md-5 text-center">
+                            <div class="card text-center wow fadeInUp">
+                                <div class="card-body mx-4 text-center">
+                                    <img class="mx-auto" src="/images/what.svg" alt="">
+                                    <h2 class="font-weight-bold">What is lpn?</h2>
+                                    <p>It wraps Docker commands so you just have to run it, specify the type of image, and pass a Docker tag you want to run.</p>
+                                    <a href="https://github.com/mdelapenya/lpn" class="btn btn-sm text-uppercase font-weight-bold"><img class="mr-2" src="/images/chevron-right.svg" alt="">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 text-center mt-4 mt-md-0">
+                            <div class="card wow fadeInUp" data-wow-delay="0.1s">
+                                <div class="card-body mx-4">
+                                    <img class="mx-auto" src="/images/news.svg" alt="">
+                                    <h2 class="font-weight-bold">Release Notes</h2>
+                                    <p>Stay up-to-date on lpn's progress, fixed issues, and new features by visiting our Release Notes.</p>
+                                    <a href="#releasesSection" class="btn btn-sm text-uppercase font-weight-bold"><img class="mr-2" src="/images/chevron-right.svg" alt="">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="link-blocks" id="releasesSection">
+                <div class="container-fluid container-fluid-max-lg">
+                    <div class="row">
+                        <div class="body ml-auto col-md-12 mr-auto">
+                            <h2 class="h1 font-weight-bold text-center">Releases Changelog and Downloads</h2>
+
+                            <div id="releases"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="footer">
+                <div class="container-fluid container-fluid-max-lg">
+                    <div class="row">
+                        <div class="col-lg text-center text-lg-left mb-4 mb-lg-0">
+                            Powered by <a class="font-weight-bold" href="http://wedeploy.com" target="_blank">WeDeploy™</a>
+                        </div>
+
+                        <div class="col-lg text-center text-lg-right">
+                            <div>Made with <i class="em em-green_heart"></i> by <a class="font-weight-bold" href="http://twitter.com/mdelapenya" target="_blank">@mdelapenya</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
     <script src="js/releases.js"></script>
-    <footer>
-        <div class='footer'>
-            <p>Powered with <i class="em em-green_heart"></i> by WeDeploy and ClayUI</p>
-        </div>
-    </footer>
 </body>
 </html>
