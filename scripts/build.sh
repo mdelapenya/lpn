@@ -28,6 +28,6 @@ for GOOS in darwin linux windows; do
         echo ">>> Building for ${GOOS}/${GOARCH}"
         docker run --rm -v "$(pwd)":${GO_WORKSPACE} -w ${GO_WORKSPACE} \
             -e GOOS=${GOOS} -e GOARCH=${GOARCH} golang:${GO_VERSION} \
-            go build -v -o ${GO_WORKSPACE}/wedeploy/bin/${CHANNEL}/${VERSION}/${GOOS}/${GOARCH}/lpn${extension}
+            go build -v -o ${GO_WORKSPACE}/wedeploy/releases/bin/${CHANNEL}/${VERSION}/${GOOS}/${GOARCH}/lpn${extension}
     done
 done
