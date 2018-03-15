@@ -1,6 +1,10 @@
 #!/bin/bash
 
-readonly BRANCH="${TRAVIS_BRANCH:-develop}"
+function git_branch_name() {
+  echo $(git symbolic-ref --short HEAD)
+}
+
+readonly BRANCH="${TRAVIS_BRANCH:-$(git_branch_name)}"
 readonly GO_VERSION="1.9"
 readonly BIN_DIR="$(pwd)/bin"
 readonly GO_WORKSPACE="/usr/local/go/src/github.com/mdelapenya/lpn"
@@ -24,6 +28,6 @@ for GOOS in darwin linux windows; do
         echo ">>> Building for ${GOOS}/${GOARCH}"
         docker run --rm -v "$(pwd)":${GO_WORKSPACE} -w ${GO_WORKSPACE} \
             -e GOOS=${GOOS} -e GOARCH=${GOARCH} golang:${GO_VERSION} \
-            go build -v -o ${GO_WORKSPACE}/wedeploy/bin/${CHANNEL}/${VERSION}/${GOOS}/${GOARCH}/lpn${extension}
+            go build -v -o ${GO_WORKSPACE}/wedeploy/releases/bin/${CHANNEL}/${VERSION}/${GOOS}/${GOARCH}/lpn${extension}
     done
 done

@@ -1,5 +1,0 @@
-{
-    "id": "releases",
-    "image": "wedeploy/hosting:2.0.0",
-    "volume": "/wedeploy-container/bin"
-}
