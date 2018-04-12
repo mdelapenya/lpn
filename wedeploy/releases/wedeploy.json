@@ -1,4 +1,6 @@
 {
     "id": "releases",
-    "image": "wedeploy/hosting:2.0.0"
+    "image": "wedeploy/hosting:2.0.0",
+    "cpu": 0.5,
+    "memory": 256
 }
