@@ -14,3 +14,7 @@ footer {
 .panel-body h3, .panel-body h4 {
     margin-top: 0.5rem
 }
+
+.copy {
+    cursor: pointer;
+}
