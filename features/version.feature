@@ -7,7 +7,7 @@ Feature: Version command
     Then the exit status should be 0
     And the output should contain:
     """
-    0.4.0
+    0.5.0
     """
     And the output should contain:
     """
@@ -18,6 +18,5 @@ Feature: Version command
     And the output should contain:
     """
     Server:
-     Engine:
-      Version:
+     Version:
     """
