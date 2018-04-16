@@ -250,7 +250,9 @@ Usage:
   lpn pull nightly [flags]
 
 Flags:
-  -h, --help   help for nightly
+  -f, --forceRemoval   Removes the cached, local image, if exists
+  -h, --help           help for nightly
+  -t, --tag string     Sets the image tag to pull (default "20180416")
 ```
 
 #### pull release
@@ -264,7 +266,9 @@ Usage:
   lpn pull release [flags]
 
 Flags:
-  -h, --help   help for release
+  -f, --forceRemoval   Removes the cached, local image, if exists
+  -h, --help           help for release
+  -t, --tag string     Sets the image tag to pull (default "20180416")
 ```
 
 ### rm

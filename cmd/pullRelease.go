@@ -11,6 +11,7 @@ import (
 func init() {
 	pullCmd.AddCommand(pullRelease)
 
+	pullRelease.Flags().BoolVarP(&forceRemoval, "forceRemoval", "f", false, "Removes the cached, local image, if exists")
 	pullRelease.Flags().StringVarP(&tagToPull, "tag", "t", "latest", "Sets the image tag to pull")
 }
 
@@ -29,6 +30,6 @@ var pullRelease = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		release := liferay.Release{Tag: tagToPull}
 
-		PullDockerImage(release)
+		PullDockerImage(release, forceRemoval)
 	},
 }
