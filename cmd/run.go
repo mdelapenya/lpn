@@ -12,6 +12,7 @@ import (
 
 var enableDebug bool
 var debugPort int
+var gogoPort int
 var httpPort int
 var tagToRun string
 
@@ -39,10 +40,10 @@ var runCmd = &cobra.Command{
 
 // RunDockerImage runs the image
 func RunDockerImage(
-	image liferay.Image, httpPort int, enableDebug bool, debugPort int) {
+	image liferay.Image, httpPort int, gogoPort int, enableDebug bool, debugPort int) {
 
 	err := docker.RunDockerImage(
-		image.GetFullyQualifiedName(), httpPort, enableDebug, debugPort)
+		image.GetFullyQualifiedName(), httpPort, gogoPort, enableDebug, debugPort)
 
 	if err != nil {
 		log.Fatalln("Impossible to run the container")

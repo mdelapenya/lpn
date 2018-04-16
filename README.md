@@ -311,6 +311,7 @@ Usage:
 Flags:
   -d, --debug           Enables debug mode. (default false)
   -D, --debugPort int   Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled (default 9000)
+  -g, --gogoPort int    Sets the GoGo Shell port of Liferay Portal's bundle. (default 11311)
   -h, --help            help for nightly
   -p, --httpPort int    Sets the HTTP port of Liferay Portal's bundle. (default 8080)
 ```
@@ -328,6 +329,7 @@ Usage:
 Flags:
   -d, --debug           Enables debug mode. (default false)
   -D, --debugPort int   Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled (default 9000)
+  -g, --gogoPort int    Sets the GoGo Shell port of Liferay Portal's bundle. (default 11311)
   -h, --help            help for release
   -p, --httpPort int    Sets the HTTP port of Liferay Portal's bundle. (default 8080)
 ```

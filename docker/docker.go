@@ -123,20 +123,24 @@ func RemoveDockerContainer() error {
 	return shell.CombinedOutput(dockerBinary, cmdArgs)
 }
 
-// RunDockerImage runs the image, setting the HTTP port for bundle and debug mode if needed
-func RunDockerImage(dockerImage string, httpPort int, enableDebug bool, debugPort int) error {
+// RunDockerImage runs the image, setting the HTTP and GoGoShell ports for bundle, and debug mode if
+// needed
+func RunDockerImage(
+	dockerImage string, httpPort int, gogoShellPort int, enableDebug bool, debugPort int) error {
+
 	if CheckDockerContainerExists() {
 		log.Println("The container [" + DockerContainerName + "] is not running.")
 		_ = RemoveDockerContainer()
 	}
 
 	port := fmt.Sprintf("%d", httpPort)
+	gogoPort := fmt.Sprintf("%d", gogoShellPort)
 
 	cmdArgs := []string{
 		"run",
 		"-d",
 		"-p", port + ":8080",
-		"-p", "11311:11311",
+		"-p", gogoPort + ":11311",
 		"--name", DockerContainerName,
 	}
 
