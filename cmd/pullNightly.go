@@ -12,6 +12,7 @@ import (
 func init() {
 	pullCmd.AddCommand(pullNightly)
 
+	pullNightly.Flags().BoolVarP(&forceRemoval, "forceRemoval", "f", false, "Removes the cached, local image, if exists")
 	pullNightly.Flags().StringVarP(&tagToPull, "tag", "t", date.CurrentDate, "Sets the image tag to pull")
 }
 
@@ -30,6 +31,6 @@ var pullNightly = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		nightly := liferay.Nightly{Tag: tagToPull}
 
-		PullDockerImage(nightly)
+		PullDockerImage(nightly, forceRemoval)
 	},
 }
