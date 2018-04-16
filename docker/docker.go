@@ -14,6 +14,20 @@ const DockerContainerName = "liferay-portal-nook"
 // dockerBinary represents the name of the binary to execute Docker commands
 const dockerBinary = "docker"
 
+// CheckDocker checks if Docker is installed
+func CheckDocker() bool {
+	cmdArgs := []string{
+		"version",
+	}
+
+	err := shell.Run(dockerBinary, cmdArgs)
+	if err != nil {
+		return false
+	}
+
+	return true
+}
+
 // CheckDockerContainerExists checks if the container is running
 func CheckDockerContainerExists() bool {
 	cmdArgs := []string{
