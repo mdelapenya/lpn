@@ -8,9 +8,15 @@ This Golang CLI makes it easier to run Liferay Portal's Docker images.
 
 It wraps Docker commands so you just have to run this tool, and pass the specific tag you want to run.
 
+## Requirements
+
+You have to install Docker on your machine first. Check [this guide](https://docs.docker.com/install).
+
 ## Install
 
-Install this tool downloading it from our [stable release channel](https://dl.equinox.io/mdelapenya/lpn/stable).
+For current stable version of `lpn`, please visit [downloads page](https://releases-lpn.wedeploy.io/index.html).
+
+Up to version 0.3.0, install `lpn` downloading it from our [stable release channel](https://dl.equinox.io/mdelapenya/lpn/stable).
 
 ### Brew (Mac Users)
 
@@ -18,14 +24,6 @@ Install this tool downloading it from our [stable release channel](https://dl.eq
 $ brew tap eqnxio/mdelapenya
 $ brew install lpn
 ```
-
-## Requirements
-
-You have to install Docker on your machine first. Check [this guide](https://docs.docker.com/install).
-
-## Downloads and Changelog
-
-Please visit [downloads page](https://releases-lpn.wedeploy.io/index.html) to get `lpn` releases.
 
 ## What does it do?
 
@@ -360,6 +358,8 @@ Flags:
 ```
 
 ### update
+
+**IMPORTANT!** This command will update `lpn` up-to v 0.3.0, only. For more recent, stable releases, please visit [downloads page](https://releases-lpn.wedeploy.io/index.html).
 
 ```shell
 $ lpn update -h
