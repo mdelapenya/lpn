@@ -123,6 +123,16 @@ func RemoveDockerContainer() error {
 	return shell.CombinedOutput(dockerBinary, cmdArgs)
 }
 
+// RemoveDockerImage removes a docker image
+func RemoveDockerImage(dockerImageName string) error {
+	cmdArgs := []string{
+		"rmi",
+		dockerImageName,
+	}
+
+	return shell.CombinedOutput(dockerBinary, cmdArgs)
+}
+
 // RunDockerImage runs the image, setting the HTTP and GoGoShell ports for bundle, and debug mode if
 // needed
 func RunDockerImage(
