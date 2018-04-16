@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	v "github.com/mdelapenya/lpn/assets/version"
+	docker "github.com/mdelapenya/lpn/docker"
 
 	"github.com/spf13/cobra"
 )
@@ -24,6 +25,10 @@ var versionCmd = &cobra.Command{
 			return
 		}
 
+		dockerVersion, _ := docker.GetDockerVersion()
+
+		fmt.Println("Docker version:")
+		fmt.Println(dockerVersion)
 		fmt.Println("lpn (Liferay Portal Nook) v" + string(version) + " -- HEAD")
 	},
 }

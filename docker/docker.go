@@ -16,11 +16,7 @@ const dockerBinary = "docker"
 
 // CheckDocker checks if Docker is installed
 func CheckDocker() bool {
-	cmdArgs := []string{
-		"version",
-	}
-
-	err := shell.Run(dockerBinary, cmdArgs)
+	_, err := GetDockerVersion()
 	if err != nil {
 		return false
 	}
@@ -79,6 +75,15 @@ func GetDockerImageFromRunningContainer() (string, error) {
 		"inspect",
 		"--format='{{.Config.Image}}'",
 		DockerContainerName,
+	}
+
+	return shell.Command(dockerBinary, cmdArgs)
+}
+
+// GetDockerVersion returns the output of Docker version
+func GetDockerVersion() (string, error) {
+	cmdArgs := []string{
+		"version",
 	}
 
 	return shell.Command(dockerBinary, cmdArgs)
