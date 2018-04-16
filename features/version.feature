@@ -9,3 +9,15 @@ Feature: Version command
     """
     0.4.0
     """
+    And the output should contain:
+    """
+    Docker version:
+    Client:
+     Version:
+    """
+    And the output should contain:
+    """
+    Server:
+     Engine:
+      Version:
+    """
