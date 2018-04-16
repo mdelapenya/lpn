@@ -139,7 +139,7 @@ func RunDockerImage(
 	dockerImage string, httpPort int, gogoShellPort int, enableDebug bool, debugPort int) error {
 
 	if CheckDockerContainerExists() {
-		log.Println("The container [" + DockerContainerName + "] is not running.")
+		log.Println("The container [" + DockerContainerName + "] is running.")
 		_ = RemoveDockerContainer()
 	}
 
