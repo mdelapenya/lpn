@@ -1,6 +1,38 @@
 [
     {
         "channel": "stable",
+        "version": "0.5.0",
+        "equinox": false,
+        "releaseDate": "2018-04-21 09:59",
+        "changelog": {
+            "enhacements": [
+                {
+                    "description": "Add --force flag when pulling an image to ensure it removes a potential existing one"
+                },
+                {
+                    "description": "Document install process for NON-brew users"
+                },
+                {
+                    "description": "Check if docker is installed before executing any command"
+                },
+                {
+                    "description": "Include docker version output in version command"
+                }
+            ],
+            "breakings": [
+                {
+                    "description": "Disable auto-update from Equinox."
+                }
+            ],
+            "fixes": [
+                {
+                    "description": "Fix minor typo in logs when running the container and it already existed."
+                }
+            ]
+        }
+    },
+    {
+        "channel": "stable",
         "version": "0.4.0",
         "equinox": false,
         "releaseDate": "2018-03-12 09:59",
