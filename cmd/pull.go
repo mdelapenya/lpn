@@ -20,8 +20,11 @@ func init() {
 var pullCmd = &cobra.Command{
 	Use:   "pull",
 	Short: "Pulls a Liferay Portal Docker image",
-	Long: `Pulls a Liferay Portal Docker image from the unofficial repositories "` + liferay.ReleasesRepository + `" and "` + liferay.NightliesRepository + `".
-	For that, please run this command adding "release" or "nightly" subcommands.`,
+	Long: `Pulls a Liferay Portal Docker image from one of the unofficial repositories:
+		- ` + liferay.CommercesRepository + ` (private),
+		- ` + liferay.NightliesRepository + `, and
+		- ` + liferay.ReleasesRepository + `.
+	For that, please run this command adding "commerce", "release" or "nightly" subcommands.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("pull requires zero or one argument representing the image tag to be pulled")

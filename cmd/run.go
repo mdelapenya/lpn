@@ -23,9 +23,11 @@ func init() {
 var runCmd = &cobra.Command{
 	Use:   "run",
 	Short: "Runs a Liferay Portal instance",
-	Long: `Runs a Liferay Portal instance, obtained from the unofficial repositories: ` + liferay.ReleasesRepository +
-		` or ` + liferay.NightliesRepository + `.
-		For that, please run this command adding "release" or "nightly" subcommands.`,
+	Long: `Runs a Liferay Portal instance, obtained from the unofficial repositories:
+		- ` + liferay.CommercesRepository + ` (private),
+		- ` + liferay.NightliesRepository + `, and
+		- ` + liferay.ReleasesRepository + `.
+	For that, please run this command adding "commerce", "release" or "nightly" subcommands.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("run requires zero or one argument representing the image tag to be run")

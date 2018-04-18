@@ -84,6 +84,7 @@ Usage:
   lpn checkImage [command]
 
 Available Commands:
+  commerce    Check if the proper Liferay Portal with Commerce Build image has been pulled by lpn
   nightly     Check if the proper Liferay Portal Nightly Build image has been pulled by lpn
   release     Check if the proper Liferay Portal release image has been pulled by lpn
 
@@ -91,6 +92,23 @@ Flags:
   -h, --help   help for checkImage
 
 Use "lpn checkImage [command] --help" for more information about a command.
+```
+
+#### checkImage commerce
+
+```shell
+$ lpn checkImage commerce
+Checks if the proper Liferay Portal with Commerce Build image has been pulled by lpn.
+	Uses docker image inspect to check if the proper Liferay Portal with Commerce image has
+	been pulled by lpn (Liferay Portal Nook). If no image tag is passed to the command,
+	the tag "latest" will be used.
+
+Usage:
+  lpn checkImage commerce [flags]
+
+Flags:
+  -h, --help         help for commerce
+  -t, --tag string   Sets the image tag to check (default "latest")
 ```
 
 #### checkImage nightly
@@ -137,6 +155,7 @@ Usage:
   lpn deploy [command]
 
 Available Commands:
+  commerce    Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn
   nightly     Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn
   release     Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn
 
@@ -144,6 +163,21 @@ Flags:
   -h, --help   help for deploy
 
 Use "lpn deploy [command] --help" for more information about a command.
+```
+
+#### deploy commerce
+
+```shell
+$ lpn deploy commerce -h
+Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn
+
+Usage:
+  lpn deploy commerce [flags]
+
+Flags:
+  -d, --dir string     The directory to deploy its content. Only first-level files will be deployed, so no recursive deployment will happen
+  -f, --files string   The file or files to deploy. A comma-separated list of files is accepted to deploy multiple files at the same time
+  -h, --help           help for commerce
 ```
 
 #### deploy nightly
@@ -219,15 +253,18 @@ Flags:
 
 ```shell
 $ lpn pull -h
-Pulls a Liferay Portal Docker image from the unofficial repositories "mdelapenya/liferay-portal" and "mdelapenya/liferay-portal-nightlies".
-	For that, please run this command adding "release" or "nightly" subcommands.
-	If no image tag is passed to the command, the tag representing the current date [yyyyMMdd] will be used.
+Pulls a Liferay Portal Docker image from one of the unofficial repositories:
+		- liferay/liferay-commerce (private),
+		- mdelapenya/liferay-portal-nightlies, and
+		- mdelapenya/liferay-portal.
+	For that, please run this command adding "commerce", "release" or "nightly" subcommands.
 
 Usage:
   lpn pull [flags]
   lpn pull [command]
 
 Available Commands:
+  commerce       Pulls a Liferay Portal Docker image from Commerce Builds
   nightly        Pulls a Liferay Portal Docker image from Nightly Builds
   release        Pulls a Liferay Portal Docker image from releases
 
@@ -235,6 +272,22 @@ Flags:
   -h, --help   help for pull
 
 Use "lpn pull [command] --help" for more information about a command.
+```
+
+#### pull commerce
+
+```shell
+$ lpn pull commerce -h
+Pulls a Liferay Portal Docker image from the Commerce Builds repository: "liferay/liferay-commerce".
+ If no image tag is passed to the command, the tag representing the current date [20180418] will be used.
+
+Usage:
+  lpn pull commerce [flags]
+
+Flags:
+  -f, --forceRemoval   Removes the cached, local image, if exists
+  -h, --help           help for commerce
+  -t, --tag string     Sets the image tag to pull (default "20180416")
 ```
 
 #### pull nightly
@@ -286,18 +339,41 @@ Flags:
 
 ```shell
 $ lpn run -h
-Runs a Liferay Portal instance, obtained from the unofficial repositories: `mdelapenya/liferay-portal` or `mdelapenya/liferay-portal-nightlies`. For that, please run this command adding `release` or `nightly` subcommands. If no image tag is passed to the subcommand, the tag representing the current date [`yyyyMMdd`] will be used.
+Runs a Liferay Portal instance, obtained from the unofficial repositories:
+		- liferay/liferay-commerce (private),
+		- mdelapenya/liferay-portal-nightlies, and
+		- mdelapenya/liferay-portal.
+	For that, please run this command adding "commerce", "release" or "nightly" subcommands.
 
 Usage:
   lpn run [flags]
   lpn run [command]
 
 Available Commands:
+  commerce    Runs a Liferay Portal instance from Commerce Builds
   nightly     Runs a Liferay Portal instance from Nightly Builds
   release     Runs a Liferay Portal instance from releases
 
 Flags:
   -h, --help            help for run
+```
+
+#### run commerce
+
+```shell
+$ lpn run commerce -h
+Runs a Liferay Portal with Commerce instance, obtained from Commerce Builds repository: liferay/liferay-commerce.
+	If no image tag is passed to the command, the tag representing the current date [20180418] will be used.
+
+Usage:
+  lpn run commerce [flags]
+
+Flags:
+  -d, --debug           Enables debug mode. (default false)
+  -D, --debugPort int   Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled (default 9000)
+  -g, --gogoPort int    Sets the GoGo Shell port of Liferay Portal's bundle. (default 11311)
+  -h, --help            help for commerce
+  -p, --httpPort int    Sets the HTTP port of Liferay Portal's bundle. (default 8080)
 ```
 
 #### run nightly
