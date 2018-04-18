@@ -1,13 +1,13 @@
 package liferay
 
-// CommerceRepository Namespace for the Docker releases with Commerce
-const CommerceRepository = "liferay/liferay-commerce"
+// CommercesRepository Namespace for the Docker releases with Commerce
+const CommercesRepository = "liferay/liferay-commerce"
 
-// Nightlies Namespace for the Docker nightly builds
-const Nightlies = "mdelapenya/liferay-portal-nightlies"
+// NightliesRepository Namespace for the Docker nightly builds
+const NightliesRepository = "mdelapenya/liferay-portal-nightlies"
 
-// Releases Namespace for the Docker releases
-const Releases = "mdelapenya/liferay-portal"
+// ReleasesRepository Namespace for the Docker releases
+const ReleasesRepository = "mdelapenya/liferay-portal"
 
 // Image interface defining the contract for Liferay Portal docker images
 type Image interface {

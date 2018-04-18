@@ -22,7 +22,7 @@ func init() {
 var runCommerceCmd = &cobra.Command{
 	Use:   "commerce",
 	Short: "Runs a Liferay Portal with Commerce instance from Commerce Builds",
-	Long: `Runs a Liferay Portal with Commerce instance, obtained from Commerce Builds repository: ` + liferay.CommerceRepository + `.
+	Long: `Runs a Liferay Portal with Commerce instance, obtained from Commerce Builds repository: ` + liferay.CommercesRepository + `.
 	If no image tag is passed to the command, the tag representing the current date [` + date.CurrentDate + `] will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {

@@ -82,7 +82,7 @@ func TestGetLiferayHomeReleaseNoTag(t *testing.T) {
 	assert.Equal("/liferay", release.GetLiferayHome())
 }
 
-func TestGetReleaseRepository(t *testing.T) {
+func TestGetReleasesRepository(t *testing.T) {
 	release := Release{}
 
 	assert := assert.New(t)
