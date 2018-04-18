@@ -13,6 +13,7 @@ Feature: Rm command
 
   Examples:
     | type    | tag | message |
+    | commerce | latest | liferay-portal-nook |
     | nightly | latest | liferay-portal-nook |
     | release | latest | liferay-portal-nook |
 

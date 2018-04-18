@@ -13,6 +13,7 @@ Feature: CheckImage command
 
   Examples:
     | type    | message |
+    | commerce | The image [liferay/liferay-commerce:latest] has been pulled from Docker Hub |
     | nightly | The image [mdelapenya/liferay-portal-nightlies:latest] has been pulled from Docker Hub |
     | release | The image [mdelapenya/liferay-portal:latest] has been pulled from Docker Hub |
 
@@ -26,5 +27,6 @@ Feature: CheckImage command
   
   Examples:
     | type    | message |
+    | commerce | The image [liferay/liferay-commerce:foo] has NOT been pulled from Docker Hub |
     | nightly | The image [mdelapenya/liferay-portal-nightlies:foo] has NOT been pulled from Docker Hub |
     | release | The image [mdelapenya/liferay-portal:foo] has NOT been pulled from Docker Hub |
