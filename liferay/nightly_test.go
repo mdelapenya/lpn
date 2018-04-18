@@ -30,7 +30,7 @@ func TestGetLiferayHomeNightly(t *testing.T) {
 	assert.Equal("/liferay", nightly.GetLiferayHome())
 }
 
-func TestGetNightlyRepository(t *testing.T) {
+func TestGetNightliesRepository(t *testing.T) {
 	nightly := Nightly{}
 
 	assert := assert.New(t)

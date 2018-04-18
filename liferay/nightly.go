@@ -22,7 +22,7 @@ func (n Nightly) GetLiferayHome() string {
 
 // GetRepository returns the repository for nightly builds
 func (n Nightly) GetRepository() string {
-	return Nightlies
+	return NightliesRepository
 }
 
 // GetTag returns the tag of the image

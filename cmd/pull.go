@@ -20,7 +20,7 @@ func init() {
 var pullCmd = &cobra.Command{
 	Use:   "pull",
 	Short: "Pulls a Liferay Portal Docker image",
-	Long: `Pulls a Liferay Portal Docker image from the unofficial repositories "` + liferay.Releases + `" and "` + liferay.Nightlies + `".
+	Long: `Pulls a Liferay Portal Docker image from the unofficial repositories "` + liferay.ReleasesRepository + `" and "` + liferay.NightliesRepository + `".
 	For that, please run this command adding "release" or "nightly" subcommands.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {

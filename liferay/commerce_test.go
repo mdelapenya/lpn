@@ -30,7 +30,7 @@ func TestGetLiferayHomeCommerce(t *testing.T) {
 	assert.Equal("/liferay", commerce.GetLiferayHome())
 }
 
-func TestGetCommerceRepository(t *testing.T) {
+func TestGetCommercesRepository(t *testing.T) {
 	commerce := Commerce{}
 
 	assert := assert.New(t)

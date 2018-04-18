@@ -40,7 +40,7 @@ func (r Release) GetLiferayHome() string {
 
 // GetRepository returns the repository for releases
 func (r Release) GetRepository() string {
-	return Releases
+	return ReleasesRepository
 }
 
 // GetTag returns the tag of the image

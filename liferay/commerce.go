@@ -22,7 +22,7 @@ func (c Commerce) GetLiferayHome() string {
 
 // GetRepository returns the repository for nightly builds with Commerce
 func (c Commerce) GetRepository() string {
-	return CommerceRepository
+	return CommercesRepository
 }
 
 // GetTag returns the tag of the image
