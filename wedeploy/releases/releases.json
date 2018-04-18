@@ -7,6 +7,9 @@
         "changelog": {
             "enhacements": [
                 {
+                    "description": "Support for <i class='em em-moneybag'></i>Commerce<i class='em em-moneybag'></i> images "
+                },
+                {
                     "description": "Add --force flag when pulling an image to ensure it removes a potential existing one"
                 },
                 {
