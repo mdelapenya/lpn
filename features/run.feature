@@ -13,5 +13,6 @@ Feature: Run command
 
   Examples:
     | type    | tag | container-name |
+    | commerce | latest | liferay-portal-nook |
     | nightly | latest | liferay-portal-nook |
     | release | latest | liferay-portal-nook |

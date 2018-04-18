@@ -17,6 +17,7 @@ Feature: Pull command
 
   Examples:
     | type    | tag | message | checkMessage |
+    | commerce | latest | latest: Pulling from liferay/liferay-commerce | The image [liferay/liferay-commerce:latest] has been pulled from Docker Hub |
     | nightly | latest | latest: Pulling from mdelapenya/liferay-portal-nightlies | The image [mdelapenya/liferay-portal-nightlies:latest] has been pulled from Docker Hub |
     | release | latest | latest: Pulling from mdelapenya/liferay-portal | The image [mdelapenya/liferay-portal:latest] has been pulled from Docker Hub |
 
@@ -30,5 +31,6 @@ Feature: Pull command
 
   Examples:
     | type    | message |
+    | commerce | Error response from daemon: manifest for liferay/liferay-commerce:foo not found |
     | nightly | Error response from daemon: manifest for mdelapenya/liferay-portal-nightlies:foo not found |
     | release | Error response from daemon: manifest for mdelapenya/liferay-portal:foo not found |

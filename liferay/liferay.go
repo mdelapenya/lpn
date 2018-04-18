@@ -1,5 +1,8 @@
 package liferay
 
+// CommerceRepository Namespace for the Docker releases with Commerce
+const CommerceRepository = "liferay/liferay-commerce"
+
 // Nightlies Namespace for the Docker nightly builds
 const Nightlies = "mdelapenya/liferay-portal-nightlies"
 

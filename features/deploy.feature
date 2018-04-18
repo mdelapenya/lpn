@@ -19,6 +19,7 @@ Feature: Deploy command
 
   Examples:
     | type    | tag | containerId |
+    | commerce | latest | liferay-portal-nook |
     | nightly | latest | liferay-portal-nook |
     | release | latest | liferay-portal-nook |
 
@@ -49,6 +50,7 @@ Feature: Deploy command
 
   Examples:
     | type    | tag | containerId |
+    | commerce | latest | liferay-portal-nook |
     | nightly | latest | liferay-portal-nook |
     | release | latest | liferay-portal-nook |
 
@@ -64,6 +66,7 @@ Feature: Deploy command
 
   Examples:
     | type    | tag |
+    | commerce | latest |
     | nightly | latest |
     | release | latest |
 
@@ -105,6 +108,7 @@ Feature: Deploy command
 
     Examples:
     | type | tag | home |
+    | commerce | latest | /liferay/deploy |
     | nightly | latest | /liferay/deploy |
     | release | latest | /liferay/deploy |
     | release | 7-ce-ga5-tomcat-hsql | /usr/local/liferay-ce-portal-7.0-ga5/deploy |
@@ -136,6 +140,7 @@ Feature: Deploy command
 
     Examples:
     | type | tag | home |
+    | commerce | latest | /liferay/deploy |
     | nightly | latest | /liferay/deploy |
     | release | latest | /liferay/deploy |
     | release | 7-ce-ga5-tomcat-hsql | /usr/local/liferay-ce-portal-7.0-ga5/deploy |

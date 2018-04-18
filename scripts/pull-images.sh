@@ -3,12 +3,14 @@
 set -o errexit
 set -o nounset
 
+readonly COMMERCE_IMAGE="liferay/liferay-commerce:latest"
 readonly NIGHTLY_IMAGE="mdelapenya/liferay-portal-nightlies:latest"
 readonly RELEASE_IMAGE="mdelapenya/liferay-portal:7-ce-ga5-tomcat-hsql"
 readonly RELEASE_IMAGE_LATEST="mdelapenya/liferay-portal:latest"
 
 main() {
   cat <<EOF >.tmp_images
+${COMMERCE_IMAGE}
 ${NIGHTLY_IMAGE}
 ${RELEASE_IMAGE_LATEST}
 EOF
