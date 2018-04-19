@@ -14,6 +14,14 @@ func TestDeployFolderNightly(t *testing.T) {
 	assert.Equal("/liferay/deploy", nightly.GetDeployFolder())
 }
 
+func TestGetContainerNameNightly(t *testing.T) {
+	nightly := Nightly{}
+
+	assert := assert.New(t)
+
+	assert.Equal("lpn-nightly", nightly.GetContainerName())
+}
+
 func TestGetFullyQualifiedNameNightly(t *testing.T) {
 	nightly := Nightly{Tag: "foo"}
 
