@@ -61,7 +61,7 @@ Use "lpn [command] --help" for more information about a command.
 
 ```shell
 Checks if there is a container created by lpn (Liferay Portal Nook).
-	Uses docker container inspect to check if there is a container with name [liferay-portal-nook] created by lpn (Liferay Portal Nook)
+	Uses docker container inspect to check if there is a container with name starting with [lpn] created by lpn (Liferay Portal Nook)
 
 Usage:
   lpn checkContainer [flags]
@@ -240,7 +240,7 @@ Flags:
 ### log
 
 ```shell
-Displays logs for the Liferay Portal instance, identified by [liferay-portal-nook].
+Displays logs for the Liferay Portal instance, identified by [lpn] plus the image type.
 
 Usage:
   lpn log [flags]
@@ -326,7 +326,7 @@ Flags:
 
 ```shell
 $ lpn rm -h
-Removes the Liferay Portal nook instance, identified by [liferay-portal-nook].
+Removes the Liferay Portal nook instance, identified by [lpn] plus the image type.
 
 Usage:
   lpn rm [flags]
@@ -418,13 +418,13 @@ To achieve that:
   - If no tag is provided, then it will use current date as tag, i.e. `20180214`.
 - It downloads the Docker image to the local engine.
 - It checks whether the Docker container this tool spins up is running. In that case, the tool deletes it.
-- It spins up a Docker container, using the port configured for Tomcat, and 11311 for OSGi console. The name of the container will be `liferay-portal-nook`. Once started, please open a web browser in [https://localhost:8080](http://localhost:8080) to check the portal.
+- It spins up a Docker container, using the port configured for Tomcat, and 11311 for OSGi console. The name of the container will be `lpn` plus the image type. Once started, please open a web browser in [https://localhost:8080](http://localhost:8080) to check the portal.
 
 ### stop
 
 ```shell
 $ lpn stop -h
-Stops the Liferay Portal nook instance, identified by [liferay-portal-nook].
+Stops the Liferay Portal nook instance, identified by [lpn] plus the image type.
 
 Usage:
   lpn stop [flags]
