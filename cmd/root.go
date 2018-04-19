@@ -28,5 +28,5 @@ func Execute() {
 // SubCommandInfo Shows a message for subcommands
 func SubCommandInfo() {
 	// delegate to subcommands
-	fmt.Println("Please run this command adding 'nightly' or 'release' subcommands.")
+	fmt.Println("Please run this command adding 'commerce', 'nightly' or 'release' subcommands.")
 }
