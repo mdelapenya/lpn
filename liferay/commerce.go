@@ -29,3 +29,8 @@ func (c Commerce) GetRepository() string {
 func (c Commerce) GetTag() string {
 	return c.Tag
 }
+
+// GetType returns the type of the image
+func (c Commerce) GetType() string {
+	return "commerce"
+}

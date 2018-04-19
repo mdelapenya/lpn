@@ -98,3 +98,11 @@ func testGetLiferayHomeRelease7Ga(t *testing.T, ga string) {
 
 	assert.Equal("/usr/local/liferay-ce-portal-7.0-ga"+ga, release.GetLiferayHome())
 }
+
+func TestGetTypeRelease(t *testing.T) {
+	release := Release{}
+
+	assert := assert.New(t)
+
+	assert.Equal("release", release.GetType())
+}
