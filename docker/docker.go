@@ -8,8 +8,8 @@ import (
 	shell "github.com/mdelapenya/lpn/shell"
 )
 
-// DockerContainerName represents the name of the container to be run
-const DockerContainerName = "liferay-portal-nook"
+// DockerContainerName represents the base name of the container to be run
+const DockerContainerName = "lpn"
 
 // dockerBinary represents the name of the binary to execute Docker commands
 const dockerBinary = "docker"

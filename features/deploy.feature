@@ -10,7 +10,7 @@ Feature: Deploy command
     """
     [modules/a.jar] deployed sucessfully to /liferay/deploy
     """
-    And I run `docker exec <containerId> ls -l /liferay/deploy | grep "a.jar" | wc -l | xargs`
+    And I run `docker exec lpn-<type> ls -l /liferay/deploy | grep "a.jar" | wc -l | xargs`
     And the output should contain:
     """
     1
@@ -18,10 +18,10 @@ Feature: Deploy command
     And I run `lpn rm`
 
   Examples:
-    | type    | tag | containerId |
-    | commerce | latest | liferay-portal-nook |
-    | nightly | latest | liferay-portal-nook |
-    | release | latest | liferay-portal-nook |
+    | type    | tag |
+    | commerce | latest |
+    | nightly | latest |
+    | release | latest |
 
   Scenario Outline: Deploy multiple file when container exists
     Given an empty file named "modules/a.jar"
@@ -36,12 +36,12 @@ Feature: Deploy command
     """
     [modules/b.jar] deployed sucessfully to /liferay/deploy
     """
-    And I run `docker exec <containerId> ls -l /liferay/deploy | grep "a.jar" | wc -l | xargs`
+    And I run `docker exec lpn-<type> ls -l /liferay/deploy | grep "a.jar" | wc -l | xargs`
     And the output should contain:
     """
     1
     """
-    And I run `docker exec <containerId> ls -l /liferay/deploy | grep "b.jar" | wc -l | xargs`
+    And I run `docker exec lpn-<type> ls -l /liferay/deploy | grep "b.jar" | wc -l | xargs`
     And the output should contain:
     """
     1
@@ -49,10 +49,10 @@ Feature: Deploy command
     And I run `lpn rm`
 
   Examples:
-    | type    | tag | containerId |
-    | commerce | latest | liferay-portal-nook |
-    | nightly | latest | liferay-portal-nook |
-    | release | latest | liferay-portal-nook |
+    | type    | tag |
+    | commerce | latest |
+    | nightly | latest |
+    | release | latest |
 
   Scenario Outline: Deploy command with no flags
     When I run `lpn run <type> -t <tag>`
@@ -75,13 +75,13 @@ Feature: Deploy command
     And an empty file named "modules/b.jar"
     And an empty file named "modules/c.jar"
     When I run `lpn run <type> -t <tag>`
-    And I run `docker exec liferay-portal-nook mkdir -p <home>`
+    And I run `docker exec lpn-<type> mkdir -p <home>`
     And I run `lpn deploy <type> -d modules`
     Then the output should contain:
     """
     [modules/a.jar] deployed sucessfully to <home>
     """
-    And I run `docker exec liferay-portal-nook ls -l <home> | grep "a.jar" | wc -l | xargs`
+    And I run `docker exec lpn-<type> ls -l <home> | grep "a.jar" | wc -l | xargs`
     And the output should contain:
     """
     1
@@ -90,7 +90,7 @@ Feature: Deploy command
     """
     [modules/b.jar] deployed sucessfully to <home>
     """
-    And I run `docker exec liferay-portal-nook ls -l <home> | grep "b.jar" | wc -l | xargs`
+    And I run `docker exec lpn-<type> ls -l <home> | grep "b.jar" | wc -l | xargs`
     And the output should contain:
     """
     1
@@ -99,7 +99,7 @@ Feature: Deploy command
     """
     [modules/c.jar] deployed sucessfully to <home>
     """
-    And I run `docker exec liferay-portal-nook ls -l <home> | grep "c.jar" | wc -l | xargs`
+    And I run `docker exec lpn-<type> ls -l <home> | grep "c.jar" | wc -l | xargs`
     And the output should contain:
     """
     1
@@ -122,7 +122,7 @@ Feature: Deploy command
     """
     [modules/skip1] deployed sucessfully to <home>
     """
-    And I run `docker exec liferay-portal-nook ls -l <home> | grep "skip1" | wc -l | xargs`
+    And I run `docker exec lpn-<type> ls -l <home> | grep "skip1" | wc -l | xargs`
     And the output should contain:
     """
     0
@@ -131,7 +131,7 @@ Feature: Deploy command
     """
     [modules/skip2] deployed sucessfully to <home>
     """
-    And I run `docker exec liferay-portal-nook ls -l <home> | grep "skip2" | wc -l | xargs`
+    And I run `docker exec lpn-<type> ls -l <home> | grep "skip2" | wc -l | xargs`
     And the output should contain:
     """
     0
