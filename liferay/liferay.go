@@ -16,4 +16,5 @@ type Image interface {
 	GetLiferayHome() string
 	GetRepository() string
 	GetTag() string
+	GetType() string
 }

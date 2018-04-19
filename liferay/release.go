@@ -47,3 +47,8 @@ func (r Release) GetRepository() string {
 func (r Release) GetTag() string {
 	return r.Tag
 }
+
+// GetType returns the type of the image
+func (r Release) GetType() string {
+	return "release"
+}

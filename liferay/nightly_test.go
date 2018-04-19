@@ -38,3 +38,11 @@ func TestGetNightliesRepository(t *testing.T) {
 
 	assert.Equal("mdelapenya/liferay-portal-nightlies", nightlies)
 }
+
+func TestGetTypeNightly(t *testing.T) {
+	nightly := Nightly{}
+
+	assert := assert.New(t)
+
+	assert.Equal("nightly", nightly.GetType())
+}

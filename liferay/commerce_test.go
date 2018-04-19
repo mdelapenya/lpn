@@ -38,3 +38,11 @@ func TestGetCommercesRepository(t *testing.T) {
 
 	assert.Equal("liferay/liferay-commerce", commerceRepository)
 }
+
+func TestGetTypeCommerce(t *testing.T) {
+	commerce := Commerce{}
+
+	assert := assert.New(t)
+
+	assert.Equal("commerce", commerce.GetType())
+}

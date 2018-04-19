@@ -29,3 +29,8 @@ func (n Nightly) GetRepository() string {
 func (n Nightly) GetTag() string {
 	return n.Tag
 }
+
+// GetType returns the type of the image
+func (n Nightly) GetType() string {
+	return "nightly"
+}
