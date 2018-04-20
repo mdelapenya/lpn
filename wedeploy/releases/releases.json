@@ -7,6 +7,9 @@
         "changelog": {
             "enhacements": [
                 {
+                    "description": "Support running a container per image type at the same type (commerce, nightly build and release)"
+                },
+                {
                     "description": "Support for <i class='em em-moneybag'></i>Commerce<i class='em em-moneybag'></i> images "
                 },
                 {
@@ -23,6 +26,9 @@
                 }
             ],
             "breakings": [
+                {
+                    "description": "The container is not named 'liferay-portal-nook' anymore. Instead it's used 'lpn-TYPE'"
+                },
                 {
                     "description": "Disable auto-update from Equinox."
                 }
