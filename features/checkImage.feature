@@ -26,7 +26,7 @@ Feature: CheckImage command
     And the exit status should be 1
   
   Examples:
-    | type    | iamge |
+    | type    | image |
     | commerce | liferay/liferay-commerce:foo |
     | nightly | mdelapenya/liferay-portal-nightlies:foo |
     | release | mdelapenya/liferay-portal:foo |
