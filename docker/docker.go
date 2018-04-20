@@ -8,9 +8,6 @@ import (
 	shell "github.com/mdelapenya/lpn/shell"
 )
 
-// DockerContainerName represents the base name of the container to be run
-const DockerContainerName = "lpn"
-
 // dockerBinary represents the name of the binary to execute Docker commands
 const dockerBinary = "docker"
 
@@ -25,11 +22,11 @@ func CheckDocker() bool {
 }
 
 // CheckDockerContainerExists checks if the container is running
-func CheckDockerContainerExists() bool {
+func CheckDockerContainerExists(image liferay.Image) bool {
 	cmdArgs := []string{
 		"container",
 		"inspect",
-		DockerContainerName,
+		image.GetContainerName(),
 	}
 
 	err := shell.Run(dockerBinary, cmdArgs)
@@ -56,7 +53,7 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 	cmdArgs := []string{
 		"cp",
 		path,
-		DockerContainerName + ":" + image.GetDeployFolder() + "/",
+		image.GetContainerName() + ":" + image.GetDeployFolder() + "/",
 	}
 
 	log.Println("Deploying [" + path + "] to " + image.GetDeployFolder())
@@ -70,11 +67,11 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 }
 
 // GetDockerImageFromRunningContainer gets the image name of the container
-func GetDockerImageFromRunningContainer() (string, error) {
+func GetDockerImageFromRunningContainer(image liferay.Image) (string, error) {
 	cmdArgs := []string{
 		"inspect",
 		"--format='{{.Config.Image}}'",
-		DockerContainerName,
+		image.GetContainerName(),
 	}
 
 	return shell.Command(dockerBinary, cmdArgs)
@@ -90,11 +87,11 @@ func GetDockerVersion() (string, error) {
 }
 
 // LogDockerContainer downloads the image
-func LogDockerContainer() {
+func LogDockerContainer(image liferay.Image) {
 	cmdArgs := []string{
 		"logs",
 		"-f",
-		DockerContainerName,
+		image.GetContainerName(),
 	}
 
 	shell.StartAndWait(dockerBinary, cmdArgs)
@@ -113,11 +110,11 @@ func PullDockerImage(dockerImage string) {
 }
 
 // RemoveDockerContainer removes the running container
-func RemoveDockerContainer() error {
+func RemoveDockerContainer(image liferay.Image) error {
 	cmdArgs := []string{
 		"rm",
 		"-fv",
-		DockerContainerName,
+		image.GetContainerName(),
 	}
 
 	return shell.CombinedOutput(dockerBinary, cmdArgs)
@@ -136,11 +133,11 @@ func RemoveDockerImage(dockerImageName string) error {
 // RunDockerImage runs the image, setting the HTTP and GoGoShell ports for bundle, and debug mode if
 // needed
 func RunDockerImage(
-	dockerImage string, httpPort int, gogoShellPort int, enableDebug bool, debugPort int) error {
+	image liferay.Image, httpPort int, gogoShellPort int, enableDebug bool, debugPort int) error {
 
-	if CheckDockerContainerExists() {
-		log.Println("The container [" + DockerContainerName + "] is running.")
-		_ = RemoveDockerContainer()
+	if CheckDockerContainerExists(image) {
+		log.Println("The container [" + image.GetContainerName() + "] is running.")
+		_ = RemoveDockerContainer(image)
 	}
 
 	port := fmt.Sprintf("%d", httpPort)
@@ -151,7 +148,7 @@ func RunDockerImage(
 		"-d",
 		"-p", port + ":8080",
 		"-p", gogoPort + ":11311",
-		"--name", DockerContainerName,
+		"--name", image.GetContainerName(),
 	}
 
 	if enableDebug {
@@ -159,16 +156,16 @@ func RunDockerImage(
 		cmdArgs = append(cmdArgs, "-e", "DEBUG_MODE=true", "-p", debugPortFlag)
 	}
 
-	cmdArgs = append(cmdArgs, dockerImage)
+	cmdArgs = append(cmdArgs, image.GetFullyQualifiedName())
 
 	return shell.CombinedOutput(dockerBinary, cmdArgs)
 }
 
 // StopDockerContainer stops the running container
-func StopDockerContainer() error {
+func StopDockerContainer(image liferay.Image) error {
 	cmdArgs := []string{
 		"stop",
-		DockerContainerName,
+		image.GetContainerName(),
 	}
 
 	return shell.CombinedOutput(dockerBinary, cmdArgs)

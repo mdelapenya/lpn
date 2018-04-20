@@ -15,7 +15,7 @@ Feature: Deploy command
     """
     1
     """
-    And I run `lpn rm`
+    And I run `lpn rm <type>`
 
   Examples:
     | type    | tag |
@@ -46,7 +46,7 @@ Feature: Deploy command
     """
     1
     """
-    And I run `lpn rm`
+    And I run `lpn rm <type>`
 
   Examples:
     | type    | tag |
@@ -62,7 +62,7 @@ Feature: Deploy command
     Please pass a valid path to a file or to a directory as argument
     """
     And the exit status should be 1
-    And I run `lpn rm`
+    And I run `lpn rm <type>`
 
   Examples:
     | type    | tag |
@@ -104,7 +104,7 @@ Feature: Deploy command
     """
     1
     """
-    And I run `lpn rm`
+    And I run `lpn rm <type>`
 
     Examples:
     | type | tag | home |
@@ -136,7 +136,7 @@ Feature: Deploy command
     """
     0
     """
-    And I run `lpn rm`
+    And I run `lpn rm <type>`
 
     Examples:
     | type | tag | home |
