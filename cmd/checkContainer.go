@@ -35,7 +35,7 @@ var checkContainerCommerceCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		commerce := liferay.Commerce{}
 
-		CheckDockerContainerExists(commerce)
+		checkDockerContainerExists(commerce)
 	},
 }
 
@@ -47,7 +47,7 @@ var checkContainerNightlyCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		nightly := liferay.Nightly{}
 
-		CheckDockerContainerExists(nightly)
+		checkDockerContainerExists(nightly)
 	},
 }
 
@@ -59,12 +59,12 @@ var checkContainerReleaseCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		release := liferay.Release{}
 
-		CheckDockerContainerExists(release)
+		checkDockerContainerExists(release)
 	},
 }
 
-// CheckDockerContainerExists removes the running container
-func CheckDockerContainerExists(image liferay.Image) {
+// checkDockerContainerExists removes the running container
+func checkDockerContainerExists(image liferay.Image) {
 	exists := docker.CheckDockerContainerExists(image)
 
 	if !exists {

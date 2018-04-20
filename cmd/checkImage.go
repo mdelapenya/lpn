@@ -61,7 +61,7 @@ var checkImageCommerce = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		commerce := liferay.Commerce{Tag: tagToCheck}
 
-		CheckImage(commerce)
+		checkImage(commerce)
 	},
 }
 
@@ -82,7 +82,7 @@ var checkImageNightly = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		nightly := liferay.Nightly{Tag: tagToCheck}
 
-		CheckImage(nightly)
+		checkImage(nightly)
 	},
 }
 
@@ -103,12 +103,12 @@ var checkImageRelease = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		release := liferay.Release{Tag: tagToCheck}
 
-		CheckImage(release)
+		checkImage(release)
 	},
 }
 
-// CheckImage uses the image interface to check if it exists
-func CheckImage(image liferay.Image) {
+// checkImage uses the image interface to check if it exists
+func checkImage(image liferay.Image) {
 	err := docker.CheckDockerImageExists(image.GetFullyQualifiedName())
 	if err != nil {
 		log.Fatalln("The image [" + image.GetFullyQualifiedName() + "] has NOT been pulled from Docker Hub.")

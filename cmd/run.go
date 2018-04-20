@@ -77,7 +77,7 @@ var runCommerceCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		commerce := liferay.Commerce{Tag: tagToRun}
 
-		RunDockerImage(commerce, httpPort, gogoPort, enableDebug, debugPort)
+		runDockerImage(commerce, httpPort, gogoPort, enableDebug, debugPort)
 	},
 }
 
@@ -96,7 +96,7 @@ var runNightlyCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		nightly := liferay.Nightly{Tag: tagToRun}
 
-		RunDockerImage(nightly, httpPort, gogoPort, enableDebug, debugPort)
+		runDockerImage(nightly, httpPort, gogoPort, enableDebug, debugPort)
 	},
 }
 
@@ -115,12 +115,12 @@ var runReleaseCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		release := liferay.Release{Tag: tagToRun}
 
-		RunDockerImage(release, httpPort, gogoPort, enableDebug, debugPort)
+		runDockerImage(release, httpPort, gogoPort, enableDebug, debugPort)
 	},
 }
 
-// RunDockerImage runs the image
-func RunDockerImage(
+// runDockerImage runs the image
+func runDockerImage(
 	image liferay.Image, httpPort int, gogoPort int, enableDebug bool, debugPort int) {
 
 	err := docker.RunDockerImage(image, httpPort, gogoPort, enableDebug, debugPort)
