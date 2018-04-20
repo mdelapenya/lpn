@@ -1,16 +1,16 @@
 Feature: CheckContainer command
   As a newcomer to lpn
-  I want to be able to check if the container "liferay-portal-nook" is running
+  I want to be able to check if the "lpn" container for each type is running
 
   Scenario Outline: CheckContainer command when container is running
     Given I run `lpn run <type> -t latest`
-    When I run `lpn checkContainer`
+    When I run `lpn checkContainer <type>`
     Then the output should contain:
     """
-    The container [liferay-portal-nook] is running
+    The container [lpn-<type>] is running
     """
     And the exit status should be 0
-    And I run `lpn rm`
+    And I run `lpn rm <type>`
 
   Examples:
     | type    |
@@ -18,10 +18,16 @@ Feature: CheckContainer command
     | nightly |
     | release |
   
-  Scenario: CheckContainer command when container is not running
-    Given I run `lpn checkContainer`
+  Scenario Outline: CheckContainer command when container is not running
+    Given I run `lpn checkContainer <type>`
     Then the output should contain:
     """
-    The container [liferay-portal-nook] is NOT running
+    The container [lpn-<type>] is NOT running
     """
     And the exit status should be 1
+
+  Examples:
+    | type    |
+    | commerce |
+    | nightly |
+    | release |
