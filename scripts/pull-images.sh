@@ -10,6 +10,7 @@ readonly RELEASE_IMAGE_LATEST="mdelapenya/liferay-portal:latest"
 
 main() {
   cat <<EOF >.tmp_images
+nginx:1.12.2-alpine
 ${COMMERCE_IMAGE}
 ${NIGHTLY_IMAGE}
 ${RELEASE_IMAGE_LATEST}

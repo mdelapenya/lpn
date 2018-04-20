@@ -4,23 +4,29 @@ Feature: Rm command
 
   Scenario Outline: Rm command when container exists
     When I run `lpn run <type> -t <tag>`
-    And I run `lpn rm`
+    And I run `lpn rm <type>`
     Then the output should contain:
     """
-    <message>
+    lpn-<type>
     """
     And the exit status should be 0
 
   Examples:
-    | type    | tag | message |
-    | commerce | latest | liferay-portal-nook |
-    | nightly | latest | liferay-portal-nook |
-    | release | latest | liferay-portal-nook |
+    | type    | tag |
+    | commerce | latest |
+    | nightly | latest |
+    | release | latest |
 
-  Scenario: Rm command when container does not exist
-    When I run `lpn rm`
+  Scenario Outline: Rm command when container does not exist
+    When I run `lpn rm <type>`
     Then the output should contain:
     """
-    Impossible to remove the container
+    Impossible to remove the container [lpn-<type>]
     """
     And the exit status should be 1
+
+  Examples:
+    | type    | tag |
+    | commerce | latest |
+    | nightly | latest |
+    | release | latest |

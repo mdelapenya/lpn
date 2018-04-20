@@ -4,24 +4,30 @@ Feature: Stop command
 
   Scenario Outline: Stop command when container exists
     When I run `lpn run <type> -t <tag>`
-    And I run `lpn stop`
+    And I run `lpn stop <type>`
     Then the output should contain:
     """
-    <message>
+    lpn-<type>
     """
     And the exit status should be 0
-    And I run `lpn rm`
+    And I run `lpn rm <type>`
 
   Examples:
-    | type    | tag | message |
-    | commerce | latest | liferay-portal-nook |
-    | nightly | latest | liferay-portal-nook |
-    | release | latest | liferay-portal-nook |
+    | type    | tag |
+    | commerce | latest |
+    | nightly | latest |
+    | release | latest |
 
-  Scenario: Stop command when container does not exist
-    When I run `lpn stop`
+  Scenario Outline: Stop command when container does not exist
+    When I run `lpn stop <type>`
     Then the output should contain:
     """
-    Impossible to stop the container
+    Impossible to stop the container [lpn-<type>]
     """
     And the exit status should be 1
+  
+  Examples:
+    | type    | tag |
+    | commerce | latest |
+    | nightly | latest |
+    | release | latest |

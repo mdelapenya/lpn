@@ -31,16 +31,18 @@ var deployRelease = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		validateArguments()
 
-		imageName, err := docker.GetDockerImageFromRunningContainer()
+		release := liferay.Release{}
+
+		imageName, err := docker.GetDockerImageFromRunningContainer(release)
 		if err != nil {
-			log.Fatalln("The container [" + docker.DockerContainerName + "] is NOT running.")
+			log.Fatalln("The container [" + release.GetContainerName() + "] is NOT running.")
 		}
 
 		index := strings.LastIndex(imageName, ":")
 
 		tag := imageName[index+1 : len(imageName)-2]
 
-		release := liferay.Release{Tag: tag}
+		release.Tag = tag
 
 		if filePath != "" {
 			deployFiles(release, filePath)

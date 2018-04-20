@@ -14,6 +14,14 @@ func TestDeployFolderRelease(t *testing.T) {
 	assert.Equal(release.GetLiferayHome()+"/deploy", release.GetDeployFolder())
 }
 
+func TestGetContainerNameRelease(t *testing.T) {
+	release := Release{}
+
+	assert := assert.New(t)
+
+	assert.Equal("lpn-release", release.GetContainerName())
+}
+
 func TestGetFullyQualifiedNameRelease(t *testing.T) {
 	release := Release{Tag: "foo"}
 
@@ -97,4 +105,12 @@ func testGetLiferayHomeRelease7Ga(t *testing.T, ga string) {
 	assert := assert.New(t)
 
 	assert.Equal("/usr/local/liferay-ce-portal-7.0-ga"+ga, release.GetLiferayHome())
+}
+
+func TestGetTypeRelease(t *testing.T) {
+	release := Release{}
+
+	assert := assert.New(t)
+
+	assert.Equal("release", release.GetType())
 }
