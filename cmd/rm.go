@@ -33,7 +33,7 @@ var rmCommerceCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		commerce := liferay.Commerce{}
 
-		RemoveDockerContainer(commerce)
+		removeDockerContainer(commerce)
 	},
 }
 
@@ -44,7 +44,7 @@ var rmNightlyCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		nightly := liferay.Nightly{}
 
-		RemoveDockerContainer(nightly)
+		removeDockerContainer(nightly)
 	},
 }
 
@@ -55,12 +55,12 @@ var rmReleaseCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		release := liferay.Release{}
 
-		RemoveDockerContainer(release)
+		removeDockerContainer(release)
 	},
 }
 
-// RemoveDockerContainer removes the running container
-func RemoveDockerContainer(image liferay.Image) {
+// removeDockerContainer removes the running container
+func removeDockerContainer(image liferay.Image) {
 	err := docker.RemoveDockerContainer(image)
 	if err != nil {
 		log.Fatalln("Impossible to remove the container [" + image.GetContainerName() + "]")

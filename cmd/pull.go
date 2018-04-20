@@ -65,7 +65,7 @@ var pullCommerce = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		commerce := liferay.Commerce{Tag: tagToPull}
 
-		PullDockerImage(commerce, forceRemoval)
+		pullDockerImage(commerce, forceRemoval)
 	},
 }
 
@@ -84,7 +84,7 @@ var pullNightly = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		nightly := liferay.Nightly{Tag: tagToPull}
 
-		PullDockerImage(nightly, forceRemoval)
+		pullDockerImage(nightly, forceRemoval)
 	},
 }
 
@@ -103,12 +103,12 @@ var pullRelease = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		release := liferay.Release{Tag: tagToPull}
 
-		PullDockerImage(release, forceRemoval)
+		pullDockerImage(release, forceRemoval)
 	},
 }
 
-// PullDockerImage uses the image interface to pull it from Docker Hub, removing the cached on if
-func PullDockerImage(image liferay.Image, forceRemoval bool) {
+// pullDockerImage uses the image interface to pull it from Docker Hub, removing the cached on if
+func pullDockerImage(image liferay.Image, forceRemoval bool) {
 	if forceRemoval {
 		err := docker.RemoveDockerImage(image.GetFullyQualifiedName())
 		if err != nil {

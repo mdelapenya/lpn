@@ -33,7 +33,7 @@ var stopCommerceCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		commerce := liferay.Commerce{}
 
-		StopDockerContainer(commerce)
+		stopDockerContainer(commerce)
 	},
 }
 
@@ -44,7 +44,7 @@ var stopNightlyCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		nightly := liferay.Nightly{}
 
-		StopDockerContainer(nightly)
+		stopDockerContainer(nightly)
 	},
 }
 
@@ -55,12 +55,12 @@ var stopReleaseCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		release := liferay.Release{}
 
-		StopDockerContainer(release)
+		stopDockerContainer(release)
 	},
 }
 
-// StopDockerContainer stops the running container
-func StopDockerContainer(image liferay.Image) {
+// stopDockerContainer stops the running container
+func stopDockerContainer(image liferay.Image) {
 	err := docker.StopDockerContainer(image)
 	if err != nil {
 		log.Fatalln("Impossible to stop the container [" + image.GetContainerName() + "]")
