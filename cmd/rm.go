@@ -12,9 +12,13 @@ import (
 func init() {
 	rootCmd.AddCommand(rmCmd)
 
-	rmCmd.AddCommand(rmCommerceCmd)
-	rmCmd.AddCommand(rmNightlyCmd)
-	rmCmd.AddCommand(rmReleaseCmd)
+	subcommands := []*cobra.Command{rmCommerceCmd, rmNightlyCmd, rmReleaseCmd}
+
+	for i := 0; i < len(subcommands); i++ {
+		subcommand := subcommands[i]
+
+		rmCmd.AddCommand(subcommand)
+	}
 }
 
 var rmCmd = &cobra.Command{

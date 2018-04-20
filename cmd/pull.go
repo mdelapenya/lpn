@@ -17,17 +17,16 @@ var forceRemoval bool
 func init() {
 	rootCmd.AddCommand(pullCmd)
 
-	pullCmd.AddCommand(pullCommerce)
-	pullCommerce.Flags().BoolVarP(&forceRemoval, "forceRemoval", "f", false, "Removes the cached, local image, if exists")
-	pullCommerce.Flags().StringVarP(&tagToPull, "tag", "t", date.CurrentDate, "Sets the image tag to pull")
+	subcommands := []*cobra.Command{pullCommerce, pullNightly, pullRelease}
 
-	pullCmd.AddCommand(pullNightly)
-	pullNightly.Flags().BoolVarP(&forceRemoval, "forceRemoval", "f", false, "Removes the cached, local image, if exists")
-	pullNightly.Flags().StringVarP(&tagToPull, "tag", "t", date.CurrentDate, "Sets the image tag to pull")
+	for i := 0; i < len(subcommands); i++ {
+		subcommand := subcommands[i]
 
-	pullCmd.AddCommand(pullRelease)
-	pullRelease.Flags().BoolVarP(&forceRemoval, "forceRemoval", "f", false, "Removes the cached, local image, if exists")
-	pullRelease.Flags().StringVarP(&tagToPull, "tag", "t", "latest", "Sets the image tag to pull")
+		pullCmd.AddCommand(subcommand)
+
+		subcommand.Flags().BoolVarP(&forceRemoval, "forceRemoval", "f", false, "Removes the cached, local image, if exists")
+		subcommand.Flags().StringVarP(&tagToPull, "tag", "t", date.CurrentDate, "Sets the image tag to pull")
+	}
 }
 
 var pullCmd = &cobra.Command{
