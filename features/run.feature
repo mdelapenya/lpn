@@ -9,7 +9,7 @@ Feature: Run command
     The container [lpn-<type>] has been run sucessfully
     """
     And the exit status should be 0
-    And I run `lpn rm`
+    And I run `lpn rm <type>`
 
   Examples:
     | type    | tag |

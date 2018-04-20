@@ -1,6 +1,6 @@
 Feature: Pull command
   As a newcomer to lpn
-  I want to be able to pull the nightly builds or the releases images for Liferay Portal
+  I want to be able to pull the commerce, nightly builds or the releases images for Liferay Portal
 
   Scenario Outline: Pull command when image exists
     When I run `lpn pull <type> -t <tag>`
