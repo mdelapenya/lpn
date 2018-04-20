@@ -11,15 +11,15 @@ Feature: Pull command
     And I run `lpn checkImage <type> -t <tag>`
     And the output should contain:
     """
-    The image [<repository>] has been pulled from Docker Hub
+    The image [<repository>:<tag>] has been pulled from Docker Hub
     """
     And the exit status should be 0
 
   Examples:
     | type    | tag | repository |
-    | commerce | latest | liferay/liferay-commerce:latest |
-    | nightly | latest | mdelapenya/liferay-portal-nightlies:latest |
-    | release | latest | mdelapenya/liferay-portal:latest |
+    | commerce | latest | liferay/liferay-commerce |
+    | nightly | latest | mdelapenya/liferay-portal-nightlies |
+    | release | latest | mdelapenya/liferay-portal |
 
   Scenario Outline: Pull command when image does not exist
     When I run `lpn pull <type> -t foo`
