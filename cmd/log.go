@@ -10,9 +10,13 @@ import (
 func init() {
 	rootCmd.AddCommand(logCmd)
 
-	logCmd.AddCommand(logCommerceCmd)
-	logCmd.AddCommand(logNightlyCmd)
-	logCmd.AddCommand(logReleaseCmd)
+	subcommands := []*cobra.Command{logCommerceCmd, logNightlyCmd, logReleaseCmd}
+
+	for i := 0; i < len(subcommands); i++ {
+		subcommand := subcommands[i]
+
+		logCmd.AddCommand(subcommand)
+	}
 }
 
 var logCmd = &cobra.Command{

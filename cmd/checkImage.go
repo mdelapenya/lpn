@@ -15,14 +15,15 @@ var tagToCheck string
 func init() {
 	rootCmd.AddCommand(checkImageCmd)
 
-	checkImageCmd.AddCommand(checkImageCommerce)
-	checkImageCommerce.Flags().StringVarP(&tagToCheck, "tag", "t", "latest", "Sets the image tag to check")
+	subcommands := []*cobra.Command{checkImageCommerce, checkImageNightly, checkImageRelease}
 
-	checkImageCmd.AddCommand(checkImageNightly)
-	checkImageNightly.Flags().StringVarP(&tagToCheck, "tag", "t", "latest", "Sets the image tag to check")
+	for i := 0; i < len(subcommands); i++ {
+		subcommand := subcommands[i]
 
-	checkImageCmd.AddCommand(checkImageRelease)
-	checkImageRelease.Flags().StringVarP(&tagToCheck, "tag", "t", "latest", "Sets the image tag to check")
+		checkImageCmd.AddCommand(subcommand)
+
+		subcommand.Flags().StringVarP(&tagToCheck, "tag", "t", "latest", "Sets the image tag to check")
+	}
 }
 
 var checkImageCmd = &cobra.Command{

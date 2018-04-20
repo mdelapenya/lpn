@@ -19,35 +19,23 @@ var directoryPath string
 func init() {
 	rootCmd.AddCommand(deployCmd)
 
-	deployCmd.AddCommand(deployCommerce)
-	deployCommerce.Flags().StringVarP(
-		&filePath, "files", "f", "",
-		`The file or files to deploy. A comma-separated list of files is accepted to deploy
-							multiple files at the same time`)
-	deployCommerce.Flags().StringVarP(
-		&directoryPath, "dir", "d", "",
-		`The directory to deploy its content. Only first-level files will be deployed, so no
-							recursive deployment will happen`)
+	subcommands := []*cobra.Command{deployCommerce, deployNightly, deployRelease}
 
-	deployCmd.AddCommand(deployNightly)
-	deployNightly.Flags().StringVarP(
-		&filePath, "files", "f", "",
-		`The file or files to deploy. A comma-separated list of files is accepted to deploy
-							multiple files at the same time`)
-	deployNightly.Flags().StringVarP(
-		&directoryPath, "dir", "d", "",
-		`The directory to deploy its content. Only first-level files will be deployed, so no
-							recursive deployment will happen`)
+	for i := 0; i < len(subcommands); i++ {
+		subcommand := subcommands[i]
 
-	deployCmd.AddCommand(deployRelease)
-	deployRelease.Flags().StringVarP(
-		&filePath, "files", "f", "",
-		`The file or files to deploy. A comma-separated list of files is accepted to deploy
+		deployCmd.AddCommand(subcommand)
+
+		subcommand.Flags().StringVarP(
+			&filePath, "files", "f", "",
+			`The file or files to deploy. A comma-separated list of files is accepted to deploy
 							multiple files at the same time`)
-	deployRelease.Flags().StringVarP(
-		&directoryPath, "dir", "d", "",
-		`The directory to deploy its content. Only first-level files will be deployed, so no
+
+		subcommand.Flags().StringVarP(
+			&directoryPath, "dir", "d", "",
+			`The directory to deploy its content. Only first-level files will be deployed, so no
 							recursive deployment will happen`)
+	}
 }
 
 var deployCmd = &cobra.Command{
