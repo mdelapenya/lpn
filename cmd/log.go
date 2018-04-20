@@ -9,6 +9,10 @@ import (
 
 func init() {
 	rootCmd.AddCommand(logCmd)
+
+	logCmd.AddCommand(logCommerceCmd)
+	logCmd.AddCommand(logNightlyCmd)
+	logCmd.AddCommand(logReleaseCmd)
 }
 
 var logCmd = &cobra.Command{
@@ -17,6 +21,39 @@ var logCmd = &cobra.Command{
 	Long:  `Displays logs for the Liferay Portal instance, identified by [lpn] plus image type.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()
+	},
+}
+
+var logCommerceCmd = &cobra.Command{
+	Use:   "commerce",
+	Short: "Displays logs for the Liferay Portal Commerce instance",
+	Long:  `Displays logs for the Liferay Portal Commerce instance, identified by [lpn-commerce].`,
+	Run: func(cmd *cobra.Command, args []string) {
+		commerce := liferay.Commerce{}
+
+		LogDockerContainer(commerce)
+	},
+}
+
+var logNightlyCmd = &cobra.Command{
+	Use:   "nightly",
+	Short: "Displays logs for the Liferay Portal Nightly Build instance",
+	Long:  `Displays logs for the Liferay Portal Nightly Build instance, identified by [lpn-nightly].`,
+	Run: func(cmd *cobra.Command, args []string) {
+		nightly := liferay.Nightly{}
+
+		LogDockerContainer(nightly)
+	},
+}
+
+var logReleaseCmd = &cobra.Command{
+	Use:   "release",
+	Short: "Displays logs for the Liferay Portal Release instance",
+	Long:  `Displays logs for the Liferay Portal Release instance, identified by [lpn-release].`,
+	Run: func(cmd *cobra.Command, args []string) {
+		release := liferay.Release{}
+
+		LogDockerContainer(release)
 	},
 }
 
