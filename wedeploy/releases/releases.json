@@ -1,9 +1,9 @@
 [
     {
-        "channel": "unstable",
-        "version": "0.5.0-snapshot",
+        "channel": "stable",
+        "version": "0.5.0",
         "equinox": false,
-        "releaseDate": "2018-04-16 12:55",
+        "releaseDate": "2018-04-21 02:26",
         "changelog": {
             "enhacements": [
                 {
