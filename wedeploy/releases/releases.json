@@ -7,6 +7,9 @@
         "changelog": {
             "enhacements": [
                 {
+                    "description": "Refactor code to make commands more easily extendible"
+                },
+                {
                     "description": "Support running a container per image type at the same type (commerce, nightly build and release)"
                 },
                 {
