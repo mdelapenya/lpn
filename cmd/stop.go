@@ -11,6 +11,14 @@ import (
 
 func init() {
 	rootCmd.AddCommand(stopCmd)
+
+	subcommands := []*cobra.Command{stopCommerceCmd, stopNightlyCmd, stopReleaseCmd}
+
+	for i := 0; i < len(subcommands); i++ {
+		subcommand := subcommands[i]
+
+		stopCmd.AddCommand(subcommand)
+	}
 }
 
 var stopCmd = &cobra.Command{
@@ -22,8 +30,41 @@ var stopCmd = &cobra.Command{
 	},
 }
 
-// StopDockerContainer stops the running container
-func StopDockerContainer(image liferay.Image) {
+var stopCommerceCmd = &cobra.Command{
+	Use:   "commerce",
+	Short: "Stops the Liferay Portal Commerce instance",
+	Long:  `Stops the Liferay Portal Commerce instance, identified by [lpn-commerce].`,
+	Run: func(cmd *cobra.Command, args []string) {
+		commerce := liferay.Commerce{}
+
+		stopDockerContainer(commerce)
+	},
+}
+
+var stopNightlyCmd = &cobra.Command{
+	Use:   "nightly",
+	Short: "Stops the Liferay Portal Nightly Build instance",
+	Long:  `Stops the Liferay Portal Nightly Build instance, identified by [lpn-nightly].`,
+	Run: func(cmd *cobra.Command, args []string) {
+		nightly := liferay.Nightly{}
+
+		stopDockerContainer(nightly)
+	},
+}
+
+var stopReleaseCmd = &cobra.Command{
+	Use:   "release",
+	Short: "Stops the Liferay Portal Release instance",
+	Long:  `Stops the Liferay Portal Release instance, identified by [lpn-release].`,
+	Run: func(cmd *cobra.Command, args []string) {
+		release := liferay.Release{}
+
+		stopDockerContainer(release)
+	},
+}
+
+// stopDockerContainer stops the running container
+func stopDockerContainer(image liferay.Image) {
 	err := docker.StopDockerContainer(image)
 	if err != nil {
 		log.Fatalln("Impossible to stop the container [" + image.GetContainerName() + "]")
