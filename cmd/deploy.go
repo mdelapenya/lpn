@@ -18,6 +18,24 @@ var directoryPath string
 
 func init() {
 	rootCmd.AddCommand(deployCmd)
+
+	subcommands := []*cobra.Command{deployCommerce, deployNightly, deployRelease}
+
+	for i := 0; i < len(subcommands); i++ {
+		subcommand := subcommands[i]
+
+		deployCmd.AddCommand(subcommand)
+
+		subcommand.Flags().StringVarP(
+			&filePath, "files", "f", "",
+			`The file or files to deploy. A comma-separated list of files is accepted to deploy
+							multiple files at the same time`)
+
+		subcommand.Flags().StringVarP(
+			&directoryPath, "dir", "d", "",
+			`The directory to deploy its content. Only first-level files will be deployed, so no
+							recursive deployment will happen`)
+	}
 }
 
 var deployCmd = &cobra.Command{
@@ -26,6 +44,75 @@ var deployCmd = &cobra.Command{
 	Long:  `Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn`,
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()
+	},
+}
+
+var deployCommerce = &cobra.Command{
+	Use:   "commerce",
+	Short: "Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn",
+	Long:  `Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn`,
+	Run: func(cmd *cobra.Command, args []string) {
+		commerce := liferay.Commerce{}
+
+		validateArguments()
+
+		if filePath != "" {
+			deployFiles(commerce, filePath)
+		}
+
+		if directoryPath != "" {
+			deployDirectory(commerce, directoryPath)
+		}
+	},
+}
+
+var deployNightly = &cobra.Command{
+	Use:   "nightly",
+	Short: "Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn",
+	Long:  `Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn`,
+	Run: func(cmd *cobra.Command, args []string) {
+		nightly := liferay.Nightly{}
+
+		validateArguments()
+
+		if filePath != "" {
+			deployFiles(nightly, filePath)
+		}
+
+		if directoryPath != "" {
+			deployDirectory(nightly, directoryPath)
+		}
+	},
+}
+
+var deployRelease = &cobra.Command{
+	Use:   "release",
+	Short: "Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn",
+	Long: `Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn.
+	The appropriate tag is calculated from the image the container was build from.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		validateArguments()
+
+		release := liferay.Release{}
+
+		imageName, err := docker.GetDockerImageFromRunningContainer(release)
+		if err != nil {
+			log.Fatalln("The container [" + release.GetContainerName() + "] is NOT running.")
+		}
+
+		index := strings.LastIndex(imageName, ":")
+
+		tag := imageName[index+1 : len(imageName)-2]
+
+		release.Tag = tag
+
+		if filePath != "" {
+			deployFiles(release, filePath)
+		}
+
+		if directoryPath != "" {
+			deployDirectory(release, directoryPath)
+		}
 	},
 }
 
