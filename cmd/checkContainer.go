@@ -72,8 +72,8 @@ func checkDockerContainerExists(image liferay.Image) {
 	exists := docker.CheckDockerContainerExists(image)
 
 	if !exists {
-		log.Fatalln("The container [" + image.GetContainerName() + "] is NOT running.")
+		log.Fatalln("The container [" + image.GetContainerName() + "] does NOT exist in the system.")
 	}
 
-	log.Println("The container [" + image.GetContainerName() + "] is running.")
+	log.Println("The container [" + image.GetContainerName() + "] DOES exist in the system.")
 }

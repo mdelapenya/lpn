@@ -22,7 +22,7 @@ Feature: CheckContainer command
     Given I run `lpn checkContainer <type>`
     Then the output should contain:
     """
-    The container [lpn-<type>] is NOT running
+    The container [lpn-<type>] does NOT exist in the system
     """
     And the exit status should be 1
 
