@@ -1,10 +1,13 @@
 package docker
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"path/filepath"
 
+	types "github.com/docker/docker/api/types"
+	client "github.com/docker/docker/client"
 	liferay "github.com/mdelapenya/lpn/liferay"
 	shell "github.com/mdelapenya/lpn/shell"
 )
@@ -24,18 +27,24 @@ func CheckDocker() bool {
 
 // CheckDockerContainerExists checks if the container is running
 func CheckDockerContainerExists(image liferay.Image) bool {
-	cmdArgs := []string{
-		"container",
-		"inspect",
-		image.GetContainerName(),
-	}
-
-	err := shell.Run(dockerBinary, cmdArgs)
+	dockerClient, err := client.NewEnvClient()
 	if err != nil {
-		return false
+		panic(err)
 	}
 
-	return true
+	containers, err := dockerClient.ContainerList(
+		context.Background(), types.ContainerListOptions{All: true})
+	if err != nil {
+		panic(err)
+	}
+
+	for _, container := range containers {
+		if image.GetContainerName() == container.Names[0] {
+			return true
+		}
+	}
+
+	return false
 }
 
 // CheckDockerImageExists checks if the image is already present

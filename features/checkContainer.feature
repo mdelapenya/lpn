@@ -7,7 +7,7 @@ Feature: CheckContainer command
     When I run `lpn checkContainer <type>`
     Then the output should contain:
     """
-    The container [lpn-<type>] is running
+    The container [lpn-<type>] DOES exist in the system
     """
     And the exit status should be 0
     And I run `lpn rm <type>`
