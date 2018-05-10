@@ -56,16 +56,7 @@ var deployCommerce = &cobra.Command{
 
 		validateArguments()
 
-		imageName, err := docker.GetDockerImageFromRunningContainer(commerce)
-		if err != nil {
-			log.Fatalln("The container [" + commerce.GetContainerName() + "] is NOT running.")
-		}
-
-		index := strings.LastIndex(imageName, ":")
-
-		tag := imageName[index+1 : len(imageName)]
-
-		commerce.Tag = tag
+		commerce.Tag = getTag(commerce)
 
 		if filePath != "" {
 			deployFiles(commerce, filePath)
@@ -86,16 +77,7 @@ var deployNightly = &cobra.Command{
 
 		validateArguments()
 
-		imageName, err := docker.GetDockerImageFromRunningContainer(nightly)
-		if err != nil {
-			log.Fatalln("The container [" + nightly.GetContainerName() + "] is NOT running.")
-		}
-
-		index := strings.LastIndex(imageName, ":")
-
-		tag := imageName[index+1 : len(imageName)]
-
-		nightly.Tag = tag
+		nightly.Tag = getTag(nightly)
 
 		if filePath != "" {
 			deployFiles(nightly, filePath)
@@ -117,16 +99,7 @@ var deployRelease = &cobra.Command{
 
 		release := liferay.Release{}
 
-		imageName, err := docker.GetDockerImageFromRunningContainer(release)
-		if err != nil {
-			log.Fatalln("The container [" + release.GetContainerName() + "] is NOT running.")
-		}
-
-		index := strings.LastIndex(imageName, ":")
-
-		tag := imageName[index+1 : len(imageName)]
-
-		release.Tag = tag
+		release.Tag = getTag(release)
 
 		if filePath != "" {
 			deployFiles(release, filePath)
@@ -224,6 +197,17 @@ func deployPaths(image liferay.Image, paths []string) {
 			log.Println("Impossible to deploy the file to the container", err)
 		}
 	}
+}
+
+func getTag(image liferay.Image) string {
+	imageName, err := docker.GetDockerImageFromRunningContainer(image)
+	if err != nil {
+		log.Fatalln("The container [" + image.GetContainerName() + "] is NOT running.")
+	}
+
+	index := strings.LastIndex(imageName, ":")
+
+	return imageName[index+1 : len(imageName)]
 }
 
 func validateArguments() {
