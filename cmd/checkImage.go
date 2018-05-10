@@ -110,10 +110,11 @@ var checkImageRelease = &cobra.Command{
 
 // checkImage uses the image interface to check if it exists
 func checkImage(image liferay.Image) {
-	err := docker.CheckDockerImageExists(image.GetFullyQualifiedName())
-	if err != nil {
+	exists := docker.CheckDockerImageExists(image.GetFullyQualifiedName())
+
+	if exists == false {
 		log.Fatalln("The image [" + image.GetFullyQualifiedName() + "] has NOT been pulled from Docker Hub.")
-	} else {
-		log.Println("The image [" + image.GetFullyQualifiedName() + "] has been pulled from Docker Hub.")
 	}
+
+	log.Println("The image [" + image.GetFullyQualifiedName() + "] has been pulled from Docker Hub.")
 }
