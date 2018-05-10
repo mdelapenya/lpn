@@ -2,6 +2,7 @@ package docker
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"path/filepath"
@@ -97,13 +98,24 @@ func getDockerClient() *client.Client {
 
 // GetDockerImageFromRunningContainer gets the image name of the container
 func GetDockerImageFromRunningContainer(image liferay.Image) (string, error) {
-	cmdArgs := []string{
-		"inspect",
-		"--format='{{.Config.Image}}'",
-		image.GetContainerName(),
+	dockerClient := getDockerClient()
+
+	containers, err := dockerClient.ContainerList(
+		context.Background(), types.ContainerListOptions{All: true})
+
+	if err != nil {
+		return "", err
 	}
 
-	return shell.Command(dockerBinary, cmdArgs)
+	for _, container := range containers {
+		containerName := "/" + image.GetContainerName()
+
+		if containerName == container.Names[0] {
+			return container.Image, nil
+		}
+	}
+
+	return "", errors.New("We could not find the container among the running containers")
 }
 
 // GetDockerVersion returns the output of Docker version
