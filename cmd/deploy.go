@@ -52,19 +52,13 @@ var deployCommerce = &cobra.Command{
 	Short: "Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn",
 	Long:  `Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn`,
 	Run: func(cmd *cobra.Command, args []string) {
-		commerce := liferay.Commerce{}
-
 		validateArguments()
+
+		commerce := liferay.Commerce{}
 
 		commerce.Tag = getTag(commerce)
 
-		if filePath != "" {
-			deployFiles(commerce, filePath)
-		}
-
-		if directoryPath != "" {
-			deployDirectory(commerce, directoryPath)
-		}
+		doDeploy(commerce)
 	},
 }
 
@@ -73,19 +67,13 @@ var deployNightly = &cobra.Command{
 	Short: "Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn",
 	Long:  `Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn`,
 	Run: func(cmd *cobra.Command, args []string) {
-		nightly := liferay.Nightly{}
-
 		validateArguments()
+
+		nightly := liferay.Nightly{}
 
 		nightly.Tag = getTag(nightly)
 
-		if filePath != "" {
-			deployFiles(nightly, filePath)
-		}
-
-		if directoryPath != "" {
-			deployDirectory(nightly, directoryPath)
-		}
+		doDeploy(nightly)
 	},
 }
 
@@ -101,13 +89,7 @@ var deployRelease = &cobra.Command{
 
 		release.Tag = getTag(release)
 
-		if filePath != "" {
-			deployFiles(release, filePath)
-		}
-
-		if directoryPath != "" {
-			deployDirectory(release, directoryPath)
-		}
+		doDeploy(release)
 	},
 }
 
@@ -196,6 +178,16 @@ func deployPaths(image liferay.Image, paths []string) {
 		case err := <-errorChannel:
 			log.Println("Impossible to deploy the file to the container", err)
 		}
+	}
+}
+
+func doDeploy(image liferay.Image) {
+	if filePath != "" {
+		deployFiles(image, filePath)
+	}
+
+	if directoryPath != "" {
+		deployDirectory(image, directoryPath)
 	}
 }
 
