@@ -48,14 +48,26 @@ func CheckDockerContainerExists(image liferay.Image) bool {
 }
 
 // CheckDockerImageExists checks if the image is already present
-func CheckDockerImageExists(dockerImage string) error {
-	cmdArgs := []string{
-		"image",
-		"inspect",
-		dockerImage,
+func CheckDockerImageExists(dockerImage string) bool {
+	dockerClient, err := client.NewEnvClient()
+	if err != nil {
+		panic(err)
 	}
 
-	return shell.Run(dockerBinary, cmdArgs)
+	imageInspect, _, err := dockerClient.ImageInspectWithRaw(context.Background(), dockerImage)
+
+	if err != nil {
+		return false
+	}
+
+	for i := range imageInspect.RepoTags {
+		tag := imageInspect.RepoTags[i]
+
+		if dockerImage == tag {
+			return true
+		}
+	}
+	return false
 }
 
 // CopyFileToContainer copies a file to the running container
