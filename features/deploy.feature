@@ -149,3 +149,20 @@ Feature: Deploy command
     | nightly | latest | /liferay/deploy |
     | release | latest | /liferay/deploy |
     | release | 7-ce-ga5-tomcat-hsql | /usr/local/liferay-ce-portal-7.0-ga5/deploy |
+
+  Scenario Outline: Deploy a directory skipping subdirectories when container does not exist
+    Given an empty directory named "modules/skip1"
+    And an empty directory named "modules/skip2"
+    When I run `lpn deploy <type> -d modules`
+    Then the output should contain:
+    """
+    The container [lpn-<type>] is NOT running.
+    """
+    And I run `lpn rm <type>`
+
+    Examples:
+    | type | tag | home |
+    | commerce | latest | /liferay/deploy |
+    | nightly | latest | /liferay/deploy |
+    | release | latest | /liferay/deploy |
+    | release | 7-ce-ga5-tomcat-hsql | /usr/local/liferay-ce-portal-7.0-ga5/deploy |

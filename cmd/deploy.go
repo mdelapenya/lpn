@@ -56,6 +56,17 @@ var deployCommerce = &cobra.Command{
 
 		validateArguments()
 
+		imageName, err := docker.GetDockerImageFromRunningContainer(commerce)
+		if err != nil {
+			log.Fatalln("The container [" + commerce.GetContainerName() + "] is NOT running.")
+		}
+
+		index := strings.LastIndex(imageName, ":")
+
+		tag := imageName[index+1 : len(imageName)]
+
+		commerce.Tag = tag
+
 		if filePath != "" {
 			deployFiles(commerce, filePath)
 		}
@@ -74,6 +85,17 @@ var deployNightly = &cobra.Command{
 		nightly := liferay.Nightly{}
 
 		validateArguments()
+
+		imageName, err := docker.GetDockerImageFromRunningContainer(nightly)
+		if err != nil {
+			log.Fatalln("The container [" + nightly.GetContainerName() + "] is NOT running.")
+		}
+
+		index := strings.LastIndex(imageName, ":")
+
+		tag := imageName[index+1 : len(imageName)]
+
+		nightly.Tag = tag
 
 		if filePath != "" {
 			deployFiles(nightly, filePath)
@@ -102,7 +124,7 @@ var deployRelease = &cobra.Command{
 
 		index := strings.LastIndex(imageName, ":")
 
-		tag := imageName[index+1 : len(imageName)-2]
+		tag := imageName[index+1 : len(imageName)]
 
 		release.Tag = tag
 
