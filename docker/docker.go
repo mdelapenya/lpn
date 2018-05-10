@@ -31,8 +31,9 @@ func CheckDockerContainerExists(image liferay.Image) bool {
 
 	containers, err := dockerClient.ContainerList(
 		context.Background(), types.ContainerListOptions{All: true})
+
 	if err != nil {
-		panic(err)
+		return false
 	}
 
 	for _, container := range containers {
