@@ -27,10 +27,7 @@ func CheckDocker() bool {
 
 // CheckDockerContainerExists checks if the container is running
 func CheckDockerContainerExists(image liferay.Image) bool {
-	dockerClient, err := client.NewEnvClient()
-	if err != nil {
-		panic(err)
-	}
+	dockerClient := getDockerClient()
 
 	containers, err := dockerClient.ContainerList(
 		context.Background(), types.ContainerListOptions{All: true})
@@ -49,10 +46,7 @@ func CheckDockerContainerExists(image liferay.Image) bool {
 
 // CheckDockerImageExists checks if the image is already present
 func CheckDockerImageExists(dockerImage string) bool {
-	dockerClient, err := client.NewEnvClient()
-	if err != nil {
-		panic(err)
-	}
+	dockerClient := getDockerClient()
 
 	imageInspect, _, err := dockerClient.ImageInspectWithRaw(context.Background(), dockerImage)
 
@@ -86,6 +80,15 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 	}
 
 	return nil
+}
+
+func getDockerClient() *client.Client {
+	dockerClient, err := client.NewEnvClient()
+	if err != nil {
+		panic(err)
+	}
+
+	return dockerClient
 }
 
 // GetDockerImageFromRunningContainer gets the image name of the container
