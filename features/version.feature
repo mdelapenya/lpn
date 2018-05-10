@@ -11,12 +11,17 @@ Feature: Version command
     """
     And the output should contain:
     """
-    Docker version:
-    Client:
-     Version:
+    Client version:
     """
     And the output should contain:
     """
-    Server:
-     Version:
+    Server version:
+    """
+    And the output should contain:
+    """
+    Go version:
+    """
+    And the output should contain:
+    """
+    lpn (Liferay Portal Nook) v
     """
