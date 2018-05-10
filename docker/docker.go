@@ -37,7 +37,9 @@ func CheckDockerContainerExists(image liferay.Image) bool {
 	}
 
 	for _, container := range containers {
-		if image.GetContainerName() == container.Names[0] {
+		containerName := "/" + image.GetContainerName()
+
+		if containerName == container.Names[0] {
 			return true
 		}
 	}
