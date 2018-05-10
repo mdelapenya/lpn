@@ -108,11 +108,15 @@ func GetDockerImageFromRunningContainer(image liferay.Image) (string, error) {
 
 // GetDockerVersion returns the output of Docker version
 func GetDockerVersion() (string, error) {
-	cmdArgs := []string{
-		"version",
-	}
+	dockerClient := getDockerClient()
 
-	return shell.Command(dockerBinary, cmdArgs)
+	serverVersion, err := dockerClient.ServerVersion(context.Background())
+
+	version := "Client version: " + dockerClient.ClientVersion() + "\n"
+	version += "Server version: " + serverVersion.Version + "\n"
+	version += "Go version: " + serverVersion.GoVersion
+
+	return version, err
 }
 
 // LogDockerContainer downloads the image
