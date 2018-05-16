@@ -1,5 +1,23 @@
 [
     {
+        "channel": "unstable",
+        "version": "0.6.0-snapshot",
+        "equinox": false,
+        "releaseDate": "2018-05-16 17:30",
+        "changelog": {
+            "enhacements": [
+                {
+                    "description": "Add --memory flag when running an image to specy the Xmx and Xms memory tuning parameters"
+                }
+            ],
+            "fixes": [
+                {
+                    "description": "Fix build process for WeDeploy releases"
+                }
+            ]
+        }
+    },
+    {
         "channel": "stable",
         "version": "0.5.0",
         "equinox": false,
