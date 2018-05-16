@@ -373,6 +373,7 @@ Flags:
   -D, --debugPort int   Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled (default 9000)
   -g, --gogoPort int    Sets the GoGo Shell port of Liferay Portal's bundle. (default 11311)
   -h, --help            help for commerce
+  -m, --memory          Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.
   -p, --httpPort int    Sets the HTTP port of Liferay Portal's bundle. (default 8080)
 ```
 
@@ -391,6 +392,7 @@ Flags:
   -D, --debugPort int   Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled (default 9000)
   -g, --gogoPort int    Sets the GoGo Shell port of Liferay Portal's bundle. (default 11311)
   -h, --help            help for nightly
+  -m, --memory          Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.
   -p, --httpPort int    Sets the HTTP port of Liferay Portal's bundle. (default 8080)
 ```
 
@@ -409,6 +411,7 @@ Flags:
   -D, --debugPort int   Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled (default 9000)
   -g, --gogoPort int    Sets the GoGo Shell port of Liferay Portal's bundle. (default 11311)
   -h, --help            help for release
+  -m, --memory          Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.
   -p, --httpPort int    Sets the HTTP port of Liferay Portal's bundle. (default 8080)
 ```
 

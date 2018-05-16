@@ -130,10 +130,11 @@ func RemoveDockerImage(dockerImageName string) error {
 	return shell.CombinedOutput(dockerBinary, cmdArgs)
 }
 
-// RunDockerImage runs the image, setting the HTTP and GoGoShell ports for bundle, and debug mode if
-// needed
+// RunDockerImage runs the image, setting the HTTP and GoGoShell ports for bundle, debug mode, and
+// jvmMemory if needed
 func RunDockerImage(
-	image liferay.Image, httpPort int, gogoShellPort int, enableDebug bool, debugPort int) error {
+	image liferay.Image, httpPort int, gogoShellPort int, enableDebug bool, debugPort int,
+	memory string) error {
 
 	if CheckDockerContainerExists(image) {
 		log.Println("The container [" + image.GetContainerName() + "] is running.")
@@ -154,6 +155,11 @@ func RunDockerImage(
 	if enableDebug {
 		debugPortFlag := fmt.Sprintf("%d", debugPort) + ":9000"
 		cmdArgs = append(cmdArgs, "-e", "DEBUG_MODE=true", "-p", debugPortFlag)
+	}
+
+	if memory != "" {
+		jvmMemory := "JVM_TUNING_MEMORY=" + memory
+		cmdArgs = append(cmdArgs, "-e", jvmMemory)
 	}
 
 	cmdArgs = append(cmdArgs, image.GetFullyQualifiedName())
