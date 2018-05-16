@@ -33,3 +33,18 @@ Feature: Run command
     | commerce | latest |
     | nightly | latest |
     | release | latest |
+
+  Scenario Outline: Run command with memory enabled
+    When I run `lpn run <type> -t <tag> -m 1024m`
+    And I run `docker exec lpn-<type> ps aux | grep -e "-Xms1024m -Xmx1024m" | wc -l | xargs`
+    And the output should contain:
+    """
+    1
+    """
+    And I run `lpn rm <type>`
+
+  Examples:
+    | type    | tag |
+    | commerce | latest |
+    | nightly | latest |
+    | release | latest |
