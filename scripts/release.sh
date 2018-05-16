@@ -133,7 +133,7 @@ function release() {
 
   echo ">>> Release $VERSION pushed to Github successfully."
 
-  #publish_binaries
+  publish_binaries
 
   echo ">>> Binaries for $VERSION published to WeDeploy successfully."
 }
