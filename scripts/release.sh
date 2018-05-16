@@ -14,7 +14,7 @@ CHANNEL="unstable"
 VERSION="$RELEASE_VERSION-snapshot"
 
 if [[ "$BRANCH" == "master" ]]; then
-  channel="stable"
+  CHANNEL="stable"
   VERSION="$RELEASE_VERSION"
 fi
 
@@ -33,7 +33,7 @@ function build_binaries() {
     fi
 
     for GOARCH in 386 amd64; do
-        echo ">>> Building for ${GOOS}/${GOARCH}"
+        echo ">>> Building ${VERSION} for ${GOOS}/${GOARCH} in channel ${CHANNEL}"
         docker run --rm -v "$(pwd)":${GO_WORKSPACE} -w ${GO_WORKSPACE} \
             -e GOOS=${GOOS} -e GOARCH=${GOARCH} golang:${GO_VERSION} \
             go build -v -o ${GO_WORKSPACE}/wedeploy/releases/bin/${CHANNEL}/${VERSION}/${GOOS}/${GOARCH}/lpn${extension}
@@ -133,7 +133,7 @@ function release() {
 
   echo ">>> Release $VERSION pushed to Github successfully."
 
-  publish_binaries
+  #publish_binaries
 
   echo ">>> Binaries for $VERSION published to WeDeploy successfully."
 }
