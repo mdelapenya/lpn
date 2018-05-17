@@ -172,13 +172,14 @@ func PullDockerImage(dockerImage string) {
 
 // RemoveDockerContainer removes the running container
 func RemoveDockerContainer(image liferay.Image) error {
-	cmdArgs := []string{
-		"rm",
-		"-fv",
-		image.GetContainerName(),
-	}
+	dockerClient := getDockerClient()
 
-	return shell.CombinedOutput(dockerBinary, cmdArgs)
+	return dockerClient.ContainerRemove(
+		context.Background(), image.GetContainerName(),
+		types.ContainerRemoveOptions{
+			RemoveVolumes: true,
+			Force:         true,
+		})
 }
 
 // RemoveDockerImage removes a docker image
