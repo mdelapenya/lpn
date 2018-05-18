@@ -194,12 +194,19 @@ func RemoveDockerContainer(image liferay.Image) error {
 
 // RemoveDockerImage removes a docker image
 func RemoveDockerImage(dockerImageName string) error {
-	cmdArgs := []string{
-		"rmi",
-		dockerImageName,
+	dockerClient := getDockerClient()
+
+	_, err := dockerClient.ImageRemove(
+		context.Background(), dockerImageName,
+		types.ImageRemoveOptions{
+			Force: true,
+		})
+
+	if err == nil {
+		log.Println("[" + dockerImageName + "] was deleted.")
 	}
 
-	return shell.CombinedOutput(dockerBinary, cmdArgs)
+	return err
 }
 
 // RunDockerImage runs the image, setting the HTTP and GoGoShell ports for bundle, debug mode, and
