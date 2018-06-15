@@ -54,7 +54,7 @@ var tagsCommerceCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		commerce := liferay.Commerce{}
 
-		readTags(commerce)
+		log.Println("Sorry, but " + commerce.GetDockerHubTagsURL() + " repository is private, and we cannot access from this CLI :(")
 	},
 }
 
