@@ -15,6 +15,11 @@ func (r Release) GetDeployFolder() string {
 	return r.GetLiferayHome() + "/deploy"
 }
 
+// GetDockerHubTagsURL returns the URL of the available tags on Docker Hub
+func (r Release) GetDockerHubTagsURL() string {
+	return "mdelapenya/liferay-portal"
+}
+
 // GetFullyQualifiedName returns the fully qualified name of the image
 func (r Release) GetFullyQualifiedName() string {
 	return r.GetRepository() + ":" + r.GetTag()

@@ -22,6 +22,14 @@ func TestGetContainerNameCommerce(t *testing.T) {
 	assert.Equal("lpn-commerce", commerce.GetContainerName())
 }
 
+func TestGetDockerHubTagsURLCommerce(t *testing.T) {
+	commerce := Commerce{}
+
+	assert := assert.New(t)
+
+	assert.Equal("liferay/liferay-commerce", commerce.GetDockerHubTagsURL())
+}
+
 func TestGetFullyQualifiedNameCommerce(t *testing.T) {
 	commerce := Commerce{Tag: "foo"}
 

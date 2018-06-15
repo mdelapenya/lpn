@@ -14,6 +14,7 @@ type Image interface {
 	GetContainerName() string
 	GetFullyQualifiedName() string
 	GetDeployFolder() string
+	GetDockerHubTagsURL() string
 	GetLiferayHome() string
 	GetRepository() string
 	GetTag() string
