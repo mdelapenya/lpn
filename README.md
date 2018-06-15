@@ -25,7 +25,22 @@ $ brew tap eqnxio/mdelapenya
 $ brew install lpn
 ```
 
-## What does it do?
+## What does lpn do?
+
+With `lpn` you'll be able to:
+
+- Run Liferay Portal containers using the released version you prefer:
+  - Liferay Portal nightly builds, obtained from [here](https://hub.docker.com/r/mdelapenya/liferay-portal-nightlies/tags/).
+  - Liferay Portal releases, obtained from [here](https://hub.docker.com/r/mdelapenya/liferay-portal/tags/).
+  - Liferay Portal including specific produts, like Commerce. `This repository is Private, so you maybe don't have access to it`.
+- Deploy applications to the running containers:
+  - Imagine a developer gives you a non-released JAR/WAR file to test it. You could deploy and test it in seconds!
+- Check logs of the running containers
+- And more!
+
+## Which are the available commands?
+
+Execute `lpn help` to see the list of available commands. Each command could have subcommands, so append the `help` command to each subcommand and you'll get a list of options for each one.
 
 ```shell
 A Fast and Flexible CLI for managing Liferay Portal's Docker images
@@ -54,8 +69,6 @@ Flags:
 
 Use "lpn [command] --help" for more information about a command.
 ```
-
-## Commands
 
 ### checkContainer
 
