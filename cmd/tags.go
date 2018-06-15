@@ -16,6 +16,14 @@ const dockerHubTagSearchQuery = ".FlexTable__flexRow___2mqir"
 
 func init() {
 	rootCmd.AddCommand(tagsCmd)
+
+	subcommands := []*cobra.Command{tagsCommerceCmd, tagsNightlyCmd, tagsReleaseCmd}
+
+	for i := 0; i < len(subcommands); i++ {
+		subcommand := subcommands[i]
+
+		tagsCmd.AddCommand(subcommand)
+	}
 }
 
 var tagsCmd = &cobra.Command{
@@ -34,11 +42,49 @@ var tagsCmd = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		readTags("https://hub.docker.com/r/mdelapenya/liferay-portal/tags/")
+		SubCommandInfo()
 	},
 }
 
-func readTags(tagsPage string) {
+var tagsCommerceCmd = &cobra.Command{
+	Use:   "commerce",
+	Short: "Lists all tags for Liferay Commerce Docker image",
+	Long: `Lists all tags for Liferay Commerce Docker image from one of the unofficial, private repositories:
+		- ` + liferay.CommercesRepository + ` (private).`,
+	Run: func(cmd *cobra.Command, args []string) {
+		commerce := liferay.Commerce{}
+
+		readTags(commerce)
+	},
+}
+
+var tagsNightlyCmd = &cobra.Command{
+	Use:   "nightly",
+	Short: "Lists all tags for Liferay Portal Nightly Build Docker image",
+	Long: `Lists all tags for Liferay Portal Nightly Build Docker image from one of the unofficial repository:
+	- ` + liferay.NightliesRepository,
+	Run: func(cmd *cobra.Command, args []string) {
+		nightly := liferay.Nightly{}
+
+		readTags(nightly)
+	},
+}
+
+var tagsReleaseCmd = &cobra.Command{
+	Use:   "release",
+	Short: "Lists all tags for Liferay Portal Release Docker image",
+	Long: `Lists all tags for Liferay Portal Release Docker image from one of the unofficial repository:
+	- ` + liferay.ReleasesRepository,
+	Run: func(cmd *cobra.Command, args []string) {
+		release := liferay.Release{}
+
+		readTags(release)
+	},
+}
+
+func readTags(image liferay.Image) {
+	tagsPage := "https://hub.docker.com/r/" + image.GetDockerHubTagsURL() + "/tags/"
+
 	// Request the HTML page.
 	res, err := http.Get(tagsPage)
 	if err != nil {
