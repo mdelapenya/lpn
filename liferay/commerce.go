@@ -15,6 +15,11 @@ func (c Commerce) GetDeployFolder() string {
 	return c.GetLiferayHome() + "/deploy"
 }
 
+// GetDockerHubTagsURL returns the URL of the available tags on Docker Hub
+func (c Commerce) GetDockerHubTagsURL() string {
+	return "liferay/liferay-commerce"
+}
+
 // GetFullyQualifiedName returns the fully qualified name of the image
 func (c Commerce) GetFullyQualifiedName() string {
 	return c.GetRepository() + ":" + c.GetTag()

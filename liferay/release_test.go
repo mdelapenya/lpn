@@ -22,6 +22,14 @@ func TestGetContainerNameRelease(t *testing.T) {
 	assert.Equal("lpn-release", release.GetContainerName())
 }
 
+func TestGetDockerHubTagsURLRelease(t *testing.T) {
+	release := Release{}
+
+	assert := assert.New(t)
+
+	assert.Equal("mdelapenya/liferay-portal", release.GetDockerHubTagsURL())
+}
+
 func TestGetFullyQualifiedNameRelease(t *testing.T) {
 	release := Release{Tag: "foo"}
 

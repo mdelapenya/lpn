@@ -22,6 +22,14 @@ func TestGetContainerNameNightly(t *testing.T) {
 	assert.Equal("lpn-nightly", nightly.GetContainerName())
 }
 
+func TestGetDockerHubTagsURLNightly(t *testing.T) {
+	nightly := Nightly{}
+
+	assert := assert.New(t)
+
+	assert.Equal("liferay/liferay-portal-nightlies", nightly.GetDockerHubTagsURL())
+}
+
 func TestGetFullyQualifiedNameNightly(t *testing.T) {
 	nightly := Nightly{Tag: "foo"}
 
