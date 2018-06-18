@@ -102,20 +102,42 @@ func readTags(image liferay.Image) {
 	}
 
 	availableTags := []string{}
+	availableSizes := []string{}
+
+	maxLengthTags := 0
 
 	// Find the review items
 	doc.Find(dockerHubTagSearchQuery).Each(func(i int, selection *goquery.Selection) {
 		// For each item found, get the tag
 		tag := selection.Find("div .FlexTable__flexItemGrow2___3I1KN").Text()
+		nodes := selection.Find("div .FlexTable__flexItemGrow1___3djP6")
+
+		size := nodes.First().Text()
+
+		currentTagLength := len(tag)
+		if currentTagLength >= maxLengthTags {
+			maxLengthTags = currentTagLength
+		}
 
 		availableTags = append(availableTags, tag)
+		availableSizes = append(availableSizes, size)
 	})
 
 	if len(availableTags) > 0 {
 		log.Printf("The available tags for the image are:")
 
-		for _, tag := range availableTags {
-			fmt.Println(tag)
+		for index, tag := range availableTags {
+			whitespacesCount := maxLengthTags - len(tag) + 6
+
+			tagLine := tag
+
+			for i := 0; i < whitespacesCount; i++ {
+				tagLine += " "
+			}
+
+			tagLine += availableSizes[index]
+
+			fmt.Println(tagLine)
 		}
 	} else {
 		log.Printf("There are no available tags for the image")
