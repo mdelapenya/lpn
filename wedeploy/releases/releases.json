@@ -7,6 +7,9 @@
         "changelog": {
             "enhacements": [
                 {
+                    "description": "Add tags command, which list available tags for the specific image (release, nightly or commerce)"
+                },
+                {
                     "description": "Add --memory flag when running an image to specy the Xmx and Xms memory tuning parameters"
                 }
             ],
