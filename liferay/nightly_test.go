@@ -27,7 +27,7 @@ func TestGetDockerHubTagsURLNightly(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("liferay/liferay-portal-nightlies", nightly.GetDockerHubTagsURL())
+	assert.Equal("mdelapenya/liferay-portal-nightlies", nightly.GetDockerHubTagsURL())
 }
 
 func TestGetFullyQualifiedNameNightly(t *testing.T) {
