@@ -13,7 +13,6 @@
   <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
   <script src="js/bootstrap.js"></script>
 </head>
 
@@ -95,13 +94,6 @@
                     <div class="row">
                         <div class="body ml-auto col-md-12 mr-auto">
                             <h2 class="h1 font-weight-bold text-center">Releases Changelog and Downloads</h2>
-
-                            <div id="shellInstructions">
-                                <img class="copy" data-clipboard-text="curl https://releases-lpn.wedeploy.io/bin/unstable/0.5.0/darwin/amd64/lpn --output /tmp/lpn
-chmod +x /tmp/lpn
-sudo mv /tmp/lpn /usr/local/bin/lpn" src="images/lpn-install-process.png" style="max-width: 1000px; cursor: pointer" alt="Click to Copy to clipboard" title="Click to Copy to clipboard" />
-                            </div>
-
                             <div id="releases"></div>
                         </div>
                     </div>
@@ -124,8 +116,5 @@ sudo mv /tmp/lpn /usr/local/bin/lpn" src="images/lpn-install-process.png" style=
         </main>
     </div>
     <script src="js/releases.js"></script>
-    <script>
-        new ClipboardJS('.copy');
-    </script>
 </body>
 </html>
