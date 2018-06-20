@@ -18,6 +18,9 @@
             ],
             "fixes": [
                 {
+                    "description": "Fix bug when running releases with default tag (latest)"
+                },
+                {
                     "description": "Fix build process for WeDeploy releases"
                 }
             ]

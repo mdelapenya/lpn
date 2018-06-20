@@ -35,7 +35,7 @@ func init() {
 		subcommand.Flags().IntVarP(&gogoPort, "gogoPort", "g", 11311, "Sets the GoGo Shell port of Liferay Portal's bundle.")
 		subcommand.Flags().StringVarP(&memory, "memory", "m", "2048m", "Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.")
 		subcommand.Flags().StringVarP(&properties, "properties", "P", "", "Sets the location of a portal-ext properties files to configure the running instance of Liferay Portal's bundle.")
-		subcommand.Flags().StringVarP(&tagToRun, "tag", "t", date.CurrentDate, "Sets the image tag to run")
+		subcommand.Flags().StringVarP(&tagToRun, "tag", "t", "", "Sets the image tag to run")
 	}
 }
 
@@ -72,6 +72,10 @@ var runCommerceCmd = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToRun == "" {
+			tagToRun = date.CurrentDate
+		}
+
 		commerce := liferay.Commerce{Tag: tagToRun}
 
 		runDockerImage(commerce, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
@@ -91,6 +95,10 @@ var runNightlyCmd = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToRun == "" {
+			tagToRun = date.CurrentDate
+		}
+
 		nightly := liferay.Nightly{Tag: tagToRun}
 
 		runDockerImage(nightly, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
@@ -110,6 +118,10 @@ var runReleaseCmd = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToRun == "" {
+			tagToRun = "latest"
+		}
+
 		release := liferay.Release{Tag: tagToRun}
 
 		runDockerImage(release, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
