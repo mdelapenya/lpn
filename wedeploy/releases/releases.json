@@ -3,9 +3,12 @@
         "channel": "unstable",
         "version": "0.6.0-snapshot",
         "equinox": false,
-        "releaseDate": "2018-05-16 17:30",
+        "releaseDate": "2018-05-20 14:00",
         "changelog": {
             "enhacements": [
+                {
+                    "description": "Add --properties (-P) flag when running an image to specify the <strong>full path</strong> of a portal.properties to configure the running instance.)"
+                },
                 {
                     "description": "Add tags command, which list available tags for the specific image (release, nightly or commerce)"
                 },
