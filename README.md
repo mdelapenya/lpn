@@ -388,6 +388,7 @@ Flags:
   -h, --help            help for commerce
   -m, --memory          Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.
   -p, --httpPort int    Sets the HTTP port of Liferay Portal's bundle. (default 8080)
+  -P, --properties string   Sets the location of a portal-ext properties files to configure the running instance of Liferay Portal's bundle.
 ```
 
 #### run nightly
@@ -407,6 +408,7 @@ Flags:
   -h, --help            help for nightly
   -m, --memory          Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.
   -p, --httpPort int    Sets the HTTP port of Liferay Portal's bundle. (default 8080)
+  -P, --properties string   Sets the location of a portal-ext properties files to configure the running instance of Liferay Portal's bundle.
 ```
 
 #### run release
@@ -426,6 +428,7 @@ Flags:
   -h, --help            help for release
   -m, --memory          Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.
   -p, --httpPort int    Sets the HTTP port of Liferay Portal's bundle. (default 8080)
+  -P, --properties string   Sets the location of a portal-ext properties files to configure the running instance of Liferay Portal's bundle.
 ```
 
 To achieve that:
