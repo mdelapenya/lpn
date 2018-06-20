@@ -7,7 +7,7 @@
         "changelog": {
             "enhacements": [
                 {
-                    "description": "Add --properties (-P) flag when running an image to specify the <strong>full path</strong> of a portal.properties to configure the running instance.)"
+                    "description": "Add --properties (-P) flag when running an image to specify the <strong>full path</strong> of a portal.properties to configure the running instance."
                 },
                 {
                     "description": "Add tags command, which list available tags for the specific image (release, nightly or commerce)"
