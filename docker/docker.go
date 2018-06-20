@@ -3,6 +3,7 @@ package docker
 import (
 	"fmt"
 	"log"
+	"path/filepath"
 
 	liferay "github.com/mdelapenya/lpn/liferay"
 	shell "github.com/mdelapenya/lpn/shell"
@@ -134,7 +135,7 @@ func RemoveDockerImage(dockerImageName string) error {
 // jvmMemory if needed
 func RunDockerImage(
 	image liferay.Image, httpPort int, gogoShellPort int, enableDebug bool, debugPort int,
-	memory string) error {
+	memory string, properties string) error {
 
 	if CheckDockerContainerExists(image) {
 		log.Println("The container [" + image.GetContainerName() + "] is running.")
@@ -160,6 +161,15 @@ func RunDockerImage(
 	if memory != "" {
 		jvmMemory := "JVM_TUNING_MEMORY=" + memory
 		cmdArgs = append(cmdArgs, "-e", jvmMemory)
+	}
+
+	if properties != "" {
+		log.Println("Mounting " + properties + " as configuration file")
+
+		portalProperties := filepath.FromSlash(
+			properties + ":" + image.GetLiferayHome() + "/portal-ext.properties")
+
+		cmdArgs = append(cmdArgs, "-v", portalProperties)
 	}
 
 	cmdArgs = append(cmdArgs, image.GetFullyQualifiedName())

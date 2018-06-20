@@ -16,6 +16,7 @@ var debugPort int
 var gogoPort int
 var httpPort int
 var memory string
+var properties string
 var tagToRun string
 
 func init() {
@@ -33,6 +34,7 @@ func init() {
 		subcommand.Flags().IntVarP(&debugPort, "debugPort", "D", 9000, "Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled")
 		subcommand.Flags().IntVarP(&gogoPort, "gogoPort", "g", 11311, "Sets the GoGo Shell port of Liferay Portal's bundle.")
 		subcommand.Flags().StringVarP(&memory, "memory", "m", "2048m", "Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.")
+		subcommand.Flags().StringVarP(&properties, "properties", "P", "", "Sets the location of a portal-ext properties files to configure the running instance of Liferay Portal's bundle.")
 		subcommand.Flags().StringVarP(&tagToRun, "tag", "t", date.CurrentDate, "Sets the image tag to run")
 	}
 }
@@ -72,7 +74,7 @@ var runCommerceCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		commerce := liferay.Commerce{Tag: tagToRun}
 
-		runDockerImage(commerce, httpPort, gogoPort, enableDebug, debugPort, memory)
+		runDockerImage(commerce, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
 	},
 }
 
@@ -91,7 +93,7 @@ var runNightlyCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		nightly := liferay.Nightly{Tag: tagToRun}
 
-		runDockerImage(nightly, httpPort, gogoPort, enableDebug, debugPort, memory)
+		runDockerImage(nightly, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
 	},
 }
 
@@ -110,15 +112,17 @@ var runReleaseCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		release := liferay.Release{Tag: tagToRun}
 
-		runDockerImage(release, httpPort, gogoPort, enableDebug, debugPort, memory)
+		runDockerImage(release, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
 	},
 }
 
 // runDockerImage runs the image
 func runDockerImage(
-	image liferay.Image, httpPort int, gogoPort int, enableDebug bool, debugPort int, memory string) {
+	image liferay.Image, httpPort int, gogoPort int, enableDebug bool, debugPort int, memory string,
+	properties string) {
 
-	err := docker.RunDockerImage(image, httpPort, gogoPort, enableDebug, debugPort, memory)
+	err := docker.RunDockerImage(
+		image, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
 
 	if err != nil {
 		log.Fatalln("Impossible to run the container [" + image.GetContainerName() + "]")
