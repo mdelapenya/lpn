@@ -1,9 +1,9 @@
 [
     {
-        "channel": "unstable",
-        "version": "0.6.0-snapshot",
+        "channel": "stable",
+        "version": "0.6.0",
         "equinox": false,
-        "releaseDate": "2018-05-20 14:00",
+        "releaseDate": "2018-07-23 10:00",
         "changelog": {
             "enhacements": [
                 {
@@ -22,6 +22,10 @@
                 },
                 {
                     "description": "Fix build process for WeDeploy releases"
+                }
+                ,
+                {
+                    "description": "Fix typos"
                 }
             ]
         }
