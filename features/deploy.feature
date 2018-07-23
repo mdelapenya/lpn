@@ -5,12 +5,13 @@ Feature: Deploy command
   Scenario Outline: Deploy one single file when container exists
     Given an empty file named "modules/a.jar"
     When I run `lpn run <type> -t <tag>`
+    And I run `docker exec lpn-<type> mkdir -p <home>`
     And I run `lpn deploy <type> -f modules/a.jar`
     Then the output should contain:
     """
-    [modules/a.jar] deployed successfully to /liferay/deploy
+    [modules/a.jar] deployed successfully to <home>
     """
-    And I run `docker exec lpn-<type> ls -l /liferay/deploy | grep "a.jar" | wc -l | xargs`
+    And I run `docker exec lpn-<type> ls -l <home> | grep "a.jar" | wc -l | xargs`
     And the output should contain:
     """
     1
@@ -18,30 +19,32 @@ Feature: Deploy command
     And I run `lpn rm <type>`
 
   Examples:
-    | type    | tag |
-    | commerce | latest |
-    | nightly | latest |
-    | release | latest |
+    | type | tag | home |
+    | commerce | latest | /liferay/deploy |
+    | nightly | latest | /liferay/deploy |
+    | release | latest | /liferay/deploy |
+    | release | 7-ce-ga5-tomcat-hsql | /usr/local/liferay-ce-portal-7.0-ga5/deploy |
 
   Scenario Outline: Deploy multiple file when container exists
     Given an empty file named "modules/a.jar"
     And an empty file named "modules/b.jar"
     When I run `lpn run <type> -t <tag>`
+    And I run `docker exec lpn-<type> mkdir -p <home>`
     And I run `lpn deploy <type> -f modules/a.jar,modules/b.jar`
     Then the output should contain:
     """
-    [modules/a.jar] deployed successfully to /liferay/deploy
+    [modules/a.jar] deployed successfully to <home>
     """
     And the output should contain:
     """
-    [modules/b.jar] deployed successfully to /liferay/deploy
+    [modules/b.jar] deployed successfully to <home>
     """
-    And I run `docker exec lpn-<type> ls -l /liferay/deploy | grep "a.jar" | wc -l | xargs`
+    And I run `docker exec lpn-<type> ls -l <home> | grep "a.jar" | wc -l | xargs`
     And the output should contain:
     """
     1
     """
-    And I run `docker exec lpn-<type> ls -l /liferay/deploy | grep "b.jar" | wc -l | xargs`
+    And I run `docker exec lpn-<type> ls -l <home> | grep "b.jar" | wc -l | xargs`
     And the output should contain:
     """
     1
@@ -49,10 +52,11 @@ Feature: Deploy command
     And I run `lpn rm <type>`
 
   Examples:
-    | type    | tag |
-    | commerce | latest |
-    | nightly | latest |
-    | release | latest |
+    | type | tag | home |
+    | commerce | latest | /liferay/deploy |
+    | nightly | latest | /liferay/deploy |
+    | release | latest | /liferay/deploy |
+    | release | 7-ce-ga5-tomcat-hsql | /usr/local/liferay-ce-portal-7.0-ga5/deploy |
 
   Scenario Outline: Deploy command with no flags
     When I run `lpn run <type> -t <tag>`
@@ -117,6 +121,7 @@ Feature: Deploy command
     Given an empty directory named "modules/skip1"
     And an empty directory named "modules/skip2"
     When I run `lpn run <type> -t <tag>`
+    And I run `docker exec lpn-<type> mkdir -p <home>`
     And I run `lpn deploy <type> -d modules`
     Then the output should not contain:
     """
