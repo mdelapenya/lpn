@@ -21,7 +21,7 @@ fi
 function bind_static_files() {
   go-bindata -pkg assets -o assets/license/license.go ./LICENSE.txt
   go-bindata -pkg assets -o assets/version/version.go ./VERSION.txt
-  echo ">>> LICENSE and VERSION files bound into the binary sucessfully"
+  echo ">>> LICENSE and VERSION files bound into the binary successfully"
 }
 
 function build_binaries() {

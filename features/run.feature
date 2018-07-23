@@ -6,7 +6,7 @@ Feature: Run command
     When I run `lpn run <type> -t <tag>`
     Then the output should contain:
     """
-    The container [lpn-<type>] has been run sucessfully
+    The container [lpn-<type>] has been run successfully
     """
     And the exit status should be 0
     And I run `lpn rm <type>`
