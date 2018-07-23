@@ -197,7 +197,7 @@ func deployPaths(image liferay.Image, paths []string) {
 	for i := 0; i < len(paths); i++ {
 		select {
 		case <-resultChannel:
-			log.Println("[" + paths[i] + "] deployed sucessfully to " + image.GetDeployFolder())
+			log.Println("[" + paths[i] + "] deployed successfully to " + image.GetDeployFolder())
 		case err := <-errorChannel:
 			log.Println("Impossible to deploy the file to the container", err)
 		}

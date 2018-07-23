@@ -140,5 +140,5 @@ func runDockerImage(
 		log.Fatalln("Impossible to run the container [" + image.GetContainerName() + "]")
 	}
 
-	log.Println("The container [" + image.GetContainerName() + "] has been run sucessfully")
+	log.Println("The container [" + image.GetContainerName() + "] has been run successfully")
 }

@@ -8,7 +8,7 @@ Feature: Deploy command
     And I run `lpn deploy <type> -f modules/a.jar`
     Then the output should contain:
     """
-    [modules/a.jar] deployed sucessfully to /liferay/deploy
+    [modules/a.jar] deployed successfully to /liferay/deploy
     """
     And I run `docker exec lpn-<type> ls -l /liferay/deploy | grep "a.jar" | wc -l | xargs`
     And the output should contain:
@@ -30,11 +30,11 @@ Feature: Deploy command
     And I run `lpn deploy <type> -f modules/a.jar,modules/b.jar`
     Then the output should contain:
     """
-    [modules/a.jar] deployed sucessfully to /liferay/deploy
+    [modules/a.jar] deployed successfully to /liferay/deploy
     """
     And the output should contain:
     """
-    [modules/b.jar] deployed sucessfully to /liferay/deploy
+    [modules/b.jar] deployed successfully to /liferay/deploy
     """
     And I run `docker exec lpn-<type> ls -l /liferay/deploy | grep "a.jar" | wc -l | xargs`
     And the output should contain:
@@ -79,7 +79,7 @@ Feature: Deploy command
     And I run `lpn deploy <type> -d modules`
     Then the output should contain:
     """
-    [modules/a.jar] deployed sucessfully to <home>
+    [modules/a.jar] deployed successfully to <home>
     """
     And I run `docker exec lpn-<type> ls -l <home> | grep "a.jar" | wc -l | xargs`
     And the output should contain:
@@ -88,7 +88,7 @@ Feature: Deploy command
     """
     And the output should contain:
     """
-    [modules/b.jar] deployed sucessfully to <home>
+    [modules/b.jar] deployed successfully to <home>
     """
     And I run `docker exec lpn-<type> ls -l <home> | grep "b.jar" | wc -l | xargs`
     And the output should contain:
@@ -97,7 +97,7 @@ Feature: Deploy command
     """
     And the output should contain:
     """
-    [modules/c.jar] deployed sucessfully to <home>
+    [modules/c.jar] deployed successfully to <home>
     """
     And I run `docker exec lpn-<type> ls -l <home> | grep "c.jar" | wc -l | xargs`
     And the output should contain:
@@ -120,7 +120,7 @@ Feature: Deploy command
     And I run `lpn deploy <type> -d modules`
     Then the output should not contain:
     """
-    [modules/skip1] deployed sucessfully to <home>
+    [modules/skip1] deployed successfully to <home>
     """
     And I run `docker exec lpn-<type> ls -l <home> | grep "skip1" | wc -l | xargs`
     And the output should contain:
@@ -129,7 +129,7 @@ Feature: Deploy command
     """
     And the output should not contain:
     """
-    [modules/skip2] deployed sucessfully to <home>
+    [modules/skip2] deployed successfully to <home>
     """
     And I run `docker exec lpn-<type> ls -l <home> | grep "skip2" | wc -l | xargs`
     And the output should contain:
