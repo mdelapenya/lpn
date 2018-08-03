@@ -69,4 +69,6 @@ func stopDockerContainer(image liferay.Image) {
 	if err != nil {
 		log.Fatalln("Impossible to stop the container [" + image.GetContainerName() + "]")
 	}
+
+	log.Println("[" + image.GetContainerName() + "] stopped")
 }
