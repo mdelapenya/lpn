@@ -180,13 +180,12 @@ func PullDockerImage(dockerImage string) {
 	}
 }
 
-// RemoveDockerContainer removes the running container
-func RemoveDockerContainer(image liferay.Image) error {
+// RemoveDockerContainer removes a running container
+func RemoveDockerContainer(containerName string) error {
 	dockerClient := getDockerClient()
 
 	return dockerClient.ContainerRemove(
-		context.Background(), image.GetContainerName(),
-		types.ContainerRemoveOptions{
+		context.Background(), containerName, types.ContainerRemoveOptions{
 			RemoveVolumes: true,
 			Force:         true,
 		})
@@ -217,7 +216,7 @@ func RunDockerImage(
 
 	if CheckDockerContainerExists(image) {
 		log.Println("The container [" + image.GetContainerName() + "] is running.")
-		_ = RemoveDockerContainer(image)
+		_ = RemoveDockerContainer(image.GetContainerName())
 	}
 
 	port := fmt.Sprintf("%d", httpPort)
