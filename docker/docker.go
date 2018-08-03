@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 
 	types "github.com/docker/docker/api/types"
+	filters "github.com/docker/docker/api/types/filters"
 	client "github.com/docker/docker/client"
 	liferay "github.com/mdelapenya/lpn/liferay"
 	shell "github.com/mdelapenya/lpn/shell"
@@ -125,6 +126,22 @@ func LogDockerContainer(image liferay.Image) {
 	shell.StartAndWait(dockerBinary, cmdArgs)
 }
 
+// PsFilter Retrieves all containers with a label
+func PsFilter(label string) ([]types.Container, error) {
+	dockerClient := getDockerClient()
+
+	filters := filters.NewArgs()
+	filters.Add("label", label)
+
+	return dockerClient.ContainerList(
+		context.Background(), types.ContainerListOptions{
+			Size:    true,
+			All:     true,
+			Since:   "container",
+			Filters: filters,
+		})
+}
+
 // PullDockerImage downloads the image
 func PullDockerImage(dockerImage string) {
 	log.Println("Pulling [" + dockerImage + "].")
@@ -206,10 +223,10 @@ func RunDockerImage(
 }
 
 // StopDockerContainer stops the running container
-func StopDockerContainer(image liferay.Image) error {
+func StopDockerContainer(containerName string) error {
 	cmdArgs := []string{
 		"stop",
-		image.GetContainerName(),
+		containerName,
 	}
 
 	return shell.CombinedOutput(dockerBinary, cmdArgs)
