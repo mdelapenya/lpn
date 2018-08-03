@@ -7,7 +7,7 @@ Feature: Stop command
     And I run `lpn stop <type>`
     Then the output should contain:
     """
-    lpn-<type>
+    [lpn-<type>] stopped
     """
     And the exit status should be 0
     And I run `lpn rm <type>`

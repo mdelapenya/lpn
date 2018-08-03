@@ -69,4 +69,6 @@ func removeDockerContainer(image liferay.Image) {
 	if err != nil {
 		log.Fatalln("Impossible to remove the container [" + image.GetContainerName() + "]")
 	}
+
+	log.Println("[" + image.GetContainerName() + "] removed")
 }
