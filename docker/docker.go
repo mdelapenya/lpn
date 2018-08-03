@@ -148,6 +148,7 @@ func RunDockerImage(
 	cmdArgs := []string{
 		"run",
 		"-d",
+		"--label", "lpn",
 		"-p", port + ":8080",
 		"-p", gogoPort + ":11311",
 		"--name", image.GetContainerName(),
