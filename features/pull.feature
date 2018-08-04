@@ -6,7 +6,7 @@ Feature: Pull command
     When I run `lpn pull <type> -t <tag>`
     Then the output should contain:
     """
-    latest: Pulling from <repository>
+   Pulling [<repository>:<tag>]
     """
     And I run `lpn checkImage <type> -t <tag>`
     And the output should contain:
@@ -60,7 +60,7 @@ Feature: Pull command
     And I run `lpn pull <type> -t <tag> -f`
     Then the output should contain:
     """
-    The image [<repository>:<tag>] was not found in the local cache. Skipping removal.
+    The image [<repository>:<tag>] was not found in the local cache. Skipping removal
     """
     And the exit status should be 0
     And I run `lpn checkImage <type> -t <tag>`

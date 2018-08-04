@@ -67,7 +67,7 @@ var stopReleaseCmd = &cobra.Command{
 func stopDockerContainer(image liferay.Image) {
 	err := docker.StopDockerContainer(image.GetContainerName())
 	if err != nil {
-		log.Fatalln("Impossible to stop the container [" + image.GetContainerName() + "]")
+		log.Fatalln("Impossible to stop the container ["+image.GetContainerName()+"]", err)
 	}
 
 	log.Println("[" + image.GetContainerName() + "] stopped")

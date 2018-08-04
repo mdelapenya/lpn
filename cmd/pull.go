@@ -112,8 +112,8 @@ func pullDockerImage(image liferay.Image, forceRemoval bool) {
 		err := docker.RemoveDockerImage(image.GetFullyQualifiedName())
 		if err != nil {
 			log.Println(
-				"The image " + image.GetFullyQualifiedName() +
-					" was not found in the local cache. Skipping removal")
+				"The image [" + image.GetFullyQualifiedName() +
+					"] was not found in the local cache. Skipping removal")
 		}
 	}
 
