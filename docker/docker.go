@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"path/filepath"
 
@@ -163,21 +162,12 @@ func PsFilter(label string) ([]types.Container, error) {
 func PullDockerImage(dockerImage string) {
 	log.Println("Pulling [" + dockerImage + "].")
 
-	dockerClient := getDockerClient()
-
-	resp, err := dockerClient.ImagePull(
-		context.Background(), dockerImage, types.ImagePullOptions{
-			All: false,
-		})
-
-	if err != nil {
-		log.Fatal(err)
+	cmdArgs := []string{
+		"pull",
+		dockerImage,
 	}
 
-	_, err = ioutil.ReadAll(resp)
-	if err != nil {
-		log.Fatal(err)
-	}
+	shell.StartAndWait(dockerBinary, cmdArgs)
 }
 
 // RemoveDockerContainer removes a running container
