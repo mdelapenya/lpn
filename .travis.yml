@@ -8,6 +8,16 @@ services:
 go:
   - 1.9.x
 
+env:
+  - LPN_COMMAND=checkContainer
+  - LPN_COMMAND=checkImage
+  - LPN_COMMAND=deploy
+  - LPN_COMMAND=license
+  - LPN_COMMAND=pull
+  - LPN_COMMAND=rm
+  - LPN_COMMAND=stop
+  - LPN_COMMAND=version
+
 before_install:
   - sudo apt update -y
   - sudo apt install realpath -y
@@ -22,7 +32,7 @@ install:
 
 script:
   - ./scripts/coverage.sh
-  - mkdir bin && mv ./lpn bin/lpn && cucumber -r features
+  - mkdir bin && mv ./lpn bin/lpn && cucumber features/$LPN_COMMAND.feature
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
