@@ -254,3 +254,10 @@ func StopDockerContainer(containerName string) error {
 
 	return shell.CombinedOutput(dockerBinary, cmdArgs)
 }
+
+// ContainerInstance simple model for a container
+type ContainerInstance struct {
+	ID     string `json:"id" binding:"required"`
+	Name   string `json:"name" binding:"required"`
+	Status string `json:"status" binding:"required"`
+}
