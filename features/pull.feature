@@ -62,7 +62,6 @@ Feature: Pull command
     """
     The image [<repository>:<tag>] was not found in the local cache. Skipping removal
     """
-    And the exit status should be 0
     And I run `lpn checkImage <type> -t <tag>`
     And the output should contain:
     """
