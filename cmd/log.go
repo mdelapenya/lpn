@@ -35,7 +35,7 @@ var logCommerceCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		commerce := liferay.Commerce{}
 
-		logDockerContainer(commerce)
+		logContainer(commerce)
 	},
 }
 
@@ -46,7 +46,7 @@ var logNightlyCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		nightly := liferay.Nightly{}
 
-		logDockerContainer(nightly)
+		logContainer(nightly)
 	},
 }
 
@@ -57,11 +57,11 @@ var logReleaseCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		release := liferay.Release{}
 
-		logDockerContainer(release)
+		logContainer(release)
 	},
 }
 
-// logDockerContainer show the logs for the running container of the specified type
-func logDockerContainer(image liferay.Image) {
-	docker.LogDockerContainer(image)
+// logContainer show the logs for the running container of the specified type
+func logContainer(image liferay.Image) {
+	docker.LogContainer(image)
 }

@@ -131,8 +131,8 @@ func GetDockerVersion() (string, error) {
 	return version, err
 }
 
-// LogDockerContainer downloads the image
-func LogDockerContainer(image liferay.Image) {
+// LogContainer show logs of a container in tail mode
+func LogContainer(image liferay.Image) {
 	dockerClient := getDockerClient()
 
 	reader, err := dockerClient.ContainerLogs(
