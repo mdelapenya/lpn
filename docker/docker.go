@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -132,13 +133,19 @@ func GetDockerVersion() (string, error) {
 
 // LogDockerContainer downloads the image
 func LogDockerContainer(image liferay.Image) {
-	cmdArgs := []string{
-		"logs",
-		"-f",
-		image.GetContainerName(),
+	dockerClient := getDockerClient()
+
+	reader, err := dockerClient.ContainerLogs(
+		context.Background(), image.GetContainerName(),
+		types.ContainerLogsOptions{ShowStdout: true, ShowStderr: true, Follow: true})
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	shell.StartAndWait(dockerBinary, cmdArgs)
+	_, err = io.Copy(os.Stdout, reader)
+	if err != nil && err != io.EOF {
+		log.Fatal(err)
+	}
 }
 
 // PsFilter Retrieves all containers with a label
