@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"os"
 	"path/filepath"
 
 	types "github.com/docker/docker/api/types"
@@ -71,20 +72,18 @@ func CheckDockerImageExists(dockerImage string) bool {
 
 // CopyFileToContainer copies a file to the running container
 func CopyFileToContainer(image liferay.Image, path string) error {
-	cmdArgs := []string{
-		"cp",
-		path,
-		image.GetContainerName() + ":" + image.GetDeployFolder() + "/",
-	}
+	dockerClient := getDockerClient()
 
 	log.Println("Deploying [" + path + "] to " + image.GetDeployFolder())
 
-	err := shell.Run(dockerBinary, cmdArgs)
+	reader, err := os.Open(path)
 	if err != nil {
 		return err
 	}
 
-	return nil
+	return dockerClient.CopyToContainer(
+		context.Background(), image.GetContainerName(), image.GetDeployFolder(), reader,
+		types.CopyToContainerOptions{AllowOverwriteDirWithFile: true})
 }
 
 func getDockerClient() *client.Client {
