@@ -253,12 +253,9 @@ func RunDockerImage(
 
 // StopDockerContainer stops the running container
 func StopDockerContainer(containerName string) error {
-	cmdArgs := []string{
-		"stop",
-		containerName,
-	}
+	dockerClient := getDockerClient()
 
-	return shell.CombinedOutput(dockerBinary, cmdArgs)
+	return dockerClient.ContainerStop(context.Background(), containerName, nil)
 }
 
 // ContainerInstance simple model for a container
