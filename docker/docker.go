@@ -15,7 +15,6 @@ import (
 	client "github.com/docker/docker/client"
 	nat "github.com/docker/go-connections/nat"
 	liferay "github.com/mdelapenya/lpn/liferay"
-	shell "github.com/mdelapenya/lpn/shell"
 )
 
 // dockerBinary represents the name of the binary to execute Docker commands
@@ -179,12 +178,16 @@ func PsFilter(label string) ([]types.Container, error) {
 func PullDockerImage(dockerImage string) {
 	log.Println("Pulling [" + dockerImage + "].")
 
-	cmdArgs := []string{
-		"pull",
-		dockerImage,
-	}
+	dockerClient := getDockerClient()
 
-	shell.StartAndWait(dockerBinary, cmdArgs)
+	out, err := dockerClient.ImagePull(
+		context.Background(), dockerImage, types.ImagePullOptions{})
+
+	if err == nil {
+		io.Copy(os.Stdout, out)
+	} else {
+		log.Fatalf("The image [" + dockerImage + "] could not be pulled")
+	}
 }
 
 // RemoveDockerContainer removes a running container
@@ -267,14 +270,9 @@ func RunDockerImage(
 		})
 	}
 
-	dockerClient := getDockerClient()
+	PullDockerImage(image.GetFullyQualifiedName())
 
-	out, err := dockerClient.ImagePull(
-		context.Background(), image.GetFullyQualifiedName(), types.ImagePullOptions{})
-	if err != nil {
-		panic(err)
-	}
-	io.Copy(os.Stdout, out)
+	dockerClient := getDockerClient()
 
 	containerCreationResponse, err := dockerClient.ContainerCreate(
 		context.Background(),
