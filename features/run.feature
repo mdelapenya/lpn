@@ -13,7 +13,6 @@ Feature: Run command
 
   Examples:
     | type    | tag |
-    | commerce | latest |
     | nightly | latest |
     | release | latest |
 
@@ -30,7 +29,6 @@ Feature: Run command
 
   Examples:
     | type    | tag |
-    | commerce | latest |
     | nightly | latest |
     | release | latest |
 
@@ -45,6 +43,5 @@ Feature: Run command
 
   Examples:
     | type    | tag |
-    | commerce | latest |
     | nightly | latest |
     | release | latest |

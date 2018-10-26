@@ -14,7 +14,6 @@ Feature: CheckContainer command
 
   Examples:
     | type    |
-    | commerce |
     | nightly |
     | release |
   
@@ -28,6 +27,5 @@ Feature: CheckContainer command
 
   Examples:
     | type    |
-    | commerce |
     | nightly |
     | release |

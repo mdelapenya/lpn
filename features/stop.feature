@@ -14,7 +14,6 @@ Feature: Stop command
 
   Examples:
     | type    | tag |
-    | commerce | latest |
     | nightly | latest |
     | release | latest |
 
@@ -28,6 +27,5 @@ Feature: Stop command
   
   Examples:
     | type    | tag |
-    | commerce | latest |
     | nightly | latest |
     | release | latest |
