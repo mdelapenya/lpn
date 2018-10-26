@@ -27,8 +27,8 @@ var versionCmd = &cobra.Command{
 
 		dockerVersion, _ := docker.GetDockerVersion()
 
+		fmt.Println("lpn (Liferay Portal Nook) v" + string(version) + " -- HEAD")
 		fmt.Println("Docker version:")
 		fmt.Println(dockerVersion)
-		fmt.Println("lpn (Liferay Portal Nook) v" + string(version) + " -- HEAD")
 	},
 }
