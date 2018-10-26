@@ -24,7 +24,7 @@ Feature: Pull command
     When I run `lpn pull <type> -t foo`
     Then the output should contain:
     """
-    Error response from daemon: manifest for <image> not found
+    The image [<image>] could not be pulled
     """
     And the exit status should be 1
 
