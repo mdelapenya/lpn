@@ -1,15 +1,36 @@
-$.getJSON( "releases.json", function( data ) {
-    var releases = [];
-    $.each( data, function( id, release ) {
-        releases.push(getReleaseHtml(id, release));
-    });
+function getStableRelease() {
+    $.getJSON( "releases.json", function( data ) {
+        var releases = [];
+        $.each( data, function( id, release ) {
+            if (release.latestStable && release.latestStable === true) {
+                releases.push(getReleaseHtml(id, release));
 
-    $( "<div/>", {
-        "class": "accordion",
-        "id": "accordion",
-        html: releases.join( "" )
-    }).appendTo( "#releases" );
-});
+                return;
+            }
+        });
+    
+        $( "<div/>", {
+            "class": "accordion",
+            "id": "accordion",
+            html: releases.join( "" )
+        }).appendTo( "#releases" );
+    });
+}
+
+function getReleases() {
+    $.getJSON( "releases.json", function( data ) {
+        var releases = [];
+        $.each( data, function( id, release ) {
+            releases.push(getReleaseHtml(id, release));
+        });
+    
+        $( "<div/>", {
+            "class": "accordion",
+            "id": "accordion",
+            html: releases.join( "" )
+        }).appendTo( "#releases" );
+    });
+}
 
 function getReleaseHtml(index, release) {
     let timeLineItemLabel = "In development";
