@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- custom CSS -->
+    <link rel="stylesheet" href="custom_css/custom_bootstrap.css">
+
+    <title>lpn</title>
+</head>
+
+<body>
+    <nav class="navbar fixed-top bg-white">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="brand" href="index.html">
+                    <img class="symbol" src="img/lpn_symbol_2.svg" alt="">
+                    <span class="logo">lpn</span>
+                </a>
+                <span class="version">Version 0.7.0</span>
+
+            </div>
+            <ul class="nav">
+                <li><a href="index.html">Features</a></li>
+                <li><a href="">Donwnloads</a></li>
+                <li><a href="">Contribute</a></li>
+                <li><a href=""><img class="ml-1" src="img/GitHub-Mark-blue.svg" alt=""></a></li>
+            </ul>
+        </div>
+    </nav>
+    <section class="intro bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 col-sm-12 intro-body mt-2">
+                    <h1 class="intro-copy-two">Release Changelog and Downloads</h1>
+                    <p>Explore all the <span class="font-weight-bold">lpn</span> releases to date</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="releases">
+        <div class="container" id="releases"></div>
+    </section>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2 col-sm-12">
+                    <p class="font-weight-bold">lpn</p>
+                </div>
+                <div class="col-md-2 col-sm-12">
+                    <ul class="footer-menu pl-3">
+                        <li><a href="">What is Lexicon</a></li>
+                        <li><a href="">Pattern Library</a></li>
+                        <li><a href="">News and Updates</a></li>
+                        <li><a href="">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 offset-md-2 col-sm-12">
+                    <ul class="social-icons">
+                        <li>
+                            <a href="https://dribbble.com/liferay" target="_blank"><img src="img/dribble.png" alt=""></a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/liferay/lexicon-site" target="_blank"><img src="img/GitHub-Mark-64px.svg" alt=""></a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/Liferay_Lexicon" target="_blank"><img src="img/twitter.svg" alt=""></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <p class="small mb-2">Except as otherwise noted, the content of this site is licensed under CC BY-SA 4.0 license.</p>
+                    <p>Copyright © 2018 <a href="" class="font-weight-bold">Liferay, Inc.</a></p>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- library JavaScript -->
+    <script src="assets/js/docs.min.js"></script>
+    <script src="assets/js/releases.js"></script>
+
+    <script>
+        /**
+         * Listen to scroll to change header opacity class
+         */
+        function checkScroll() {
+            var startY = $('.navbar').height() * 1; //The point where the navbar changes in px
+
+            if ($(window).scrollTop() > startY) {
+                $('.navbar').addClass("scrolled");
+            } else {
+                $('.navbar').removeClass("scrolled");
+            }
+        }
+
+        if ($('.navbar').length > 0) {
+            $(window).on("scroll load resize", function() {
+                checkScroll();
+            });
+        }
+    </script>
+</body>
