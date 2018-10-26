@@ -96,8 +96,8 @@ function main() {
 
 function publish_binaries() {
   cd wedeploy
-  we login --no-browser
-  we deploy -p -r liferay.io lpn
+  we login -r liferay.io --no-browser
+  we deploy -r liferay.io -p lpn
 }
 
 function release() {
