@@ -7,17 +7,28 @@ import (
 	"io"
 	"log"
 	"os"
-	"path/filepath"
 
 	types "github.com/docker/docker/api/types"
+	container "github.com/docker/docker/api/types/container"
 	filters "github.com/docker/docker/api/types/filters"
+	mount "github.com/docker/docker/api/types/mount"
 	client "github.com/docker/docker/client"
+	nat "github.com/docker/go-connections/nat"
 	liferay "github.com/mdelapenya/lpn/liferay"
 	shell "github.com/mdelapenya/lpn/shell"
 )
 
 // dockerBinary represents the name of the binary to execute Docker commands
 const dockerBinary = "docker"
+
+func buildPortBinding(port string, ip string) []nat.PortBinding {
+	return []nat.PortBinding{
+		nat.PortBinding{
+			HostPort: port,
+			HostIP:   ip,
+		},
+	}
+}
 
 // CheckDocker checks if Docker is installed
 func CheckDocker() bool {
@@ -217,38 +228,75 @@ func RunDockerImage(
 
 	port := fmt.Sprintf("%d", httpPort)
 	gogoPort := fmt.Sprintf("%d", gogoShellPort)
+	debuggerPort := fmt.Sprintf("%d", debugPort)
 
-	cmdArgs := []string{
-		"run",
-		"-d",
-		"--label", "lpn",
-		"-p", port + ":8080",
-		"-p", gogoPort + ":11311",
-		"--name", image.GetContainerName(),
+	environmentVariables := []string{}
+
+	exposedPorts := map[nat.Port]struct{}{
+		"8080/tcp":  {},
+		"11311/tcp": {},
 	}
 
+	portBindings := make(map[nat.Port][]nat.PortBinding)
+
+	portBindings["8080/tcp"] = buildPortBinding(port, "0.0.0.0")
+	portBindings["11311/tcp"] = buildPortBinding(gogoPort, "0.0.0.0")
+
 	if enableDebug {
-		debugPortFlag := fmt.Sprintf("%d", debugPort) + ":9000"
-		cmdArgs = append(cmdArgs, "-e", "DEBUG_MODE=true", "-p", debugPortFlag)
+		var port9000 struct{}
+		exposedPorts["9000/tcp"] = port9000
+
+		portBindings["9000/tcp"] = buildPortBinding(debuggerPort, "0.0.0.0")
+
+		environmentVariables = append(environmentVariables, "DEBUG_MODE=true")
 	}
 
 	if memory != "" {
-		jvmMemory := "JVM_TUNING_MEMORY=" + memory
-		cmdArgs = append(cmdArgs, "-e", jvmMemory)
+		environmentVariables = append(environmentVariables, "JVM_TUNING_MEMORY="+memory)
 	}
+
+	var mounts []mount.Mount
 
 	if properties != "" {
 		log.Println("Mounting " + properties + " as configuration file")
 
-		portalProperties := filepath.FromSlash(
-			properties + ":" + image.GetLiferayHome() + "/portal-ext.properties")
-
-		cmdArgs = append(cmdArgs, "-v", portalProperties)
+		mounts = append(mounts, mount.Mount{
+			Type:   mount.TypeBind,
+			Source: properties,
+			Target: image.GetLiferayHome() + "/portal-ext.properties",
+		})
 	}
 
-	cmdArgs = append(cmdArgs, image.GetFullyQualifiedName())
+	dockerClient := getDockerClient()
 
-	return shell.CombinedOutput(dockerBinary, cmdArgs)
+	out, err := dockerClient.ImagePull(
+		context.Background(), image.GetFullyQualifiedName(), types.ImagePullOptions{})
+	if err != nil {
+		panic(err)
+	}
+	io.Copy(os.Stdout, out)
+
+	containerCreationResponse, err := dockerClient.ContainerCreate(
+		context.Background(),
+		&container.Config{
+			Image:        image.GetFullyQualifiedName(),
+			Env:          environmentVariables,
+			ExposedPorts: exposedPorts,
+			Labels: map[string]string{
+				"lpn": "",
+			},
+		},
+		&container.HostConfig{
+			PortBindings: portBindings,
+			Mounts:       mounts,
+		},
+		nil, image.GetContainerName())
+	if err != nil {
+		panic(err)
+	}
+
+	return dockerClient.ContainerStart(
+		context.Background(), containerCreationResponse.ID, types.ContainerStartOptions{})
 }
 
 // StopDockerContainer stops the running container
