@@ -13,7 +13,6 @@ Feature: Rm command
 
   Examples:
     | type    | tag |
-    | commerce | latest |
     | nightly | latest |
     | release | latest |
 
@@ -27,6 +26,5 @@ Feature: Rm command
 
   Examples:
     | type    | tag |
-    | commerce | latest |
     | nightly | latest |
     | release | latest |

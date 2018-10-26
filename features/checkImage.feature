@@ -1,6 +1,6 @@
 Feature: CheckImage command
   As a newcomer to lpn
-  I want to be able to check if the images representing commerce, nightly builds or releases are present
+  I want to be able to check if the images representing nightly builds or releases are present
 
   Scenario Outline: CheckImage command
     Given I run `lpn pull <type> -t latest`
@@ -13,7 +13,6 @@ Feature: CheckImage command
 
   Examples:
     | type    | image |
-    | commerce | liferay/liferay-commerce:latest |
     | nightly | mdelapenya/liferay-portal-nightlies:latest |
     | release | mdelapenya/liferay-portal:latest |
 
@@ -27,6 +26,5 @@ Feature: CheckImage command
   
   Examples:
     | type    | image |
-    | commerce | liferay/liferay-commerce:foo |
     | nightly | mdelapenya/liferay-portal-nightlies:foo |
     | release | mdelapenya/liferay-portal:foo |
