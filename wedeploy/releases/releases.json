@@ -23,6 +23,9 @@
             ],
             "fixes": [
                 {
+                    "description": "Fix default tag value when pulling release without '-t' flag"
+                },
+                {
                     "description": "Fix typos"
                 }
             ]
