@@ -1,3 +1,11 @@
+function appendReleases(releases) {
+    $( "<div/>", {
+        "class": "accordion",
+        "id": "accordion",
+        html: releases.join( "" )
+    }).appendTo( "#releases" );
+}
+
 function getStableRelease() {
     $.getJSON( "releases.json", function( data ) {
         var releases = [];
@@ -9,11 +17,7 @@ function getStableRelease() {
             }
         });
     
-        $( "<div/>", {
-            "class": "accordion",
-            "id": "accordion",
-            html: releases.join( "" )
-        }).appendTo( "#releases" );
+        appendReleases(releases);
     });
 }
 
@@ -24,11 +28,7 @@ function getReleases() {
             releases.push(getReleaseHtml(id, release));
         });
     
-        $( "<div/>", {
-            "class": "accordion",
-            "id": "accordion",
-            html: releases.join( "" )
-        }).appendTo( "#releases" );
+        appendReleases(releases);
     });
 }
 
