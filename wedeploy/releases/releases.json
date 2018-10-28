@@ -7,6 +7,9 @@
         "changelog": {
             "enhacements": [
                 {
+                    "description": "Add 'rmi' command, which allow removing Docker images from the system."
+                },
+                {
                     "description": "Add a Docker label to the containers run by this tool."
                 },
                 {
