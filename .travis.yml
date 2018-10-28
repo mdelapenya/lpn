@@ -25,6 +25,7 @@ before_install:
   - chmod +x $GOPATH/bin/dep
   - gem install aruba
   - echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin
+  - curl https://cdn.wedeploy.com/cli/latest/wedeploy.sh -sL | bash
 
 install:
   - ./scripts/pull-images.sh
