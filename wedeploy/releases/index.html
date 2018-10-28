@@ -119,8 +119,50 @@
     <section class="sibling-site">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 col-sm-12">
-                    <a href=""><img class="clay-img" src="img/console_docker.png" alt=""></a>
+                <div class="col-lg-6 col-md-12">
+                    <div class="code-box">
+                        <div class="code-header">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="mac-tab" data-toggle="tab" href="#mac" role="tab" aria-controls="home" aria-selected="true">Mac</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="linux-tab" data-toggle="tab" href="#linux" role="tab" aria-controls="profile" aria-selected="false">Linux</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="win-tab" data-toggle="tab" href="#win" role="tab" aria-controls="contact" aria-selected="false">Windows</a>
+                                </li>
+                            </ul>
+                            <button class="btn btn-sm btn-inverse btn-icon btn-copy" data-title="Copy" title="Copy">
+                                <svg class="lexicon-icon lexicon-icon-paste" viewBox="0 0 512 512">
+                                    <path class="lexicon-icon-body" fill="none" d="M412,128h-60V68c0-37.4-30.6-68-68-68H100C62.6,0,32,30.6,32,68v248c0,37.4,30.6,68,68,68h60v60
+                                        c0,37.4,30.6,68,68,68h184c37.4,0,68-30.6,68-68V196C480,158.6,449.4,128,412,128z"></path>
+                                    <path class="lexicon-icon-outline" d="M412,128h-60V68c0-37.4-30.6-68-68-68H100C62.6,0,32,30.6,32,68v248c0,37.4,30.6,68,68,68h60v60c0,37.4,30.6,68,68,68h184
+                                        c37.4,0,68-30.6,68-68V196C480,158.6,449.4,128,412,128z M160,196v124H96V64h192v64h-60C190.6,128,160,158.6,160,196z M416,448H224
+                                        V192h192V448z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="code-section">
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="mac" role="tabpanel" aria-labelledby="mac-tab">
+                                    <pre class="mb-0"><code class="code-soy"><span>curl <span class="variable">"https://lpn.lfr.io/bin/unstable/0.7.0/darwin/amd64/lpn"</span> --output <span class="variable">/tmp/lpn</span></span>
+<span>chmod +x <span class="variable">/tmp/lpn</span></span>
+<span><span class="string">sudo</span> mv <span class="variable">/tmp/lpn /usr/local/bin/lpn</span></span></code></pre>
+                                </div>
+                                <div class="tab-pane fade" id="linux" role="tabpanel" aria-labelledby="linux-tab">
+                                    <pre class="mb-0"><code class="code-soy"><span>curl <span class="variable">"https://lpn.lfr.io/bin/unstable/0.7.0/linux/amd64/lpn"</span> --output <span class="variable">/tmp/lpn</span></span>
+<span>chmod +x <span class="variable">/tmp/lpn</span></span>
+<span><span class="string">sudo</span> mv <span class="string">/tmp/lpn /usr/local/bin/lpn</span></span></code></pre>
+                                </div>
+                                <div class="tab-pane fade" id="win" role="tabpanel" aria-labelledby="win-tab">
+                                    <pre class="mb-0"><code class="code-soy"><span>md <span class="variable">"C:\Program Files (x86)\lpn"</span></span>
+<span>curl <span class="variable">"https://lpn.lfr.io/bin/unstable/0.7.0/windows/amd64/lpn"</span> -OutFile <span class="variable">"C:\Program Files (x86)\lpn\lpn.exe"</span></span>
+<span>set <span class="string">PATH="%PATH%;C:\Program Files (x86)\lpn\"</span></span></code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-5 offset-md-1 col-sm-12">
                     <div class="body">
