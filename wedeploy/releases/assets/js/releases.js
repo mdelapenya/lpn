@@ -10,10 +10,8 @@ function getStableRelease() {
     $.getJSON( "releases.json", function( data ) {
         var releases = [];
         $.each( data, function( id, release ) {
-            if (release.latestStable && release.latestStable === true) {
+            if (release.latest && release.latest === true) {
                 releases.push(getReleaseHtml(id, release));
-
-                return;
             }
         });
     
@@ -35,7 +33,7 @@ function getReleases() {
 function getReleaseHtml(index, release) {
     let timeLineItemLabel = "In development";
     let collapseShow = (index == 0) ? "show" : ""
-    let latestStable = ""
+    let latest = ""
     let textWarning = "text-warning"
 
     if (release.channel === "stable") {
@@ -43,8 +41,8 @@ function getReleaseHtml(index, release) {
         textWarning = ""
     }
 
-    if (release.latestStable && release.latestStable === true) {
-        latestStable = ` &nbsp;<span class="badge badge-success">Latest Stable</span>`
+    if (release.latest && release.latest === true && release.channel === "stable") {
+        latest = ` &nbsp;<span class="badge badge-success">Latest Stable</span>`
     }
 
     let markup = `<div class="card">
@@ -54,7 +52,7 @@ function getReleaseHtml(index, release) {
                 <span>`+ timeLineItemLabel + `</span>
             </div>
             <div class="col-md-10 col-sm-12">
-                <span class="version-title">Version ` + release.version + `</span>` + latestStable + `
+                <span class="version-title">Version ` + release.version + `</span>` + latest + `
                 <svg class="lexicon-icon lexicon-icon-angle-down" viewBox="0 0 512 512">
                     <path class="lexicon-icon-outline" d="M256 384c6.936-0.22 13.81-2.973 19.111-8.272l227.221-227.221c11.058-11.026 11.058-28.941 0-39.999-11.026-11.058-28.94-11.058-39.999 0l-206.333 206.333c0 0-206.333-206.333-206.333-206.333-11.059-11.058-28.973-11.058-39.999 0-11.059 11.058-11.059 28.972 0 39.999l227.221 227.221c5.3 5.3 12.174 8.053 19.111 8.272z"></path>
                 </svg>

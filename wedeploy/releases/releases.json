@@ -3,6 +3,7 @@
         "channel": "unstable",
         "version": "0.7.0",
         "equinox": false,
+        "latest": true,
         "releaseDate": "2018-10-31 10:00",
         "changelog": {
             "enhacements": [
@@ -38,7 +39,7 @@
         "channel": "stable",
         "version": "0.6.0",
         "equinox": false,
-        "latestStable": true,
+        "latest": true,
         "releaseDate": "2018-07-23 10:00",
         "changelog": {
             "enhacements": [
