@@ -20,11 +20,6 @@
                     "description": "Migrate all commands to the embedded Docker Client"
                 }
             ],
-            "breakings": [
-                {
-                    "description": "Docker is not needed anymore, as the tool embeds the Docker Client"
-                }
-            ],
             "fixes": [
                 {
                     "description": "Fix default tag value when pulling release without '-t' flag"
