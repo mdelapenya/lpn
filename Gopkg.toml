@@ -1,6 +1,6 @@
 # Gopkg.toml example
 #
-# Refer to https://github.com/golang/dep/blob/master/docs/Gopkg.toml.md
+# Refer to https://golang.github.io/dep/docs/Gopkg.toml.html
 # for detailed Gopkg.toml documentation.
 #
 # required = ["github.com/user/thing/cmd/thing"]
@@ -26,16 +26,28 @@
 
 
 [[constraint]]
-  branch = "master"
+  name = "github.com/PuerkitoBio/goquery"
+  version = "1.5.0"
+
+[[constraint]]
+  name = "github.com/docker/docker"
+  version = "1.13.1"
+
+[[constraint]]
+  branch = "docker/1.13"
+  name = "github.com/docker/go-connections"
+
+[[constraint]]
   name = "github.com/equinox-io/equinox"
+  version = "1.2.0"
 
 [[constraint]]
   name = "github.com/spf13/cobra"
-  version = "0.0.1"
+  version = "0.0.3"
 
 [[constraint]]
   name = "github.com/stretchr/testify"
-  version = "1.2.1"
+  version = "1.2.2"
 
 [[constraint]]
   branch = "master"
@@ -44,7 +56,3 @@
 [prune]
   go-tests = true
   unused-packages = true
-
-[[constraint]]
-  name = "github.com/docker/docker"
-  version = "1.13.1"
