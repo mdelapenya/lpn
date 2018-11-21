@@ -10,7 +10,8 @@ import (
 func init() {
 	rootCmd.AddCommand(logCmd)
 
-	subcommands := []*cobra.Command{logCommerceCmd, logNightlyCmd, logReleaseCmd}
+	subcommands := []*cobra.Command{
+		logCECmd, logCommerceCmd, logDXPCmd, logNightlyCmd, logReleaseCmd}
 
 	for i := 0; i < len(subcommands); i++ {
 		subcommand := subcommands[i]
@@ -28,6 +29,17 @@ var logCmd = &cobra.Command{
 	},
 }
 
+var logCECmd = &cobra.Command{
+	Use:   "ce",
+	Short: "Displays logs for the Liferay Portal CE instance",
+	Long:  `Displays logs for the Liferay Portal CE instance, identified by [lpn-ce].`,
+	Run: func(cmd *cobra.Command, args []string) {
+		ce := liferay.CE{}
+
+		logContainer(ce)
+	},
+}
+
 var logCommerceCmd = &cobra.Command{
 	Use:   "commerce",
 	Short: "Displays logs for the Liferay Portal Commerce instance",
@@ -36,6 +48,17 @@ var logCommerceCmd = &cobra.Command{
 		commerce := liferay.Commerce{}
 
 		logContainer(commerce)
+	},
+}
+
+var logDXPCmd = &cobra.Command{
+	Use:   "dxp",
+	Short: "Displays logs for the Liferay DXP instance",
+	Long:  `Displays logs for the Liferay DXP instance, identified by [lpn-dxp].`,
+	Run: func(cmd *cobra.Command, args []string) {
+		dxp := liferay.DXP{}
+
+		logContainer(dxp)
 	},
 }
 
