@@ -27,9 +27,9 @@ func init() {
 		subcommand.Flags().BoolVarP(&forceRemoval, "forceRemoval", "f", false, "Removes the cached, local image, if exists")
 	}
 
-	pullCE.Flags().StringVarP(&tagToPull, "tag", "t", "7.0.6-ga7", "Sets the image tag to pull")
+	pullCE.Flags().StringVarP(&tagToPull, "tag", "t", liferay.CEDefaultTag, "Sets the image tag to pull")
 	pullCommerce.Flags().StringVarP(&tagToPull, "tag", "t", date.CurrentDate, "Sets the image tag to pull")
-	pullDXP.Flags().StringVarP(&tagToPull, "tag", "t", "7.0.10.8", "Sets the image tag to pull")
+	pullDXP.Flags().StringVarP(&tagToPull, "tag", "t", liferay.DXPDefaultTag, "Sets the image tag to pull")
 	pullNightly.Flags().StringVarP(&tagToPull, "tag", "t", date.CurrentDate, "Sets the image tag to pull")
 	pullRelease.Flags().StringVarP(&tagToPull, "tag", "t", "latest", "Sets the image tag to pull")
 }
@@ -61,7 +61,7 @@ var pullCE = &cobra.Command{
 	Use:   "ce",
 	Short: "Pulls a Liferay Portal CE Docker image from Official CE repository",
 	Long: `Pulls a Liferay Portal instance, obtained from the official CE repository: "` + liferay.CERepository + `".
-	If no image tag is passed to the command, the "7.0.6-ga7" tag will be used.`,
+	If no image tag is passed to the command, the "` + liferay.CEDefaultTag + `" tag will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("pull ce requires zero or one argument representing the image tag to be pulled")
@@ -100,7 +100,7 @@ var pullDXP = &cobra.Command{
 	Short: "Pulls a Liferay DXP Docker image from Official DXP repository",
 	Long: `Pulls a Liferay DXP instance, obtained from the official DXP repository: "` + liferay.DXPRepository + `,
 	including a 30-day activation key".
-	If no image tag is passed to the command, the "7.0.10.8" tag will be used.`,
+	If no image tag is passed to the command, the "` + liferay.CEDefaultTag + `" tag will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("pull ce requires zero or one argument representing the image tag to be pulled")
