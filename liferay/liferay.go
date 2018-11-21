@@ -1,7 +1,13 @@
 package liferay
 
+// CERepository Namespace for the official Docker releases for CE
+const CERepository = "liferay/portal"
+
 // CommercesRepository Namespace for the Docker releases with Commerce
 const CommercesRepository = "liferay/liferay-commerce"
+
+// DXPRepository Namespace for the official Docker releases for DXP
+const DXPRepository = "liferay/dxp"
 
 // NightliesRepository Namespace for the Docker nightly builds
 const NightliesRepository = "mdelapenya/liferay-portal-nightlies"
