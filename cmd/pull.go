@@ -31,6 +31,14 @@ func init() {
 	pullRelease.Flags().BoolVarP(&forceRemoval, "forceRemoval", "f", false, "Removes the cached, local image, if exists")
 	pullRelease.Flags().StringVarP(&tagToPull, "tag", "t", "latest", "Sets the image tag to pull")
 	pullCmd.AddCommand(pullRelease)
+
+	pullCE.Flags().BoolVarP(&forceRemoval, "forceRemoval", "f", false, "Removes the cached, local image, if exists")
+	pullCE.Flags().StringVarP(&tagToPull, "tag", "t", "7.0.6-ga7", "Sets the image tag to pull")
+	pullCmd.AddCommand(pullCE)
+
+	pullDXP.Flags().BoolVarP(&forceRemoval, "forceRemoval", "f", false, "Removes the cached, local image, if exists")
+	pullDXP.Flags().StringVarP(&tagToPull, "tag", "t", "7.0.10.8", "Sets the image tag to pull")
+	pullCmd.AddCommand(pullDXP)
 }
 
 var pullCmd = &cobra.Command{
@@ -40,7 +48,10 @@ var pullCmd = &cobra.Command{
 		- ` + liferay.CommercesRepository + ` (private),
 		- ` + liferay.NightliesRepository + `, and
 		- ` + liferay.ReleasesRepository + `.
-	For that, please run this command adding "commerce", "release" or "nightly" subcommands.`,
+		- For official Docker images, the tool pulls from the official repositories:
+		- ` + liferay.CERepository + `, and
+		- ` + liferay.DXPRepository + `.
+	For that, please run this command adding "ce", "commerce", "dxp", "release" or "nightly" subcommands.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("pull requires zero or one argument representing the image tag to be pulled")
@@ -50,6 +61,25 @@ var pullCmd = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()
+	},
+}
+
+var pullCE = &cobra.Command{
+	Use:   "ce",
+	Short: "Pulls a Liferay Portal CE Docker image from Official CE repository",
+	Long: `Pulls a Liferay Portal instance, obtained from the official CE repository: "` + liferay.CERepository + `".
+	If no image tag is passed to the command, the "7.0.6-ga7" tag will be used.`,
+	Args: func(cmd *cobra.Command, args []string) error {
+		if len(args) > 1 {
+			return errors.New("pull ce requires zero or one argument representing the image tag to be pulled")
+		}
+
+		return nil
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		ce := liferay.CE{Tag: tagToPull}
+
+		pullDockerImage(ce, forceRemoval)
 	},
 }
 
@@ -69,6 +99,26 @@ var pullCommerce = &cobra.Command{
 		commerce := liferay.Commerce{Tag: tagToPull}
 
 		pullDockerImage(commerce, forceRemoval)
+	},
+}
+
+var pullDXP = &cobra.Command{
+	Use:   "dxp",
+	Short: "Pulls a Liferay DXP Docker image from Official DXP repository",
+	Long: `Pulls a Liferay DXP instance, obtained from the official DXP repository: "` + liferay.DXPRepository + `,
+	including a 30-day activation key".
+	If no image tag is passed to the command, the "7.0.10.8" tag will be used.`,
+	Args: func(cmd *cobra.Command, args []string) error {
+		if len(args) > 1 {
+			return errors.New("pull ce requires zero or one argument representing the image tag to be pulled")
+		}
+
+		return nil
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		dxp := liferay.DXP{Tag: tagToPull}
+
+		pullDockerImage(dxp, forceRemoval)
 	},
 }
 
