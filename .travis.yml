@@ -15,6 +15,8 @@ env:
   - LPN_COMMAND=license
   - LPN_COMMAND=pull
   - LPN_COMMAND=rm
+  - LPN_COMMAND=rmi
+  - LPN_COMMAND=run
   - LPN_COMMAND=stop
   - LPN_COMMAND=version
 
