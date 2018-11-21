@@ -22,7 +22,8 @@ var tagToRun string
 func init() {
 	rootCmd.AddCommand(runCmd)
 
-	subcommands := []*cobra.Command{runCommerceCmd, runNightlyCmd, runReleaseCmd}
+	subcommands := []*cobra.Command{
+		runCECmd, runCommerceCmd, runDXPCmd, runNightlyCmd, runReleaseCmd}
 
 	for i := 0; i < len(subcommands); i++ {
 		subcommand := subcommands[i]
@@ -46,7 +47,10 @@ var runCmd = &cobra.Command{
 		- ` + liferay.CommercesRepository + ` (private),
 		- ` + liferay.NightliesRepository + `, and
 		- ` + liferay.ReleasesRepository + `.
-	For that, please run this command adding "commerce", "release" or "nightly" subcommands.`,
+		- For official Docker images, the tool runs images obtained from the official repositories:
+		- ` + liferay.CERepository + `, and
+		- ` + liferay.DXPRepository + `.
+	For that, please run this command adding "ce", "commerce", "dxp", "release" or "nightly" subcommands.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("run requires zero or one argument representing the image tag to be run")
@@ -56,6 +60,29 @@ var runCmd = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()
+	},
+}
+
+var runCECmd = &cobra.Command{
+	Use:   "ce",
+	Short: "Runs a Liferay Portal CE instance",
+	Long: `Runs a Liferay Portal CE instance, obtained from the Official repository: ` + liferay.CERepository + `.
+	If no image tag is passed to the command, the "` + liferay.CEDefaultTag + `" tag will be used.`,
+	Args: func(cmd *cobra.Command, args []string) error {
+		if len(args) > 1 {
+			return errors.New("run requires zero or one argument representing the image tag to be run")
+		}
+
+		return nil
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		if tagToRun == "" {
+			tagToRun = liferay.CEDefaultTag
+		}
+
+		ce := liferay.CE{Tag: tagToRun}
+
+		runDockerImage(ce, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
 	},
 }
 
@@ -79,6 +106,30 @@ var runCommerceCmd = &cobra.Command{
 		commerce := liferay.Commerce{Tag: tagToRun}
 
 		runDockerImage(commerce, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
+	},
+}
+
+var runDXPCmd = &cobra.Command{
+	Use:   "dxp",
+	Short: "Runs a Liferay DXP instance",
+	Long: `Runs a Liferay DXP instance, obtained from the Official repository: ` + liferay.DXPRepository + `,
+	including a 30-day activation key.
+	If no image tag is passed to the command, the "` + liferay.DXPDefaultTag + `" tag will be used.`,
+	Args: func(cmd *cobra.Command, args []string) error {
+		if len(args) > 1 {
+			return errors.New("run requires zero or one argument representing the image tag to be run")
+		}
+
+		return nil
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		if tagToRun == "" {
+			tagToRun = liferay.DXPDefaultTag
+		}
+
+		dxp := liferay.DXP{Tag: tagToRun}
+
+		runDockerImage(dxp, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
 	},
 }
 
