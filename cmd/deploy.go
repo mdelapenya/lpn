@@ -19,7 +19,8 @@ var directoryPath string
 func init() {
 	rootCmd.AddCommand(deployCmd)
 
-	subcommands := []*cobra.Command{deployCommerce, deployNightly, deployRelease}
+	subcommands := []*cobra.Command{
+		deployCE, deployCommerce, deployDXP, deployNightly, deployRelease}
 
 	for i := 0; i < len(subcommands); i++ {
 		subcommand := subcommands[i]
@@ -47,6 +48,22 @@ var deployCmd = &cobra.Command{
 	},
 }
 
+var deployCE = &cobra.Command{
+	Use:   "ce",
+	Short: "Deploys files or a directory to Liferay CE's deploy folder in the container run by lpn",
+	Long: `Deploys files or a directory to Liferay CE's deploy folder in the container run by lpn.
+	The appropriate tag is calculated from the image the container was build from.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		validateArguments()
+
+		ce := liferay.CE{}
+
+		ce.Tag = getTag(ce)
+
+		doDeploy(ce)
+	},
+}
+
 var deployCommerce = &cobra.Command{
 	Use:   "commerce",
 	Short: "Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn",
@@ -59,6 +76,22 @@ var deployCommerce = &cobra.Command{
 		commerce.Tag = getTag(commerce)
 
 		doDeploy(commerce)
+	},
+}
+
+var deployDXP = &cobra.Command{
+	Use:   "dxp",
+	Short: "Deploys files or a directory to Liferay DXP's deploy folder in the container run by lpn",
+	Long: `Deploys files or a directory to Liferay DXP's deploy folder in the container run by lpn.
+	The appropriate tag is calculated from the image the container was build from.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		validateArguments()
+
+		dxp := liferay.DXP{}
+
+		dxp.Tag = getTag(dxp)
+
+		doDeploy(dxp)
 	},
 }
 
