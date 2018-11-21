@@ -43,13 +43,13 @@ func init() {
 var runCmd = &cobra.Command{
 	Use:   "run",
 	Short: "Runs a Liferay Portal instance",
-	Long: `Runs a Liferay Portal instance, obtained from the unofficial repositories:
+	Long: `Runs a Liferay Portal instance, obtained from the Official repositories:
 		- ` + liferay.CommercesRepository + ` (private),
-		- ` + liferay.NightliesRepository + `, and
-		- ` + liferay.ReleasesRepository + `.
-		- For official Docker images, the tool runs images obtained from the official repositories:
 		- ` + liferay.CERepository + `, and
 		- ` + liferay.DXPRepository + `.
+		For non-official Docker images, the tool runs images obtained from the unofficial repositories:
+		- ` + liferay.NightliesRepository + `, and
+		- ` + liferay.ReleasesRepository + `.
 	For that, please run this command adding "ce", "commerce", "dxp", "release" or "nightly" subcommands.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
