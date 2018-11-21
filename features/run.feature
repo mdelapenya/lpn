@@ -13,6 +13,8 @@ Feature: Run command
 
   Examples:
     | type    | tag |
+    | ce      | 7.0.6-ga7 |
+    | dxp     | 7.0.10.8 |
     | nightly | latest |
     | release | latest |
 
@@ -29,6 +31,8 @@ Feature: Run command
 
   Examples:
     | type    | tag |
+    | ce      | 7.0.6-ga7 |
+    | dxp     | 7.0.10.8 |
     | nightly | latest |
     | release | latest |
 
@@ -43,5 +47,7 @@ Feature: Run command
 
   Examples:
     | type    | tag |
+    | ce      | 7.0.6-ga7 |
+    | dxp     | 7.0.10.8 |
     | nightly | latest |
     | release | latest |

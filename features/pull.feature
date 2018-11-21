@@ -17,6 +17,8 @@ Feature: Pull command
 
   Examples:
     | type    | tag | repository |
+    | ce      | 7.0.6-ga7 | liferay/portal |
+    | dxp     | 7.0.10.8 | liferay/dxp |
     | nightly | latest | mdelapenya/liferay-portal-nightlies |
     | release | latest | mdelapenya/liferay-portal |
 
@@ -30,6 +32,8 @@ Feature: Pull command
 
   Examples:
     | type    | image |
+    | ce      | liferay/portal:foo |
+    | dxp     | liferay/dxp:foo |
     | nightly | mdelapenya/liferay-portal-nightlies:foo |
     | release | mdelapenya/liferay-portal:foo |
 
@@ -49,6 +53,8 @@ Feature: Pull command
 
   Examples:
     | type    | tag | repository |
+    | ce      | 7.0.6-ga7 | liferay/portal |
+    | dxp     | 7.0.10.8 | liferay/dxp |
     | nightly | latest | mdelapenya/liferay-portal-nightlies |
     | release | latest | mdelapenya/liferay-portal |
 

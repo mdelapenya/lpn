@@ -13,6 +13,8 @@ Feature: Rmi command
 
   Examples:
     | type    | image | tag |
+    | ce      | liferay/portal | 7.0.6-ga7 |
+    | dxp     | liferay/dxp | 7.0.10.8 |
     | nightly | mdelapenya/liferay-portal-nightlies | latest |
     | release | mdelapenya/liferay-portal | latest |
 
@@ -26,5 +28,7 @@ Feature: Rmi command
 
   Examples:
     | type    | image | tag |
+    | ce      | liferay/portal | foo |
+    | dxp     | liferay/dxp | foo |
     | nightly | mdelapenya/liferay-portal-nightlies | foo |
     | release | mdelapenya/liferay-portal | foo |
