@@ -17,7 +17,8 @@ const dockerHubTagSearchQuery = ".FlexTable__flexRow___2mqir"
 func init() {
 	rootCmd.AddCommand(tagsCmd)
 
-	subcommands := []*cobra.Command{tagsCommerceCmd, tagsNightlyCmd, tagsReleaseCmd}
+	subcommands := []*cobra.Command{
+		tagsCECmd, tagsCommerceCmd, tagsDXPCmd, tagsNightlyCmd, tagsReleaseCmd}
 
 	for i := 0; i < len(subcommands); i++ {
 		subcommand := subcommands[i]
@@ -29,7 +30,11 @@ func init() {
 var tagsCmd = &cobra.Command{
 	Use:   "tags",
 	Short: "Lists all tags for Liferay Portal Docker image",
-	Long: `Lists all tags for Liferay Portal Docker image from one of the unofficial repositories:
+	Long: `Lists all tags for Liferay Portal Docker image from the Official repositories:
+		- ` + liferay.CommercesRepository + ` (private),
+		- ` + liferay.CERepository + `, and
+		- ` + liferay.DXPRepository + `.
+		For non-official Docker images, the tool lists tags from the unofficial repositories:
 		- ` + liferay.CommercesRepository + ` (private),
 		- ` + liferay.NightliesRepository + `, and
 		- ` + liferay.ReleasesRepository + `.
@@ -46,6 +51,18 @@ var tagsCmd = &cobra.Command{
 	},
 }
 
+var tagsCECmd = &cobra.Command{
+	Use:   "ce",
+	Short: "Lists all tags for Liferay Portal CE Docker image",
+	Long: `Lists all tags for Liferay Portal CE Docker image from one of the Official repository:
+	- ` + liferay.CERepository,
+	Run: func(cmd *cobra.Command, args []string) {
+		ce := liferay.CE{}
+
+		readTags(ce)
+	},
+}
+
 var tagsCommerceCmd = &cobra.Command{
 	Use:   "commerce",
 	Short: "Lists all tags for Liferay Commerce Docker image",
@@ -55,6 +72,18 @@ var tagsCommerceCmd = &cobra.Command{
 		commerce := liferay.Commerce{}
 
 		log.Println("Sorry, but " + commerce.GetDockerHubTagsURL() + " repository is private, and we cannot access from this CLI :(")
+	},
+}
+
+var tagsDXPCmd = &cobra.Command{
+	Use:   "dxp",
+	Short: "Lists all tags for Liferay DXP Docker image",
+	Long: `Lists all tags for Liferay DXP Docker image from one of the Official repository:
+	- ` + liferay.CERepository,
+	Run: func(cmd *cobra.Command, args []string) {
+		dxp := liferay.DXP{}
+
+		readTags(dxp)
 	},
 }
 
