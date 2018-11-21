@@ -37,13 +37,13 @@ func init() {
 var pullCmd = &cobra.Command{
 	Use:   "pull",
 	Short: "Pulls a Liferay Portal Docker image",
-	Long: `Pulls a Liferay Portal Docker image from one of the unofficial repositories:
+	Long: `Pulls a Liferay Portal Docker image from one of the Official repositories:
 		- ` + liferay.CommercesRepository + ` (private),
-		- ` + liferay.NightliesRepository + `, and
-		- ` + liferay.ReleasesRepository + `.
-		- For official Docker images, the tool pulls from the official repositories:
 		- ` + liferay.CERepository + `, and
 		- ` + liferay.DXPRepository + `.
+		For non-official Docker images, the tool pulls from the official repositories:
+		- ` + liferay.NightliesRepository + `, and
+		- ` + liferay.ReleasesRepository + `.
 	For that, please run this command adding "ce", "commerce", "dxp", "release" or "nightly" subcommands.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
