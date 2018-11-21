@@ -27,8 +27,8 @@ Feature: Rm command
     And the exit status should be 1
 
   Examples:
-    | type    | tag |
-    | ce      | 7.0.6-ga7 |
-    | dxp     | 7.0.10.8 |
-    | nightly | latest |
-    | release | latest |
+    | type    |
+    | ce      |
+    | dxp     |
+    | nightly |
+    | release |
