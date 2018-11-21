@@ -15,18 +15,19 @@ var tagToRemove string
 func init() {
 	rootCmd.AddCommand(rmiCmd)
 
-	subcommands := []*cobra.Command{rmiCommerceCmd, rmiNightlyCmd}
+	subcommands := []*cobra.Command{rmiCECmd, rmiCommerceCmd, rmiDXPCmd, rmiNightlyCmd, rmiReleaseCmd}
 
 	for i := 0; i < len(subcommands); i++ {
 		subcommand := subcommands[i]
 
 		rmiCmd.AddCommand(subcommand)
-
-		subcommand.Flags().StringVarP(&tagToRemove, "tag", "t", date.CurrentDate, "Sets the image tag to remove")
 	}
 
+	rmiCECmd.Flags().StringVarP(&tagToPull, "tag", "t", "7.0.6-ga7", "Sets the image tag to remove")
+	rmiCommerceCmd.Flags().StringVarP(&tagToRemove, "tag", "t", date.CurrentDate, "Sets the image tag to remove")
+	rmiDXPCmd.Flags().StringVarP(&tagToPull, "tag", "t", "7.0.10.8", "Sets the image tag to remove")
+	rmiNightlyCmd.Flags().StringVarP(&tagToRemove, "tag", "t", date.CurrentDate, "Sets the image tag to remove")
 	rmiReleaseCmd.Flags().StringVarP(&tagToRemove, "tag", "t", "latest", "Sets the image tag to remove")
-	rmiCmd.AddCommand(rmiReleaseCmd)
 }
 
 var rmiCmd = &cobra.Command{
@@ -38,6 +39,17 @@ var rmiCmd = &cobra.Command{
 	},
 }
 
+var rmiCECmd = &cobra.Command{
+	Use:   "ce",
+	Short: "Removes the Official Liferay Portal CE image",
+	Long:  `Removes the Official Liferay Portal CE image, identified by ["` + liferay.CERepository + `"].`,
+	Run: func(cmd *cobra.Command, args []string) {
+		ce := liferay.CE{Tag: tagToRemove}
+
+		removeDockerImage(ce)
+	},
+}
+
 var rmiCommerceCmd = &cobra.Command{
 	Use:   "commerce",
 	Short: "Removes the Liferay Portal Commerce image",
@@ -46,6 +58,17 @@ var rmiCommerceCmd = &cobra.Command{
 		commerce := liferay.Commerce{Tag: tagToRemove}
 
 		removeDockerImage(commerce)
+	},
+}
+
+var rmiDXPCmd = &cobra.Command{
+	Use:   "dxp",
+	Short: "Removes the Official Liferay DXP image",
+	Long:  `Removes the Official Liferay DXP image, identified by ["` + liferay.DXPRepository + `"].`,
+	Run: func(cmd *cobra.Command, args []string) {
+		dxp := liferay.DXP{Tag: tagToRemove}
+
+		removeDockerImage(dxp)
 	},
 }
 
