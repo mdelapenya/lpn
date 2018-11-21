@@ -27,7 +27,7 @@ Feature: CheckImage command
 
   Examples:
     | type | image       | tag       |
-    | ce   | liferay/ce  | 7.0.6-ga7 |
+    | ce   | liferay/portal  | 7.0.6-ga7 |
     | dxp  | liferay/dxp | 7.0.10.8  |
 
   Scenario Outline: CheckImage command when an image is not found
