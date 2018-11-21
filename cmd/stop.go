@@ -12,7 +12,8 @@ import (
 func init() {
 	rootCmd.AddCommand(stopCmd)
 
-	subcommands := []*cobra.Command{stopCommerceCmd, stopNightlyCmd, stopReleaseCmd}
+	subcommands := []*cobra.Command{
+		stopCECmd, stopCommerceCmd, stopDXPCmd, stopNightlyCmd, stopReleaseCmd}
 
 	for i := 0; i < len(subcommands); i++ {
 		subcommand := subcommands[i]
@@ -30,6 +31,17 @@ var stopCmd = &cobra.Command{
 	},
 }
 
+var stopCECmd = &cobra.Command{
+	Use:   "ce",
+	Short: "Stops the Liferay Portal CE instance",
+	Long:  `Stops the Liferay Portal CE instance, identified by [lpn-cd].`,
+	Run: func(cmd *cobra.Command, args []string) {
+		ce := liferay.CE{}
+
+		stopDockerContainer(ce)
+	},
+}
+
 var stopCommerceCmd = &cobra.Command{
 	Use:   "commerce",
 	Short: "Stops the Liferay Portal Commerce instance",
@@ -38,6 +50,17 @@ var stopCommerceCmd = &cobra.Command{
 		commerce := liferay.Commerce{}
 
 		stopDockerContainer(commerce)
+	},
+}
+
+var stopDXPCmd = &cobra.Command{
+	Use:   "dxp",
+	Short: "Stops the Liferay DXP instance",
+	Long:  `Stops the Liferay DXP instance, identified by [lpn-dxp].`,
+	Run: func(cmd *cobra.Command, args []string) {
+		dxp := liferay.DXP{}
+
+		stopDockerContainer(dxp)
 	},
 }
 
