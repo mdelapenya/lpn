@@ -1,10 +1,16 @@
 package liferay
 
+// CEDefaultTag Default tag for CE
+const CEDefaultTag = "7.0.6-ga7"
+
 // CERepository Namespace for the official Docker releases for CE
 const CERepository = "liferay/portal"
 
 // CommercesRepository Namespace for the Docker releases with Commerce
 const CommercesRepository = "liferay/liferay-commerce"
+
+// DXPDefaultTag Default tag for DXP
+const DXPDefaultTag = "7.0.10.8"
 
 // DXPRepository Namespace for the official Docker releases for DXP
 const DXPRepository = "liferay/dxp"

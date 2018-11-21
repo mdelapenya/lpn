@@ -23,9 +23,9 @@ func init() {
 		rmiCmd.AddCommand(subcommand)
 	}
 
-	rmiCECmd.Flags().StringVarP(&tagToPull, "tag", "t", "7.0.6-ga7", "Sets the image tag to remove")
+	rmiCECmd.Flags().StringVarP(&tagToPull, "tag", "t", liferay.CEDefaultTag, "Sets the image tag to remove")
 	rmiCommerceCmd.Flags().StringVarP(&tagToRemove, "tag", "t", date.CurrentDate, "Sets the image tag to remove")
-	rmiDXPCmd.Flags().StringVarP(&tagToPull, "tag", "t", "7.0.10.8", "Sets the image tag to remove")
+	rmiDXPCmd.Flags().StringVarP(&tagToPull, "tag", "t", liferay.DXPDefaultTag, "Sets the image tag to remove")
 	rmiNightlyCmd.Flags().StringVarP(&tagToRemove, "tag", "t", date.CurrentDate, "Sets the image tag to remove")
 	rmiReleaseCmd.Flags().StringVarP(&tagToRemove, "tag", "t", "latest", "Sets the image tag to remove")
 }
