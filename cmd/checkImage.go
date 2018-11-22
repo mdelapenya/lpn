@@ -4,6 +4,7 @@ import (
 	"errors"
 	"log"
 
+	date "github.com/mdelapenya/lpn/date"
 	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
@@ -23,7 +24,7 @@ func init() {
 
 		checkImageCmd.AddCommand(subcommand)
 
-		subcommand.Flags().StringVarP(&tagToCheck, "tag", "t", "latest", "Sets the image tag to check")
+		subcommand.Flags().StringVarP(&tagToCheck, "tag", "t", "", "Sets the image tag to check")
 	}
 }
 
@@ -61,6 +62,10 @@ var checkImageCE = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToCheck == "" {
+			tagToCheck = liferay.CEDefaultTag
+		}
+
 		ce := liferay.CE{Tag: tagToCheck}
 
 		checkImage(ce)
@@ -82,6 +87,10 @@ var checkImageCommerce = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToCheck == "" {
+			tagToCheck = date.CurrentDate
+		}
+
 		commerce := liferay.Commerce{Tag: tagToCheck}
 
 		checkImage(commerce)
@@ -103,6 +112,10 @@ var checkImageDXP = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToCheck == "" {
+			tagToCheck = liferay.DXPDefaultTag
+		}
+
 		dxp := liferay.DXP{Tag: tagToCheck}
 
 		checkImage(dxp)
@@ -124,6 +137,10 @@ var checkImageNightly = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToCheck == "" {
+			tagToCheck = date.CurrentDate
+		}
+
 		nightly := liferay.Nightly{Tag: tagToCheck}
 
 		checkImage(nightly)
@@ -145,6 +162,10 @@ var checkImageRelease = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToCheck == "" {
+			tagToCheck = "latest"
+		}
+
 		release := liferay.Release{Tag: tagToCheck}
 
 		checkImage(release)

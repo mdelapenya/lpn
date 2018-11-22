@@ -25,13 +25,8 @@ func init() {
 		pullCmd.AddCommand(subcommand)
 
 		subcommand.Flags().BoolVarP(&forceRemoval, "forceRemoval", "f", false, "Removes the cached, local image, if exists")
+		subcommand.Flags().StringVarP(&tagToPull, "tag", "t", "", "Sets the image tag to pull")
 	}
-
-	pullCE.Flags().StringVarP(&tagToPull, "tag", "t", liferay.CEDefaultTag, "Sets the image tag to pull")
-	pullCommerce.Flags().StringVarP(&tagToPull, "tag", "t", date.CurrentDate, "Sets the image tag to pull")
-	pullDXP.Flags().StringVarP(&tagToPull, "tag", "t", liferay.DXPDefaultTag, "Sets the image tag to pull")
-	pullNightly.Flags().StringVarP(&tagToPull, "tag", "t", date.CurrentDate, "Sets the image tag to pull")
-	pullRelease.Flags().StringVarP(&tagToPull, "tag", "t", "latest", "Sets the image tag to pull")
 }
 
 var pullCmd = &cobra.Command{
@@ -70,6 +65,10 @@ var pullCE = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToPull == "" {
+			tagToPull = liferay.CEDefaultTag
+		}
+
 		ce := liferay.CE{Tag: tagToPull}
 
 		pullDockerImage(ce, forceRemoval)
@@ -89,6 +88,10 @@ var pullCommerce = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToPull == "" {
+			tagToPull = date.CurrentDate
+		}
+
 		commerce := liferay.Commerce{Tag: tagToPull}
 
 		pullDockerImage(commerce, forceRemoval)
@@ -109,6 +112,10 @@ var pullDXP = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToPull == "" {
+			tagToPull = liferay.DXPDefaultTag
+		}
+
 		dxp := liferay.DXP{Tag: tagToPull}
 
 		pullDockerImage(dxp, forceRemoval)
@@ -128,6 +135,10 @@ var pullNightly = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToPull == "" {
+			tagToPull = date.CurrentDate
+		}
+
 		nightly := liferay.Nightly{Tag: tagToPull}
 
 		pullDockerImage(nightly, forceRemoval)
@@ -147,6 +158,10 @@ var pullRelease = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToPull == "" {
+			tagToPull = "latest"
+		}
+
 		release := liferay.Release{Tag: tagToPull}
 
 		pullDockerImage(release, forceRemoval)
