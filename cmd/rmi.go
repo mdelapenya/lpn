@@ -20,14 +20,10 @@ func init() {
 	for i := 0; i < len(subcommands); i++ {
 		subcommand := subcommands[i]
 
+		rmiCECmd.Flags().StringVarP(&tagToRemove, "tag", "t", "", "Sets the image tag to remove")
+
 		rmiCmd.AddCommand(subcommand)
 	}
-
-	rmiCECmd.Flags().StringVarP(&tagToRemove, "tag", "t", liferay.CEDefaultTag, "Sets the image tag to remove")
-	rmiCommerceCmd.Flags().StringVarP(&tagToRemove, "tag", "t", date.CurrentDate, "Sets the image tag to remove")
-	rmiDXPCmd.Flags().StringVarP(&tagToRemove, "tag", "t", liferay.DXPDefaultTag, "Sets the image tag to remove")
-	rmiNightlyCmd.Flags().StringVarP(&tagToRemove, "tag", "t", date.CurrentDate, "Sets the image tag to remove")
-	rmiReleaseCmd.Flags().StringVarP(&tagToRemove, "tag", "t", "latest", "Sets the image tag to remove")
 }
 
 var rmiCmd = &cobra.Command{
@@ -44,6 +40,10 @@ var rmiCECmd = &cobra.Command{
 	Short: "Removes the Official Liferay Portal CE image",
 	Long:  `Removes the Official Liferay Portal CE image, identified by ["` + liferay.CERepository + `"].`,
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToRemove == "" {
+			tagToRemove = liferay.CEDefaultTag
+		}
+
 		ce := liferay.CE{Tag: tagToRemove}
 
 		removeDockerImage(ce)
@@ -55,6 +55,10 @@ var rmiCommerceCmd = &cobra.Command{
 	Short: "Removes the Liferay Portal Commerce image",
 	Long:  `Removes the Liferay Portal Commerce image, identified by ["` + liferay.CommercesRepository + `"].`,
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToRemove == "" {
+			tagToRemove = date.CurrentDate
+		}
+
 		commerce := liferay.Commerce{Tag: tagToRemove}
 
 		removeDockerImage(commerce)
@@ -66,6 +70,10 @@ var rmiDXPCmd = &cobra.Command{
 	Short: "Removes the Official Liferay DXP image",
 	Long:  `Removes the Official Liferay DXP image, identified by ["` + liferay.DXPRepository + `"].`,
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToRemove == "" {
+			tagToRemove = liferay.DXPDefaultTag
+		}
+
 		dxp := liferay.DXP{Tag: tagToRemove}
 
 		removeDockerImage(dxp)
@@ -77,6 +85,10 @@ var rmiNightlyCmd = &cobra.Command{
 	Short: "Removes the Liferay Portal Nightly Build image",
 	Long:  `Removes the Liferay Portal Nightly Build image, identified by ["` + liferay.NightliesRepository + `"].`,
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToRemove == "" {
+			tagToRemove = date.CurrentDate
+		}
+
 		nightly := liferay.Nightly{Tag: tagToRemove}
 
 		removeDockerImage(nightly)
@@ -88,6 +100,10 @@ var rmiReleaseCmd = &cobra.Command{
 	Short: "Removes the Liferay Portal Release image",
 	Long:  `Removes the Liferay Portal Release image, identified by ["` + liferay.ReleasesRepository + `"].`,
 	Run: func(cmd *cobra.Command, args []string) {
+		if tagToRemove == "" {
+			tagToRemove = "latest"
+		}
+
 		release := liferay.Release{Tag: tagToRemove}
 
 		removeDockerImage(release)
