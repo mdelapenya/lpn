@@ -251,7 +251,18 @@ func RunDockerImage(
 
 		portBindings["9000/tcp"] = buildPortBinding(debuggerPort, "0.0.0.0")
 
-		environmentVariables = append(environmentVariables, "DEBUG_MODE=true")
+		debugEnvVarName := ""
+
+		switch imageType := image.(type) {
+		case liferay.CE, liferay.DXP:
+			debugEnvVarName = "LIFERAY_JPDA_ENABLED"
+		case liferay.Commerce, liferay.Nightly, liferay.Release:
+			debugEnvVarName = "DEBUG_MODE"
+		default:
+			log.Panic("Non supported type", imageType)
+		}
+
+		environmentVariables = append(environmentVariables, debugEnvVarName+"=true")
 	}
 
 	if memory != "" {
