@@ -20,7 +20,7 @@ func init() {
 	for i := 0; i < len(subcommands); i++ {
 		subcommand := subcommands[i]
 
-		rmiCECmd.Flags().StringVarP(&tagToRemove, "tag", "t", "", "Sets the image tag to remove")
+		subcommand.Flags().StringVarP(&tagToRemove, "tag", "t", "", "Sets the image tag to remove")
 
 		rmiCmd.AddCommand(subcommand)
 	}
