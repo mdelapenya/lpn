@@ -295,7 +295,7 @@ func RunDockerImage(
 			Env:          environmentVariables,
 			ExposedPorts: exposedPorts,
 			Labels: map[string]string{
-				"lpn": "",
+				"lpn-type": image.GetType(),
 			},
 		},
 		&container.HostConfig{
