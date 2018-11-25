@@ -8,6 +8,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"path/filepath"
 
 	types "github.com/docker/docker/api/types"
 	container "github.com/docker/docker/api/types/container"
@@ -96,6 +97,42 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 	err = dockerClient.CopyToContainer(
 		context.Background(), image.GetContainerName(), image.GetDeployFolder(),
 		tar.NewReader(file), types.CopyToContainerOptions{AllowOverwriteDirWithFile: true})
+
+	if err == nil {
+		targetFilePath := filepath.Join(image.GetDeployFolder(), filepath.Base(file.Name()))
+		owner := "liferay"
+
+		cmd := []string{"chown", "-R", owner + ":" + owner, targetFilePath}
+
+		execCommandIntoContainer(image.GetContainerName(), owner, cmd)
+	}
+
+	return err
+}
+
+func execCommandIntoContainer(containerName string, user string, cmd []string) error {
+	dockerClient := getDockerClient()
+
+	response, err := dockerClient.ContainerExecCreate(
+		context.Background(), containerName, types.ExecConfig{
+			User:         user,
+			Tty:          false,
+			AttachStdin:  false,
+			AttachStderr: false,
+			AttachStdout: false,
+			Detach:       true,
+			Cmd:          cmd,
+		})
+
+	if err != nil {
+		return err
+	}
+
+	err = dockerClient.ContainerExecStart(
+		context.Background(), response.ID, types.ExecStartCheck{
+			Detach: true,
+			Tty:    false,
+		})
 
 	return err
 }
