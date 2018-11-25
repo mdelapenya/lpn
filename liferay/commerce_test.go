@@ -62,3 +62,11 @@ func TestGetTypeCommerce(t *testing.T) {
 
 	assert.Equal("commerce", commerce.GetType())
 }
+
+func TestGetUserCommerce(t *testing.T) {
+	commerce := Commerce{}
+
+	assert := assert.New(t)
+
+	assert.Equal("root", commerce.GetUser())
+}

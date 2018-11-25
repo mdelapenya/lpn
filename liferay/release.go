@@ -62,3 +62,8 @@ func (r Release) GetTag() string {
 func (r Release) GetType() string {
 	return "release"
 }
+
+// GetUser returns the user running the main application
+func (r Release) GetUser() string {
+	return "liferay"
+}

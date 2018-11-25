@@ -62,3 +62,11 @@ func TestGetTypeDXP(t *testing.T) {
 
 	assert.Equal("dxp", dxp.GetType())
 }
+
+func TestGetUserDXP(t *testing.T) {
+	dxp := DXP{}
+
+	assert := assert.New(t)
+
+	assert.Equal("liferay", dxp.GetUser())
+}

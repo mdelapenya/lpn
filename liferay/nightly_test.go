@@ -62,3 +62,11 @@ func TestGetTypeNightly(t *testing.T) {
 
 	assert.Equal("nightly", nightly.GetType())
 }
+
+func TestGetUserNightly(t *testing.T) {
+	nightly := Nightly{}
+
+	assert := assert.New(t)
+
+	assert.Equal("root", nightly.GetUser())
+}

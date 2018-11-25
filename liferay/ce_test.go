@@ -62,3 +62,11 @@ func TestGetTypeCE(t *testing.T) {
 
 	assert.Equal("ce", ce.GetType())
 }
+
+func TestGetUserCE(t *testing.T) {
+	ce := CE{}
+
+	assert := assert.New(t)
+
+	assert.Equal("liferay", ce.GetUser())
+}
