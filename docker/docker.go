@@ -1,6 +1,7 @@
 package docker
 
 import (
+	"archive/tar"
 	"context"
 	"errors"
 	"fmt"
@@ -86,14 +87,17 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 
 	log.Println("Deploying [" + path + "] to " + image.GetDeployFolder())
 
-	reader, err := os.Open(path)
+	file, err := os.Open(path)
 	if err != nil {
 		return err
 	}
+	defer file.Close()
 
-	return dockerClient.CopyToContainer(
-		context.Background(), image.GetContainerName(), image.GetDeployFolder(), reader,
-		types.CopyToContainerOptions{AllowOverwriteDirWithFile: true})
+	err = dockerClient.CopyToContainer(
+		context.Background(), image.GetContainerName(), image.GetDeployFolder(),
+		tar.NewReader(file), types.CopyToContainerOptions{AllowOverwriteDirWithFile: true})
+
+	return err
 }
 
 func getDockerClient() *client.Client {
