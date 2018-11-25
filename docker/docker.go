@@ -17,9 +17,6 @@ import (
 	liferay "github.com/mdelapenya/lpn/liferay"
 )
 
-// dockerBinary represents the name of the binary to execute Docker commands
-const dockerBinary = "docker"
-
 func buildPortBinding(port string, ip string) []nat.PortBinding {
 	return []nat.PortBinding{
 		nat.PortBinding{
