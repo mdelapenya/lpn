@@ -17,6 +17,8 @@ import (
 	liferay "github.com/mdelapenya/lpn/liferay"
 )
 
+var instance *client.Client
+
 func buildPortBinding(port string, ip string) []nat.PortBinding {
 	return []nat.PortBinding{
 		nat.PortBinding{
@@ -95,12 +97,16 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 }
 
 func getDockerClient() *client.Client {
-	dockerClient, err := client.NewEnvClient()
+	if instance != nil {
+		return instance
+	}
+
+	instance, err := client.NewEnvClient()
 	if err != nil {
 		panic(err)
 	}
 
-	return dockerClient
+	return instance
 }
 
 // GetDockerImageFromRunningContainer gets the image name of the container
