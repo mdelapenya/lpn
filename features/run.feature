@@ -18,6 +18,22 @@ Feature: Run command
     | nightly | latest |
     | release | latest |
 
+  Scenario Outline: Run command with debug enabled
+    When I run `lpn run <type> -t <tag> -d`
+    And I run `docker exec lpn-<type> env`
+    And the output should contain:
+    """
+    <variable>=true
+    """
+    And I run `lpn rm <type>`
+
+  Examples:
+    | type    | tag | variable |
+    | ce      | 7.0.6-ga7 | LIFERAY_JPDA_ENABLED |
+    | dxp     | 7.0.10.8 | LIFERAY_JPDA_ENABLED |
+    | nightly | latest | DEBUG_MODE |
+    | release | latest | DEBUG_MODE |
+
   Scenario Outline: Run command with failure
     When I run `docker run -d --name nginx-<type> -p 9999:80 nginx:1.12.2-alpine`
     And I run `lpn run <type> -t <tag> -p 9999`
