@@ -44,3 +44,8 @@ func (c Commerce) GetTag() string {
 func (c Commerce) GetType() string {
 	return "commerce"
 }
+
+// GetUser returns the user running the main application
+func (c Commerce) GetUser() string {
+	return "root"
+}

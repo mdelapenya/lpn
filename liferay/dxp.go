@@ -44,3 +44,8 @@ func (d DXP) GetTag() string {
 func (d DXP) GetType() string {
 	return "dxp"
 }
+
+// GetUser returns the user running the main application
+func (d DXP) GetUser() string {
+	return "liferay"
+}

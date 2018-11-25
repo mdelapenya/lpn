@@ -44,3 +44,8 @@ func (c CE) GetTag() string {
 func (c CE) GetType() string {
 	return "ce"
 }
+
+// GetUser returns the user running the main application
+func (c CE) GetUser() string {
+	return "liferay"
+}

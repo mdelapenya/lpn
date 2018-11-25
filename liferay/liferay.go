@@ -31,4 +31,5 @@ type Image interface {
 	GetRepository() string
 	GetTag() string
 	GetType() string
+	GetUser() string
 }

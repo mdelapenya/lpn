@@ -44,3 +44,8 @@ func (n Nightly) GetTag() string {
 func (n Nightly) GetType() string {
 	return "nightly"
 }
+
+// GetUser returns the user running the main application
+func (n Nightly) GetUser() string {
+	return "root"
+}

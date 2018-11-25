@@ -100,7 +100,7 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 
 	if err == nil {
 		targetFilePath := filepath.Join(image.GetDeployFolder(), filepath.Base(file.Name()))
-		owner := "liferay"
+		owner := image.GetUser()
 
 		cmd := []string{"chown", "-R", owner + ":" + owner, targetFilePath}
 

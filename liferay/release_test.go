@@ -122,3 +122,11 @@ func TestGetTypeRelease(t *testing.T) {
 
 	assert.Equal("release", release.GetType())
 }
+
+func TestGetUserCE(t *testing.T) {
+	release := Release{}
+
+	assert := assert.New(t)
+
+	assert.Equal("liferay", release.GetUser())
+}
