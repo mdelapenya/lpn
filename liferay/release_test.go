@@ -123,7 +123,7 @@ func TestGetTypeRelease(t *testing.T) {
 	assert.Equal("release", release.GetType())
 }
 
-func TestGetUserCE(t *testing.T) {
+func TestGetUserRelease(t *testing.T) {
 	release := Release{}
 
 	assert := assert.New(t)
