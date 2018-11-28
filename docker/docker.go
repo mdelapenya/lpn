@@ -2,10 +2,12 @@ package docker
 
 import (
 	"archive/tar"
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -28,6 +30,27 @@ func buildPortBinding(port string, ip string) []nat.PortBinding {
 			HostIP:   ip,
 		},
 	}
+}
+
+func buildTarForDeployment(file *os.File) (bytes.Buffer, error) {
+	fileInfo, _ := file.Stat()
+
+	var buffer bytes.Buffer
+	tarWriter := tar.NewWriter(&buffer)
+	err := tarWriter.WriteHeader(&tar.Header{
+		Name: fileInfo.Name(),
+		Mode: 0777,
+		Size: int64(fileInfo.Size()),
+	})
+	if err != nil {
+		return bytes.Buffer{}, fmt.Errorf("Could not build TAR header: %v", err)
+	}
+
+	b, err := ioutil.ReadFile(file.Name())
+	tarWriter.Write(b)
+	defer tarWriter.Close()
+
+	return buffer, nil
 }
 
 // CheckDocker checks if Docker is installed
@@ -100,9 +123,14 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 	}
 	defer file.Close()
 
+	buffer, err := buildTarForDeployment(file)
+	if err != nil {
+		return err
+	}
+
 	err = dockerClient.CopyToContainer(
 		context.Background(), image.GetContainerName(), image.GetDeployFolder(),
-		tar.NewReader(file), types.CopyToContainerOptions{AllowOverwriteDirWithFile: true})
+		&buffer, types.CopyToContainerOptions{AllowOverwriteDirWithFile: true})
 
 	if err == nil {
 		targetFilePath := filepath.Join(image.GetDeployFolder(), filepath.Base(file.Name()))
