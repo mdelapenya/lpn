@@ -34,10 +34,15 @@ func init() {
 		subcommand.Flags().BoolVarP(&enableDebug, "debug", "d", false, "Enables debug mode. (default false)")
 		subcommand.Flags().IntVarP(&debugPort, "debugPort", "D", 9000, "Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled")
 		subcommand.Flags().IntVarP(&gogoPort, "gogoPort", "g", 11311, "Sets the GoGo Shell port of Liferay Portal's bundle.")
-		subcommand.Flags().StringVarP(&memory, "memory", "m", "2048m", "Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.")
 		subcommand.Flags().StringVarP(&properties, "properties", "P", "", "Sets the location of a portal-ext properties files to configure the running instance of Liferay Portal's bundle.")
 		subcommand.Flags().StringVarP(&tagToRun, "tag", "t", "", "Sets the image tag to run")
 	}
+
+	runCECmd.Flags().StringVarP(&memory, "memory", "m", "-Xmx2048m", "Sets the memory for the JVM memory configuration of Liferay Portal's bundle.")
+	runCommerceCmd.Flags().StringVarP(&memory, "memory", "m", "2048m", "Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.")
+	runDXPCmd.Flags().StringVarP(&memory, "memory", "m", "-Xmx2048m", "Sets the memory for the JVM memory configuration of Liferay Portal's bundle.")
+	runNightlyCmd.Flags().StringVarP(&memory, "memory", "m", "2048m", "Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.")
+	runReleaseCmd.Flags().StringVarP(&memory, "memory", "m", "2048m", "Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.")
 }
 
 var runCmd = &cobra.Command{
