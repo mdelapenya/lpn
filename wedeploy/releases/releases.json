@@ -1,17 +1,17 @@
 [
     {
-        "channel": "unstable",
-        "version": "0.7.0-snapshot",
+        "channel": "stable",
+        "version": "0.7.0",
         "equinox": false,
         "latest": true,
-        "releaseDate": "2018-11-25 10:00",
+        "releaseDate": "2018-11-27 23:30",
         "changelog": {
             "enhacements": [
                 {
                     "description": "Support for the <strong>Liferay Official images</strong>! Every main command has a 'ce' and 'dxp' subcommand."
                 },
                 {
-                    "description": "Add 'rmi' command, which allow removing Docker images from the system."
+                    "description": "Add 'rmi' command, which allows removing Docker images from the system."
                 },
                 {
                     "description": "Add a Docker label to the containers run by this tool."
@@ -37,7 +37,7 @@
         "channel": "stable",
         "version": "0.6.0",
         "equinox": false,
-        "latest": true,
+        "latest": false,
         "releaseDate": "2018-07-23 10:00",
         "changelog": {
             "enhacements": [
