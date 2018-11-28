@@ -309,7 +309,7 @@ func RunDockerImage(
 		case liferay.Commerce, liferay.Nightly, liferay.Release:
 			debugEnvVarName = "DEBUG_MODE"
 		default:
-			log.Panic("Non supported type", imageType)
+			log.Fatalln("Non supported type", imageType)
 		}
 
 		environmentVariables = append(environmentVariables, debugEnvVarName+"=true")
@@ -324,7 +324,7 @@ func RunDockerImage(
 		case liferay.Commerce, liferay.Nightly, liferay.Release:
 			jvmEnvVarName = "JVM_TUNING_MEMORY"
 		default:
-			log.Panic("Non supported type", imageType)
+			log.Fatalln("Non supported type", imageType)
 		}
 
 		environmentVariables = append(environmentVariables, jvmEnvVarName+"="+memory)
