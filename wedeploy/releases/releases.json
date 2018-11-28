@@ -8,6 +8,9 @@
         "changelog": {
             "fixes": [
                 {
+                    "description": "Fix permissions on the file deployed to the running container."
+                },
+                {
                     "description": "Fix default memory value for different subcommands. Official images work in a different manner than the unofficial ones."
                 }
             ]
