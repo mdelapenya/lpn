@@ -136,20 +136,20 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 		targetFilePath := filepath.Join(image.GetDeployFolder(), filepath.Base(file.Name()))
 		owner := image.GetUser()
 
-		cmd := []string{"chown", "-R", owner + ":" + owner, targetFilePath}
+		cmd := []string{"chown", owner + ":" + owner, targetFilePath}
 
-		execCommandIntoContainer(image.GetContainerName(), owner, cmd)
+		execCommandIntoContainer(image.GetContainerName(), cmd)
 	}
 
 	return err
 }
 
-func execCommandIntoContainer(containerName string, user string, cmd []string) error {
+func execCommandIntoContainer(containerName string, cmd []string) error {
 	dockerClient := getDockerClient()
 
 	response, err := dockerClient.ContainerExecCreate(
 		context.Background(), containerName, types.ExecConfig{
-			User:         user,
+			User:         "root",
 			Tty:          false,
 			AttachStdin:  false,
 			AttachStderr: false,
