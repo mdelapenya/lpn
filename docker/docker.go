@@ -316,7 +316,18 @@ func RunDockerImage(
 	}
 
 	if memory != "" {
-		environmentVariables = append(environmentVariables, "JVM_TUNING_MEMORY="+memory)
+		jvmEnvVarName := ""
+
+		switch imageType := image.(type) {
+		case liferay.CE, liferay.DXP:
+			jvmEnvVarName = "LIFERAY_JVM_OPTS"
+		case liferay.Commerce, liferay.Nightly, liferay.Release:
+			jvmEnvVarName = "JVM_TUNING_MEMORY"
+		default:
+			log.Panic("Non supported type", imageType)
+		}
+
+		environmentVariables = append(environmentVariables, jvmEnvVarName+"="+memory)
 	}
 
 	var mounts []mount.Mount
