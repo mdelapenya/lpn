@@ -103,7 +103,7 @@ var pullDXP = &cobra.Command{
 	Short: "Pulls a Liferay DXP Docker image from Official DXP repository",
 	Long: `Pulls a Liferay DXP instance, obtained from the official DXP repository: "` + liferay.DXPRepository + `,
 	including a 30-day activation key.
-	If no image tag is passed to the command, the "` + liferay.CEDefaultTag + `" tag will be used.`,
+	If no image tag is passed to the command, the "` + liferay.DXPDefaultTag + `" tag will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("pull ce requires zero or one argument representing the image tag to be pulled")
