@@ -12,18 +12,21 @@ It wraps Docker commands so you just have to run this tool, and pass the specifi
 
 You have to install Docker on your machine first. Check [this guide](https://docs.docker.com/install).
 
-## Install
+## Installation
 
-For current stable version of `lpn`, please visit [downloads page](https://releases-lpn.wedeploy.io/index.html).
+For current stable version of `lpn`, please visit [downloads page](https://lpn.lfr.io/releases.html), and select the target platform, based on O.S. and architecture.
 
-Up to version 0.3.0, install `lpn` downloading it from our [stable release channel](https://dl.equinox.io/mdelapenya/lpn/stable).
+If you are in the Golang world, you could install this tool from source code.
 
-### Brew (Mac Users)
+For that reason you need to:
 
-```shell
-$ brew tap eqnxio/mdelapenya
-$ brew install lpn
-```
+- [Install Golang runtime](https://golang.org/doc/install)
+- Make sure that you have `GOPATH` environment variable defined to the location you want to have your Golang projects
+- Add `$GOPATH\bin` to your `$PATH`, like this: `export PATH=${PATH}:${GOPATH//://bin:}/bin`
+- Clone this repo under `$GOPATH`: `git clone https://github.com/mdelapenya/lpn $GOPATH/src/github.com/mdelapenya/lpn`
+- From inside the project, run `go install`
+
+Now you can use `lpn` from your command line.
 
 ## What does lpn do?
 
