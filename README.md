@@ -33,6 +33,7 @@ Now you can use `lpn` from your command line.
 With `lpn` you'll be able to:
 
 - Run Liferay Portal containers using the released version you prefer:
+  - Liferay Portal official images, obtained from [here for CE](https://hub.docker.com/r/liferay/portal/tags/) and [here for DXP](https://hub.docker.com/r/liferay/dxp/tags/).
   - Liferay Portal nightly builds, obtained from [here](https://hub.docker.com/r/mdelapenya/liferay-portal-nightlies/tags/).
   - Liferay Portal releases, obtained from [here](https://hub.docker.com/r/mdelapenya/liferay-portal/tags/).
   - Liferay Portal including specific produts, like Commerce. `This repository is Private, so you maybe don't have access to it`.
@@ -41,11 +42,30 @@ With `lpn` you'll be able to:
 - Check logs of the running containers
 - And more!
 
-## Which are the available commands?
+## Usage
+
+The available capabilities present in the tool are the following:
+
+- Run a container from the desired Liferay Portal/DXP image.
+- Configure a Liferay Portal/DXP container to be run using a custom portal-ext configuration file.
+- Deploy a file or the content of a directory to the deploy folder of a Liferay Portal/DXP running container.
+- Display logs of a Liferay Portal/DXP running container.
+- Pull Liferay Portal/DXP images on demand.
+- List the available tags to pull from the Docker Hub repository of a Liferay Portal/DXP image.
+- Check if a Liferay Portal/DXP image was already pulled.
+- Check if a container of the desired Liferay Portal/DXP image is running.
+- Stop a Liferay Portal/DXP running container.
+- Remove a Liferay Portal/DXP running container.
+- Remove a Liferay Portal/DXP image from your local Docker installation.
+
+### Which are the available commands?
 
 Execute `lpn help` to see the list of available commands. Each command could have subcommands, so append the `help` command to each subcommand and you'll get a list of options for each one.
 
+This could be an example of how the `help` subcommand shows:
+
 ```shell
+$ lpn help
 A Fast and Flexible CLI for managing Liferay Portal's Docker images
 				built with love by mdelapenya and friends in Go.
 
@@ -73,412 +93,231 @@ Flags:
 Use "lpn [command] --help" for more information about a command.
 ```
 
-### checkContainer
+Once you have typed the proper command, to specify with which image type you want to execute the command, there are the following subcommands:
 
+- ce
+- dxp
+- release
+- nightly
+- commerce
+
+So any command needs the combination of one of the subcommands above. So to run a DXP image, you would need to execute `lpn run dxp`.
+
+## Running a container from a Liferay Portal/DXP image
+
+It will run the desired image, pulling it first if it does not exist in your local Docker installation. To specify which image type you want to run, please select it adding the `ce`, `dxp`, `release`, `nightly`, `commerce` subcommands.
+
+You will be able to configure in which state you want to run the image, using the following flags:
+
+| Flag | Description |
+|:-|:-|
+| ` -d, --debug` | Enables debug mode. (default false) |
+| ` -D, --debugPort` | Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled (default 9000) |
+| ` -g, --gogoPort` | Sets the GoGo Shell port of Liferay Portal's bundle. (default 11311) |
+| ` -p, --httpPort` | Sets the HTTP port of Liferay Portal's bundle. (default 8080) |
+| ` -m, --memory` | Sets the memory for the JVM memory configuration of Liferay Portal's bundle. (default "-Xmx2048m" in the CE and DXP images, and "2048m" in the rest) |
+| ` -P, --properties` | Sets the location of a portal-ext properties files to configure the running instance of Liferay Portal's bundle. |
+| ` -t, --tag` | Sets the image tag to run |
+
+Examples:
 ```shell
-Checks if there is a container created by lpn (Liferay Portal Nook).
-	Uses docker container inspect to check if there is a container with name starting with [lpn] created by lpn (Liferay Portal Nook)
-
-Usage:
-  lpn checkContainer [flags]
-
-Flags:
-  -h, --help   help for checkContainer
+$ lpn run ce -t "7.1.1-ga2"
+$ lpn run dxp --properties "/tmp/portal-ext.properties"
+$ lpn run nightly
+$ lpn run commerce --debug --httpPort 8081 ---memory "Xmx8g"
 ```
 
-### checkImage
+## Copying files to the deploy folder
 
+It will deploy a file, or the first-level content of a directory, to the deploy folder of a running container, pulling it first if it does not exist in your local Docker installation. To specify to which image type you want to deploy, please select it adding the `ce`, `dxp`, `release`, `nightly`, `commerce` subcommands.
+
+You will be able to configure which file or directory you want to deploy to the running container, using the following flags:
+
+| Flag | Description |
+|:-|:-|
+| ` -d, --dir` | The directory to deploy its content. Only first-level files will be deployed, so no recursive deployment will happen |
+| ` -f, --files` | The file or files to deploy. A comma-separated list of files is accepted to deploy multiple files at the same time |
+
+Examples:
 ```shell
-$ lpn checkImage
-Checks if the proper Liferay Portal image has been pulled by lpn.
-	Uses "docker image inspect" to check if the proper Liferay Portal image has
-	been pulled by lpn (Liferay Portal Nook). If no image tag is passed to the command,
-	the tag "latest" will be used.
-
-Usage:
-  lpn checkImage [flags]
-  lpn checkImage [command]
-
-Available Commands:
-  commerce    Check if the proper Liferay Portal with Commerce Build image has been pulled by lpn
-  nightly     Check if the proper Liferay Portal Nightly Build image has been pulled by lpn
-  release     Check if the proper Liferay Portal release image has been pulled by lpn
-
-Flags:
-  -h, --help   help for checkImage
-
-Use "lpn checkImage [command] --help" for more information about a command.
+$ lpn deploy ce --dir /tmp/modules-from-my-dev-team
+$ lpn deploy nightly --files /tmp/moduleA.jar
+$ lpn deploy commerce --files /tmp/moduleA.jar,/tmp/themeB.war
 ```
 
-#### checkImage commerce
+## Displaying logs
 
+It will display the logs of a running container, reading each log line in a _tail_ mode. In this case this log corresponds to the Tomcat's log file. To specify to which image type you want to show logs, please select it adding the `ce`, `dxp`, `release`, `nightly`, `commerce` subcommands.
+
+This command does not accept any flag to configure its execution.
+
+Examples:
 ```shell
+$ lpn log ce
+$ lpn log dxp
+$ lpn log release
+$ lpn log nightly
+$ lpn log commerce
+```
+
+## Pulling Liferay images
+
+It will pull a desired image from Docker Hub to your local Docker installation. To specify to which image type you want to pull, please select it adding the `ce`, `dxp`, `release`, `nightly`, `commerce` subcommands.
+
+You will be able to configure which image you are going to pull using the following flags:
+
+| Flag | Description |
+|:-|:-|
+| ` -f, --forceRemoval` | Removes the cached, local image, if exists |
+| ` -t, --tag` | Sets the image tag to pull |
+
+Depending on the image type, the default value for `--tag` flag would be:
+
+- For CE: `7.0.6-ga7`
+- For DXP: `7.0.10.8`
+- For Releases: `latest`
+- For Nightly Builds and Commerce: Current date in the `20181128` format.
+
+Examples:
+```shell
+$ lpn pull ce
+$ lpn pull release --forceRemoval
+$ lpn pull commerce --tag "20181026"
+```
+
+## Listing the available Liferay images
+
+It will list the existing tags on Docker Hub for the desired images type. To specify to which image type you want to list its tags, please select it adding the `ce`, `dxp`, `release`, `nightly`, `commerce` subcommands.
+
+You will be able to configure which image you are going to pull using the following flags:
+
+This command does not accept any flag to configure its execution.
+
+Examples:
+```shell
+$ lpn tags ce
+$ lpn tags dxp
+$ lpn tags release
+$ lpn tags nightly
+$ lpn tags commerce
+```
+
+## Checking if an image is present in the local Docker installation
+
+It will check if the desired images type exists in your local Docker installation. To specify to which image type you want to check, please select it adding the `ce`, `dxp`, `release`, `nightly`, `commerce` subcommands.
+
+You will be able to configure which image you are going to check using the following flags:
+
+| Flag | Description |
+|:-|:-|
+| ` -t, --tag` | Sets the image tag to check |
+
+Depending on the image type, the default value for `--tag` flag would be:
+
+- For CE: `7.0.6-ga7`
+- For DXP: `7.0.10.8`
+- For Releases: `latest`
+- For Nightly Builds and Commerce: Current date in the `20181128` format.
+
+Examples:
+```shell
+$ lpn checkImage ce --tag "6.1.2-ga3"
+$ lpn checkImage dxp --tag "7.0.10.8"
+$ lpn checkImage release
+$ lpn checkImage nightly --tag "20181026"
 $ lpn checkImage commerce
-Checks if the proper Liferay Portal with Commerce Build image has been pulled by lpn.
-	Uses docker image inspect to check if the proper Liferay Portal with Commerce image has
-	been pulled by lpn (Liferay Portal Nook). If no image tag is passed to the command,
-	the tag "latest" will be used.
-
-Usage:
-  lpn checkImage commerce [flags]
-
-Flags:
-  -h, --help         help for commerce
-  -t, --tag string   Sets the image tag to check (default "latest")
 ```
 
-#### checkImage nightly
+## Checking if a container is running
+
+It will check if there is a running container for the desired images type. To specify to which image type you want to check its container, please select it adding the `ce`, `dxp`, `release`, `nightly`, `commerce` subcommands.
+
+This command does not accept any flag to configure its execution.
+
+Examples:
+```shell
+$ lpn checkContainer ce
+$ lpn checkContainer dxp
+$ lpn checkContainer release
+$ lpn checkContainer nightly
+$ lpn checkContainer commerce
+```
+
+## Stopping a running container
+
+It will stop a running container, if it exists. To specify to which image type you want to stop its container, please select it adding the `ce`, `dxp`, `release`, `nightly`, `commerce` subcommands.
+
+This command does not accept any flag to configure its execution.
+
+Examples:
+```shell
+$ lpn stop ce
+$ lpn stop dxp
+$ lpn stop release
+$ lpn stop nightly
+$ lpn stop commerce
+```
+
+## Removing a running container
+
+It will remove a running container, if it exists. To specify to which image type you want to remove its container, please select it adding the `ce`, `dxp`, `release`, `nightly`, `commerce` subcommands.
+
+This command does not accept any flag to configure its execution.
+
+Examples:
+```shell
+$ lpn rm ce
+$ lpn rm dxp
+$ lpn rm release
+$ lpn rm nightly
+$ lpn rm commerce
+```
+
+## Removing an image from your local Docker installation
+
+It will remove the desired images type from your local Docker installation. To specify to which image type you want to remove, please select it adding the `ce`, `dxp`, `release`, `nightly`, `commerce` subcommands.
+
+You will be able to configure which image you are going to remove using the following flags:
+
+| Flag | Description |
+|:-|:-|
+| ` -t, --tag` | Sets the image tag to remove |
+
+Depending on the image type, the default value for `--tag` flag would be:
+
+- For CE: `7.0.6-ga7`
+- For DXP: `7.0.10.8`
+- For Releases: `latest`
+- For Nightly Builds and Commerce: Current date in the `20181128` format.
+
+Examples:
+```shell
+$ lpn rmi ce --tag "6.1.2-ga3"
+$ lpn rmi dxp --tag "7.0.10.8"
+$ lpn rmi release
+$ lpn rmi nightly --tag "20181026"
+$ lpn rmi commerce
+```
+
+## Showing the license
+
+It will display the license of the tool. It's using BSD-3 license, but we are in the process of deciding which one to use.
 
 ```shell
-$ lpn checkImage nightly
-Checks if the proper Liferay Portal Nightly Build image has been pulled by lpn.
-	Uses docker image inspect to check if the proper Liferay Portal image has
-	been pulled by lpn (Liferay Portal Nook). If no image tag is passed to the command,
-	the tag "latest" will be used.
-
-Usage:
-  lpn checkImage nightly [flags]
-
-Flags:
-  -h, --help         help for nightly
-  -t, --tag string   Sets the image tag to check (default "latest")
+$ lpn license
 ```
 
-#### checkImage release
+## Showing tool's current version
+
+It will display the version of the tool, including the version of the required runtime dependencies (Docker).
 
 ```shell
-Check if the proper Liferay Portal release image has been pulled by lpn.
-	Uses docker image inspect to check if the proper Liferay Portal image has
-	been pulled by lpn (Liferay Portal Nook). If no image tag is passed to the command,
-	the tag "latest" will be used.
-
-Usage:
-  lpn checkImage release [flags]
-
-Flags:
-  -h, --help         help for release
-  -t, --tag string   Sets the image tag to check (default "latest")
+$ lpn version
+lpn (Liferay Portal Nook) v0.7.1 -- HEAD
+Docker version:
+Client version: 1.25
+Server version: 18.06.1-ce
+Go version: go1.10.3
 ```
 
-### deploy
-
-```shell
-$ lpn deploy -h
-Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn
-
-Usage:
-  lpn deploy [flags]
-  lpn deploy [command]
-
-Available Commands:
-  commerce    Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn
-  nightly     Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn
-  release     Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn
-
-Flags:
-  -h, --help   help for deploy
-
-Use "lpn deploy [command] --help" for more information about a command.
-```
-
-#### deploy commerce
-
-```shell
-$ lpn deploy commerce -h
-Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn
-
-Usage:
-  lpn deploy commerce [flags]
-
-Flags:
-  -d, --dir string     The directory to deploy its content. Only first-level files will be deployed, so no recursive deployment will happen
-  -f, --files string   The file or files to deploy. A comma-separated list of files is accepted to deploy multiple files at the same time
-  -h, --help           help for commerce
-```
-
-#### deploy nightly
-
-```shell
-$ lpn deploy nightly -h
-Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn
-
-Usage:
-  lpn deploy nightly [flags]
-
-Flags:
-  -d, --dir string     The directory to deploy its content. Only first-level files will be deployed, so no recursive deployment will happen
-  -f, --files string   The file or files to deploy. A comma-separated list of files is accepted to deploy multiple files at the same time
-  -h, --help           help for nightly
-```
-
-#### deploy release
-
-```shell
-$ lpn deploy release -h
-Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn.
-	The appropriate tag is calculated from the image the container was build from.
-
-Usage:
-  lpn deploy release [flags]
-
-Flags:
-  -d, --dir string     The directory to deploy its content. Only first-level files will be deployed, so no recursive deployment will happen
-  -f, --files string   The file or files to deploy. A comma-separated list of files is accepted to deploy multiple files at the same time
-  -h, --help           help for release
-```
-
-### help
-
-```shell
-Help provides help for any command in the application.
-Simply type lpn help [path to command] for full details.
-
-Usage:
-  lpn help [command] [flags]
-
-Flags:
-  -h, --help   help for help
-```
-
-### license
-
-```shell
-$ lpn license -h
-All software has a license. This is lpn (Liferay Portal Nook)
-
-Usage:
-  lpn license [flags]
-
-Flags:
-  -h, --help   help for license
-```
-
-### log
-
-```shell
-Displays logs for the Liferay Portal instance, identified by [lpn] plus the image type.
-
-Usage:
-  lpn log [flags]
-
-Flags:
-  -h, --help   help for log
-```
-
-### pull
-
-```shell
-$ lpn pull -h
-Pulls a Liferay Portal Docker image from one of the unofficial repositories:
-		- liferay/liferay-commerce (private),
-		- mdelapenya/liferay-portal-nightlies, and
-		- mdelapenya/liferay-portal.
-	For that, please run this command adding "commerce", "release" or "nightly" subcommands.
-
-Usage:
-  lpn pull [flags]
-  lpn pull [command]
-
-Available Commands:
-  commerce       Pulls a Liferay Portal Docker image from Commerce Builds
-  nightly        Pulls a Liferay Portal Docker image from Nightly Builds
-  release        Pulls a Liferay Portal Docker image from releases
-
-Flags:
-  -h, --help   help for pull
-
-Use "lpn pull [command] --help" for more information about a command.
-```
-
-#### pull commerce
-
-```shell
-$ lpn pull commerce -h
-Pulls a Liferay Portal Docker image from the Commerce Builds repository: "liferay/liferay-commerce".
- If no image tag is passed to the command, the tag representing the current date [20180418] will be used.
-
-Usage:
-  lpn pull commerce [flags]
-
-Flags:
-  -f, --forceRemoval   Removes the cached, local image, if exists
-  -h, --help           help for commerce
-  -t, --tag string     Sets the image tag to pull (default "20180416")
-```
-
-#### pull nightly
-
-```shell
-$ lpn pull nightly -h
-Pulls a Liferay Portal Docker image from the Nighlty Builds repository: "mdelapenya/liferay-portal-nightlies".
- If no image tag is passed to the command, the tag representing the current date [20180219] will be used.
-
-Usage:
-  lpn pull nightly [flags]
-
-Flags:
-  -f, --forceRemoval   Removes the cached, local image, if exists
-  -h, --help           help for nightly
-  -t, --tag string     Sets the image tag to pull (default "20180416")
-```
-
-#### pull release
-
-```shell
-$ lpn pull release -h
-Pulls a Liferay Portal instance, obtained from the unofficial releases repository: "mdelapenya/liferay-portal".
-	If no image tag is passed to the command, the "latest" tag will be used.
-
-Usage:
-  lpn pull release [flags]
-
-Flags:
-  -f, --forceRemoval   Removes the cached, local image, if exists
-  -h, --help           help for release
-  -t, --tag string     Sets the image tag to pull (default "20180416")
-```
-
-### rm
-
-```shell
-$ lpn rm -h
-Removes the Liferay Portal nook instance, identified by [lpn] plus the image type.
-
-Usage:
-  lpn rm [flags]
-
-Flags:
-  -h, --help   help for rm
-```
-
-### run
-
-```shell
-$ lpn run -h
-Runs a Liferay Portal instance, obtained from the unofficial repositories:
-		- liferay/liferay-commerce (private),
-		- mdelapenya/liferay-portal-nightlies, and
-		- mdelapenya/liferay-portal.
-	For that, please run this command adding "commerce", "release" or "nightly" subcommands.
-
-Usage:
-  lpn run [flags]
-  lpn run [command]
-
-Available Commands:
-  commerce    Runs a Liferay Portal instance from Commerce Builds
-  nightly     Runs a Liferay Portal instance from Nightly Builds
-  release     Runs a Liferay Portal instance from releases
-
-Flags:
-  -h, --help            help for run
-```
-
-#### run commerce
-
-```shell
-$ lpn run commerce -h
-Runs a Liferay Portal with Commerce instance, obtained from Commerce Builds repository: liferay/liferay-commerce.
-	If no image tag is passed to the command, the tag representing the current date [20180418] will be used.
-
-Usage:
-  lpn run commerce [flags]
-
-Flags:
-  -d, --debug           Enables debug mode. (default false)
-  -D, --debugPort int   Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled (default 9000)
-  -g, --gogoPort int    Sets the GoGo Shell port of Liferay Portal's bundle. (default 11311)
-  -h, --help            help for commerce
-  -m, --memory          Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.
-  -p, --httpPort int    Sets the HTTP port of Liferay Portal's bundle. (default 8080)
-  -P, --properties string   Sets the location of a portal-ext properties files to configure the running instance of Liferay Portal's bundle.
-```
-
-#### run nightly
-
-```shell
-$ lpn run nightly -h
-Runs a Liferay Portal instance, obtained from Nightly Builds repository: mdelapenya/liferay-portal-nightlies.
-	If no image tag is passed to the command, the tag representing the current date [yyyyMMdd] will be used.
-
-Usage:
-  lpn run nightly [flags]
-
-Flags:
-  -d, --debug           Enables debug mode. (default false)
-  -D, --debugPort int   Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled (default 9000)
-  -g, --gogoPort int    Sets the GoGo Shell port of Liferay Portal's bundle. (default 11311)
-  -h, --help            help for nightly
-  -m, --memory          Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.
-  -p, --httpPort int    Sets the HTTP port of Liferay Portal's bundle. (default 8080)
-  -P, --properties string   Sets the location of a portal-ext properties files to configure the running instance of Liferay Portal's bundle.
-```
-
-#### run release
-
-```shell
-$ lpn run release -h
-Runs a Liferay Portal instance, obtained from the unofficial releases repository: mdelapenya/liferay-portal.
-	If no image tag is passed to the command, the "latest" tag will be used.
-
-Usage:
-  lpn run release [flags]
-
-Flags:
-  -d, --debug           Enables debug mode. (default false)
-  -D, --debugPort int   Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled (default 9000)
-  -g, --gogoPort int    Sets the GoGo Shell port of Liferay Portal's bundle. (default 11311)
-  -h, --help            help for release
-  -m, --memory          Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.
-  -p, --httpPort int    Sets the HTTP port of Liferay Portal's bundle. (default 8080)
-  -P, --properties string   Sets the location of a portal-ext properties files to configure the running instance of Liferay Portal's bundle.
-```
-
-To achieve that:
-
-- The tool will ask you to type an image tag from Liferay Portal's Docker images (check available tags [here](https://hub.docker.com/r/mdelapenya/liferay-portal/tags/) for releases, and [here](https://hub.docker.com/r/mdelapenya/liferay-portal-nightlies/tags/) for nightly builds.
-  - If no tag is provided, then it will use current date as tag, i.e. `20180214`.
-- It downloads the Docker image to the local engine.
-- It checks whether the Docker container this tool spins up is running. In that case, the tool deletes it.
-- It spins up a Docker container, using the port configured for Tomcat, and 11311 for OSGi console. The name of the container will be `lpn` plus the image type. Once started, please open a web browser in [https://localhost:8080](http://localhost:8080) to check the portal.
-
-### stop
-
-```shell
-$ lpn stop -h
-Stops the Liferay Portal nook instance, identified by [lpn] plus the image type.
-
-Usage:
-  lpn stop [flags]
-
-Flags:
-  -h, --help   help for stop
-```
-
-### update
-
-**IMPORTANT!** This command will update `lpn` up-to v 0.3.0, only. For more recent, stable releases, please visit [downloads page](https://releases-lpn.wedeploy.io/index.html).
-
-```shell
-$ lpn update -h
-Updates lpn (Liferay Portal Nook) to the latest version on stable channel
-
-Usage:
-  lpn update [flags]
-
-Flags:
-  -h, --help   help for update
-```
-
-### version
-
-```shell
-$ lpn version -h
-All software has versions. This is lpn (Liferay Portal Nook)
-
-Usage:
-  lpn version [flags]
-
-Flags:
-  -h, --help   help for version
-```
+It shows `Go version` because is used by Docker.
