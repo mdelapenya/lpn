@@ -88,6 +88,12 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 
 	log.Println("Deploying [" + path + "] to " + image.GetDeployFolder())
 
+	_, err := dockerClient.ContainerStatPath(
+		context.Background(), image.GetContainerName(), image.GetDeployFolder())
+	if err != nil {
+		return err
+	}
+
 	file, err := os.Open(path)
 	if err != nil {
 		return err
