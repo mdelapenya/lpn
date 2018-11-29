@@ -57,6 +57,7 @@ The available capabilities present in the tool are the following:
 - Stop a Liferay Portal/DXP running container.
 - Remove a Liferay Portal/DXP running container.
 - Remove a Liferay Portal/DXP image from your local Docker installation.
+- Open a Liferay Portal/DXP running container in the default browser.
 
 ### Which are the available commands?
 
@@ -321,3 +322,18 @@ Go version: go1.10.3
 ```
 
 It shows `Go version` because is used by Docker.
+
+## Opening the running instance from a browser
+
+It will open the O.S. default browser with the home page of the running instance of the desired images type. To specify to which image type you want to open in the browser, please select it adding the `ce`, `dxp`, `release`, `nightly`, `commerce` subcommands.
+
+This command does not accept any flag to configure its execution.
+
+Examples:
+```shell
+$ lpn open ce
+$ lpn open dxp
+$ lpn open release
+$ lpn open nightly
+$ lpn open commerce
+```
