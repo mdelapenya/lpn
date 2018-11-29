@@ -8,6 +8,9 @@
         "changelog": {
             "enhacements": [
                 {
+                    "description": "Add an 'open' command, which allows opening a browser poiting to the home page of the running instance."
+                },
+                {
                     "description": "Improve README's readability, explaining features, not commands."
                 }
             ],
