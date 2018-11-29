@@ -1,7 +1,7 @@
 [
     {
         "channel": "unstable",
-        "version": "0.7.1-snapshot",
+        "version": "0.8.0-snapshot",
         "equinox": false,
         "latest": true,
         "releaseDate": "2018-12-01 15:00",
