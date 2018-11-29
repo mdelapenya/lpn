@@ -219,6 +219,31 @@ func GetDockerVersion() (string, error) {
 	return version, err
 }
 
+// inspect inspects a container
+func inspect(containerName string) types.ContainerJSON {
+	dockerClient := getDockerClient()
+
+	containerJSON, err := dockerClient.ContainerInspect(context.Background(), containerName)
+	if err != nil {
+		log.Fatalln("The container [" + containerName + "] could not be inspected")
+	}
+
+	return containerJSON
+}
+
+// GetTomcatPort gets Tomcat port from running instance
+func GetTomcatPort(image liferay.Image) string {
+	containerJSON := inspect(image.GetContainerName())
+
+	hostConfig := containerJSON.HostConfig
+
+	portBindings := hostConfig.PortBindings
+
+	tomcatPortBinding := portBindings["8080/tcp"]
+
+	return tomcatPortBinding[0].HostPort
+}
+
 // LogContainer show logs of a container in tail mode
 func LogContainer(image liferay.Image) {
 	dockerClient := getDockerClient()
