@@ -190,8 +190,6 @@ $ lpn pull commerce --tag "20181026"
 
 It will list the existing tags on Docker Hub for the desired images type. To specify to which image type you want to list its tags, please select it adding the `ce`, `dxp`, `release`, `nightly`, `commerce` subcommands.
 
-You will be able to configure which image you are going to pull using the following flags:
-
 This command does not accept any flag to configure its execution.
 
 Examples:
