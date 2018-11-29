@@ -34,7 +34,7 @@ var stopCmd = &cobra.Command{
 var stopCECmd = &cobra.Command{
 	Use:   "ce",
 	Short: "Stops the Liferay Portal CE instance",
-	Long:  `Stops the Liferay Portal CE instance, identified by [lpn-cd].`,
+	Long:  `Stops the Liferay Portal CE instance, identified by [lpn-ce].`,
 	Run: func(cmd *cobra.Command, args []string) {
 		ce := liferay.CE{}
 
