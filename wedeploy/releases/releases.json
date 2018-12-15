@@ -1,10 +1,10 @@
 [
     {
-        "channel": "unstable",
-        "version": "0.8.0-snapshot",
+        "channel": "stable",
+        "version": "0.8.0",
         "equinox": false,
         "latest": true,
-        "releaseDate": "2018-12-01 15:00",
+        "releaseDate": "2018-12-12 01:30",
         "changelog": {
             "enhacements": [
                 {
