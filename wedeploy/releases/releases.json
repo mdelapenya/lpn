@@ -28,7 +28,7 @@
         "channel": "stable",
         "version": "0.7.0",
         "equinox": false,
-        "latest": true,
+        "latest": false,
         "releaseDate": "2018-11-27 23:30",
         "changelog": {
             "enhacements": [
