@@ -1,2 +1,2 @@
 source 'https://rubygems.org'
-gem 'aruba', '~> 0.14.3'
+gem 'aruba', '~> 0.14.6'
