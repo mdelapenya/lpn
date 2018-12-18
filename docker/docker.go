@@ -4,6 +4,7 @@ import (
 	"archive/tar"
 	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -22,6 +23,16 @@ import (
 )
 
 var instance *client.Client
+
+type imagePullResponse struct {
+	ID             string `json:"id"`
+	Progress       string `json:"progress"`
+	ProgressDetail struct {
+		Current int64 `json:"current"`
+		Total   int64 `json:"total"`
+	} `json:"progressDetail"`
+	Status string `json:"status"`
+}
 
 func buildPortBinding(port string, ip string) []nat.PortBinding {
 	return []nat.PortBinding{
@@ -287,9 +298,21 @@ func PullDockerImage(dockerImage string) {
 		context.Background(), dockerImage, types.ImagePullOptions{})
 
 	if err == nil {
-		io.Copy(os.Stdout, out)
+		parseImagePull(out)
 	} else {
 		log.Fatalf("The image [" + dockerImage + "] could not be pulled")
+	}
+}
+
+func parseImagePull(pullResp io.ReadCloser) {
+	d := json.NewDecoder(pullResp)
+	for {
+		var pullResult imagePullResponse
+		if err := d.Decode(&pullResult); err != nil {
+			break
+		}
+
+		fmt.Println(pullResult)
 	}
 }
 
