@@ -16,7 +16,7 @@ const DXPDefaultTag = "7.0.10.8"
 const DXPRepository = "liferay/dxp"
 
 // NightliesRepository Namespace for the Docker nightly builds
-const NightliesRepository = "mdelapenya/liferay-portal-nightlies"
+const NightliesRepository = "liferay/portal-snapshot"
 
 // ReleasesRepository Namespace for the Docker releases
 const ReleasesRepository = "mdelapenya/liferay-portal"

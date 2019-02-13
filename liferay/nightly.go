@@ -17,7 +17,7 @@ func (n Nightly) GetDeployFolder() string {
 
 // GetDockerHubTagsURL returns the URL of the available tags on Docker Hub
 func (n Nightly) GetDockerHubTagsURL() string {
-	return "mdelapenya/liferay-portal-nightlies"
+	return "liferay/portal-snapshot"
 }
 
 // GetFullyQualifiedName returns the fully qualified name of the image

@@ -22,7 +22,7 @@ Feature: Deploy command
     | type | tag | home |
     | ce      | 7.0.6-ga7 | /opt/liferay/deploy |
     | dxp     | 7.0.10.8 | /opt/liferay/deploy |
-    | nightly | latest | /liferay/deploy |
+    | nightly | master | /liferay/deploy |
     | release | latest | /liferay/deploy |
     | release | 7-ce-ga5-tomcat-hsql | /usr/local/liferay-ce-portal-7.0-ga5/deploy |
 
@@ -56,7 +56,7 @@ Feature: Deploy command
     | type | tag | home |
     | ce      | 7.0.6-ga7 | /opt/liferay/deploy |
     | dxp     | 7.0.10.8 | /opt/liferay/deploy |
-    | nightly | latest | /liferay/deploy |
+    | nightly | master | /liferay/deploy |
     | release | latest | /liferay/deploy |
     | release | 7-ce-ga5-tomcat-hsql | /usr/local/liferay-ce-portal-7.0-ga5/deploy |
 
@@ -74,7 +74,7 @@ Feature: Deploy command
     | type    | tag |
     | ce      | 7.0.6-ga7 |
     | dxp     | 7.0.10.8 |
-    | nightly | latest |
+    | nightly | master |
     | release | latest |
 
   Scenario Outline: Deploy a directory when container exists
@@ -117,7 +117,7 @@ Feature: Deploy command
     | type | tag | home |
     | ce      | 7.0.6-ga7 | /opt/liferay/deploy |
     | dxp     | 7.0.10.8 | /opt/liferay/deploy |
-    | nightly | latest | /liferay/deploy |
+    | nightly | master | /liferay/deploy |
     | release | latest | /liferay/deploy |
     | release | 7-ce-ga5-tomcat-hsql | /usr/local/liferay-ce-portal-7.0-ga5/deploy |
 
@@ -151,7 +151,7 @@ Feature: Deploy command
     | type | tag | home |
     | ce      | 7.0.6-ga7 | /opt/liferay/deploy |
     | dxp     | 7.0.10.8 | /opt/liferay/deploy |
-    | nightly | latest | /liferay/deploy |
+    | nightly | master | /liferay/deploy |
     | release | latest | /liferay/deploy |
     | release | 7-ce-ga5-tomcat-hsql | /usr/local/liferay-ce-portal-7.0-ga5/deploy |
 

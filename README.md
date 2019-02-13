@@ -34,7 +34,7 @@ With `lpn` you'll be able to:
 
 - Run Liferay Portal containers using the released version you prefer:
   - Liferay Portal official images, obtained from [here for CE](https://hub.docker.com/r/liferay/portal/tags/) and [here for DXP](https://hub.docker.com/r/liferay/dxp/tags/).
-  - Liferay Portal nightly builds, obtained from [here](https://hub.docker.com/r/mdelapenya/liferay-portal-nightlies/tags/).
+  - Liferay Portal nightly builds, obtained from [here](https://hub.docker.com/r/liferay/portal-snapshot/tags/).
   - Liferay Portal releases, obtained from [here](https://hub.docker.com/r/mdelapenya/liferay-portal/tags/).
   - Liferay Portal including specific produts, like Commerce. `This repository is Private, so you maybe don't have access to it`.
 - Deploy applications to the running containers:

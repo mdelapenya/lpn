@@ -15,7 +15,7 @@ Feature: Run command
     | type    | tag |
     | ce      | 7.0.6-ga7 |
     | dxp     | 7.0.10.8 |
-    | nightly | latest |
+    | nightly | master |
     | release | latest |
 
   Scenario Outline: Run command with debug enabled
@@ -31,7 +31,7 @@ Feature: Run command
     | type    | tag | variable |
     | ce      | 7.0.6-ga7 | LIFERAY_JPDA_ENABLED |
     | dxp     | 7.0.10.8 | LIFERAY_JPDA_ENABLED |
-    | nightly | latest | DEBUG_MODE |
+    | nightly | master | DEBUG_MODE |
     | release | latest | DEBUG_MODE |
 
   Scenario Outline: Run command with failure
@@ -49,7 +49,7 @@ Feature: Run command
     | type    | tag |
     | ce      | 7.0.6-ga7 |
     | dxp     | 7.0.10.8 |
-    | nightly | latest |
+    | nightly | master |
     | release | latest |
 
   Scenario Outline: Run command with memory enabled
@@ -65,5 +65,5 @@ Feature: Run command
     | type    | tag |
     | ce      | 7.0.6-ga7 |
     | dxp     | 7.0.10.8 |
-    | nightly | latest |
+    | nightly | master |
     | release | latest |

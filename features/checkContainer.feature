@@ -3,7 +3,7 @@ Feature: CheckContainer command
   I want to be able to check if the "lpn" container for each type is running
 
   Scenario Outline: CheckContainer command when latest container is running
-    Given I run `lpn run <type> -t latest`
+    Given I run `lpn run <type> -t <tag>`
     When I run `lpn checkContainer <type>`
     Then the output should contain:
     """
@@ -13,9 +13,9 @@ Feature: CheckContainer command
     And I run `lpn rm <type>`
 
   Examples:
-    | type    |
-    | nightly |
-    | release |
+    | type    | tag |
+    | nightly | master |
+    | release | latest |
 
   Scenario Outline: CheckContainer command when container is running
     Given I run `lpn run <type> -t <tag>`
