@@ -95,9 +95,23 @@ function main() {
 }
 
 function publish_binaries() {
+  local devEnvironment="dev"
+  local remote="liferay.io"
+
   cd wedeploy
-  we login -r liferay.io --no-browser
-  we deploy -r liferay.io -p lpn
+  we login -r "${remote}" --no-browser
+
+  if [[ "$BRANCH" == "master" ]]; then
+    we deploy -r "${remote}" -p lpn
+  elif [[ "$BRANCH" == "develop" ]]; then
+    echo "INFO:
+    Deploying from develop branch will push the binaries to the Dev environment for this project
+    "
+    we deploy -r "${remote}" -p lpn -e "${devEnvironment}"
+  else
+    echo "We cannot deploy binaries from a branch different than master or develop"
+    exit 1
+  fi
 }
 
 function release() {
