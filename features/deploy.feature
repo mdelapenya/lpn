@@ -22,7 +22,7 @@ Feature: Deploy command
     | type | tag | home |
     | ce      | 7.0.6-ga7 | /opt/liferay/deploy |
     | dxp     | 7.0.10.8 | /opt/liferay/deploy |
-    | nightly | master | /liferay/deploy |
+    | nightly | master | /opt/liferay/deploy |
     | release | latest | /liferay/deploy |
     | release | 7-ce-ga5-tomcat-hsql | /usr/local/liferay-ce-portal-7.0-ga5/deploy |
 
@@ -56,7 +56,7 @@ Feature: Deploy command
     | type | tag | home |
     | ce      | 7.0.6-ga7 | /opt/liferay/deploy |
     | dxp     | 7.0.10.8 | /opt/liferay/deploy |
-    | nightly | master | /liferay/deploy |
+    | nightly | master | /opt/liferay/deploy |
     | release | latest | /liferay/deploy |
     | release | 7-ce-ga5-tomcat-hsql | /usr/local/liferay-ce-portal-7.0-ga5/deploy |
 
@@ -117,7 +117,7 @@ Feature: Deploy command
     | type | tag | home |
     | ce      | 7.0.6-ga7 | /opt/liferay/deploy |
     | dxp     | 7.0.10.8 | /opt/liferay/deploy |
-    | nightly | master | /liferay/deploy |
+    | nightly | master | /opt/liferay/deploy |
     | release | latest | /liferay/deploy |
     | release | 7-ce-ga5-tomcat-hsql | /usr/local/liferay-ce-portal-7.0-ga5/deploy |
 
@@ -151,7 +151,7 @@ Feature: Deploy command
     | type | tag | home |
     | ce      | 7.0.6-ga7 | /opt/liferay/deploy |
     | dxp     | 7.0.10.8 | /opt/liferay/deploy |
-    | nightly | master | /liferay/deploy |
+    | nightly | master | /opt/liferay/deploy |
     | release | latest | /liferay/deploy |
     | release | 7-ce-ga5-tomcat-hsql | /usr/local/liferay-ce-portal-7.0-ga5/deploy |
 
@@ -169,6 +169,6 @@ Feature: Deploy command
     | type | home |
     | ce      | /opt/liferay/deploy |
     | dxp     | /opt/liferay/deploy |
-    | nightly | /liferay/deploy |
+    | nightly | /opt/liferay/deploy |
     | release | /liferay/deploy |
     | release | /usr/local/liferay-ce-portal-7.0-ga5/deploy |

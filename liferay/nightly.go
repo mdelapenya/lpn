@@ -27,7 +27,7 @@ func (n Nightly) GetFullyQualifiedName() string {
 
 // GetLiferayHome returns the Liferay home for nightly builds
 func (n Nightly) GetLiferayHome() string {
-	return "/liferay"
+	return "/opt/liferay"
 }
 
 // GetRepository returns the repository for nightly builds
@@ -47,5 +47,5 @@ func (n Nightly) GetType() string {
 
 // GetUser returns the user running the main application
 func (n Nightly) GetUser() string {
-	return "root"
+	return "liferay"
 }

@@ -11,7 +11,7 @@ func TestDeployFolderNightly(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("/liferay/deploy", nightly.GetDeployFolder())
+	assert.Equal("/opt/liferay/deploy", nightly.GetDeployFolder())
 }
 
 func TestGetContainerNameNightly(t *testing.T) {
@@ -43,7 +43,7 @@ func TestGetLiferayHomeNightly(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("/liferay", nightly.GetLiferayHome())
+	assert.Equal("/opt/liferay", nightly.GetLiferayHome())
 }
 
 func TestGetNightliesRepository(t *testing.T) {
@@ -68,5 +68,5 @@ func TestGetUserNightly(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("root", nightly.GetUser())
+	assert.Equal("liferay", nightly.GetUser())
 }
