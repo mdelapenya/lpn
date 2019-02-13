@@ -31,7 +31,7 @@ Feature: Run command
     | type    | tag | variable |
     | ce      | 7.0.6-ga7 | LIFERAY_JPDA_ENABLED |
     | dxp     | 7.0.10.8 | LIFERAY_JPDA_ENABLED |
-    | nightly | master | DEBUG_MODE |
+    | nightly | master | LIFERAY_JPDA_ENABLED |
     | release | latest | DEBUG_MODE |
 
   Scenario Outline: Run command with failure
