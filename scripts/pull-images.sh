@@ -5,7 +5,7 @@ set -o nounset
 
 readonly CE_IMAGE="liferay/portal:7.0.6-ga7"
 readonly DXP_IMAGE="liferay/dxp:7.0.10.8"
-readonly NIGHTLY_IMAGE="mdelapenya/liferay-portal-nightlies:latest"
+readonly NIGHTLY_IMAGE="liferay/portal-snapshot:master"
 readonly RELEASE_IMAGE="mdelapenya/liferay-portal:7-ce-ga5-tomcat-hsql"
 readonly RELEASE_IMAGE_LATEST="mdelapenya/liferay-portal:latest"
 

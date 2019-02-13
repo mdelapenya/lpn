@@ -15,7 +15,7 @@ Feature: Rm command
     | type    | tag |
     | ce      | 7.0.6-ga7 |
     | dxp     | 7.0.10.8 |
-    | nightly | latest |
+    | nightly | master |
     | release | latest |
 
   Scenario Outline: Rm command when container does not exist

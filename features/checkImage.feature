@@ -3,18 +3,18 @@ Feature: CheckImage command
   I want to be able to check if the images representing nightly builds or releases are present
 
   Scenario Outline: CheckImage command for latest tag
-    Given I run `lpn pull <type> -t latest`
-    When I run `lpn checkImage <type> -t latest`
+    Given I run `lpn pull <type> -t <tag>`
+    When I run `lpn checkImage <type> -t <tag>`
     Then the output should contain:
     """
-    The image [<image>] has been pulled from Docker Hub
+    The image [<image>:<tag>] has been pulled from Docker Hub
     """
     And the exit status should be 0
 
   Examples:
-    | type    | image |
-    | nightly | mdelapenya/liferay-portal-nightlies:latest |
-    | release | mdelapenya/liferay-portal:latest |
+    | type    | image | tag |
+    | nightly | liferay/portal-snapshot | master |
+    | release | mdelapenya/liferay-portal | latest |
 
   Scenario Outline: CheckImage command
     Given I run `lpn pull <type> -t <tag>`
@@ -42,5 +42,5 @@ Feature: CheckImage command
     | type    | image |
     | ce | liferay/portal:foo |
     | dxp | liferay/dxp:foo |
-    | nightly | mdelapenya/liferay-portal-nightlies:foo |
+    | nightly | liferay/portal-snapshot:foo |
     | release | mdelapenya/liferay-portal:foo |

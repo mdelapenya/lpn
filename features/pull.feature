@@ -19,7 +19,7 @@ Feature: Pull command
     | type    | tag | repository |
     | ce      | 7.0.6-ga7 | liferay/portal |
     | dxp     | 7.0.10.8 | liferay/dxp |
-    | nightly | latest | mdelapenya/liferay-portal-nightlies |
+    | nightly | master | liferay/portal-snapshot |
     | release | latest | mdelapenya/liferay-portal |
 
   Scenario Outline: Pull command when image does not exist
@@ -34,7 +34,7 @@ Feature: Pull command
     | type    | image |
     | ce      | liferay/portal:foo |
     | dxp     | liferay/dxp:foo |
-    | nightly | mdelapenya/liferay-portal-nightlies:foo |
+    | nightly | liferay/portal-snapshot:foo |
     | release | mdelapenya/liferay-portal:foo |
 
   Scenario Outline: Pull command forcing the removal of already present image
@@ -55,7 +55,7 @@ Feature: Pull command
     | type    | tag | repository |
     | ce      | 7.0.6-ga7 | liferay/portal |
     | dxp     | 7.0.10.8 | liferay/dxp |
-    | nightly | latest | mdelapenya/liferay-portal-nightlies |
+    | nightly | master | liferay/portal-snapshot |
     | release | latest | mdelapenya/liferay-portal |
 
   Scenario Outline: Pull command forcing the removal of a non present image

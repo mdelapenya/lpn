@@ -15,7 +15,7 @@ Feature: Rmi command
     | type    | image | tag |
     | ce      | liferay/portal | 7.0.6-ga7 |
     | dxp     | liferay/dxp | 7.0.10.8 |
-    | nightly | mdelapenya/liferay-portal-nightlies | latest |
+    | nightly | liferay/portal-snapshot | master |
     | release | mdelapenya/liferay-portal | latest |
 
   Scenario Outline: Rm command when image does not exist
@@ -30,5 +30,5 @@ Feature: Rmi command
     | type    | image | tag |
     | ce      | liferay/portal | foo |
     | dxp     | liferay/dxp | foo |
-    | nightly | mdelapenya/liferay-portal-nightlies | foo |
+    | nightly | liferay/portal-snapshot | foo |
     | release | mdelapenya/liferay-portal | foo |

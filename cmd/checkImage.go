@@ -128,7 +128,7 @@ var checkImageNightly = &cobra.Command{
 	Long: `Checks if the proper Liferay Portal Nightly Build image has been pulled by lpn.
 	Uses docker image inspect to check if the proper Liferay Portal image has 
 	been pulled by lpn (Liferay Portal Nook). If no image tag is passed to the command,
-	the tag "latest" will be used.`,
+	the tag "` + date.CurrentDate + `" will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("checkImage nightly requires zero or one argument representing the image tag")

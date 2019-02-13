@@ -27,7 +27,7 @@ func TestGetDockerHubTagsURLNightly(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("mdelapenya/liferay-portal-nightlies", nightly.GetDockerHubTagsURL())
+	assert.Equal("liferay/portal-snapshot", nightly.GetDockerHubTagsURL())
 }
 
 func TestGetFullyQualifiedNameNightly(t *testing.T) {
@@ -35,7 +35,7 @@ func TestGetFullyQualifiedNameNightly(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("mdelapenya/liferay-portal-nightlies:foo", nightly.GetFullyQualifiedName())
+	assert.Equal("liferay/portal-snapshot:foo", nightly.GetFullyQualifiedName())
 }
 
 func TestGetLiferayHomeNightly(t *testing.T) {
@@ -52,7 +52,7 @@ func TestGetNightliesRepository(t *testing.T) {
 	assert := assert.New(t)
 	nightlies := nightly.GetRepository()
 
-	assert.Equal("mdelapenya/liferay-portal-nightlies", nightlies)
+	assert.Equal("liferay/portal-snapshot", nightlies)
 }
 
 func TestGetTypeNightly(t *testing.T) {
