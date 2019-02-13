@@ -380,9 +380,9 @@ func RunDockerImage(
 		debugEnvVarName := ""
 
 		switch imageType := image.(type) {
-		case liferay.CE, liferay.DXP:
+		case liferay.CE, liferay.DXP, liferay.Nightly:
 			debugEnvVarName = "LIFERAY_JPDA_ENABLED"
-		case liferay.Commerce, liferay.Nightly, liferay.Release:
+		case liferay.Commerce, liferay.Release:
 			debugEnvVarName = "DEBUG_MODE"
 		default:
 			log.Fatalln("Non supported type", imageType)
