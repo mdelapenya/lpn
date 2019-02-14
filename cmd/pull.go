@@ -33,7 +33,7 @@ var pullCmd = &cobra.Command{
 	Use:   "pull",
 	Short: "Pulls a Liferay Portal Docker image",
 	Long: `Pulls a Liferay Portal Docker image from one of the Official repositories:
-		- ` + liferay.CommercesRepository + ` (private),
+		- ` + liferay.CommerceRepository + ` (private),
 		- ` + liferay.CERepository + `, and
 		- ` + liferay.DXPRepository + `.
 		For non-official Docker images, the tool pulls from the official repositories:
@@ -78,7 +78,7 @@ var pullCE = &cobra.Command{
 var pullCommerce = &cobra.Command{
 	Use:   "commerce",
 	Short: "Pulls a Liferay Portal Docker image from Commerce Builds",
-	Long: `Pulls a Liferay Portal Docker image from the Commerce Builds repository: "` + liferay.CommercesRepository + `".
+	Long: `Pulls a Liferay Portal Docker image from the Commerce Builds repository: "` + liferay.CommerceRepository + `".
 	If no image tag is passed to the command, the "` + liferay.CommerceDefaultTag + `" tag will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {

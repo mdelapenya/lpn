@@ -9,8 +9,8 @@ const CERepository = "liferay/portal"
 // CommerceDefaultTag Default tag for CE
 const CommerceDefaultTag = "1.1.1"
 
-// CommercesRepository Namespace for the Docker releases with Commerce
-const CommercesRepository = "liferay/commerce"
+// CommerceRepository Namespace for the Docker releases with Commerce
+const CommerceRepository = "liferay/commerce"
 
 // DXPDefaultTag Default tag for DXP
 const DXPDefaultTag = "7.0.10.8"
