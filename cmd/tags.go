@@ -197,6 +197,10 @@ func readTags(image liferay.Image, count int, page int) {
 
 	if len(availableTags) > 0 {
 		totalPages := int(math.Ceil(float64(tagsResponse.Count) / float64(count)))
+		if count > tagsResponse.Count {
+			count = tagsResponse.Count
+		}
+
 		log.Printf("There are %d images, showing %d elements in page %d of %d", tagsResponse.Count, count, page, totalPages)
 
 		for index, tag := range availableTags {
