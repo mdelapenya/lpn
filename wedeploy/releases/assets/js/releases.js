@@ -6,12 +6,19 @@ function appendReleases(releases) {
     }).appendTo( "#releases" );
 }
 
+function appendVersion(version) {
+    $( "<a/>", {
+        html: "Version " + version
+    }).appendTo( "#version-title" );
+}
+
 function getStableRelease() {
     $.getJSON( "releases.json", function( data ) {
         var releases = [];
         $.each( data, function( id, release ) {
             if (release.latest && release.latest === true) {
                 releases.push(getReleaseHtml(id, release));
+                appendVersion(release.version);
             }
         });
     
@@ -24,6 +31,10 @@ function getReleases() {
         var releases = [];
         $.each( data, function( id, release ) {
             releases.push(getReleaseHtml(id, release));
+
+            if (release.latest && release.latest === true) {
+                appendVersion(release.version);
+            }
         });
     
         appendReleases(releases);
