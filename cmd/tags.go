@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
@@ -8,11 +9,38 @@ import (
 
 	liferay "github.com/mdelapenya/lpn/liferay"
 
-	"github.com/PuerkitoBio/goquery"
 	"github.com/spf13/cobra"
 )
 
-const dockerHubTagSearchQuery = ".FlexTable__flexRow___2mqir"
+type imageResponse struct {
+	Size         int
+	Architecture string
+	Variant      string
+	Features     string
+	OS           string
+	OSVersion    string
+	OSFeatures   string
+}
+
+type resultResponse struct {
+	Name        string
+	FullSize    int
+	Images      []imageResponse
+	ID          int64
+	Repository  int64
+	Creator     int64
+	LastUpdater int64
+	LastUpdated string
+	ImageID     string
+	V2          bool
+}
+
+type tagsResponse struct {
+	Count    int
+	Next     string
+	Previous string
+	Results  []resultResponse
+}
 
 func init() {
 	rootCmd.AddCommand(tagsCmd)
@@ -111,8 +139,12 @@ var tagsReleaseCmd = &cobra.Command{
 	},
 }
 
+func convertToHuman(bytes int) string {
+	return fmt.Sprintf("%d MB", (bytes / 1000000))
+}
+
 func readTags(image liferay.Image) {
-	tagsPage := "https://hub.docker.com/r/" + image.GetDockerHubTagsURL() + "/tags/"
+	tagsPage := "https://hub.docker.com/v2/repositories/" + image.GetDockerHubTagsURL() + "/tags/?page_size=25&page=1"
 
 	// Request the HTML page.
 	res, err := http.Get(tagsPage)
@@ -124,8 +156,9 @@ func readTags(image liferay.Image) {
 		log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
 	}
 
-	// Load the HTML document
-	doc, err := goquery.NewDocumentFromReader(res.Body)
+	// Load the JSON document
+	tagsResponse := new(tagsResponse)
+	err = json.NewDecoder(res.Body).Decode(tagsResponse)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -135,13 +168,10 @@ func readTags(image liferay.Image) {
 
 	maxLengthTags := 0
 
-	// Find the review items
-	doc.Find(dockerHubTagSearchQuery).Each(func(i int, selection *goquery.Selection) {
-		// For each item found, get the tag
-		tag := selection.Find("div .FlexTable__flexItemGrow2___3I1KN").Text()
-		nodes := selection.Find("div .FlexTable__flexItemGrow1___3djP6")
-
-		size := nodes.First().Text()
+	for _, t := range tagsResponse.Results {
+		// For each item found, get the tag and its size
+		tag := t.Name
+		size := t.Images[0].Size
 
 		currentTagLength := len(tag)
 		if currentTagLength >= maxLengthTags {
@@ -149,8 +179,8 @@ func readTags(image liferay.Image) {
 		}
 
 		availableTags = append(availableTags, tag)
-		availableSizes = append(availableSizes, size)
-	})
+		availableSizes = append(availableSizes, convertToHuman(size))
+	}
 
 	if len(availableTags) > 0 {
 		log.Printf("The available tags for the image are:")
