@@ -380,9 +380,9 @@ func RunDockerImage(
 		debugEnvVarName := ""
 
 		switch imageType := image.(type) {
-		case liferay.CE, liferay.DXP, liferay.Nightly:
+		case liferay.CE, liferay.Commerce, liferay.DXP, liferay.Nightly:
 			debugEnvVarName = "LIFERAY_JPDA_ENABLED"
-		case liferay.Commerce, liferay.Release:
+		case liferay.Release:
 			debugEnvVarName = "DEBUG_MODE"
 		default:
 			log.Fatalln("Non supported type", imageType)
@@ -395,9 +395,9 @@ func RunDockerImage(
 		jvmEnvVarName := ""
 
 		switch imageType := image.(type) {
-		case liferay.CE, liferay.DXP, liferay.Nightly:
+		case liferay.CE, liferay.Commerce, liferay.DXP, liferay.Nightly:
 			jvmEnvVarName = "LIFERAY_JVM_OPTS"
-		case liferay.Commerce, liferay.Release:
+		case liferay.Release:
 			jvmEnvVarName = "JVM_TUNING_MEMORY"
 		default:
 			log.Fatalln("Non supported type", imageType)

@@ -17,7 +17,7 @@ func (c Commerce) GetDeployFolder() string {
 
 // GetDockerHubTagsURL returns the URL of the available tags on Docker Hub
 func (c Commerce) GetDockerHubTagsURL() string {
-	return "liferay/liferay-commerce"
+	return "liferay/commerce"
 }
 
 // GetFullyQualifiedName returns the fully qualified name of the image
@@ -27,7 +27,7 @@ func (c Commerce) GetFullyQualifiedName() string {
 
 // GetLiferayHome returns the Liferay home for nightly builds with Commerce
 func (c Commerce) GetLiferayHome() string {
-	return "/liferay"
+	return "/opt/liferay"
 }
 
 // GetRepository returns the repository for nightly builds with Commerce
@@ -47,5 +47,5 @@ func (c Commerce) GetType() string {
 
 // GetUser returns the user running the main application
 func (c Commerce) GetUser() string {
-	return "root"
+	return "liferay"
 }

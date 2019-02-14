@@ -21,6 +21,7 @@ Feature: Deploy command
   Examples:
     | type | tag | home |
     | ce      | 7.0.6-ga7 | /opt/liferay/deploy |
+    | commerce | 1.1.1 | /opt/liferay/deploy |
     | dxp     | 7.0.10.8 | /opt/liferay/deploy |
     | nightly | master | /opt/liferay/deploy |
     | release | latest | /liferay/deploy |
@@ -55,6 +56,7 @@ Feature: Deploy command
   Examples:
     | type | tag | home |
     | ce      | 7.0.6-ga7 | /opt/liferay/deploy |
+    | commerce | 1.1.1 | /opt/liferay/deploy |
     | dxp     | 7.0.10.8 | /opt/liferay/deploy |
     | nightly | master | /opt/liferay/deploy |
     | release | latest | /liferay/deploy |
@@ -73,6 +75,7 @@ Feature: Deploy command
   Examples:
     | type    | tag |
     | ce      | 7.0.6-ga7 |
+    | commerce | 1.1.1 |
     | dxp     | 7.0.10.8 |
     | nightly | master |
     | release | latest |
@@ -116,6 +119,7 @@ Feature: Deploy command
     Examples:
     | type | tag | home |
     | ce      | 7.0.6-ga7 | /opt/liferay/deploy |
+    | commerce | 1.1.1 | /opt/liferay/deploy |
     | dxp     | 7.0.10.8 | /opt/liferay/deploy |
     | nightly | master | /opt/liferay/deploy |
     | release | latest | /liferay/deploy |
@@ -150,6 +154,7 @@ Feature: Deploy command
     Examples:
     | type | tag | home |
     | ce      | 7.0.6-ga7 | /opt/liferay/deploy |
+    | commerce | 1.1.1 | /opt/liferay/deploy |
     | dxp     | 7.0.10.8 | /opt/liferay/deploy |
     | nightly | master | /opt/liferay/deploy |
     | release | latest | /liferay/deploy |
@@ -168,6 +173,7 @@ Feature: Deploy command
     Examples:
     | type | home |
     | ce      | /opt/liferay/deploy |
+    | commerce | /opt/liferay/deploy |
     | dxp     | /opt/liferay/deploy |
     | nightly | /opt/liferay/deploy |
     | release | /liferay/deploy |

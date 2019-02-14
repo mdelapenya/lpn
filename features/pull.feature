@@ -18,6 +18,7 @@ Feature: Pull command
   Examples:
     | type    | tag | repository |
     | ce      | 7.0.6-ga7 | liferay/portal |
+    | commerce | 1.1.1 | liferay/commerce |
     | dxp     | 7.0.10.8 | liferay/dxp |
     | nightly | master | liferay/portal-snapshot |
     | release | latest | mdelapenya/liferay-portal |
@@ -33,6 +34,7 @@ Feature: Pull command
   Examples:
     | type    | image |
     | ce      | liferay/portal:foo |
+    | commerce | liferay/commerce:foo |
     | dxp     | liferay/dxp:foo |
     | nightly | liferay/portal-snapshot:foo |
     | release | mdelapenya/liferay-portal:foo |
@@ -54,6 +56,7 @@ Feature: Pull command
   Examples:
     | type    | tag | repository |
     | ce      | 7.0.6-ga7 | liferay/portal |
+    | commerce | 1.1.1 | liferay/commerce |
     | dxp     | 7.0.10.8 | liferay/dxp |
     | nightly | master | liferay/portal-snapshot |
     | release | latest | mdelapenya/liferay-portal |

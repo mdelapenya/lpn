@@ -11,7 +11,7 @@ func TestDeployFolderCommerce(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("/liferay/deploy", commerce.GetDeployFolder())
+	assert.Equal("/opt/liferay/deploy", commerce.GetDeployFolder())
 }
 
 func TestGetContainerNameCommerce(t *testing.T) {
@@ -27,7 +27,7 @@ func TestGetDockerHubTagsURLCommerce(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("liferay/liferay-commerce", commerce.GetDockerHubTagsURL())
+	assert.Equal("liferay/commerce", commerce.GetDockerHubTagsURL())
 }
 
 func TestGetFullyQualifiedNameCommerce(t *testing.T) {
@@ -35,7 +35,7 @@ func TestGetFullyQualifiedNameCommerce(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("liferay/liferay-commerce:foo", commerce.GetFullyQualifiedName())
+	assert.Equal("liferay/commerce:foo", commerce.GetFullyQualifiedName())
 }
 
 func TestGetLiferayHomeCommerce(t *testing.T) {
@@ -43,7 +43,7 @@ func TestGetLiferayHomeCommerce(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("/liferay", commerce.GetLiferayHome())
+	assert.Equal("/opt/liferay", commerce.GetLiferayHome())
 }
 
 func TestGetCommercesRepository(t *testing.T) {
@@ -52,7 +52,7 @@ func TestGetCommercesRepository(t *testing.T) {
 	assert := assert.New(t)
 	commerceRepository := commerce.GetRepository()
 
-	assert.Equal("liferay/liferay-commerce", commerceRepository)
+	assert.Equal("liferay/commerce", commerceRepository)
 }
 
 func TestGetTypeCommerce(t *testing.T) {
@@ -68,5 +68,5 @@ func TestGetUserCommerce(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("root", commerce.GetUser())
+	assert.Equal("liferay", commerce.GetUser())
 }
