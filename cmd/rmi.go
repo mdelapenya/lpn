@@ -53,7 +53,7 @@ var rmiCECmd = &cobra.Command{
 var rmiCommerceCmd = &cobra.Command{
 	Use:   "commerce",
 	Short: "Removes the Liferay Portal Commerce image",
-	Long:  `Removes the Liferay Portal Commerce image, identified by ["` + liferay.CommercesRepository + `"].`,
+	Long:  `Removes the Liferay Portal Commerce image, identified by ["` + liferay.CommerceRepository + `"].`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToRemove == "" {
 			tagToRemove = date.CurrentDate

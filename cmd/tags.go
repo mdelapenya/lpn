@@ -31,11 +31,11 @@ var tagsCmd = &cobra.Command{
 	Use:   "tags",
 	Short: "Lists all tags for Liferay Portal Docker image",
 	Long: `Lists all tags for Liferay Portal Docker image from the Official repositories:
-		- ` + liferay.CommercesRepository + ` (private),
+		- ` + liferay.CommerceRepository + ` (private),
 		- ` + liferay.CERepository + `, and
 		- ` + liferay.DXPRepository + `.
 		For non-official Docker images, the tool lists tags from the unofficial repositories:
-		- ` + liferay.CommercesRepository + ` (private),
+		- ` + liferay.CommerceRepository + ` (private),
 		- ` + liferay.NightliesRepository + `, and
 		- ` + liferay.ReleasesRepository + `.
 	For that, please run this command adding "commerce", "release" or "nightly" subcommands.`,
@@ -67,7 +67,7 @@ var tagsCommerceCmd = &cobra.Command{
 	Use:   "commerce",
 	Short: "Lists all tags for Liferay Commerce Docker image",
 	Long: `Lists all tags for Liferay Commerce Docker image from one of the unofficial, private repositories:
-		- ` + liferay.CommercesRepository + ` (private).`,
+		- ` + liferay.CommerceRepository + ` (private).`,
 	Run: func(cmd *cobra.Command, args []string) {
 		commerce := liferay.Commerce{}
 

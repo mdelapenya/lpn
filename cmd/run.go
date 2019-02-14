@@ -49,7 +49,7 @@ var runCmd = &cobra.Command{
 	Use:   "run",
 	Short: "Runs a Liferay Portal instance",
 	Long: `Runs a Liferay Portal instance, obtained from the Official repositories:
-		- ` + liferay.CommercesRepository + ` (private),
+		- ` + liferay.CommerceRepository + ` (private),
 		- ` + liferay.CERepository + `, and
 		- ` + liferay.DXPRepository + `.
 		For non-official Docker images, the tool runs images obtained from the unofficial repositories:
@@ -94,7 +94,7 @@ var runCECmd = &cobra.Command{
 var runCommerceCmd = &cobra.Command{
 	Use:   "commerce",
 	Short: "Runs a Liferay Portal with Commerce instance from Commerce Builds",
-	Long: `Runs a Liferay Portal with Commerce instance, obtained from Commerce Builds repository: ` + liferay.CommercesRepository + `.
+	Long: `Runs a Liferay Portal with Commerce instance, obtained from Commerce Builds repository: ` + liferay.CommerceRepository + `.
 	If no image tag is passed to the command, the "` + liferay.CommerceDefaultTag + `" will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
