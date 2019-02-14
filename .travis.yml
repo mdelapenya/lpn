@@ -29,8 +29,9 @@ before_install:
   - curl https://cdn.wedeploy.com/cli/latest/wedeploy.sh -sL | bash
 
 install:
-  - if [ "$LPN_COMMAND" != "license" && "$LPN_COMMAND" != "version" ]; then
-      ./scripts/pull-images.sh;
+  - |
+    if [ "$LPN_COMMAND" != "license" ] && [ "$LPN_COMMAND" != "version" ]; then
+      ./scripts/pull-images.sh
     fi
   - go build
 
