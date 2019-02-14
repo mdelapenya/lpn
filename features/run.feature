@@ -52,18 +52,35 @@ Feature: Run command
     | nightly | master |
     | release | latest |
 
-  Scenario Outline: Run command with memory enabled
+  Scenario Outline: Run command with memory enabled for non official images
     When I run `lpn run <type> -t <tag> -m 1024m`
     And I run `docker exec lpn-<type> ps aux | grep -e "-Xms1024m -Xmx1024m" | wc -l | xargs`
     And the output should contain:
     """
     1
     """
+    And I run `docker exec lpn-<type> env`
+    Then the output should contain:
+    """
+    <variable>=
+    """
     And I run `lpn rm <type>`
 
   Examples:
-    | type    | tag |
-    | ce      | 7.0.6-ga7 |
-    | dxp     | 7.0.10.8 |
-    | nightly | master |
-    | release | latest |
+    | type    | tag | variable |
+    | release | latest | JVM_TUNING_MEMORY |
+
+  Scenario Outline: Run command with memory enabled for official images
+    When I run `lpn run <type> -t <tag> -m "-Xms1024m -Xmx1024m"`
+    And I run `docker exec lpn-<type> ps aux | grep -e tomcat | xargs`
+    Then the output should contain:
+    """
+    -Xms1024m -Xmx1024m
+    """
+    And I run `lpn rm <type>`
+
+  Examples:
+    | type    | tag | variable |
+    | ce      | 7.0.6-ga7 | LIFERAY_JVM_OPTS |
+    | dxp     | 7.0.10.8 | LIFERAY_JVM_OPTS |
+    | nightly | master | LIFERAY_JVM_OPTS |
