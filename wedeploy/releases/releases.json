@@ -18,6 +18,11 @@
                 {
                     "description": "'nightly' command uses Official portal snapshots instead of mdelapenya's nightly builds"
                 }
+            ],
+            "fixes": [
+                {
+                    "description": "Fix 'tags' command after Docker Hub UI revamp. Now it's possible to paginate in the tag results"
+                }
             ]
         }
     },

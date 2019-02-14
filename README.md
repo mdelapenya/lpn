@@ -190,14 +190,19 @@ $ lpn pull commerce --tag "20181026"
 
 It will list the existing tags on Docker Hub for the desired images type. To specify to which image type you want to list its tags, please select it adding the `ce`, `dxp`, `release`, `nightly`, `commerce` subcommands.
 
-This command does not accept any flag to configure its execution.
+You will be able to browse the list of available tags using the following flags:
+
+| Flag | Description |
+|:-|:-|
+| ` -p, --page` | Sets the page element where tags exist (default 1) |
+| ` -size, --size` | Sets the number of tags to retrieve per page (default 25) |
 
 Examples:
 ```shell
 $ lpn tags ce
-$ lpn tags dxp
+$ lpn tags dxp --page 2 --size 5
 $ lpn tags release
-$ lpn tags nightly
+$ lpn tags nightly -p 2 -s 5
 $ lpn tags commerce
 ```
 
