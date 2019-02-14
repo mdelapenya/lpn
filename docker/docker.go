@@ -395,9 +395,9 @@ func RunDockerImage(
 		jvmEnvVarName := ""
 
 		switch imageType := image.(type) {
-		case liferay.CE, liferay.DXP:
+		case liferay.CE, liferay.DXP, liferay.Nightly:
 			jvmEnvVarName = "LIFERAY_JVM_OPTS"
-		case liferay.Commerce, liferay.Nightly, liferay.Release:
+		case liferay.Commerce, liferay.Release:
 			jvmEnvVarName = "JVM_TUNING_MEMORY"
 		default:
 			log.Fatalln("Non supported type", imageType)
