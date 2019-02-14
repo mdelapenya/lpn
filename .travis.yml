@@ -18,6 +18,7 @@ env:
   - LPN_COMMAND=rmi
   - LPN_COMMAND=run
   - LPN_COMMAND=stop
+  - LPN_COMMAND=tags
   - LPN_COMMAND=version
 
 before_install:
@@ -30,7 +31,7 @@ before_install:
 
 install:
   - |
-    if [ "$LPN_COMMAND" != "license" ] && [ "$LPN_COMMAND" != "version" ]; then
+    if [ "$LPN_COMMAND" != "license" ] && [ "$LPN_COMMAND" != "tags" ] && [ "$LPN_COMMAND" != "version" ]; then
       ./scripts/pull-images.sh
     fi
   - go build
