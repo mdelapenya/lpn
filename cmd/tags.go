@@ -5,12 +5,16 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"math"
 	"net/http"
 
 	liferay "github.com/mdelapenya/lpn/liferay"
 
 	"github.com/spf13/cobra"
 )
+
+var imagesSize int
+var imagesPage int
 
 type imageResponse struct {
 	Size         int
@@ -51,6 +55,9 @@ func init() {
 	for i := 0; i < len(subcommands); i++ {
 		subcommand := subcommands[i]
 
+		subcommand.Flags().IntVarP(&imagesSize, "size", "s", 25, "Sets the number of tags to retrieve.")
+		subcommand.Flags().IntVarP(&imagesPage, "page", "p", 1, "Sets the page element where tags exist.")
+
 		tagsCmd.AddCommand(subcommand)
 	}
 }
@@ -87,7 +94,7 @@ var tagsCECmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		ce := liferay.CE{}
 
-		readTags(ce)
+		readTags(ce, imagesSize, imagesPage)
 	},
 }
 
@@ -111,7 +118,7 @@ var tagsDXPCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		dxp := liferay.DXP{}
 
-		readTags(dxp)
+		readTags(dxp, imagesSize, imagesPage)
 	},
 }
 
@@ -123,7 +130,7 @@ var tagsNightlyCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		nightly := liferay.Nightly{}
 
-		readTags(nightly)
+		readTags(nightly, imagesSize, imagesPage)
 	},
 }
 
@@ -135,7 +142,7 @@ var tagsReleaseCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		release := liferay.Release{}
 
-		readTags(release)
+		readTags(release, imagesSize, imagesPage)
 	},
 }
 
@@ -143,8 +150,8 @@ func convertToHuman(bytes int) string {
 	return fmt.Sprintf("%d MB", (bytes / 1000000))
 }
 
-func readTags(image liferay.Image) {
-	tagsPage := "https://hub.docker.com/v2/repositories/" + image.GetDockerHubTagsURL() + "/tags/?page_size=25&page=1"
+func readTags(image liferay.Image, count int, page int) {
+	tagsPage := fmt.Sprintf("https://hub.docker.com/v2/repositories/%s/tags/?page_size=%d&page=%d", image.GetDockerHubTagsURL(), count, page)
 
 	// Request the HTML page.
 	res, err := http.Get(tagsPage)
@@ -152,6 +159,12 @@ func readTags(image liferay.Image) {
 		log.Fatal(err)
 	}
 	defer res.Body.Close()
+
+	if res.StatusCode == 404 {
+		log.Printf("There are no available tags for that pagination. Please use --page and --size arguments to filter properly")
+		return
+	}
+
 	if res.StatusCode != 200 {
 		log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
 	}
@@ -183,7 +196,8 @@ func readTags(image liferay.Image) {
 	}
 
 	if len(availableTags) > 0 {
-		log.Printf("The available tags for the image are:")
+		totalPages := int(math.Ceil(float64(tagsResponse.Count) / float64(count)))
+		log.Printf("There are %d images, showing %d elements in page %d of %d", tagsResponse.Count, count, page, totalPages)
 
 		for index, tag := range availableTags {
 			whitespacesCount := maxLengthTags - len(tag) + 6
