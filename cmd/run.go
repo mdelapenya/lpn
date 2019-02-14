@@ -41,7 +41,7 @@ func init() {
 	runCECmd.Flags().StringVarP(&memory, "memory", "m", "-Xmx2048m", "Sets the memory for the JVM memory configuration of Liferay Portal's bundle.")
 	runCommerceCmd.Flags().StringVarP(&memory, "memory", "m", "2048m", "Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.")
 	runDXPCmd.Flags().StringVarP(&memory, "memory", "m", "-Xmx2048m", "Sets the memory for the JVM memory configuration of Liferay Portal's bundle.")
-	runNightlyCmd.Flags().StringVarP(&memory, "memory", "m", "2048m", "Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.")
+	runNightlyCmd.Flags().StringVarP(&memory, "memory", "m", "-Xmx2048m", "Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.")
 	runReleaseCmd.Flags().StringVarP(&memory, "memory", "m", "2048m", "Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.")
 }
 
