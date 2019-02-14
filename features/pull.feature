@@ -3,7 +3,7 @@ Feature: Pull command
   I want to be able to pull the nightly builds or the releases images for Liferay Portal
 
   Scenario Outline: Pull command when image exists
-    When I run `lpn pull <type> -t <tag>`
+    Given I run `lpn pull <type> -t <tag>`
     Then the output should contain:
     """
    Pulling [<repository>:<tag>]
@@ -23,7 +23,7 @@ Feature: Pull command
     | release | latest | mdelapenya/liferay-portal |
 
   Scenario Outline: Pull command when image does not exist
-    When I run `lpn pull <type> -t foo`
+    Given I run `lpn pull <type> -t foo`
     Then the output should contain:
     """
     The image [<image>] could not be pulled
@@ -38,8 +38,8 @@ Feature: Pull command
     | release | mdelapenya/liferay-portal:foo |
 
   Scenario Outline: Pull command forcing the removal of already present image
-    When I run `lpn pull <type> -t <tag>`
-    And I run `lpn pull <type> -t <tag> -f`
+    Given I run `lpn pull <type> -t <tag>`
+    When I run `lpn pull <type> -t <tag> -f`
     Then the output should contain:
     """
     [<repository>:<tag>] was deleted.
@@ -59,8 +59,8 @@ Feature: Pull command
     | release | latest | mdelapenya/liferay-portal |
 
   Scenario Outline: Pull command forcing the removal of a non present image
-    When I run `docker rmi -f <repository>:<tag>`
-    And I run `lpn pull <type> -t <tag> -f`
+    Given I run `docker rmi -f <repository>:<tag>`
+    When I run `lpn pull <type> -t <tag> -f`
     Then the output should contain:
     """
     The image [<repository>:<tag>] was not found in the local cache. Skipping removal

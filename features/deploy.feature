@@ -61,8 +61,8 @@ Feature: Deploy command
     | release | 7-ce-ga5-tomcat-hsql | /usr/local/liferay-ce-portal-7.0-ga5/deploy |
 
   Scenario Outline: Deploy command with no flags
-    When I run `lpn run <type> -t <tag>`
-    And I run `lpn deploy <type>`
+    Given I run `lpn run <type> -t <tag>`
+    When I run `lpn deploy <type>`
     Then the output should contain:
     """
     Please pass a valid path to a file or to a directory as argument

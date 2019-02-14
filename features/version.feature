@@ -3,7 +3,7 @@ Feature: Version command
   I want to be able to check the version
 
   Scenario: Version command
-    When I run `lpn version`
+    Given I run `lpn version`
     Then the exit status should be 0
     And the output should contain:
     """

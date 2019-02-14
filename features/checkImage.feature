@@ -31,7 +31,7 @@ Feature: CheckImage command
     | dxp  | liferay/dxp | 7.0.10.8  |
 
   Scenario Outline: CheckImage command when an image is not found
-    When I run `lpn checkImage <type> -t foo`
+    Given I run `lpn checkImage <type> -t foo`
     Then the output should contain:
     """
     The image [<image>] has NOT been pulled from Docker Hub

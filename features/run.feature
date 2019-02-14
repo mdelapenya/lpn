@@ -3,7 +3,7 @@ Feature: Run command
   I want to be able to run the images managed by the tool
 
   Scenario Outline: Run command
-    When I run `lpn run <type> -t <tag>`
+    Given I run `lpn run <type> -t <tag>`
     Then the output should contain:
     """
     The container [lpn-<type>] has been run successfully
@@ -19,9 +19,9 @@ Feature: Run command
     | release | latest |
 
   Scenario Outline: Run command with debug enabled
-    When I run `lpn run <type> -t <tag> -d`
-    And I run `docker exec lpn-<type> env`
-    And the output should contain:
+    Given I run `lpn run <type> -t <tag> -d`
+    When I run `docker exec lpn-<type> env`
+    Then the output should contain:
     """
     <variable>=true
     """
@@ -35,8 +35,8 @@ Feature: Run command
     | release | latest | DEBUG_MODE |
 
   Scenario Outline: Run command with failure
-    When I run `docker run -d --name nginx-<type> -p 9999:80 nginx:1.12.2-alpine`
-    And I run `lpn run <type> -t <tag> -p 9999`
+    Given I run `docker run -d --name nginx-<type> -p 9999:80 nginx:1.12.2-alpine`
+    When I run `lpn run <type> -t <tag> -p 9999`
     Then the output should contain:
     """
     Impossible to run the container [lpn-<type>]
@@ -53,9 +53,9 @@ Feature: Run command
     | release | latest |
 
   Scenario Outline: Run command with memory enabled for non official images
-    When I run `lpn run <type> -t <tag> -m 1024m`
-    And I run `docker exec lpn-<type> ps aux | grep -e "-Xms1024m -Xmx1024m" | wc -l | xargs`
-    And the output should contain:
+    Given I run `lpn run <type> -t <tag> -m 1024m`
+    When I run `docker exec lpn-<type> ps aux | grep -e "-Xms1024m -Xmx1024m" | wc -l | xargs`
+    Then the output should contain:
     """
     1
     """
@@ -71,8 +71,8 @@ Feature: Run command
     | release | latest | JVM_TUNING_MEMORY |
 
   Scenario Outline: Run command with memory enabled for official images
-    When I run `lpn run <type> -t <tag> -m "-Xms1024m -Xmx1024m"`
-    And I run `docker exec lpn-<type> ps aux | grep -e tomcat | xargs`
+    Given I run `lpn run <type> -t <tag> -m "-Xms1024m -Xmx1024m"`
+    When I run `docker exec lpn-<type> ps aux | grep -e tomcat | xargs`
     Then the output should contain:
     """
     -Xms1024m -Xmx1024m

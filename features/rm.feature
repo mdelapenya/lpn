@@ -3,8 +3,8 @@ Feature: Rm command
   I want to be able to remove the container created by the tool
 
   Scenario Outline: Rm command when container exists
-    When I run `lpn run <type> -t <tag>`
-    And I run `lpn rm <type>`
+    Given I run `lpn run <type> -t <tag>`
+    When I run `lpn rm <type>`
     Then the output should contain:
     """
     lpn-<type>
@@ -19,7 +19,7 @@ Feature: Rm command
     | release | latest |
 
   Scenario Outline: Rm command when container does not exist
-    When I run `lpn rm <type>`
+    Given I run `lpn rm <type>`
     Then the output should contain:
     """
     Impossible to remove the container [lpn-<type>]

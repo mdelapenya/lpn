@@ -3,8 +3,8 @@ Feature: Rmi command
   I want to be able to remove the images used by the tool
 
   Scenario Outline: Rm command when image exists
-    When I run `lpn pull <type> -t <tag>`
-    And I run `lpn rmi <type> -t <tag>`
+    Given I run `lpn pull <type> -t <tag>`
+    When I run `lpn rmi <type> -t <tag>`
     Then the output should contain:
     """
     [<image>:<tag>] was deleted.
@@ -19,7 +19,7 @@ Feature: Rmi command
     | release | mdelapenya/liferay-portal | latest |
 
   Scenario Outline: Rm command when image does not exist
-    When I run `lpn rmi <type> -t <tag>`
+    Given I run `lpn rmi <type> -t <tag>`
     Then the output should contain:
     """
     Impossible to remove the image [<image>:<tag>]
