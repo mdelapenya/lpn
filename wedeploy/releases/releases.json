@@ -1,9 +1,31 @@
 [
     {
         "channel": "stable",
-        "version": "0.8.0",
+        "version": "0.9.0",
         "equinox": false,
         "latest": true,
+        "releaseDate": "2019-02-15 01:30",
+        "changelog": {
+            "enhacements": [
+                {
+                    "description": "Pull commands are more legible than before"
+                }
+            ],
+            "breakings": [
+                {
+                    "description": "'commerce' command uses Official Liferay Commerce images instead of mdelapenya's commerce images"
+                },
+                {
+                    "description": "'nightly' command uses Official portal snapshots instead of mdelapenya's nightly builds"
+                }
+            ]
+        }
+    },
+    {
+        "channel": "stable",
+        "version": "0.8.0",
+        "equinox": false,
+        "latest": false,
         "releaseDate": "2018-12-12 01:30",
         "changelog": {
             "enhacements": [

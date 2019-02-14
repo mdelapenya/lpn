@@ -7,7 +7,7 @@ Feature: Version command
     Then the exit status should be 0
     And the output should contain:
     """
-    0.8.0
+    0.9.0
     """
     And the output should contain:
     """
