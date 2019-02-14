@@ -10,28 +10,12 @@
   version = "v0.4.11"
 
 [[projects]]
-  digest = "1:573fa46f8d413d4bc3f7cc5e86b2c43cb21559f4fb0a19d9874d228e28fdc07c"
-  name = "github.com/PuerkitoBio/goquery"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "2d2796f41742ece03e8086188fa4db16a3a0b458"
-  version = "v1.5.0"
-
-[[projects]]
   digest = "1:69b1cc331fca23d702bd72f860c6a647afd0aa9fcbc1d0659b1365e26546dd70"
   name = "github.com/Sirupsen/logrus"
   packages = ["."]
   pruneopts = "UT"
   revision = "bcd833dfe83d3cebad139e4a29ed79cb2318bf95"
   version = "v1.2.0"
-
-[[projects]]
-  digest = "1:66b3310cf22cdc96c35ef84ede4f7b9b370971c4025f394c89a2638729653b11"
-  name = "github.com/andybalholm/cascadia"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "901648c87902174f774fac311d7f176f8647bdaa"
-  version = "v1.0.0"
 
 [[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
@@ -192,13 +176,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:c1605d86711dd23c39f0884a22a4872587fdd1b3222a77bb7b7ebb05b6624694"
+  digest = "1:3866deb325971ae774d5844b70f058923b7757cd2eec6db2bd6d028143f6b65f"
   name = "golang.org/x/net"
   packages = [
     "context",
     "context/ctxhttp",
-    "html",
-    "html/atom",
     "internal/socks",
     "proxy",
   ]
@@ -220,7 +202,6 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/PuerkitoBio/goquery",
     "github.com/docker/docker/api/types",
     "github.com/docker/docker/api/types/container",
     "github.com/docker/docker/api/types/filters",
