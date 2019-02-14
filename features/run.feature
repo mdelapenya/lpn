@@ -14,6 +14,7 @@ Feature: Run command
   Examples:
     | type    | tag |
     | ce      | 7.0.6-ga7 |
+    | commerce | 1.1.1 |
     | dxp     | 7.0.10.8 |
     | nightly | master |
     | release | latest |
@@ -30,6 +31,7 @@ Feature: Run command
   Examples:
     | type    | tag | variable |
     | ce      | 7.0.6-ga7 | LIFERAY_JPDA_ENABLED |
+    | commerce | 1.1.1 | LIFERAY_JPDA_ENABLED |
     | dxp     | 7.0.10.8 | LIFERAY_JPDA_ENABLED |
     | nightly | master | LIFERAY_JPDA_ENABLED |
     | release | latest | DEBUG_MODE |
@@ -48,6 +50,7 @@ Feature: Run command
   Examples:
     | type    | tag |
     | ce      | 7.0.6-ga7 |
+    | commerce | 1.1.1 |
     | dxp     | 7.0.10.8 |
     | nightly | master |
     | release | latest |
@@ -82,5 +85,6 @@ Feature: Run command
   Examples:
     | type    | tag | variable |
     | ce      | 7.0.6-ga7 | LIFERAY_JVM_OPTS |
+    | commerce | 1.1.1 | LIFERAY_JVM_OPTS |
     | dxp     | 7.0.10.8 | LIFERAY_JVM_OPTS |
     | nightly | master | LIFERAY_JVM_OPTS |

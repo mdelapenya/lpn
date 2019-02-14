@@ -30,6 +30,7 @@ Feature: CheckContainer command
   Examples:
     | type    | tag       |
     | ce      | 7.0.6-ga7 |
+    | commerce | 1.1.1 |
     | dxp     | 7.0.10.8  |
 
   Scenario Outline: CheckContainer command when container is not running
@@ -43,6 +44,7 @@ Feature: CheckContainer command
   Examples:
     | type    |
     | ce      |
+    | commerce |
     | dxp     |
     | nightly |
     | release |

@@ -28,6 +28,7 @@ Feature: CheckImage command
   Examples:
     | type | image       | tag       |
     | ce   | liferay/portal  | 7.0.6-ga7 |
+    | commerce | liferay/commerce  | 1.1.1 |
     | dxp  | liferay/dxp | 7.0.10.8  |
 
   Scenario Outline: CheckImage command when an image is not found
@@ -41,6 +42,7 @@ Feature: CheckImage command
   Examples:
     | type    | image |
     | ce | liferay/portal:foo |
+    | commerce | liferay/commerce:foo |
     | dxp | liferay/dxp:foo |
     | nightly | liferay/portal-snapshot:foo |
     | release | mdelapenya/liferay-portal:foo |

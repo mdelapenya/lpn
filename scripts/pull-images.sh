@@ -4,6 +4,7 @@ set -o errexit
 set -o nounset
 
 readonly CE_IMAGE="liferay/portal:7.0.6-ga7"
+readonly COMMERCE_IMAGE="liferay/commerce:1.1.1"
 readonly DXP_IMAGE="liferay/dxp:7.0.10.8"
 readonly NIGHTLY_IMAGE="liferay/portal-snapshot:master"
 readonly RELEASE_IMAGE="mdelapenya/liferay-portal:7-ce-ga5-tomcat-hsql"
@@ -13,6 +14,7 @@ main() {
   cat <<EOF >.tmp_images
 nginx:1.12.2-alpine
 ${CE_IMAGE}
+${COMMERCE_IMAGE}
 ${DXP_IMAGE}
 ${NIGHTLY_IMAGE}
 ${RELEASE_IMAGE_LATEST}
