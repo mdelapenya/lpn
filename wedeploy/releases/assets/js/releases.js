@@ -120,7 +120,12 @@ function getDownloadLinks(release) {
     const oss = ['darwin', 'linux', 'windows'];
     const platforms = ['386', 'amd64'];
 
-    let basePath = `/bin/` + release.channel + `/` + release.version;
+    let version = release.version;
+    if (release.channel === "unstable") {
+        version = release.version + "-snapshot"
+    }
+
+    let basePath = `/bin/` + release.channel + `/` + version;
 
     let linksHtml = '';
 
