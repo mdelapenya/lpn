@@ -7,6 +7,7 @@ import (
 	"log"
 	"math"
 	"net/http"
+	"unicode/utf8"
 
 	liferay "github.com/mdelapenya/lpn/liferay"
 
@@ -186,7 +187,7 @@ func readTags(image liferay.Image, count int, page int) {
 		tag := t.Name
 		size := t.Images[0].Size
 
-		currentTagLength := len(tag)
+		currentTagLength := utf8.RuneCountInString(tag)
 		if currentTagLength >= maxLengthTags {
 			maxLengthTags = currentTagLength
 		}
@@ -204,7 +205,7 @@ func readTags(image liferay.Image, count int, page int) {
 		log.Printf("There are %d images, showing %d elements in page %d of %d", tagsResponse.Count, count, page, totalPages)
 
 		for index, tag := range availableTags {
-			whitespacesCount := maxLengthTags - len(tag) + 6
+			whitespacesCount := maxLengthTags - utf8.RuneCountInString(tag) + 6
 
 			tagLine := tag
 

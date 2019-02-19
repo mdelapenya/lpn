@@ -6,6 +6,7 @@ import (
 	"os"
 	"path"
 	"strings"
+	"unicode/utf8"
 
 	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
@@ -232,7 +233,7 @@ func getTag(image liferay.Image) string {
 
 	index := strings.LastIndex(imageName, ":")
 
-	return imageName[index+1 : len(imageName)]
+	return imageName[index+1 : utf8.RuneCountInString(imageName)]
 }
 
 func validateArguments() {
