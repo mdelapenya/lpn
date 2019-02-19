@@ -7,9 +7,10 @@ import (
 	"log"
 	"math"
 	"net/http"
-	"unicode/utf8"
+	"os"
 
 	liferay "github.com/mdelapenya/lpn/liferay"
+	tablewriter "github.com/olekukonko/tablewriter"
 
 	"github.com/spf13/cobra"
 )
@@ -151,6 +152,16 @@ func convertToHuman(bytes int) string {
 	return fmt.Sprintf("%d MB", (bytes / 1000000))
 }
 
+func printTagsAsTable(data [][]string) {
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"Image:Tag", "Size"})
+
+	for _, v := range data {
+		table.Append(v)
+	}
+	table.Render() // Send output
+}
+
 func readTags(image liferay.Image, count int, page int) {
 	tagsPage := fmt.Sprintf("https://hub.docker.com/v2/repositories/%s/tags/?page_size=%d&page=%d", image.GetDockerHubTagsURL(), count, page)
 
@@ -177,26 +188,17 @@ func readTags(image liferay.Image, count int, page int) {
 		log.Fatal(err)
 	}
 
-	availableTags := []string{}
-	availableSizes := []string{}
-
-	maxLengthTags := 0
+	data := [][]string{}
 
 	for _, t := range tagsResponse.Results {
 		// For each item found, get the tag and its size
 		tag := t.Name
 		size := t.Images[0].Size
 
-		currentTagLength := utf8.RuneCountInString(tag)
-		if currentTagLength >= maxLengthTags {
-			maxLengthTags = currentTagLength
-		}
-
-		availableTags = append(availableTags, tag)
-		availableSizes = append(availableSizes, convertToHuman(size))
+		data = append(data, []string{tag, convertToHuman(size)})
 	}
 
-	if len(availableTags) > 0 {
+	if len(data[0]) > 0 {
 		totalPages := int(math.Ceil(float64(tagsResponse.Count) / float64(count)))
 		if count > tagsResponse.Count {
 			count = tagsResponse.Count
@@ -204,19 +206,7 @@ func readTags(image liferay.Image, count int, page int) {
 
 		log.Printf("There are %d images, showing %d elements in page %d of %d", tagsResponse.Count, count, page, totalPages)
 
-		for index, tag := range availableTags {
-			whitespacesCount := maxLengthTags - utf8.RuneCountInString(tag) + 6
-
-			tagLine := tag
-
-			for i := 0; i < whitespacesCount; i++ {
-				tagLine += " "
-			}
-
-			tagLine += availableSizes[index]
-
-			fmt.Println(tagLine)
-		}
+		printTagsAsTable(data)
 	} else {
 		log.Printf("There are no available tags for the image")
 	}
