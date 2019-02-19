@@ -112,6 +112,22 @@
   version = "v1.0.1"
 
 [[projects]]
+  digest = "1:0356f3312c9bd1cbeda81505b7fd437501d8e778ab66998ef69f00d7f9b3a0d7"
+  name = "github.com/mattn/go-runewidth"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "3ee7d812e62a0804a7d0a324e0249ca2db3476d3"
+  version = "v0.0.4"
+
+[[projects]]
+  digest = "1:abcdbf03ca6ca13d3697e2186edc1f33863bbdac2b3a44dfa39015e8903f7409"
+  name = "github.com/olekukonko/tablewriter"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "e6d60cf7ba1f42d86d54cdf5508611c4aafb3970"
+  version = "v0.0.1"
+
+[[projects]]
   digest = "1:38ee335aedf4626620f3cf8f605661e71abdcce7b40b38921962beb3980f0a20"
   name = "github.com/opencontainers/runc"
   packages = ["libcontainer/user"]
@@ -209,6 +225,7 @@
     "github.com/docker/docker/client",
     "github.com/docker/go-connections/nat",
     "github.com/equinox-io/equinox",
+    "github.com/olekukonko/tablewriter",
     "github.com/spf13/cobra",
     "github.com/stretchr/testify/assert",
     "github.com/vjeantet/jodaTime",
