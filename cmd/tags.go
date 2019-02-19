@@ -152,9 +152,10 @@ func convertToHuman(bytes int) string {
 	return fmt.Sprintf("%d MB", (bytes / 1000000))
 }
 
-func printTagsAsTable(data [][]string) {
+func printTagsAsTable(data [][]string, currentPage int, totalPages int) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Image:Tag", "Size"})
+	table.SetFooter([]string{"", fmt.Sprintf("%d of %d", currentPage, totalPages)}) // Add Footer
 
 	for _, v := range data {
 		table.Append(v)
@@ -206,7 +207,7 @@ func readTags(image liferay.Image, count int, page int) {
 
 		log.Printf("There are %d images, showing %d elements in page %d of %d", tagsResponse.Count, count, page, totalPages)
 
-		printTagsAsTable(data)
+		printTagsAsTable(data, page, totalPages)
 	} else {
 		log.Printf("There are no available tags for the image")
 	}
