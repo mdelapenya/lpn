@@ -445,6 +445,14 @@ func RunDockerImage(
 		context.Background(), containerCreationResponse.ID, types.ContainerStartOptions{})
 }
 
+// StartDockerContainer stops the running container
+func StartDockerContainer(containerName string) error {
+	dockerClient := getDockerClient()
+
+	return dockerClient.ContainerStart(
+		context.Background(), containerName, types.ContainerStartOptions{})
+}
+
 // StopDockerContainer stops the running container
 func StopDockerContainer(containerName string) error {
 	dockerClient := getDockerClient()

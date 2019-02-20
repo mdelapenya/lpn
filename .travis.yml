@@ -17,6 +17,7 @@ env:
   - LPN_COMMAND=rm
   - LPN_COMMAND=rmi
   - LPN_COMMAND=run
+  - LPN_COMMAND=start
   - LPN_COMMAND=stop
   - LPN_COMMAND=tags
   - LPN_COMMAND=version
