@@ -155,6 +155,7 @@ func convertToHuman(bytes int) string {
 func printTagsAsTable(data [][]string, currentPage int, totalPages int) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Image:Tag", "Size"})
+	table.SetColumnAlignment([]int{tablewriter.ALIGN_LEFT, tablewriter.ALIGN_RIGHT})
 	table.SetFooter([]string{"", fmt.Sprintf("%d of %d", currentPage, totalPages)}) // Add Footer
 
 	for _, v := range data {
