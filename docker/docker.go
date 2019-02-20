@@ -75,7 +75,7 @@ func CheckDocker() bool {
 }
 
 // CheckDockerContainerExists checks if the container is running
-func CheckDockerContainerExists(image liferay.Image) bool {
+func CheckDockerContainerExists(containerName string) bool {
 	dockerClient := getDockerClient()
 
 	containers, err := dockerClient.ContainerList(
@@ -86,7 +86,7 @@ func CheckDockerContainerExists(image liferay.Image) bool {
 	}
 
 	for _, container := range containers {
-		containerName := "/" + image.GetContainerName()
+		containerName := "/" + containerName
 
 		if containerName == container.Names[0] {
 			return true
@@ -350,7 +350,7 @@ func RunDockerImage(
 	image liferay.Image, httpPort int, gogoShellPort int, enableDebug bool, debugPort int,
 	memory string, properties string) error {
 
-	if CheckDockerContainerExists(image) {
+	if CheckDockerContainerExists(image.GetContainerName()) {
 		log.Println("The container [" + image.GetContainerName() + "] is running.")
 		_ = RemoveDockerContainer(image.GetContainerName())
 	}

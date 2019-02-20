@@ -95,7 +95,7 @@ var checkContainerReleaseCmd = &cobra.Command{
 
 // checkDockerContainerExists removes the running container
 func checkDockerContainerExists(image liferay.Image) {
-	exists := docker.CheckDockerContainerExists(image)
+	exists := docker.CheckDockerContainerExists(image.GetContainerName())
 
 	if !exists {
 		log.Fatalln("The container [" + image.GetContainerName() + "] does NOT exist in the system.")
