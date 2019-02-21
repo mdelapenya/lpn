@@ -19,6 +19,7 @@ import (
 	mount "github.com/docker/docker/api/types/mount"
 	client "github.com/docker/docker/client"
 	nat "github.com/docker/go-connections/nat"
+	internal "github.com/mdelapenya/lpn/internal"
 	liferay "github.com/mdelapenya/lpn/liferay"
 )
 
@@ -344,11 +345,77 @@ func RemoveDockerImage(dockerImageName string) error {
 	return err
 }
 
+// RunDatabaseDockerImage runs the image, setting the HTTP port and a volume for the data folder
+func RunDatabaseDockerImage(image DatabaseImage, bindPort int) error {
+	if CheckDockerContainerExists(image.GetContainerName()) {
+		log.Println(
+			"The container [" + image.GetContainerName() +
+				"] is already running. Not starting a new one")
+
+		return nil
+	}
+
+	natPort, _ := nat.NewPort("tcp", fmt.Sprintf("%d", image.GetPort()))
+	port := fmt.Sprintf("%d", bindPort)
+
+	environmentVariables := []string{}
+
+	environmentVariables = append(environmentVariables, "MYSQL_ROOT_PASSWORD="+image.GetJDBCConnection().Password)
+	environmentVariables = append(environmentVariables, "MYSQL_DATABASE="+DBName)
+
+	exposedPorts := map[nat.Port]struct{}{
+		natPort: {},
+	}
+
+	portBindings := make(map[nat.Port][]nat.PortBinding)
+
+	portBindings[natPort] = buildPortBinding(port, "0.0.0.0")
+
+	var mounts []mount.Mount
+
+	log.Println("Mounting database data folder at " + internal.LpnWorkspace)
+
+	tempVolumeDir, _ := ioutil.TempDir(internal.LpnWorkspace, image.GetContainerName())
+
+	mounts = append(mounts, mount.Mount{
+		Type:   mount.TypeBind,
+		Source: tempVolumeDir,
+		Target: image.GetDataFolder(),
+	})
+
+	PullDockerImage(image.GetFullyQualifiedName())
+
+	dockerClient := getDockerClient()
+
+	containerCreationResponse, err := dockerClient.ContainerCreate(
+		context.Background(),
+		&container.Config{
+			Image:        image.GetFullyQualifiedName(),
+			Env:          environmentVariables,
+			ExposedPorts: exposedPorts,
+			Labels: map[string]string{
+				"db-type":  image.GetType(),
+				"lpn-type": image.GetLpnType(),
+			},
+		},
+		&container.HostConfig{
+			PortBindings: portBindings,
+			Mounts:       mounts,
+		},
+		nil, image.GetContainerName())
+	if err != nil {
+		panic(err)
+	}
+
+	return dockerClient.ContainerStart(
+		context.Background(), containerCreationResponse.ID, types.ContainerStartOptions{})
+}
+
 // RunLiferayDockerImage runs the image, setting the HTTP and GoGoShell ports for bundle, debug mode, and
 // jvmMemory if needed
 func RunLiferayDockerImage(
-	image liferay.Image, httpPort int, gogoShellPort int, enableDebug bool, debugPort int,
-	memory string, properties string) error {
+	image liferay.Image, database DatabaseImage, httpPort int, gogoShellPort int, enableDebug bool,
+	debugPort int, memory string, properties string) error {
 
 	if CheckDockerContainerExists(image.GetContainerName()) {
 		log.Println("The container [" + image.GetContainerName() + "] is running.")
@@ -422,6 +489,26 @@ func RunLiferayDockerImage(
 
 	dockerClient := getDockerClient()
 
+	links := []string{}
+
+	if database != nil {
+		link := database.GetContainerName() + ":" + "db"
+		links = append(links, link)
+
+		database := MySQL{LpnType: image.GetType()}
+
+		RunDatabaseDockerImage(database, 3301)
+
+		environmentVariables = append(environmentVariables, "LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME="+database.GetJDBCConnection().DriverClassName)
+		environmentVariables = append(environmentVariables, "LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_PASSWORD="+database.GetJDBCConnection().Password)
+		environmentVariables = append(environmentVariables, "LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_URL="+database.GetJDBCConnection().URL)
+		environmentVariables = append(environmentVariables, "LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_USERNAME="+database.GetJDBCConnection().User)
+
+		// retry JDBC in case the database is slower
+		environmentVariables = append(environmentVariables, "LIFERAY_RETRY_PERIOD_JDBC_PERIOD_ON_PERIOD_STARTUP_PERIOD_DELAY=5")
+		environmentVariables = append(environmentVariables, "LIFERAY_RETRY_PERIOD_JDBC_PERIOD_ON_PERIOD_STARTUP_PERIOD_MAX_PERIOD_RETRIES=5")
+	}
+
 	containerCreationResponse, err := dockerClient.ContainerCreate(
 		context.Background(),
 		&container.Config{
@@ -433,6 +520,7 @@ func RunLiferayDockerImage(
 			},
 		},
 		&container.HostConfig{
+			Links:        links,
 			PortBindings: portBindings,
 			Mounts:       mounts,
 		},

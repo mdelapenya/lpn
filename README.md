@@ -37,6 +37,7 @@ With `lpn` you'll be able to:
   - Liferay Portal nightly builds, obtained from [here](https://hub.docker.com/r/liferay/portal-snapshot/tags/).
   - Liferay Portal releases, obtained from [here](https://hub.docker.com/r/mdelapenya/liferay-portal/tags/).
   - Liferay Portal including specific products, like Commerce.
+- Run a real database to store portal data
 - Deploy applications to the running containers:
   - Imagine a developer gives you a non-released JAR/WAR file to test it. You could deploy and test it in seconds!
 - Check logs of the running containers
@@ -47,6 +48,7 @@ With `lpn` you'll be able to:
 The available capabilities present in the tool are the following:
 
 - Run a container from the desired Liferay Portal/DXP image.
+- Configure a Liferay Portal/DXP container to be run alongside a real database.
 - Configure a Liferay Portal/DXP container to be run using a custom portal-ext configuration file.
 - Deploy a file or the content of a directory to the deploy folder of a Liferay Portal/DXP running container.
 - Display logs of a Liferay Portal/DXP running container.
@@ -119,14 +121,18 @@ You will be able to configure in which state you want to run the image, using th
 | ` -p, --httpPort` | Sets the HTTP port of Liferay Portal's bundle. (default 8080) |
 | ` -m, --memory` | Sets the memory for the JVM memory configuration of Liferay Portal's bundle. (default "-Xmx2048m" in the CE and DXP images, and "2048m" in the rest) |
 | ` -P, --properties` | Sets the location of a portal-ext properties files to configure the running instance of Liferay Portal's bundle. |
+| ` -s, --datastore` | Sets the default store type for the portal (default hsql) |
 | ` -t, --tag` | Sets the image tag to run |
+
+If the `storeType` command is different than "hsql", then lpn will try to spin up a container for the datastore, connected to the running portal instance. Available datasores are: hsql and mysql.
 
 Examples:
 ```shell
 $ lpn run ce -t "7.1.1-ga2"
 $ lpn run dxp --properties "/tmp/portal-ext.properties"
 $ lpn run nightly
-$ lpn run commerce --debug --httpPort 8081 ---memory "Xmx8g"
+$ lpn run commerce --debug --httpPort 8081 --memory "Xmx8g"
+$ lpn run commerce --debug --httpPort 8081 --store "hsql"
 ```
 
 ## Copying files to the deploy folder
