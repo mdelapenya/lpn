@@ -36,7 +36,7 @@ With `lpn` you'll be able to:
   - Liferay Portal official images, obtained from [here for CE](https://hub.docker.com/r/liferay/portal/tags/) and [here for DXP](https://hub.docker.com/r/liferay/dxp/tags/).
   - Liferay Portal nightly builds, obtained from [here](https://hub.docker.com/r/liferay/portal-snapshot/tags/).
   - Liferay Portal releases, obtained from [here](https://hub.docker.com/r/mdelapenya/liferay-portal/tags/).
-  - Liferay Portal including specific produts, like Commerce. `This repository is Private, so you maybe don't have access to it`.
+  - Liferay Portal including specific products, like Commerce.
 - Deploy applications to the running containers:
   - Imagine a developer gives you a non-released JAR/WAR file to test it. You could deploy and test it in seconds!
 - Check logs of the running containers
