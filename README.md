@@ -56,7 +56,7 @@ The available capabilities present in the tool are the following:
 - List the available tags to pull from the Docker Hub repository of a Liferay Portal/DXP image.
 - Check if a Liferay Portal/DXP image was already pulled.
 - Check if a container of the desired Liferay Portal/DXP image is running.
-- Stop a Liferay Portal/DXP running container.
+- Stop a Liferay Portal/DXP running container, and possibly all its dependant services, like a database.
 - Remove a Liferay Portal/DXP running container.
 - Remove a Liferay Portal/DXP image from your local Docker installation.
 - Open a Liferay Portal/DXP running container in the default browser.
@@ -273,7 +273,7 @@ $ lpn start commerce
 
 It will stop a running container, if it exists. To specify to which image type you want to stop its container, please select it adding the `ce`, `dxp`, `release`, `nightly`, `commerce` subcommands.
 
-This command does not accept any flag to configure its execution.
+This command does not accept any flag to configure its execution, and will also stop all dependant services (like a database), if present.
 
 Examples:
 ```shell

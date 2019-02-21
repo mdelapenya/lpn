@@ -12,6 +12,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 
 	types "github.com/docker/docker/api/types"
 	container "github.com/docker/docker/api/types/container"
@@ -273,8 +274,8 @@ func LogContainer(image liferay.Image) {
 	}
 }
 
-// PsFilter Retrieves all containers with a label
-func PsFilter(label string) ([]types.Container, error) {
+// PsFilterByLabel Retrieves all containers with a label
+func PsFilterByLabel(label string) ([]types.Container, error) {
 	dockerClient := getDockerClient()
 
 	filters := filters.NewArgs()
@@ -542,10 +543,26 @@ func StartDockerContainer(containerName string) error {
 }
 
 // StopDockerContainer stops the running container
-func StopDockerContainer(containerName string) error {
+func StopDockerContainer(image liferay.Image) error {
 	dockerClient := getDockerClient()
 
-	return dockerClient.ContainerStop(context.Background(), containerName, nil)
+	var err error
+
+	containers, err := PsFilterByLabel("lpn-type=" + image.GetType())
+
+	if len(containers) == 0 {
+		return errors.New("Error response from daemon: No such container: lpn-" + image.GetType())
+	}
+
+	for _, container := range containers {
+		name := strings.TrimLeft(container.Names[0], "/")
+		err = dockerClient.ContainerStop(context.Background(), name, nil)
+		if err == nil {
+			log.Println("[" + name + "] stopped")
+		}
+	}
+
+	return err
 }
 
 // ContainerInstance simple model for a container
