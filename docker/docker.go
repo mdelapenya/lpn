@@ -377,8 +377,8 @@ func RunDatabaseDockerImage(image DatabaseImage, bindPort int) error {
 
 	environmentVariables := []string{}
 
-	environmentVariables = append(environmentVariables, "MYSQL_ROOT_PASSWORD="+image.GetJDBCConnection().Password)
-	environmentVariables = append(environmentVariables, "MYSQL_DATABASE="+DBName)
+	environmentVariables = append(environmentVariables, image.GetEnvVariables().Database)
+	environmentVariables = append(environmentVariables, image.GetEnvVariables().Password)
 
 	exposedPorts := map[nat.Port]struct{}{
 		natPort: {},

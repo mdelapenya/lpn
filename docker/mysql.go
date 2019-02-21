@@ -27,11 +27,19 @@ func (m MySQL) GetDockerHubTagsURL() string {
 	return "mysql"
 }
 
+// GetEnvVariables returns the specific environment variables to configure the docker image
+func (m MySQL) GetEnvVariables() EnvVariables {
+	return EnvVariables{
+		Database: "MYSQL_DATABASE=" + DBName,
+		Password: "MYSQL_ROOT_PASSWORD=" + DBPassword,
+	}
+}
+
 // GetJDBCConnection returns the JDBC connection
 func (m MySQL) GetJDBCConnection() JDBCConnection {
 	return JDBCConnection{
 		DriverClassName: "com.mysql.jdbc.Driver",
-		Password:        "my-secret-pw",
+		Password:        DBPassword,
 		URL:             "jdbc:mysql://" + GetAlias() + "/lportal?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&useFastDateParsing=false&useUnicode=true",
 		User:            "root",
 	}
