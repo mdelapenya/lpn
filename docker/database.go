@@ -6,6 +6,9 @@ const DBName = "lportal"
 // DBPassword default credentials for the database
 const DBPassword = "my-secret-pw"
 
+// DBUser default user for the database
+const DBUser = "liferay"
+
 // DatabaseImage interface defining the contract for database docker images
 type DatabaseImage interface {
 	GetContainerName() string
@@ -30,6 +33,7 @@ func GetAlias() string {
 type EnvVariables struct {
 	Password string
 	Database string
+	User     string
 }
 
 // JDBCConnection defines the JDBC connection to the database

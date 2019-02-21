@@ -379,6 +379,7 @@ func RunDatabaseDockerImage(image DatabaseImage, bindPort int) error {
 
 	environmentVariables = append(environmentVariables, image.GetEnvVariables().Database)
 	environmentVariables = append(environmentVariables, image.GetEnvVariables().Password)
+	environmentVariables = append(environmentVariables, image.GetEnvVariables().User)
 
 	exposedPorts := map[nat.Port]struct{}{
 		natPort: {},

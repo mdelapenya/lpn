@@ -32,6 +32,7 @@ func (m MySQL) GetEnvVariables() EnvVariables {
 	return EnvVariables{
 		Database: "MYSQL_DATABASE=" + DBName,
 		Password: "MYSQL_ROOT_PASSWORD=" + DBPassword,
+		User:     "MYSQL_USER=" + DBUser,
 	}
 }
 
@@ -41,7 +42,7 @@ func (m MySQL) GetJDBCConnection() JDBCConnection {
 		DriverClassName: "com.mysql.jdbc.Driver",
 		Password:        DBPassword,
 		URL:             "jdbc:mysql://" + GetAlias() + "/" + DBName + "?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&useFastDateParsing=false&useUnicode=true",
-		User:            "root",
+		User:            DBUser,
 	}
 }
 
