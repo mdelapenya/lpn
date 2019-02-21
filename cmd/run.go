@@ -196,8 +196,8 @@ func runLiferayDockerImage(
 	image liferay.Image, datastore string, httpPort int, gogoPort int, enableDebug bool, debugPort int, memory string,
 	properties string) {
 
-	if datastore == "mysql" {
-		database := docker.MySQL{LpnType: image.GetType()}
+	if datastore != "hsql" {
+		database := docker.GetDatabase(image, datastore)
 
 		err := docker.RunLiferayDockerImage(
 			image, database, httpPort, gogoPort, enableDebug, debugPort, memory, properties)

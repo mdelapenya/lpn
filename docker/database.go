@@ -1,5 +1,7 @@
 package docker
 
+import liferay "github.com/mdelapenya/lpn/liferay"
+
 // DBName name of the default database
 const DBName = "lportal"
 
@@ -27,6 +29,17 @@ type DatabaseImage interface {
 // GetAlias returns the alias used to link containers
 func GetAlias() string {
 	return "db"
+}
+
+// GetDatabase returns the proper database model
+func GetDatabase(image liferay.Image, datastore string) DatabaseImage {
+	if datastore == "mysql" {
+		return MySQL{LpnType: image.GetType()}
+	} else if datastore == "postgresql" {
+		return PostgreSQL{LpnType: image.GetType()}
+	}
+
+	return nil
 }
 
 // EnvVariables defines how to configure the internal variables for the database
