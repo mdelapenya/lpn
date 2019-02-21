@@ -513,8 +513,6 @@ func RunLiferayDockerImage(
 		link := database.GetContainerName() + ":" + "db"
 		links = append(links, link)
 
-		database := MySQL{LpnType: image.GetType()}
-
 		RunDatabaseDockerImage(database, database.GetPort())
 
 		environmentVariables = append(environmentVariables, "LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME="+database.GetJDBCConnection().DriverClassName)
