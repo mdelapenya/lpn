@@ -58,7 +58,7 @@ func (m MySQL) GetLpnType() string {
 
 // GetPort returns the bind port of the service
 func (m MySQL) GetPort() int {
-	return 3301
+	return 3306
 }
 
 // GetRepository returns the repository for MySQL
