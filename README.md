@@ -84,6 +84,7 @@ Available Commands:
   pull           Pulls a Liferay Portal Docker image
   rm             Removes the Liferay Portal instance
   run            Runs a Liferay Portal instance
+  start          Starts the Liferay Portal instance
   stop           Stops the Liferay Portal instance
   update         Updates lpn (Liferay Portal Nook) to the latest version
   version        Print the version number of lpn (Liferay Portal Nook)
@@ -245,6 +246,21 @@ $ lpn checkContainer dxp
 $ lpn checkContainer release
 $ lpn checkContainer nightly
 $ lpn checkContainer commerce
+```
+
+## Starting a stopped container
+
+It will start an already stopped container, if it exists. To specify to which image type you want to start its container, please select it adding the `ce`, `dxp`, `release`, `nightly`, `commerce` subcommands.
+
+This command does not accept any flag to configure its execution.
+
+Examples:
+```shell
+$ lpn start ce
+$ lpn start dxp
+$ lpn start release
+$ lpn start nightly
+$ lpn start commerce
 ```
 
 ## Stopping a running container
