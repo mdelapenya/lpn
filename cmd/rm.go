@@ -87,10 +87,8 @@ var rmReleaseCmd = &cobra.Command{
 
 // removeDockerContainer removes the running container
 func removeDockerContainer(image liferay.Image) {
-	err := docker.RemoveDockerContainer(image.GetContainerName())
+	err := docker.RemoveDockerContainer(image)
 	if err != nil {
-		log.Fatalln("Impossible to remove the container [" + image.GetContainerName() + "]")
+		log.Fatalln("Impossible to remove the container ["+image.GetContainerName()+"]", err)
 	}
-
-	log.Println("[" + image.GetContainerName() + "] removed")
 }

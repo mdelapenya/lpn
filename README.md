@@ -288,7 +288,7 @@ $ lpn stop commerce
 
 It will remove a running container, if it exists. To specify to which image type you want to remove its container, please select it adding the `ce`, `dxp`, `release`, `nightly`, `commerce` subcommands.
 
-This command does not accept any flag to configure its execution.
+This command does not accept any flag to configure its execution, and will also remove all dependant services (like a database), if present.
 
 Examples:
 ```shell

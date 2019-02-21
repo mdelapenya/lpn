@@ -318,15 +318,31 @@ func parseImagePull(pullResp io.ReadCloser) {
 	}
 }
 
-// RemoveDockerContainer removes a running container
-func RemoveDockerContainer(containerName string) error {
+// RemoveDockerContainer removes a running container, and its stack
+func RemoveDockerContainer(image liferay.Image) error {
 	dockerClient := getDockerClient()
 
-	return dockerClient.ContainerRemove(
-		context.Background(), containerName, types.ContainerRemoveOptions{
-			RemoveVolumes: true,
-			Force:         true,
-		})
+	var err error
+
+	containers, err := PsFilterByLabel("lpn-type=" + image.GetType())
+
+	if len(containers) == 0 {
+		return errors.New("Error response from daemon: No such container: lpn-" + image.GetType())
+	}
+
+	for _, container := range containers {
+		name := strings.TrimLeft(container.Names[0], "/")
+		err = dockerClient.ContainerRemove(
+			context.Background(), name, types.ContainerRemoveOptions{
+				RemoveVolumes: true,
+				Force:         true,
+			})
+		if err == nil {
+			log.Println("[" + name + "] removed")
+		}
+	}
+
+	return err
 }
 
 // RemoveDockerImage removes a docker image
@@ -420,7 +436,7 @@ func RunLiferayDockerImage(
 
 	if CheckDockerContainerExists(image.GetContainerName()) {
 		log.Println("The container [" + image.GetContainerName() + "] is running.")
-		_ = RemoveDockerContainer(image.GetContainerName())
+		_ = RemoveDockerContainer(image)
 	}
 
 	port := fmt.Sprintf("%d", httpPort)
