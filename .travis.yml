@@ -32,20 +32,33 @@ before_install:
 
 install:
   - |
-    if [ "$LPN_COMMAND" != "license" ] && [ "$LPN_COMMAND" != "tags" ] && [ "$LPN_COMMAND" != "version" ]; then
+    if [ "$LPN_COMMAND" != ""] && ["$LPN_COMMAND" != "license" ] && [ "$LPN_COMMAND" != "tags" ] && [ "$LPN_COMMAND" != "version" ]; then
       ./scripts/pull-images.sh
     fi
   - go build
 
 script:
-  - ./scripts/coverage.sh
-  - mkdir bin && mv ./lpn bin/lpn && cucumber features/$LPN_COMMAND.feature
+  - |
+    if [ "$LPN_COMMAND" != "" ]; then
+      mkdir bin && mv ./lpn bin/lpn && cucumber features/$LPN_COMMAND.feature
+    fi
 
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
-
-deploy:
- provider: script
- script: cd $TRAVIS_BUILD_DIR/.equinox && ./release.sh
- on:
-   branch: master
+jobs:
+  include:
+    - stage: "Deploy to WeDeploy"
+      name: "Deploy to WeDeploy"
+      env:
+        - LPN_COMMAND=
+      script:
+        - ./scripts/coverage.sh
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
+      deploy:
+        - provider: script
+          script: ./scripts/build.sh && ./scripts/publish.sh
+          on:
+            branch: master
+        - provider: script
+          script: ./scripts/build.sh && ./scripts/publish.sh
+          on:
+            branch: develop
