@@ -40,7 +40,7 @@ func (m MySQL) GetJDBCConnection() JDBCConnection {
 	return JDBCConnection{
 		DriverClassName: "com.mysql.jdbc.Driver",
 		Password:        DBPassword,
-		URL:             "jdbc:mysql://" + GetAlias() + "/lportal?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&useFastDateParsing=false&useUnicode=true",
+		URL:             "jdbc:mysql://" + GetAlias() + "/" + DBName + "?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&useFastDateParsing=false&useUnicode=true",
 		User:            "root",
 	}
 }
