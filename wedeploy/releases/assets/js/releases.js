@@ -12,6 +12,28 @@ function appendVersion(version) {
     }).appendTo( "#version-title" );
 }
 
+function appendTabsContent(version) {
+    let tabsContent = `<div class="tab-pane fade show active" id="mac" role="tabpanel" aria-labelledby="mac-tab">
+    <pre class="mb-0"><code class="code-soy"><span>curl <span class="variable">"https://lpn.lfr.io/bin/stable/${version}/darwin/amd64/lpn"</span> \
+--output <span class="variable">/tmp/lpn</span></span>
+<span>chmod +x <span class="variable">/tmp/lpn</span></span>
+<span><span class="string">sudo</span> mv <span class="variable">/tmp/lpn /usr/local/bin/lpn</span></span></code></pre>
+</div>
+<div class="tab-pane fade" id="linux" role="tabpanel" aria-labelledby="linux-tab">
+    <pre class="mb-0"><code class="code-soy"><span>curl <span class="variable">"https://lpn.lfr.io/bin/stable/${version}/linux/amd64/lpn"</span> \
+--output <span class="variable">/tmp/lpn</span></span>
+<span>chmod +x <span class="variable">/tmp/lpn</span></span>
+<span><span class="string">sudo</span> mv <span class="string">/tmp/lpn /usr/local/bin/lpn</span></span></code></pre>
+</div>
+<div class="tab-pane fade" id="win" role="tabpanel" aria-labelledby="win-tab">
+    <pre class="mb-0"><code class="code-soy"><span>md <span class="variable">"C:\\Program Files (x86)\lpn"</span></span>
+<span>curl <span class="variable">"https://lpn.lfr.io/bin/stable/${version}/windows/amd64/lpn"</span> -OutFile <span class="variable">"C:\\Program Files (x86)\\lpn\\lpn.exe"</span></span>
+<span>set <span class="string">PATH="%PATH%;C:\\Program Files (x86)\\lpn\"</span></span></code></pre>
+</div>`
+
+    $("<div class='tab-content' id='myTabContent'>" + tabsContent + "</div>").appendTo("#downloadInstructions");
+}
+
 function getStableRelease() {
     $.getJSON( "releases.json", function( data ) {
         var releases = [];
@@ -19,6 +41,8 @@ function getStableRelease() {
             if (release.latest && release.latest === true) {
                 releases.push(getReleaseHtml(id, release));
                 appendVersion(release.version);
+
+                appendTabsContent(release.version)
             }
         });
     
