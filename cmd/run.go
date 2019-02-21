@@ -36,7 +36,7 @@ func init() {
 		subcommand.Flags().IntVarP(&debugPort, "debugPort", "D", 9000, "Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled")
 		subcommand.Flags().IntVarP(&gogoPort, "gogoPort", "g", 11311, "Sets the GoGo Shell port of Liferay Portal's bundle.")
 		subcommand.Flags().StringVarP(&properties, "properties", "P", "", "Sets the location of a portal-ext properties files to configure the running instance of Liferay Portal's bundle.")
-		subcommand.Flags().StringVarP(&datastore, "datastore", "s", "hsql", "Creates a database service for the running instance. (default HSQL)")
+		subcommand.Flags().StringVarP(&datastore, "datastore", "s", "hsql", "Creates a database service for the running instance. Supported values are [hsql|mysql|postgresql] (default HSQL)")
 		subcommand.Flags().StringVarP(&tagToRun, "tag", "t", "", "Sets the image tag to run")
 	}
 
