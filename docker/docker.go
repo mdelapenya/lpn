@@ -391,13 +391,14 @@ func RunDatabaseDockerImage(image DatabaseImage, bindPort int) error {
 
 	var mounts []mount.Mount
 
-	log.Println("Mounting database data folder at " + internal.LpnWorkspace)
+	path := filepath.Join(internal.LpnWorkspace, image.GetContainerName())
+	log.Println("Mounting database data folder at " + path)
 
-	tempVolumeDir, _ := ioutil.TempDir(internal.LpnWorkspace, image.GetContainerName())
+	os.MkdirAll(path, os.ModePerm)
 
 	mounts = append(mounts, mount.Mount{
 		Type:   mount.TypeBind,
-		Source: tempVolumeDir,
+		Source: path,
 		Target: image.GetDataFolder(),
 	})
 
