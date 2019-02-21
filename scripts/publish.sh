@@ -11,6 +11,8 @@ function publish_binaries() {
   local remote="liferay.io"
 
   cd wedeploy
+  we remote set liferay.io liferay.io
+  we remote default liferay.io
   echo "$WE_TOKEN" | we login -r "${remote}"
 
   if [[ "$BRANCH" == "master" ]]; then
