@@ -535,11 +535,40 @@ func RunLiferayDockerImage(
 }
 
 // StartDockerContainer stops the running container
-func StartDockerContainer(containerName string) error {
+func StartDockerContainer(image liferay.Image) error {
 	dockerClient := getDockerClient()
 
-	return dockerClient.ContainerStart(
-		context.Background(), containerName, types.ContainerStartOptions{})
+	var err error
+
+	containers, err := PsFilterByLabel("lpn-type=" + image.GetType())
+
+	if len(containers) == 0 {
+		return errors.New("Error response from daemon: No such container: lpn-" + image.GetType())
+	}
+
+	for _, container := range containers {
+		name := strings.TrimLeft(container.Names[0], "/")
+
+		if name == image.GetContainerName() {
+			// as we are using docker links for communications,
+			// we need lpn instance to be started last
+			continue
+		}
+
+		err = dockerClient.ContainerStart(
+			context.Background(), name, types.ContainerStartOptions{})
+		if err == nil {
+			log.Println("[" + name + "] started")
+		}
+	}
+
+	err = dockerClient.ContainerStart(
+		context.Background(), image.GetContainerName(), types.ContainerStartOptions{})
+	if err == nil {
+		log.Println("[" + image.GetContainerName() + "] started")
+	}
+
+	return err
 }
 
 // StopDockerContainer stops the running container

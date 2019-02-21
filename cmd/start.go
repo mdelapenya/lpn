@@ -88,10 +88,8 @@ var startReleaseCmd = &cobra.Command{
 
 // startDockerContainer starts the stopped container
 func startDockerContainer(image liferay.Image) {
-	err := docker.StartDockerContainer(image.GetContainerName())
+	err := docker.StartDockerContainer(image)
 	if err != nil {
 		log.Fatalln("Impossible to start the container ["+image.GetContainerName()+"]", err)
 	}
-
-	log.Println("[" + image.GetContainerName() + "] started")
 }

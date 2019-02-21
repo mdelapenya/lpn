@@ -258,7 +258,7 @@ $ lpn checkContainer commerce
 
 It will start an already stopped container, if it exists. To specify to which image type you want to start its container, please select it adding the `ce`, `dxp`, `release`, `nightly`, `commerce` subcommands.
 
-This command does not accept any flag to configure its execution.
+This command does not accept any flag to configure its execution, and will also start all dependant services (like a database), if present.
 
 Examples:
 ```shell
