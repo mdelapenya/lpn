@@ -87,7 +87,7 @@ var runCECmd = &cobra.Command{
 
 		ce := liferay.CE{Tag: tagToRun}
 
-		runDockerImage(ce, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
+		runLiferayDockerImage(ce, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
 	},
 }
 
@@ -110,7 +110,7 @@ var runCommerceCmd = &cobra.Command{
 
 		commerce := liferay.Commerce{Tag: tagToRun}
 
-		runDockerImage(commerce, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
+		runLiferayDockerImage(commerce, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
 	},
 }
 
@@ -134,7 +134,7 @@ var runDXPCmd = &cobra.Command{
 
 		dxp := liferay.DXP{Tag: tagToRun}
 
-		runDockerImage(dxp, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
+		runLiferayDockerImage(dxp, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
 	},
 }
 
@@ -157,7 +157,7 @@ var runNightlyCmd = &cobra.Command{
 
 		nightly := liferay.Nightly{Tag: tagToRun}
 
-		runDockerImage(nightly, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
+		runLiferayDockerImage(nightly, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
 	},
 }
 
@@ -180,16 +180,16 @@ var runReleaseCmd = &cobra.Command{
 
 		release := liferay.Release{Tag: tagToRun}
 
-		runDockerImage(release, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
+		runLiferayDockerImage(release, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
 	},
 }
 
-// runDockerImage runs the image
-func runDockerImage(
+// runLiferayDockerImage runs the Liferay image
+func runLiferayDockerImage(
 	image liferay.Image, httpPort int, gogoPort int, enableDebug bool, debugPort int, memory string,
 	properties string) {
 
-	err := docker.RunDockerImage(
+	err := docker.RunLiferayDockerImage(
 		image, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
 
 	if err != nil {

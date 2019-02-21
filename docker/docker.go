@@ -344,9 +344,9 @@ func RemoveDockerImage(dockerImageName string) error {
 	return err
 }
 
-// RunDockerImage runs the image, setting the HTTP and GoGoShell ports for bundle, debug mode, and
+// RunLiferayDockerImage runs the image, setting the HTTP and GoGoShell ports for bundle, debug mode, and
 // jvmMemory if needed
-func RunDockerImage(
+func RunLiferayDockerImage(
 	image liferay.Image, httpPort int, gogoShellPort int, enableDebug bool, debugPort int,
 	memory string, properties string) error {
 
