@@ -363,7 +363,7 @@ func RemoveDockerImage(dockerImageName string) error {
 }
 
 // RunDatabaseDockerImage runs the image, setting the HTTP port and a volume for the data folder
-func RunDatabaseDockerImage(image DatabaseImage, bindPort int) error {
+func RunDatabaseDockerImage(image DatabaseImage) error {
 	if CheckDockerContainerExists(image.GetContainerName()) {
 		log.Println(
 			"The container [" + image.GetContainerName() +
@@ -373,7 +373,6 @@ func RunDatabaseDockerImage(image DatabaseImage, bindPort int) error {
 	}
 
 	natPort, _ := nat.NewPort("tcp", fmt.Sprintf("%d", image.GetPort()))
-	port := fmt.Sprintf("%d", bindPort)
 
 	environmentVariables := []string{}
 
@@ -386,8 +385,6 @@ func RunDatabaseDockerImage(image DatabaseImage, bindPort int) error {
 	}
 
 	portBindings := make(map[nat.Port][]nat.PortBinding)
-
-	portBindings[natPort] = buildPortBinding(port, "0.0.0.0")
 
 	var mounts []mount.Mount
 
@@ -514,7 +511,7 @@ func RunLiferayDockerImage(
 		link := database.GetContainerName() + ":" + "db"
 		links = append(links, link)
 
-		RunDatabaseDockerImage(database, database.GetPort())
+		RunDatabaseDockerImage(database)
 
 		environmentVariables = append(environmentVariables, "LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME="+database.GetJDBCConnection().DriverClassName)
 		environmentVariables = append(environmentVariables, "LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_PASSWORD="+database.GetJDBCConnection().Password)
