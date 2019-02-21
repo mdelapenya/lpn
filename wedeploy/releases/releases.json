@@ -1,9 +1,45 @@
 [
     {
         "channel": "stable",
-        "version": "0.9.0",
+        "version": "0.10.0",
         "equinox": false,
         "latest": true,
+        "releaseDate": "2019-02-21 01:30",
+        "changelog": {
+            "enhacements": [
+                {
+                    "description": "Support adding a MySQL or PostgreSQL datastore. Expanding the run command it's possible to run a database alongside the instance. The commands start, stop and rm are affected, performing its operations over the database instance."
+                },
+                {
+                    "description": "Improve output of pull command when displaying pull progress."
+                },
+                {
+                    "description": "Add start command."
+                },
+                {
+                    "description": "Display tags in a table."
+                }
+            ],
+            "breakings": [
+                {
+                    "description": "'commerce' command uses Official Liferay Commerce images instead of mdelapenya's commerce images"
+                },
+                {
+                    "description": "'nightly' command uses Official portal snapshots instead of mdelapenya's nightly builds"
+                }
+            ],
+            "fixes": [
+                {
+                    "description": "[lpn tags] Show a more accurate message when the tags count is lower than the defined page size"
+                }
+            ]
+        }
+    },
+    {
+        "channel": "stable",
+        "version": "0.9.0",
+        "equinox": false,
+        "latest": false,
         "releaseDate": "2019-02-15 01:30",
         "changelog": {
             "enhacements": [
