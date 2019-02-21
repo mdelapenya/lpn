@@ -15,7 +15,6 @@ const DBUser = "liferay"
 type DatabaseImage interface {
 	GetContainerName() string
 	GetDataFolder() string
-	GetDockerHubTagsURL() string
 	GetEnvVariables() EnvVariables
 	GetJDBCConnection() JDBCConnection
 	GetFullyQualifiedName() string

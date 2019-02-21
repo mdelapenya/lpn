@@ -22,11 +22,6 @@ func (m MySQL) GetDataFolder() string {
 	return "/var/lib/mysql"
 }
 
-// GetDockerHubTagsURL returns the URL of the available tags on Docker Hub
-func (m MySQL) GetDockerHubTagsURL() string {
-	return "mysql"
-}
-
 // GetEnvVariables returns the specific environment variables to configure the docker image
 func (m MySQL) GetEnvVariables() EnvVariables {
 	return EnvVariables{

@@ -24,11 +24,6 @@ func (p PostgreSQL) GetDataFolder() string {
 	return "/var/lib/postgresql/data"
 }
 
-// GetDockerHubTagsURL returns the URL of the available tags on Docker Hub
-func (p PostgreSQL) GetDockerHubTagsURL() string {
-	return "postgresql"
-}
-
 // GetEnvVariables returns the specific environment variables to configure the docker image
 func (p PostgreSQL) GetEnvVariables() EnvVariables {
 	return EnvVariables{
