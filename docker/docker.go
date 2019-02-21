@@ -312,7 +312,7 @@ func parseImagePull(pullResp io.ReadCloser) {
 			break
 		}
 
-		fmt.Println(pullResult)
+		fmt.Printf("%s %s %s\n", pullResult.ID, pullResult.Status, pullResult.Progress)
 	}
 }
 
