@@ -25,20 +25,7 @@ function bind_static_files() {
 }
 
 function build_binaries() {
-  for GOOS in darwin linux windows; do
-    extension=""
-
-    if [[ "$GOOS" == "windows" ]]; then
-        extension=".exe"
-    fi
-
-    for GOARCH in 386 amd64; do
-        echo ">>> Building ${VERSION} for ${GOOS}/${GOARCH} in channel ${CHANNEL}"
-        docker run --rm -v "$(pwd)":${GO_WORKSPACE} -w ${GO_WORKSPACE} \
-            -e GOOS=${GOOS} -e GOARCH=${GOARCH} golang:${GO_VERSION} \
-            go build -v -o ${GO_WORKSPACE}/wedeploy/releases/bin/${CHANNEL}/${VERSION}/${GOOS}/${GOARCH}/lpn${extension}
-    done
-  done
+  ./scripts/build.sh
 }
 
 function git_checks() {
@@ -95,23 +82,7 @@ function main() {
 }
 
 function publish_binaries() {
-  local devEnvironment="dev"
-  local remote="liferay.io"
-
-  cd wedeploy
-  we login -r "${remote}" --no-browser
-
-  if [[ "$BRANCH" == "master" ]]; then
-    we deploy -r "${remote}" -p lpn
-  elif [[ "$BRANCH" == "develop" ]]; then
-    echo "INFO:
-    Deploying from develop branch will push the binaries to the Dev environment for this project
-    "
-    we deploy -r "${remote}" -p lpn -e "${devEnvironment}"
-  else
-    echo "We cannot deploy binaries from a branch different than master or develop"
-    exit 1
-  fi
+  ./scripts/publish.sh
 }
 
 function release() {
