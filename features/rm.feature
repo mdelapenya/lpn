@@ -28,7 +28,7 @@ Feature: Rm command
     """
     Then the output should contain:
     """
-    [db-<type>] removed
+    [db-<type>-mysql] removed
     """
     And the exit status should be 0
 

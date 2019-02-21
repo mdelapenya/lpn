@@ -29,7 +29,7 @@ Feature: Stop command
     """
     And the output should contain:
     """
-    [db-<type>] stopped
+    [db-<type>-mysql] stopped
     """
     And the exit status should be 0
     And I run `lpn rm <type>`

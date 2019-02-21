@@ -49,7 +49,7 @@ Feature: Start command
     """
     And the output should contain:
     """
-    [db-<type>] started
+    [db-<type>-mysql] started
     """
     And the exit status should be 0
     And I run `lpn rm <type>`
