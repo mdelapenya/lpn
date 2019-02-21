@@ -17,7 +17,6 @@ var debugPort int
 var gogoPort int
 var httpPort int
 var memory string
-var properties string
 var tagToRun string
 
 func init() {
@@ -35,7 +34,6 @@ func init() {
 		subcommand.Flags().BoolVarP(&enableDebug, "debug", "d", false, "Enables debug mode. (default false)")
 		subcommand.Flags().IntVarP(&debugPort, "debugPort", "D", 9000, "Sets the debug port of Liferay Portal's bundle. It only applies if debug mode is enabled")
 		subcommand.Flags().IntVarP(&gogoPort, "gogoPort", "g", 11311, "Sets the GoGo Shell port of Liferay Portal's bundle.")
-		subcommand.Flags().StringVarP(&properties, "properties", "P", "", "Sets the location of a portal-ext properties files to configure the running instance of Liferay Portal's bundle.")
 		subcommand.Flags().StringVarP(&datastore, "datastore", "s", "hsql", "Creates a database service for the running instance. Supported values are [hsql|mysql|postgresql] (default HSQL)")
 		subcommand.Flags().StringVarP(&tagToRun, "tag", "t", "", "Sets the image tag to run")
 	}
@@ -89,8 +87,7 @@ var runCECmd = &cobra.Command{
 
 		ce := liferay.CE{Tag: tagToRun}
 
-		runLiferayDockerImage(
-			ce, datastore, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
+		runLiferayDockerImage(ce, datastore, httpPort, gogoPort, enableDebug, debugPort, memory)
 	},
 }
 
@@ -114,7 +111,7 @@ var runCommerceCmd = &cobra.Command{
 		commerce := liferay.Commerce{Tag: tagToRun}
 
 		runLiferayDockerImage(
-			commerce, datastore, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
+			commerce, datastore, httpPort, gogoPort, enableDebug, debugPort, memory)
 	},
 }
 
@@ -138,8 +135,7 @@ var runDXPCmd = &cobra.Command{
 
 		dxp := liferay.DXP{Tag: tagToRun}
 
-		runLiferayDockerImage(
-			dxp, datastore, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
+		runLiferayDockerImage(dxp, datastore, httpPort, gogoPort, enableDebug, debugPort, memory)
 	},
 }
 
@@ -163,7 +159,7 @@ var runNightlyCmd = &cobra.Command{
 		nightly := liferay.Nightly{Tag: tagToRun}
 
 		runLiferayDockerImage(
-			nightly, datastore, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
+			nightly, datastore, httpPort, gogoPort, enableDebug, debugPort, memory)
 	},
 }
 
@@ -187,20 +183,20 @@ var runReleaseCmd = &cobra.Command{
 		release := liferay.Release{Tag: tagToRun}
 
 		runLiferayDockerImage(
-			release, datastore, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
+			release, datastore, httpPort, gogoPort, enableDebug, debugPort, memory)
 	},
 }
 
 // runLiferayDockerImage runs the Liferay image, potentially with a datastore
 func runLiferayDockerImage(
-	image liferay.Image, datastore string, httpPort int, gogoPort int, enableDebug bool, debugPort int, memory string,
-	properties string) {
+	image liferay.Image, datastore string, httpPort int, gogoPort int, enableDebug bool,
+	debugPort int, memory string) {
 
 	if datastore != "hsql" {
 		database := docker.GetDatabase(image, datastore)
 
 		err := docker.RunLiferayDockerImage(
-			image, database, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
+			image, database, httpPort, gogoPort, enableDebug, debugPort, memory)
 
 		if err != nil {
 			log.Fatalln("Impossible to run the stack for [" + image.GetContainerName() + "]")
@@ -209,7 +205,7 @@ func runLiferayDockerImage(
 		log.Println("The stack for [" + image.GetContainerName() + "] has been run successfully")
 	} else {
 		err := docker.RunLiferayDockerImage(
-			image, nil, httpPort, gogoPort, enableDebug, debugPort, memory, properties)
+			image, nil, httpPort, gogoPort, enableDebug, debugPort, memory)
 
 		if err != nil {
 			log.Fatalln("Impossible to run the container [" + image.GetContainerName() + "]")

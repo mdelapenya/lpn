@@ -431,7 +431,7 @@ func RunDatabaseDockerImage(image DatabaseImage) error {
 // jvmMemory if needed
 func RunLiferayDockerImage(
 	image liferay.Image, database DatabaseImage, httpPort int, gogoShellPort int, enableDebug bool,
-	debugPort int, memory string, properties string) error {
+	debugPort int, memory string) error {
 
 	if CheckDockerContainerExists(image.GetContainerName()) {
 		log.Println("The container [" + image.GetContainerName() + "] is running.")
@@ -489,18 +489,6 @@ func RunLiferayDockerImage(
 		environmentVariables = append(environmentVariables, jvmEnvVarName+"="+memory)
 	}
 
-	var mounts []mount.Mount
-
-	if properties != "" {
-		log.Println("Mounting " + properties + " as configuration file")
-
-		mounts = append(mounts, mount.Mount{
-			Type:   mount.TypeBind,
-			Source: properties,
-			Target: image.GetLiferayHome() + "/portal-ext.properties",
-		})
-	}
-
 	PullDockerImage(image.GetFullyQualifiedName())
 
 	dockerClient := getDockerClient()
@@ -536,7 +524,7 @@ func RunLiferayDockerImage(
 		&container.HostConfig{
 			Links:        links,
 			PortBindings: portBindings,
-			Mounts:       mounts,
+			Mounts:       []mount.Mount{},
 		},
 		nil, image.GetContainerName())
 	if err != nil {

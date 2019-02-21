@@ -20,6 +20,11 @@
                     "description": "Display tags in a table."
                 }
             ],
+            "breakings": [
+                {
+                    "description": "Removed the ability to configure portal using an external portal-ext properties."
+                }
+            ],
             "fixes": [
                 {
                     "description": "[lpn tags] Show a more accurate message when the tags count is lower than the defined page size"
