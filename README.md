@@ -121,10 +121,9 @@ You will be able to configure in which state you want to run the image, using th
 | ` -p, --httpPort` | Sets the HTTP port of Liferay Portal's bundle. (default 8080) |
 | ` -m, --memory` | Sets the memory for the JVM memory configuration of Liferay Portal's bundle. (default "-Xmx2048m" in the CE and DXP images, and "2048m" in the rest) |
 | ` -P, --properties` | Sets the location of a portal-ext properties files to configure the running instance of Liferay Portal's bundle. |
-| ` -s, --datastore` | Sets the default store type for the portal (default hsql) |
+| ` -s, --datastore` | Sets the default store type for the portal (default hsql). If the `storeType` command is different than "hsql", then lpn will try to spin up a container for the datastore, connected to the running portal instance. Available datasores are: hsql and mysql.
+ |
 | ` -t, --tag` | Sets the image tag to run |
-
-If the `storeType` command is different than "hsql", then lpn will try to spin up a container for the datastore, connected to the running portal instance. Available datasores are: hsql and mysql.
 
 Examples:
 ```shell
