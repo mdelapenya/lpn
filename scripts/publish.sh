@@ -6,7 +6,7 @@ function git_branch_name() {
 
 readonly BRANCH="${TRAVIS_BRANCH:-$(git_branch_name)}"
 
-function publish_binaries() {
+function publish_website() {
   local devEnvironment="dev"
   local remote="liferay.io"
 
@@ -19,13 +19,13 @@ function publish_binaries() {
     we deploy -r "${remote}" -p lpn
   elif [[ "$BRANCH" == "develop" ]]; then
     echo "INFO:
-    Deploying from develop branch will push the binaries to the Dev environment for this project
+    Deploying from develop branch will push the website to the Dev environment for this project
     "
     we deploy -r "${remote}" -p lpn -e "${devEnvironment}"
   else
-    echo "We cannot deploy binaries from a branch different than master or develop"
+    echo "We cannot deploy the website from a branch different than master or develop"
     exit 1
   fi
 }
 
-publish_binaries
+publish_website

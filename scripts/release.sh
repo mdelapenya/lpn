@@ -78,7 +78,7 @@ function main() {
   esac
 }
 
-function publish_binaries() {
+function publish_website() {
   ./scripts/publish.sh
 }
 
@@ -110,9 +110,9 @@ function release() {
 
   echo ">>> Release $VERSION pushed to Github successfully."
 
-  publish_binaries
+  publish_website
 
-  echo ">>> Binaries for $VERSION published to WeDeploy successfully."
+  echo ">>> Website for $VERSION published to WeDeploy successfully."
 }
 
 main
