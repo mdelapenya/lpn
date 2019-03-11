@@ -1,6 +1,7 @@
 .equinox/config.yaml
 .equinox/equinox.key
 .equinox/token
+.github
 
 coverage.txt
 
