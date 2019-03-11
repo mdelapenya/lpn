@@ -26,7 +26,7 @@ function appendTabsContent(version) {
 <span><span class="string">sudo</span> mv <span class="string">/tmp/lpn /usr/local/bin/lpn</span></span></code></pre>
 </div>
 <div class="tab-pane fade" id="win" role="tabpanel" aria-labelledby="win-tab">
-    <pre class="mb-0"><code class="code-soy"><span>md <span class="variable">"C:\\Program Files (x86)\lpn"</span></span>
+    <pre class="mb-0"><code class="code-soy"><span>md <span class="variable">"C:\\Program Files (x86)\\lpn"</span></span>
 <span>curl <span class="variable">"https://github.com/mdelapenya/lpn/releases/download/${version}/win64-lpn.exe"</span> -OutFile <span class="variable">"C:\\Program Files (x86)\\lpn\\lpn.exe"</span></span>
 <span>set <span class="string">PATH="%PATH%;C:\\Program Files (x86)\\lpn\"</span></span></code></pre>
 </div>`
