@@ -8,3 +8,6 @@ debug.test
 
 lpn
 lpn.exe
+darwin*-lpn
+linux*-lpn
+win*-lpn.exe
