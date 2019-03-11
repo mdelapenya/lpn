@@ -14,7 +14,7 @@ You have to install Docker on your machine first. Check [this guide](https://doc
 
 ## Installation
 
-For current stable version of `lpn`, please visit [downloads page](https://lpn.lfr.io/releases.html), and select the target platform, based on O.S. and architecture.
+For current stable version of `lpn`, please visit [downloads page](https://github.com/mdelapenya/lpn/releases), and select the target platform, based on O.S. and architecture.
 
 If you are in the Golang world, you could install this tool from source code.
 
