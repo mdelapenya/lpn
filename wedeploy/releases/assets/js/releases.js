@@ -14,20 +14,20 @@ function appendVersion(version) {
 
 function appendTabsContent(version) {
     let tabsContent = `<div class="tab-pane fade show active" id="mac" role="tabpanel" aria-labelledby="mac-tab">
-    <pre class="mb-0"><code class="code-soy"><span>curl <span class="variable">"https://lpn.lfr.io/bin/stable/${version}/darwin/amd64/lpn"</span> \
+    <pre class="mb-0"><code class="code-soy"><span>curl <span class="variable">"https://github.com/mdelapenya/lpn/releases/download/${version}/darwin64-lpn"</span> \
 --output <span class="variable">/tmp/lpn</span></span>
 <span>chmod +x <span class="variable">/tmp/lpn</span></span>
 <span><span class="string">sudo</span> mv <span class="variable">/tmp/lpn /usr/local/bin/lpn</span></span></code></pre>
 </div>
 <div class="tab-pane fade" id="linux" role="tabpanel" aria-labelledby="linux-tab">
-    <pre class="mb-0"><code class="code-soy"><span>curl <span class="variable">"https://lpn.lfr.io/bin/stable/${version}/linux/amd64/lpn"</span> \
+    <pre class="mb-0"><code class="code-soy"><span>curl <span class="variable">"https://github.com/mdelapenya/lpn/releases/download/${version}/linux64-lpn"</span> \
 --output <span class="variable">/tmp/lpn</span></span>
 <span>chmod +x <span class="variable">/tmp/lpn</span></span>
 <span><span class="string">sudo</span> mv <span class="string">/tmp/lpn /usr/local/bin/lpn</span></span></code></pre>
 </div>
 <div class="tab-pane fade" id="win" role="tabpanel" aria-labelledby="win-tab">
     <pre class="mb-0"><code class="code-soy"><span>md <span class="variable">"C:\\Program Files (x86)\lpn"</span></span>
-<span>curl <span class="variable">"https://lpn.lfr.io/bin/stable/${version}/windows/amd64/lpn"</span> -OutFile <span class="variable">"C:\\Program Files (x86)\\lpn\\lpn.exe"</span></span>
+<span>curl <span class="variable">"https://github.com/mdelapenya/lpn/releases/download/${version}/win64-lpn.exe"</span> -OutFile <span class="variable">"C:\\Program Files (x86)\\lpn\\lpn.exe"</span></span>
 <span>set <span class="string">PATH="%PATH%;C:\\Program Files (x86)\\lpn\"</span></span></code></pre>
 </div>`
 
@@ -152,30 +152,30 @@ function getDownloadLinks(release) {
 
     const header = `<h5 class="list-section">Downloads</h5>`;
 
-    const oss = ['darwin', 'linux', 'windows'];
-    const platforms = ['386', 'amd64'];
+    const oss = ['darwin', 'linux', 'win'];
+    const platforms = ['386', '64'];
 
     let version = release.version;
     if (release.channel === "unstable") {
         version = release.version + "-snapshot"
     }
 
-    let basePath = `/bin/` + release.channel + `/` + version;
+    let basePath = `https://github.com/mdelapenya/lpn/releases/download/` + version;
 
     let linksHtml = '';
 
     $.each(oss, function(id, os) {
         let extension = '';
 
-        if (os === 'windows') {
+        if (os === 'win') {
             extension = '.exe';
         }
 
         $.each(platforms, function(id, platform) {
-            let url = basePath + `/` + os + `/` + platform + `/lpn` + extension;
+            let url = basePath + `/` + os + platform + `-lpn` + extension;
 
             linksHtml += `<li>
-    <a href='` + url + `' target='_blank'>` + os + ` - ` + platform + `</a>
+    <a href='` + url + `' target='_blank'>` + os + platform + `</a>
 </li>`
         });
     });
