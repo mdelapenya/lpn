@@ -58,7 +58,3 @@ jobs:
           script: ./scripts/build.sh && ./scripts/publish.sh
           on:
             branch: master
-        - provider: script
-          script: ./scripts/build.sh && ./scripts/publish.sh
-          on:
-            branch: develop

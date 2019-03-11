@@ -8,14 +8,11 @@ readonly BRANCH="${TRAVIS_BRANCH:-$(git_branch_name)}"
 readonly DIR="$(realpath $(dirname ${BASH_SOURCE[0]}))"
 readonly GO_VERSION="1.9"
 readonly GO_WORKSPACE="/usr/local/go/src/github.com/mdelapenya/lpn"
-readonly RELEASE_VERSION=$(cat ./VERSION.txt)
+readonly VERSION=$(cat ./VERSION.txt)
 
-CHANNEL="unstable"
-VERSION="$RELEASE_VERSION-snapshot"
-
-if [[ "$BRANCH" == "master" ]]; then
-  CHANNEL="stable"
-  VERSION="$RELEASE_VERSION"
+if [[ "$BRANCH" != "master" ]]; then
+    echo "It's not possible to build from a branch different to master"
+    exit 1
 fi
 
 function bind_static_files() {
@@ -98,11 +95,6 @@ function release() {
   build_binaries
 
   echo ">>> Binaries for $VERSION built successfully."
-
-  if [[ "$VERSION" == "$RELEASE_VERSION-snapshot" ]]; then
-    git tag -d $VERSION
-    git push origin :$VERSION
-  fi
 
   result=$(git tag "$VERSION")
 
