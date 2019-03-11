@@ -1,8 +1,5 @@
 {
     "id": "releases",
     "cpu": 0.5,
-    "memory": 256,
-    "volumes": {
-        "releases": "/usr/share/nginx/html/bin"
-      }
+    "memory": 256
 }
