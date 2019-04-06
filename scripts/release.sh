@@ -78,10 +78,6 @@ function main() {
   esac
 }
 
-function publish_website() {
-  ./scripts/publish.sh
-}
-
 function release() {
   bind_static_files
 
@@ -109,10 +105,6 @@ function release() {
   git push origin $BRANCH --tags
 
   echo ">>> Release $VERSION pushed to Github successfully."
-
-  publish_website
-
-  echo ">>> Website for $VERSION published to WeDeploy successfully."
 }
 
 main

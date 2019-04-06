@@ -42,19 +42,3 @@ script:
     if [ "$LPN_COMMAND" != "" ]; then
       mkdir bin && mv ./lpn bin/lpn && cucumber features/$LPN_COMMAND.feature
     fi
-
-jobs:
-  include:
-    - stage: "Deploy to WeDeploy"
-      name: "Deploy to WeDeploy"
-      env:
-        - LPN_COMMAND=
-      script:
-        - ./scripts/coverage.sh
-      after_success:
-        - bash <(curl -s https://codecov.io/bash)
-      deploy:
-        - provider: script
-          script: ./scripts/build.sh && ./scripts/publish.sh
-          on:
-            branch: master
