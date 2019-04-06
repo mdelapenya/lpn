@@ -6,9 +6,7 @@ function git_branch_name() {
 
 readonly BRANCH="${TRAVIS_BRANCH:-$(git_branch_name)}"
 readonly GO_VERSION="1.9"
-readonly BIN_DIR="$(pwd)/bin"
 readonly GO_WORKSPACE="/usr/local/go/src/github.com/mdelapenya/lpn"
-readonly CHANNEL="stable"
 readonly VERSION="$(cat ./VERSION.txt)"
 
 if [[ "$BRANCH" != "master" ]]; then
@@ -36,6 +34,6 @@ for GOOS in darwin linux windows; do
         echo ">>> Building for ${GOOS}/${GOARCH}"
         docker run --rm -v "$(pwd)":${GO_WORKSPACE} -w ${GO_WORKSPACE} \
             -e GOOS=${GOOS} -e GOARCH=${GOARCH} golang:${GO_VERSION} \
-            go build -v -o ${GO_WORKSPACE}/wedeploy/releases/bin/${CHANNEL}/${VERSION}/${goos}${arch}-lpn${extension}
+            go build -v -o ${GO_WORKSPACE}/.github/releases/download/${VERSION}/${goos}${arch}-lpn${extension}
     done
 done
