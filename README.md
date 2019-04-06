@@ -4,7 +4,7 @@
 [![Codecov Coverage](https://codecov.io/gh/mdelapenya/lpn/branch/master/graph/badge.svg)](https://codecov.io/gh/mdelapenya/lpn)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mdelapenya/lpn)](https://goreportcard.com/report/github.com/mdelapenya/lpn)
 
-This Golang CLI makes it easier to run Liferay Portal's Docker images.
+This is LPN [https://mdelapenya.github.io/lpn/index.html](https://mdelapenya.github.io/lpn/index.html), a CLI that makes it easy running Liferay Portal's Docker images.
 
 It wraps Docker commands so you just have to run this tool, and pass the specific tag you want to run.
 
