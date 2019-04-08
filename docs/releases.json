@@ -1,9 +1,28 @@
 [
     {
         "channel": "stable",
-        "version": "0.10.0",
+        "version": "0.11.0",
         "equinox": false,
         "latest": true,
+        "releaseDate": "2019-04-08 15:00",
+        "changelog": {
+            "enhacements": [
+                {
+                    "description": "Support storing variable values (container names and images to use) in a configuration file instead of in constants."
+                }
+            ],
+            "breakings": [
+                {
+                    "description": "Deploy HTML website on Github pages, instead of on WeDeploy"
+                }
+            ]
+        }
+    },
+    {
+        "channel": "stable",
+        "version": "0.10.0",
+        "equinox": false,
+        "latest": false,
         "releaseDate": "2019-02-21 01:30",
         "changelog": {
             "enhacements": [
