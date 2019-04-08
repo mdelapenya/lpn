@@ -27,7 +27,7 @@ var updateCmd = &cobra.Command{
 	Long:  `Updates lpn (Liferay Portal Nook) to the latest version on stable channel`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(
-			"Updates from Equinox are disabled. Please go to 'https://releases-lpn.wedeploy.io'" +
+			"Updates from Equinox are disabled. Please go to 'hhttps://mdelapenya.github.io/lpn/releases.html'" +
 				" to download your release")
 	},
 }
