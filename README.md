@@ -28,6 +28,60 @@ For that reason you need to:
 
 Now you can use `lpn` from your command line.
 
+## Tool Configuration
+
+`lpn` uses a configuration file in YAML format for the values that could be modified by end-users, like the container names, or the images to be used with each type.
+
+If the configuration file is not present at `$HOME/.lpn/config.yml`, `lpn` will create it the first time it is run.
+
+An example of default values are:
+
+```yml
+container:
+  names:
+    db:
+      ce: db-ce
+      commerce: db-commerce
+      dxp: db-dxp
+      nightly: db-nightly
+      release: db-release
+    portal:
+      ce: lpn-ce
+      commerce: lpn-commerce
+      dxp: lpn-dxp
+      nightly: lpn-nightly
+      release: lpn-release
+images:
+  portal:
+    ce:
+      image: liferay/portal
+      tag: 7.0.6-ga7
+    commerce:
+      image: liferay/commerce
+      tag: 1.1.1
+    dxp:
+      image: liferay/dxp
+      tag: 7.0.10.8
+    nightly:
+      image: liferay/portal-snapshot
+      tag: latest
+    release:
+      image: mdelapenya/liferay-portal
+      tag: latest
+```
+
+A use case of overriding this configuration would be if you would like to update `lpn` to use a different tag on CE runs. Then, please go to the configuration file and update the proper key:
+
+```yml
+[...]
+images:
+  portal:
+    ce:
+      image: liferay/portal
+      tag: 7.1.2-ga3
+[...]
+```
+
 ## What does lpn do?
 
 With `lpn` you'll be able to:
