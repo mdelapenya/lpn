@@ -34,7 +34,7 @@ func (d DXP) GetLiferayHome() string {
 
 // GetRepository returns the repository for DXP
 func (d DXP) GetRepository() string {
-	return DXPRepository
+	return internal.LpnConfig.GetPortalImageName("dxp")
 }
 
 // GetTag returns the tag of the image

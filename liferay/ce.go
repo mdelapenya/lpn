@@ -34,7 +34,7 @@ func (c CE) GetLiferayHome() string {
 
 // GetRepository returns the repository for CE
 func (c CE) GetRepository() string {
-	return CERepository
+	return internal.LpnConfig.GetPortalImageName("ce")
 }
 
 // GetTag returns the tag of the image

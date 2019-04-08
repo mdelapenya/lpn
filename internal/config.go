@@ -25,14 +25,28 @@ var portalContainerNames = map[string]string{
 	"release":  "lpn-release",
 }
 
+var portalImages = map[string]string{
+	"ce":       "liferay/portal",
+	"commerce": "liferay/commerce",
+	"dxp":      "liferay/dxp",
+	"nightly":  "liferay/portal-snapshot",
+	"release":  "mdelapenya/liferay-portal",
+}
+
 // LPNConfig tool configuration
 type LPNConfig struct {
 	Container NamesConfig `mapstructure:"container"`
+	Images    NamesConfig `mapstructure:"images"`
 }
 
 // GetDbContainerName name of the container for databases
 func (c *LPNConfig) GetDbContainerName(t string) string {
 	return c.Container.Names.Db[t]
+}
+
+// GetPortalImageName name of the image used to run the portal
+func (c *LPNConfig) GetPortalImageName(t string) string {
+	return c.Images.Names.Portal[t]
 }
 
 // GetPortalContainerName name of the container for portal
@@ -82,6 +96,11 @@ func NewConfig(workspace string) *LPNConfig {
 			"names": map[string]interface{}{
 				"db":     dbContainerNames,
 				"portal": portalContainerNames,
+			},
+		},
+		"images": map[string]interface{}{
+			"names": map[string]interface{}{
+				"portal": portalImages,
 			},
 		},
 	})

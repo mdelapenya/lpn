@@ -67,14 +67,8 @@ func init() {
 var tagsCmd = &cobra.Command{
 	Use:   "tags",
 	Short: "Lists all tags for Liferay Portal Docker image",
-	Long: `Lists all tags for Liferay Portal Docker image from the Official repositories:
-		- ` + liferay.CommerceRepository + ` (private),
-		- ` + liferay.CERepository + `, and
-		- ` + liferay.DXPRepository + `.
-		For non-official Docker images, the tool lists tags from the unofficial repositories:
-		- ` + liferay.CommerceRepository + ` (private),
-		- ` + liferay.NightliesRepository + `, and
-		- ` + liferay.ReleasesRepository + `.
+	Long: `Lists all tags for Liferay Portal Docker image from the Official repositories (see configuration file).
+		For non-official Docker images, the tool lists tags from the unofficial repositories (see configuration file).
 	For that, please run this command adding "commerce", "release" or "nightly" subcommands.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
@@ -91,8 +85,7 @@ var tagsCmd = &cobra.Command{
 var tagsCECmd = &cobra.Command{
 	Use:   "ce",
 	Short: "Lists all tags for Liferay Portal CE Docker image",
-	Long: `Lists all tags for Liferay Portal CE Docker image from one of the Official repository:
-	- ` + liferay.CERepository,
+	Long:  `Lists all tags for Liferay Portal CE Docker image from the Official repository`,
 	Run: func(cmd *cobra.Command, args []string) {
 		ce := liferay.CE{}
 
@@ -103,8 +96,7 @@ var tagsCECmd = &cobra.Command{
 var tagsCommerceCmd = &cobra.Command{
 	Use:   "commerce",
 	Short: "Lists all tags for Liferay Commerce Docker image",
-	Long: `Lists all tags for Liferay Commerce Docker image from one of the unofficial, private repositories:
-		- ` + liferay.CommerceRepository + ` (private).`,
+	Long:  `Lists all tags for Liferay Commerce Docker image from the Official repository`,
 	Run: func(cmd *cobra.Command, args []string) {
 		commerce := liferay.Commerce{}
 
@@ -115,8 +107,7 @@ var tagsCommerceCmd = &cobra.Command{
 var tagsDXPCmd = &cobra.Command{
 	Use:   "dxp",
 	Short: "Lists all tags for Liferay DXP Docker image",
-	Long: `Lists all tags for Liferay DXP Docker image from one of the Official repository:
-	- ` + liferay.CERepository,
+	Long:  `Lists all tags for Liferay DXP Docker image from the Official repository`,
 	Run: func(cmd *cobra.Command, args []string) {
 		dxp := liferay.DXP{}
 
@@ -127,8 +118,7 @@ var tagsDXPCmd = &cobra.Command{
 var tagsNightlyCmd = &cobra.Command{
 	Use:   "nightly",
 	Short: "Lists all tags for Liferay Portal Nightly Build Docker image",
-	Long: `Lists all tags for Liferay Portal Nightly Build Docker image from one of the unofficial repository:
-	- ` + liferay.NightliesRepository,
+	Long:  `Lists all tags for Liferay Portal Nightly Build Docker image from one of the unofficial repository`,
 	Run: func(cmd *cobra.Command, args []string) {
 		nightly := liferay.Nightly{}
 
@@ -139,8 +129,7 @@ var tagsNightlyCmd = &cobra.Command{
 var tagsReleaseCmd = &cobra.Command{
 	Use:   "release",
 	Short: "Lists all tags for Liferay Portal Release Docker image",
-	Long: `Lists all tags for Liferay Portal Release Docker image from one of the unofficial repository:
-	- ` + liferay.ReleasesRepository,
+	Long:  `Lists all tags for Liferay Portal Release Docker image from one of the unofficial repository`,
 	Run: func(cmd *cobra.Command, args []string) {
 		release := liferay.Release{}
 

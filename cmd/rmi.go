@@ -38,7 +38,7 @@ var rmiCmd = &cobra.Command{
 var rmiCECmd = &cobra.Command{
 	Use:   "ce",
 	Short: "Removes the Official Liferay Portal CE image",
-	Long:  `Removes the Official Liferay Portal CE image, identified by ["` + liferay.CERepository + `"].`,
+	Long:  `Removes the Official Liferay Portal CE image from the Docker host.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToRemove == "" {
 			tagToRemove = liferay.CEDefaultTag
@@ -53,7 +53,7 @@ var rmiCECmd = &cobra.Command{
 var rmiCommerceCmd = &cobra.Command{
 	Use:   "commerce",
 	Short: "Removes the Liferay Portal Commerce image",
-	Long:  `Removes the Liferay Portal Commerce image, identified by ["` + liferay.CommerceRepository + `"].`,
+	Long:  `Removes the Liferay Portal Commerce image from the Docker host.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToRemove == "" {
 			tagToRemove = date.CurrentDate
@@ -68,7 +68,7 @@ var rmiCommerceCmd = &cobra.Command{
 var rmiDXPCmd = &cobra.Command{
 	Use:   "dxp",
 	Short: "Removes the Official Liferay DXP image",
-	Long:  `Removes the Official Liferay DXP image, identified by ["` + liferay.DXPRepository + `"].`,
+	Long:  `Removes the Official Liferay DXP image from the Docker host.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToRemove == "" {
 			tagToRemove = liferay.DXPDefaultTag
@@ -83,7 +83,7 @@ var rmiDXPCmd = &cobra.Command{
 var rmiNightlyCmd = &cobra.Command{
 	Use:   "nightly",
 	Short: "Removes the Liferay Portal Nightly Build image",
-	Long:  `Removes the Liferay Portal Nightly Build image, identified by ["` + liferay.NightliesRepository + `"].`,
+	Long:  `Removes the Liferay Portal Nightly Build image from the Docker host.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToRemove == "" {
 			tagToRemove = date.CurrentDate
@@ -98,7 +98,7 @@ var rmiNightlyCmd = &cobra.Command{
 var rmiReleaseCmd = &cobra.Command{
 	Use:   "release",
 	Short: "Removes the Liferay Portal Release image",
-	Long:  `Removes the Liferay Portal Release image, identified by ["` + liferay.ReleasesRepository + `"].`,
+	Long:  `Removes the Liferay Portal Release image from the Docker host.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToRemove == "" {
 			tagToRemove = "latest"

@@ -32,13 +32,8 @@ func init() {
 var pullCmd = &cobra.Command{
 	Use:   "pull",
 	Short: "Pulls a Liferay Portal Docker image",
-	Long: `Pulls a Liferay Portal Docker image from one of the Official repositories:
-		- ` + liferay.CommerceRepository + ` (private),
-		- ` + liferay.CERepository + `, and
-		- ` + liferay.DXPRepository + `.
-		For non-official Docker images, the tool pulls from the official repositories:
-		- ` + liferay.NightliesRepository + `, and
-		- ` + liferay.ReleasesRepository + `.
+	Long: `Pulls a Liferay Portal Docker image from one of the Official repositories (see configuration file).
+		For non-official Docker images, the tool pulls from the official repositories (see configuration file)
 	For that, please run this command adding "ce", "commerce", "dxp", "release" or "nightly" subcommands.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
@@ -55,7 +50,7 @@ var pullCmd = &cobra.Command{
 var pullCE = &cobra.Command{
 	Use:   "ce",
 	Short: "Pulls a Liferay Portal CE Docker image from Official CE repository",
-	Long: `Pulls a Liferay Portal instance, obtained from the official CE repository: "` + liferay.CERepository + `".
+	Long: `Pulls a Liferay Portal instance, obtained from the official CE repository.
 	If no image tag is passed to the command, the "` + liferay.CEDefaultTag + `" tag will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
@@ -78,7 +73,7 @@ var pullCE = &cobra.Command{
 var pullCommerce = &cobra.Command{
 	Use:   "commerce",
 	Short: "Pulls a Liferay Portal Docker image from Commerce Builds",
-	Long: `Pulls a Liferay Portal Docker image from the Commerce Builds repository: "` + liferay.CommerceRepository + `".
+	Long: `Pulls a Liferay Portal Docker image from the Commerce Builds repository".
 	If no image tag is passed to the command, the "` + liferay.CommerceDefaultTag + `" tag will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
@@ -101,8 +96,7 @@ var pullCommerce = &cobra.Command{
 var pullDXP = &cobra.Command{
 	Use:   "dxp",
 	Short: "Pulls a Liferay DXP Docker image from Official DXP repository",
-	Long: `Pulls a Liferay DXP instance, obtained from the official DXP repository: "` + liferay.DXPRepository + `,
-	including a 30-day activation key.
+	Long: `Pulls a Liferay DXP instance, obtained from the official DXP repository, including a 30-day activation key.
 	If no image tag is passed to the command, the "` + liferay.DXPDefaultTag + `" tag will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
@@ -125,7 +119,7 @@ var pullDXP = &cobra.Command{
 var pullNightly = &cobra.Command{
 	Use:   "nightly",
 	Short: "Pulls a Liferay Portal Docker image from Nightly Builds",
-	Long: `Pulls a Liferay Portal Docker image from the Nightly Builds repository: "` + liferay.NightliesRepository + `".
+	Long: `Pulls a Liferay Portal Docker image from the Nightly Builds repository.
 	If no image tag is passed to the command, the "master" tag will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
@@ -148,7 +142,7 @@ var pullNightly = &cobra.Command{
 var pullRelease = &cobra.Command{
 	Use:   "release",
 	Short: "Pulls a Liferay Portal Docker image from releases",
-	Long: `Pulls a Liferay Portal instance, obtained from the unofficial releases repository: "` + liferay.ReleasesRepository + `".
+	Long: `Pulls a Liferay Portal instance, obtained from the unofficial releases repository.
 	If no image tag is passed to the command, the "latest" tag will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {

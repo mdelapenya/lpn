@@ -48,13 +48,8 @@ func init() {
 var runCmd = &cobra.Command{
 	Use:   "run",
 	Short: "Runs a Liferay Portal instance",
-	Long: `Runs a Liferay Portal instance, obtained from the Official repositories:
-		- ` + liferay.CommerceRepository + ` (private),
-		- ` + liferay.CERepository + `, and
-		- ` + liferay.DXPRepository + `.
-		For non-official Docker images, the tool runs images obtained from the unofficial repositories:
-		- ` + liferay.NightliesRepository + `, and
-		- ` + liferay.ReleasesRepository + `.
+	Long: `Runs a Liferay Portal instance, obtained from the Official repositories (see configuration file).
+		For non-official Docker images, the tool runs images obtained from the unofficial repositories (see configuration file).
 	For that, please run this command adding "ce", "commerce", "dxp", "release" or "nightly" subcommands.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
@@ -71,7 +66,7 @@ var runCmd = &cobra.Command{
 var runCECmd = &cobra.Command{
 	Use:   "ce",
 	Short: "Runs a Liferay Portal CE instance",
-	Long: `Runs a Liferay Portal CE instance, obtained from the Official repository: ` + liferay.CERepository + `.
+	Long: `Runs a Liferay Portal CE instance, obtained from the Official repository.
 	If no image tag is passed to the command, the "` + liferay.CEDefaultTag + `" tag will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
@@ -94,7 +89,7 @@ var runCECmd = &cobra.Command{
 var runCommerceCmd = &cobra.Command{
 	Use:   "commerce",
 	Short: "Runs a Liferay Portal with Commerce instance from Commerce Builds",
-	Long: `Runs a Liferay Portal with Commerce instance, obtained from Commerce Builds repository: ` + liferay.CommerceRepository + `.
+	Long: `Runs a Liferay Portal with Commerce instance, obtained from Commerce Builds repository.
 	If no image tag is passed to the command, the "` + liferay.CommerceDefaultTag + `" will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
@@ -118,8 +113,7 @@ var runCommerceCmd = &cobra.Command{
 var runDXPCmd = &cobra.Command{
 	Use:   "dxp",
 	Short: "Runs a Liferay DXP instance",
-	Long: `Runs a Liferay DXP instance, obtained from the Official repository: ` + liferay.DXPRepository + `,
-	including a 30-day activation key.
+	Long: `Runs a Liferay DXP instance, obtained from the Official repository, including a 30-day activation key.
 	If no image tag is passed to the command, the "` + liferay.DXPDefaultTag + `" tag will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
@@ -142,7 +136,7 @@ var runDXPCmd = &cobra.Command{
 var runNightlyCmd = &cobra.Command{
 	Use:   "nightly",
 	Short: "Runs a Liferay Portal instance from Nightly Builds",
-	Long: `Runs a Liferay Portal instance, obtained from Nightly Builds repository: ` + liferay.NightliesRepository + `.
+	Long: `Runs a Liferay Portal instance, obtained from Nightly Builds repository.
 	If no image tag is passed to the command, the tag representing the current date [` + date.CurrentDate + `] will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
@@ -166,7 +160,7 @@ var runNightlyCmd = &cobra.Command{
 var runReleaseCmd = &cobra.Command{
 	Use:   "release",
 	Short: "Runs a Liferay Portal instance from releases",
-	Long: `Runs a Liferay Portal instance, obtained from the unofficial releases repository: ` + liferay.ReleasesRepository + `.
+	Long: `Runs a Liferay Portal instance, obtained from the unofficial releases repository.
 	If no image tag is passed to the command, the "latest" tag will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {

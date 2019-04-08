@@ -52,7 +52,7 @@ func (r Release) GetLiferayHome() string {
 
 // GetRepository returns the repository for releases
 func (r Release) GetRepository() string {
-	return ReleasesRepository
+	return internal.LpnConfig.GetPortalImageName("release")
 }
 
 // GetTag returns the tag of the image
