@@ -30,6 +30,16 @@ type LPNConfig struct {
 	Container ContainerConfig `mapstructure:"container"`
 }
 
+// GetDbContainerName name of the container for databases
+func (c *LPNConfig) GetDbContainerName(t string) string {
+	return c.Container.Names.Db[t]
+}
+
+// GetPortalContainerName name of the container for portal
+func (c *LPNConfig) GetPortalContainerName(t string) string {
+	return c.Container.Names.Portal[t]
+}
+
 // ContainerConfig container configuration
 type ContainerConfig struct {
 	Names ContainerNameConfig `mapstructure:"names"`
