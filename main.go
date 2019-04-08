@@ -12,6 +12,16 @@ import (
 	internal "github.com/mdelapenya/lpn/internal"
 )
 
+func init() {
+	checkWorkspace()
+
+	installed := docker.CheckDocker()
+
+	if !installed {
+		log.Fatalln(`Docker is not installed. Please visit "https://docs.docker.com/install/#desktop" to install it before using lpn`)
+	}
+}
+
 // checkWorkspace creates this tool workspace under user's home, in a hidden directory named ".wt"
 func checkWorkspace() {
 	usr, _ := user.Current()
@@ -33,13 +43,5 @@ func checkWorkspace() {
 }
 
 func main() {
-	installed := docker.CheckDocker()
-
-	checkWorkspace()
-
-	if !installed {
-		log.Fatalln(`Docker is not installed. Please visit "https://docs.docker.com/install/#desktop" to install it before using lpn`)
-	}
-
 	cmd.Execute()
 }
