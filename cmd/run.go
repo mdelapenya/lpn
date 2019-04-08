@@ -6,6 +6,7 @@ import (
 
 	date "github.com/mdelapenya/lpn/date"
 	docker "github.com/mdelapenya/lpn/docker"
+	internal "github.com/mdelapenya/lpn/internal"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
 	"github.com/spf13/cobra"
@@ -67,7 +68,7 @@ var runCECmd = &cobra.Command{
 	Use:   "ce",
 	Short: "Runs a Liferay Portal CE instance",
 	Long: `Runs a Liferay Portal CE instance, obtained from the Official repository.
-	If no image tag is passed to the command, the "` + liferay.CEDefaultTag + `" tag will be used.`,
+	If no image tag is passed to the command, the default tag (see configuration file) will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("run requires zero or one argument representing the image tag to be run")
@@ -77,7 +78,7 @@ var runCECmd = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToRun == "" {
-			tagToRun = liferay.CEDefaultTag
+			tagToRun = internal.LpnConfig.GetPortalImageTag("ce")
 		}
 
 		ce := liferay.CE{Tag: tagToRun}
@@ -90,7 +91,7 @@ var runCommerceCmd = &cobra.Command{
 	Use:   "commerce",
 	Short: "Runs a Liferay Portal with Commerce instance from Commerce Builds",
 	Long: `Runs a Liferay Portal with Commerce instance, obtained from Commerce Builds repository.
-	If no image tag is passed to the command, the "` + liferay.CommerceDefaultTag + `" will be used.`,
+	If no image tag is passed to the command, the default tag (see configuration file) will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("run requires zero or one argument representing the image tag to be run")
@@ -100,7 +101,7 @@ var runCommerceCmd = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToRun == "" {
-			tagToRun = date.CurrentDate
+			tagToRun = internal.LpnConfig.GetPortalImageTag("commerce")
 		}
 
 		commerce := liferay.Commerce{Tag: tagToRun}
@@ -114,7 +115,7 @@ var runDXPCmd = &cobra.Command{
 	Use:   "dxp",
 	Short: "Runs a Liferay DXP instance",
 	Long: `Runs a Liferay DXP instance, obtained from the Official repository, including a 30-day activation key.
-	If no image tag is passed to the command, the "` + liferay.DXPDefaultTag + `" tag will be used.`,
+	If no image tag is passed to the command, the default tag (see configuration file) will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("run requires zero or one argument representing the image tag to be run")
@@ -124,7 +125,7 @@ var runDXPCmd = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToRun == "" {
-			tagToRun = liferay.DXPDefaultTag
+			tagToRun = internal.LpnConfig.GetPortalImageTag("dxp")
 		}
 
 		dxp := liferay.DXP{Tag: tagToRun}

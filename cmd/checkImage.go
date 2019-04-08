@@ -6,6 +6,7 @@ import (
 
 	date "github.com/mdelapenya/lpn/date"
 	docker "github.com/mdelapenya/lpn/docker"
+	internal "github.com/mdelapenya/lpn/internal"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
 	"github.com/spf13/cobra"
@@ -53,7 +54,7 @@ var checkImageCE = &cobra.Command{
 	Long: `Checks if the proper Liferay Portal CE image has been pulled by lpn.
 	Uses docker image inspect to check if the proper Liferay Portal image has 
 	been pulled by lpn (Liferay Portal Nook). If no image tag is passed to the command,
-	the tag "` + liferay.CEDefaultTag + `" will be used.`,
+	the default tag (see configuration file) will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("checkImage release requires zero or one argument representing the image tag")
@@ -63,7 +64,7 @@ var checkImageCE = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToCheck == "" {
-			tagToCheck = liferay.CEDefaultTag
+			tagToCheck = internal.LpnConfig.GetPortalImageTag("ce")
 		}
 
 		ce := liferay.CE{Tag: tagToCheck}
@@ -88,7 +89,7 @@ var checkImageCommerce = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToCheck == "" {
-			tagToCheck = date.CurrentDate
+			tagToCheck = internal.LpnConfig.GetPortalImageTag("commerce")
 		}
 
 		commerce := liferay.Commerce{Tag: tagToCheck}
@@ -103,7 +104,7 @@ var checkImageDXP = &cobra.Command{
 	Long: `Checks if the proper Liferay DXP image has been pulled by lpn.
 	Uses docker image inspect to check if the proper Liferay DXP image has 
 	been pulled by lpn (Liferay Portal Nook). If no image tag is passed to the command,
-	the tag "` + liferay.DXPDefaultTag + `" will be used.`,
+	the default tag (see configuration file) will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("checkImage release requires zero or one argument representing the image tag")
@@ -113,7 +114,7 @@ var checkImageDXP = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToCheck == "" {
-			tagToCheck = liferay.DXPDefaultTag
+			tagToCheck = internal.LpnConfig.GetPortalImageTag("dxp")
 		}
 
 		dxp := liferay.DXP{Tag: tagToCheck}

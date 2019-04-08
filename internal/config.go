@@ -25,18 +25,44 @@ var portalContainerNames = map[string]string{
 	"release":  "lpn-release",
 }
 
-var portalImages = map[string]string{
-	"ce":       "liferay/portal",
-	"commerce": "liferay/commerce",
-	"dxp":      "liferay/dxp",
-	"nightly":  "liferay/portal-snapshot",
-	"release":  "mdelapenya/liferay-portal",
+var portalImages = map[string]ImageConfig{
+	"ce": {
+		Image: "liferay/portal",
+		Tag:   "7.0.6-ga7",
+	},
+	"commerce": {
+		Image: "liferay/commerce",
+		Tag:   "1.1.1",
+	},
+	"dxp": {
+		Image: "liferay/dxp",
+		Tag:   "7.0.10.8",
+	},
+	"nightly": {
+		Image: "liferay/portal-snapshot",
+		Tag:   "latest",
+	},
+	"release": {
+		Image: "mdelapenya/liferay-portal",
+		Tag:   "latest",
+	},
+}
+
+// ImageConfig image configuration
+type ImageConfig struct {
+	Image string `yaml:"image"`
+	Tag   string `yaml:"tag"`
+}
+
+// ImagesConfig image configuration
+type ImagesConfig struct {
+	Portal map[string]ImageConfig `mapstructure:"portal"`
 }
 
 // LPNConfig tool configuration
 type LPNConfig struct {
-	Container NamesConfig `mapstructure:"container"`
-	Images    NamesConfig `mapstructure:"images"`
+	Container NamesConfig  `mapstructure:"container"`
+	Images    ImagesConfig `mapstructure:"images"`
 }
 
 // GetDbContainerName name of the container for databases
@@ -46,7 +72,12 @@ func (c *LPNConfig) GetDbContainerName(t string) string {
 
 // GetPortalImageName name of the image used to run the portal
 func (c *LPNConfig) GetPortalImageName(t string) string {
-	return c.Images.Names.Portal[t]
+	return c.Images.Portal[t].Image
+}
+
+// GetPortalImageTag name of the image used to run the portal
+func (c *LPNConfig) GetPortalImageTag(t string) string {
+	return c.Images.Portal[t].Tag
 }
 
 // GetPortalContainerName name of the container for portal
@@ -99,9 +130,7 @@ func NewConfig(workspace string) *LPNConfig {
 			},
 		},
 		"images": map[string]interface{}{
-			"names": map[string]interface{}{
-				"portal": portalImages,
-			},
+			"portal": portalImages,
 		},
 	})
 	if err != nil {

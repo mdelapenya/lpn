@@ -6,6 +6,7 @@ import (
 
 	date "github.com/mdelapenya/lpn/date"
 	docker "github.com/mdelapenya/lpn/docker"
+	internal "github.com/mdelapenya/lpn/internal"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
 	"github.com/spf13/cobra"
@@ -51,7 +52,7 @@ var pullCE = &cobra.Command{
 	Use:   "ce",
 	Short: "Pulls a Liferay Portal CE Docker image from Official CE repository",
 	Long: `Pulls a Liferay Portal instance, obtained from the official CE repository.
-	If no image tag is passed to the command, the "` + liferay.CEDefaultTag + `" tag will be used.`,
+	If no image tag is passed to the command, the default tag (see configuration file) will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("pull ce requires zero or one argument representing the image tag to be pulled")
@@ -61,7 +62,7 @@ var pullCE = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToPull == "" {
-			tagToPull = liferay.CEDefaultTag
+			tagToPull = internal.LpnConfig.GetPortalImageTag("ce")
 		}
 
 		ce := liferay.CE{Tag: tagToPull}
@@ -74,7 +75,7 @@ var pullCommerce = &cobra.Command{
 	Use:   "commerce",
 	Short: "Pulls a Liferay Portal Docker image from Commerce Builds",
 	Long: `Pulls a Liferay Portal Docker image from the Commerce Builds repository".
-	If no image tag is passed to the command, the "` + liferay.CommerceDefaultTag + `" tag will be used.`,
+	If no image tag is passed to the command, the default tag (see configuration file) will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("pull commerce requires zero or one argument representing the image tag to be pulled")
@@ -84,7 +85,7 @@ var pullCommerce = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToPull == "" {
-			tagToPull = date.CurrentDate
+			tagToPull = internal.LpnConfig.GetPortalImageTag("commerce")
 		}
 
 		commerce := liferay.Commerce{Tag: tagToPull}
@@ -97,7 +98,7 @@ var pullDXP = &cobra.Command{
 	Use:   "dxp",
 	Short: "Pulls a Liferay DXP Docker image from Official DXP repository",
 	Long: `Pulls a Liferay DXP instance, obtained from the official DXP repository, including a 30-day activation key.
-	If no image tag is passed to the command, the "` + liferay.DXPDefaultTag + `" tag will be used.`,
+	If no image tag is passed to the command, the default tag (see configuration file) will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("pull ce requires zero or one argument representing the image tag to be pulled")
@@ -107,7 +108,7 @@ var pullDXP = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToPull == "" {
-			tagToPull = liferay.DXPDefaultTag
+			tagToPull = internal.LpnConfig.GetPortalImageTag("dxp")
 		}
 
 		dxp := liferay.DXP{Tag: tagToPull}

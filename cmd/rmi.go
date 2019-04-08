@@ -5,6 +5,7 @@ import (
 
 	date "github.com/mdelapenya/lpn/date"
 	docker "github.com/mdelapenya/lpn/docker"
+	internal "github.com/mdelapenya/lpn/internal"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
 	"github.com/spf13/cobra"
@@ -41,7 +42,7 @@ var rmiCECmd = &cobra.Command{
 	Long:  `Removes the Official Liferay Portal CE image from the Docker host.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToRemove == "" {
-			tagToRemove = liferay.CEDefaultTag
+			tagToRemove = internal.LpnConfig.GetPortalImageTag("ce")
 		}
 
 		ce := liferay.CE{Tag: tagToRemove}
@@ -71,7 +72,7 @@ var rmiDXPCmd = &cobra.Command{
 	Long:  `Removes the Official Liferay DXP image from the Docker host.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToRemove == "" {
-			tagToRemove = liferay.DXPDefaultTag
+			tagToRemove = internal.LpnConfig.GetPortalImageTag("dxp")
 		}
 
 		dxp := liferay.DXP{Tag: tagToRemove}
