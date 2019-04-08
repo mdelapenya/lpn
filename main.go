@@ -29,7 +29,7 @@ func checkWorkspace() {
 
 	internal.LpnWorkspace = w
 
-	internal.NewConfig(w)
+	internal.LpnConfig = internal.NewConfig(w)
 }
 
 func main() {
