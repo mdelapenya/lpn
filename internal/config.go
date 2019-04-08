@@ -27,7 +27,7 @@ var portalContainerNames = map[string]string{
 
 // LPNConfig tool configuration
 type LPNConfig struct {
-	Container ContainerConfig `mapstructure:"container"`
+	Container NamesConfig `mapstructure:"container"`
 }
 
 // GetDbContainerName name of the container for databases
@@ -40,13 +40,13 @@ func (c *LPNConfig) GetPortalContainerName(t string) string {
 	return c.Container.Names.Portal[t]
 }
 
-// ContainerConfig container configuration
-type ContainerConfig struct {
-	Names ContainerNameConfig `mapstructure:"names"`
+// NamesConfig container configuration
+type NamesConfig struct {
+	Names NameConfig `mapstructure:"names"`
 }
 
-// ContainerNameConfig container configuration
-type ContainerNameConfig struct {
+// NameConfig container configuration
+type NameConfig struct {
 	Db     map[string]string `mapstructure:"db"`
 	Portal map[string]string `mapstructure:"portal"`
 }
