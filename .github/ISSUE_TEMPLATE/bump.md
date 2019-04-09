@@ -8,6 +8,7 @@ assignees: mdelapenya
 
 ## Bump checklist
 - [ ] VERSION.txt updated with bumped version
+- [ ] Static files bundled into the Go binary (as shown in `./scripts/release.sh`)
 - [ ] Git commit including the bump
 - [ ] Git tag using version as tag name
 - [ ] Git tag pushed to upstream
