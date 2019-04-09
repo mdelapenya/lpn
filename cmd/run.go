@@ -37,13 +37,8 @@ func init() {
 		subcommand.Flags().IntVarP(&gogoPort, "gogoPort", "g", 11311, "Sets the GoGo Shell port of Liferay Portal's bundle.")
 		subcommand.Flags().StringVarP(&datastore, "datastore", "s", "hsql", "Creates a database service for the running instance. Supported values are [hsql|mysql|postgresql] (default HSQL)")
 		subcommand.Flags().StringVarP(&tagToRun, "tag", "t", "", "Sets the image tag to run")
+		subcommand.Flags().StringVarP(&memory, "memory", "m", "", "Sets the memory for the JVM memory configuration of Liferay Portal's bundle.")
 	}
-
-	runCECmd.Flags().StringVarP(&memory, "memory", "m", "-Xmx2048m", "Sets the memory for the JVM memory configuration of Liferay Portal's bundle.")
-	runCommerceCmd.Flags().StringVarP(&memory, "memory", "m", "-Xmx2048m", "Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.")
-	runDXPCmd.Flags().StringVarP(&memory, "memory", "m", "-Xmx2048m", "Sets the memory for the JVM memory configuration of Liferay Portal's bundle.")
-	runNightlyCmd.Flags().StringVarP(&memory, "memory", "m", "-Xmx2048m", "Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.")
-	runReleaseCmd.Flags().StringVarP(&memory, "memory", "m", "2048m", "Sets the memory for the Xmx and Xms JVM memory configuration of Liferay Portal's bundle.")
 }
 
 var runCmd = &cobra.Command{

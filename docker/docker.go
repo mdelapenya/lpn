@@ -475,18 +475,7 @@ func RunLiferayDockerImage(
 	}
 
 	if memory != "" {
-		jvmEnvVarName := ""
-
-		switch imageType := image.(type) {
-		case liferay.CE, liferay.Commerce, liferay.DXP, liferay.Nightly:
-			jvmEnvVarName = "LIFERAY_JVM_OPTS"
-		case liferay.Release:
-			jvmEnvVarName = "JVM_TUNING_MEMORY"
-		default:
-			log.Fatalln("Non supported type", imageType)
-		}
-
-		environmentVariables = append(environmentVariables, jvmEnvVarName+"="+memory)
+		environmentVariables = append(environmentVariables, "LIFERAY_JVM_OPTS="+memory)
 	}
 
 	PullDockerImage(image.GetFullyQualifiedName())
