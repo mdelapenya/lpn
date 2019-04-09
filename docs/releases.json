@@ -1,9 +1,34 @@
 [
     {
         "channel": "stable",
-        "version": "0.11.0",
+        "version": "0.12.0",
         "equinox": false,
         "latest": true,
+        "releaseDate": "2019-04-10 01:00",
+        "changelog": {
+            "enhacements": [
+                {
+                    "description": "All images now use same internal environment variable for JVM_OPTS."
+                },
+                {
+                    "description": "Move database constants to the configuration file."
+                }
+            ],
+            "fixes": [
+                {
+                    "description": "Update static assets related to previous version."
+                },
+                {
+                    "description": "Fix URL in 'update' command."
+                }
+            ]
+        }
+    },
+    {
+        "channel": "stable",
+        "version": "0.11.0",
+        "equinox": false,
+        "latest": false,
         "releaseDate": "2019-04-08 15:00",
         "changelog": {
             "enhacements": [
