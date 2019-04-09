@@ -6,12 +6,6 @@ import (
 	internal "github.com/mdelapenya/lpn/internal"
 )
 
-// PostgreSQLDefaultTag Default tag for PostgreSQL
-const PostgreSQLDefaultTag = "9.6-alpine"
-
-// PostgreSQLRepository Namespace for the official Docker releases for PostgreSQL
-const PostgreSQLRepository = "postgres"
-
 // PostgreSQL represents a PostgreSQL image
 type PostgreSQL struct {
 	LpnType string
@@ -64,13 +58,13 @@ func (p PostgreSQL) GetPort() int {
 
 // GetRepository returns the repository for PostgreSQL
 func (p PostgreSQL) GetRepository() string {
-	return PostgreSQLRepository
+	return internal.LpnConfig.GetDbImageName("postgres")
 }
 
 // GetTag returns the tag of the image
 func (p PostgreSQL) GetTag() string {
 	if p.Tag == "" {
-		return PostgreSQLDefaultTag
+		return internal.LpnConfig.GetDbImageTag("postgres")
 	}
 
 	return p.Tag

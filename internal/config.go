@@ -25,6 +25,16 @@ var portalContainerNames = map[string]string{
 	"release":  "lpn-release",
 }
 
+var dbImages = map[string]ImageConfig{
+	"mysql": {
+		Image: "mdelapenya/mysql-utf8",
+		Tag:   "5.7",
+	},
+	"postgres": {
+		Image: "postgres",
+		Tag:   "9.6-alpine",
+	},
+}
 var portalImages = map[string]ImageConfig{
 	"ce": {
 		Image: "liferay/portal",
@@ -56,6 +66,7 @@ type ImageConfig struct {
 
 // ImagesConfig image configuration
 type ImagesConfig struct {
+	Db     map[string]ImageConfig `mapstructure:"db"`
 	Portal map[string]ImageConfig `mapstructure:"portal"`
 }
 
@@ -68,6 +79,16 @@ type LPNConfig struct {
 // GetDbContainerName name of the container for databases
 func (c *LPNConfig) GetDbContainerName(t string) string {
 	return c.Container.Names.Db[t]
+}
+
+// GetDbImageName name of the image used to run the portal
+func (c *LPNConfig) GetDbImageName(t string) string {
+	return c.Images.Db[t].Image
+}
+
+// GetDbImageTag name of the image used to run the portal
+func (c *LPNConfig) GetDbImageTag(t string) string {
+	return c.Images.Db[t].Tag
 }
 
 // GetPortalImageName name of the image used to run the portal
@@ -130,6 +151,7 @@ func NewConfig(workspace string) *LPNConfig {
 			},
 		},
 		"images": map[string]interface{}{
+			"db":     dbImages,
 			"portal": portalImages,
 		},
 	})

@@ -2,12 +2,6 @@ package docker
 
 import internal "github.com/mdelapenya/lpn/internal"
 
-// MySQLDefaultTag Default tag for MySQL
-const MySQLDefaultTag = "5.7"
-
-// MySQLRepository Namespace for the official Docker releases for MySQL
-const MySQLRepository = "mdelapenya/mysql-utf8"
-
 // MySQL represents a MySQL image
 type MySQL struct {
 	LpnType string
@@ -60,13 +54,13 @@ func (m MySQL) GetPort() int {
 
 // GetRepository returns the repository for MySQL
 func (m MySQL) GetRepository() string {
-	return MySQLRepository
+	return internal.LpnConfig.GetDbImageName("mysql")
 }
 
 // GetTag returns the tag of the image
 func (m MySQL) GetTag() string {
 	if m.Tag == "" {
-		return MySQLDefaultTag
+		return internal.LpnConfig.GetDbImageTag("mysql")
 	}
 
 	return m.Tag
