@@ -1,10 +1,10 @@
-  ---
+---
 about: 'Provide all the information about how to proceed with the bump of a version'
 name: 'Bump version'
 title: 'Bump [major|minor|patch] version'
 labels: bump
 assignees: mdelapenya
-  ---
+---
 
 ## Bump checklist
 - [ ] VERSION.txt updated with bumped version
