@@ -68,7 +68,7 @@ func (fi bindataFileInfo) Sys() interface{} {
 	return nil
 }
 
-var _versionTxt = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x32\xd0\x33\x34\xd4\x33\x00\x04\x00\x00\xff\xff\x88\x1e\xa9\x8b\x06\x00\x00\x00")
+var _versionTxt = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x32\xd0\x33\x34\xd2\x33\x00\x04\x00\x00\xff\xff\xd1\xa0\xef\x89\x06\x00\x00\x00")
 
 func versionTxtBytes() ([]byte, error) {
 	return bindataRead(
@@ -83,7 +83,7 @@ func versionTxt() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "VERSION.txt", size: 6, mode: os.FileMode(420), modTime: time.Unix(1554588155, 0)}
+	info := bindataFileInfo{name: "VERSION.txt", size: 6, mode: os.FileMode(420), modTime: time.Unix(1554848916, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
