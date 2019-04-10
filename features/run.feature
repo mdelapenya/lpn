@@ -57,10 +57,10 @@ Feature: Run command
 
   Scenario Outline: Run command with memory enabled for all images
     Given I run `lpn run <type> -t <tag> -m "-Xms1024m -Xmx1024m"`
-    When I run `docker exec lpn-<type> ps aux | grep -e tomcat | xargs`
+    When I run `docker exec lpn-<type> env`
     Then the output should contain:
     """
-    -Xms1024m -Xmx1024m
+    <variable>=-Xms1024m -Xmx1024m
     """
     And I run `lpn rm <type>`
 
