@@ -6,7 +6,7 @@ services:
   - docker
 
 go:
-  - 1.9.x
+  - 1.12.x
 
 env:
   - LPN_COMMAND=checkContainer
@@ -34,7 +34,7 @@ install:
     if [ "$LPN_COMMAND" != "license" ] && [ "$LPN_COMMAND" != "tags" ] && [ "$LPN_COMMAND" != "version" ]; then
       ./scripts/pull-images.sh
     fi
-  - go build -o ./bin/lpn
+  - GO111MODULE=on go build -o ./bin/lpn
 
 script:
   - |
