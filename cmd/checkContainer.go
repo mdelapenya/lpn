@@ -1,11 +1,10 @@
 package cmd
 
 import (
-	"log"
-
 	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -98,8 +97,13 @@ func checkDockerContainerExists(image liferay.Image) {
 	exists := docker.CheckDockerContainerExists(image.GetContainerName())
 
 	if !exists {
-		log.Fatalln("The container [" + image.GetContainerName() + "] does NOT exist in the system.")
+		log.WithFields(log.Fields{
+			"container": image.GetContainerName(),
+		}).Warn("Container does NOT exist in the system.")
+		return
 	}
 
-	log.Println("The container [" + image.GetContainerName() + "] DOES exist in the system.")
+	log.WithFields(log.Fields{
+		"container": image.GetContainerName(),
+	}).Info("Container DOES exist in the system.")
 }

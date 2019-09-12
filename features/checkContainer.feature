@@ -7,7 +7,11 @@ Feature: CheckContainer command
     When I run `lpn checkContainer <type>`
     Then the output should contain:
     """
-    The container [lpn-<type>] DOES exist in the system
+    Container DOES exist in the system
+    """
+    And the output should contain:
+    """
+    container=lpn-<type>
     """
     And the exit status should be 0
     And I run `lpn rm <type>`
@@ -22,7 +26,11 @@ Feature: CheckContainer command
     When I run `lpn checkContainer <type>`
     Then the output should contain:
     """
-    The container [lpn-<type>] DOES exist in the system
+    Container DOES exist in the system
+    """
+    And the output should contain:
+    """
+    container=lpn-<type>
     """
     And the exit status should be 0
     And I run `lpn rm <type>`
@@ -37,9 +45,13 @@ Feature: CheckContainer command
     Given I run `lpn checkContainer <type>`
     Then the output should contain:
     """
-    The container [lpn-<type>] does NOT exist in the system
+    Container does NOT exist in the system
     """
-    And the exit status should be 1
+    And the output should contain:
+    """
+    container=lpn-<type>
+    """ 
+    And the exit status should be 0
 
   Examples:
     | type    |
