@@ -296,13 +296,15 @@ func PullDockerImage(dockerImage string) {
 
 	dockerClient := getDockerClient()
 
+	canonicalImage := "docker.io/" + dockerImage
+
 	out, err := dockerClient.ImagePull(
-		context.Background(), dockerImage, types.ImagePullOptions{})
+		context.Background(), canonicalImage, types.ImagePullOptions{})
 
 	if err == nil {
 		parseImagePull(out)
 	} else {
-		log.Fatalf("The image [" + dockerImage + "] could not be pulled")
+		log.Fatalf("The image [" + canonicalImage + "] could not be pulled")
 	}
 }
 
