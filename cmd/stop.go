@@ -1,11 +1,10 @@
 package cmd
 
 import (
-	"log"
-
 	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -90,6 +89,8 @@ var stopReleaseCmd = &cobra.Command{
 func stopDockerContainer(image liferay.Image) {
 	err := docker.StopDockerContainer(image)
 	if err != nil {
-		log.Fatalln("Impossible to stop the container ["+image.GetContainerName()+"]", err)
+		log.WithFields(log.Fields{
+			"container": image.GetContainerName(),
+		}).Warn("Impossible to stop the container")
 	}
 }

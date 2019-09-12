@@ -7,7 +7,11 @@ Feature: Stop command
     When I run `lpn stop <type>`
     Then the output should contain:
     """
-    [lpn-<type>] stopped
+    Container has been stopped
+    """
+    And the output should contain:
+    """
+    container=lpn-<type>
     """
     And the exit status should be 0
     And I run `lpn rm <type>`
@@ -25,11 +29,15 @@ Feature: Stop command
     When I run `lpn stop <type>`
     Then the output should contain:
     """
-    [lpn-<type>] stopped
+    Container has been stopped
     """
     And the output should contain:
     """
-    [db-<type>-mysql] stopped
+    container=lpn-<type>
+    """
+    And the output should contain:
+    """
+    container=db-<type>-mysql
     """
     And the exit status should be 0
     And I run `lpn rm <type>`
@@ -46,9 +54,13 @@ Feature: Stop command
     Given I run `lpn stop <type>`
     Then the output should contain:
     """
-    Impossible to stop the container [lpn-<type>]
+    Impossible to stop the container
     """
-    And the exit status should be 1
+    And the output should contain:
+    """
+    container=lpn-<type>
+    """
+    And the exit status should be 0
   
   Examples:
     | type    |
