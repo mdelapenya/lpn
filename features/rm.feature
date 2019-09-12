@@ -7,7 +7,11 @@ Feature: Rm command
     When I run `lpn rm <type>`
     Then the output should contain:
     """
-    [lpn-<type>] removed
+    Container has been removed
+    """
+    And the output should contain:
+    """
+    container=lpn-<type>
     """
     And the exit status should be 0
 
@@ -24,11 +28,15 @@ Feature: Rm command
     When I run `lpn rm <type>`
     Then the output should contain:
     """
-    [lpn-<type>] removed
+    Container has been removed
     """
-    Then the output should contain:
+    And the output should contain:
     """
-    [db-<type>-mysql] removed
+    container=lpn-<type>
+    """
+    And the output should contain:
+    """
+    container=db-<type>-mysql
     """
     And the exit status should be 0
 
@@ -44,9 +52,13 @@ Feature: Rm command
     Given I run `lpn rm <type>`
     Then the output should contain:
     """
-    Impossible to remove the container [lpn-<type>]
+    Impossible to remove the container
     """
-    And the exit status should be 1
+    And the output should contain:
+    """
+    container=lpn-<type>
+    """
+    And the exit status should be 0
 
   Examples:
     | type    |
