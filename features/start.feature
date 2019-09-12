@@ -7,7 +7,11 @@ Feature: Start command
     And I run `lpn start <type>`
     Then the output should contain:
     """
-    [lpn-<type>] started
+    Container has been started
+    """
+    And the output should contain:
+    """
+    container=lpn-<type>
     """
     And the exit status should be 0
     And I run `lpn rm <type>`
@@ -26,7 +30,11 @@ Feature: Start command
     And I run `lpn start <type>`
     Then the output should contain:
     """
-    [lpn-<type>] started
+    Container has been started
+    """
+    And the output should contain:
+    """
+    container=lpn-<type>
     """
     And the exit status should be 0
     And I run `lpn rm <type>`
@@ -45,11 +53,19 @@ Feature: Start command
     And I run `lpn start <type>`
     Then the output should contain:
     """
-    [lpn-<type>] started
+    Container has been started
     """
     And the output should contain:
     """
-    [db-<type>-mysql] started
+    container=lpn-<type>
+    """
+    And the output should contain:
+    """
+    Database container has been started
+    """
+    And the output should contain:
+    """
+    container=db-<type>-mysql
     """
     And the exit status should be 0
     And I run `lpn rm <type>`
@@ -66,13 +82,13 @@ Feature: Start command
     Given I run `lpn start <type>`
     Then the output should contain:
     """
-    Impossible to start the container [lpn-<type>]
+    Impossible to start the container
     """
     And the output should contain:
     """
-    No such container: lpn-<type>
+    container=lpn-<type>
     """
-    And the exit status should be 1
+    And the exit status should be 0
   
   Examples:
     | type    |
