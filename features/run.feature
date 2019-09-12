@@ -6,7 +6,11 @@ Feature: Run command
     Given I run `lpn run <type> -t <tag>`
     Then the output should contain:
     """
-    The container [lpn-<type>] has been run successfully
+    The container has been run successfully
+    """
+    And the output should contain:
+    """
+    container=lpn-<type>
     """
     And the exit status should be 0
     And I run `lpn rm <type>`
@@ -41,9 +45,13 @@ Feature: Run command
     When I run `lpn run <type> -t <tag> -p 9999`
     Then the output should contain:
     """
-    Impossible to run the container [lpn-<type>]
+    Impossible to run the container
     """
-    And the exit status should be 1
+    And the output should contain:
+    """
+    container=lpn-<type>
+    """
+    And the exit status should be 0
     And I run `lpn rm <type>`
     And I run `docker rm -fv nginx-<type>`
 

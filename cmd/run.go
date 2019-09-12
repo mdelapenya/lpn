@@ -2,13 +2,13 @@ package cmd
 
 import (
 	"errors"
-	"log"
 
 	date "github.com/mdelapenya/lpn/date"
 	docker "github.com/mdelapenya/lpn/docker"
 	internal "github.com/mdelapenya/lpn/internal"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -189,18 +189,42 @@ func runLiferayDockerImage(
 			image, database, httpPort, gogoPort, enableDebug, debugPort, memory)
 
 		if err != nil {
-			log.Fatalln("Impossible to run the stack for [" + image.GetContainerName() + "]")
+			log.WithFields(log.Fields{
+				"container": image.GetContainerName(),
+				"error":     err,
+			}).Warn("Impossible to run the stack")
 		}
 
-		log.Println("The stack for [" + image.GetContainerName() + "] has been run successfully")
+		log.WithFields(log.Fields{
+			"container": image.GetContainerName(),
+			"image":     image.GetFullyQualifiedName(),
+			"datastore": datastore,
+			"httpPort":  httpPort,
+			"gogoPort":  gogoPort,
+			"debug":     enableDebug,
+			"debugPort": debugPort,
+			"memory":    memory,
+		}).Info("The stack has been run successfully")
 	} else {
 		err := docker.RunLiferayDockerImage(
 			image, nil, httpPort, gogoPort, enableDebug, debugPort, memory)
 
 		if err != nil {
-			log.Fatalln("Impossible to run the container [" + image.GetContainerName() + "]")
+			log.WithFields(log.Fields{
+				"container": image.GetContainerName(),
+				"error":     err,
+			}).Warn("Impossible to run the container")
 		}
 
-		log.Println("The container [" + image.GetContainerName() + "] has been run successfully")
+		log.WithFields(log.Fields{
+			"container": image.GetContainerName(),
+			"image":     image.GetFullyQualifiedName(),
+			"datastore": datastore,
+			"httpPort":  httpPort,
+			"gogoPort":  gogoPort,
+			"debug":     enableDebug,
+			"debugPort": debugPort,
+			"memory":    memory,
+		}).Info("The container has been run successfully")
 	}
 }
