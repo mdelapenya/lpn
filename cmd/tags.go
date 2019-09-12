@@ -189,7 +189,7 @@ func readTags(image liferay.Image, count int, page int) {
 		data = append(data, []string{tag, convertToHuman(size)})
 	}
 
-	if len(data[0]) > 0 {
+	if len(data) > 0 {
 		totalPages := int(math.Ceil(float64(tagsResponse.Count) / float64(count)))
 		if count > tagsResponse.Count {
 			count = tagsResponse.Count
@@ -199,6 +199,6 @@ func readTags(image liferay.Image, count int, page int) {
 
 		printTagsAsTable(data, page, totalPages)
 	} else {
-		log.Printf("There are no available tags for the image")
+		log.Printf("There are no available tags for that pagination. Please use --page and --size arguments to filter properly")
 	}
 }
