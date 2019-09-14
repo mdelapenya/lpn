@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"math"
 	"net/http"
 	"os"
@@ -12,6 +11,7 @@ import (
 	liferay "github.com/mdelapenya/lpn/liferay"
 	tablewriter "github.com/olekukonko/tablewriter"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -159,24 +159,33 @@ func readTags(image liferay.Image, count int, page int) {
 	// Request the HTML page.
 	res, err := http.Get(tagsPage)
 	if err != nil {
-		log.Fatal(err)
+		log.WithFields(log.Fields{
+			"error": err,
+		}).Fatal("Error getting response from the server")
 	}
 	defer res.Body.Close()
 
 	if res.StatusCode == 404 {
-		log.Printf("There are no available tags for that pagination. Please use --page and --size arguments to filter properly")
+		log.WithFields(log.Fields{
+			"statusCode": res.StatusCode,
+		}).Warn("There are no available tags for that pagination. Please use --page and --size arguments to filter properly")
 		return
 	}
 
 	if res.StatusCode != 200 {
-		log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
+		log.WithFields(log.Fields{
+			"status":     res.Status,
+			"statusCode": res.StatusCode,
+		}).Fatal("Error getting response from the server")
 	}
 
 	// Load the JSON document
 	tagsResponse := new(tagsResponse)
 	err = json.NewDecoder(res.Body).Decode(tagsResponse)
 	if err != nil {
-		log.Fatal(err)
+		log.WithFields(log.Fields{
+			"err": err,
+		}).Fatal("Error decoding response from the server")
 	}
 
 	data := [][]string{}
@@ -195,10 +204,15 @@ func readTags(image liferay.Image, count int, page int) {
 			count = tagsResponse.Count
 		}
 
-		log.Printf("There are %d images, showing %d elements in page %d of %d", tagsResponse.Count, count, page, totalPages)
+		log.WithFields(log.Fields{
+			"images":      tagsResponse.Count,
+			"elements":    count,
+			"currentPage": page,
+			"totalPages":  totalPages,
+		}).Infof("There are %d images, showing %d elements in page %d of %d", tagsResponse.Count, count, page, totalPages)
 
 		printTagsAsTable(data, page, totalPages)
 	} else {
-		log.Printf("There are no available tags for that pagination. Please use --page and --size arguments to filter properly")
+		log.Info("There are no available tags for that pagination. Please use --page and --size arguments to filter properly")
 	}
 }

@@ -8,6 +8,22 @@ Feature: Tags command
     """
     elements in page 1 of
     """
+    And the output should contain:
+    """
+    currentPage=1
+    """
+    And the output should contain:
+    """
+    elements=
+    """
+    And the output should contain:
+    """
+    images=
+    """
+    And the output should contain:
+    """
+    totalPages=
+    """
     And the exit status should be 0
 
   Examples:
@@ -23,6 +39,10 @@ Feature: Tags command
     Then the output should contain:
     """
     elements in page 2 of
+    """
+    And the output should contain:
+    """
+    currentPage=2
     """
     And the exit status should be 0
 
