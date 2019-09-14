@@ -28,7 +28,7 @@ var portalContainerNames = map[string]string{
 
 var dbImages = map[string]ImageConfig{
 	"mysql": {
-		Image: "mdelapenya/mysql-utf8",
+		Image: "docker.io/mdelapenya/mysql-utf8",
 		Tag:   "5.7",
 	},
 	"postgres": {
