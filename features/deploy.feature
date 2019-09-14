@@ -191,10 +191,11 @@ Feature: Deploy command
   Scenario Outline: Deploy a directory skipping subdirectories when container does not exist
     Given an empty directory named "modules/skip1"
     And an empty directory named "modules/skip2"
-    When I run `lpn deploy <type> -d modules`
+    When I run `lpn rm <type>`
+    And I run `lpn deploy <type> -d modules`
     Then the output should contain:
     """
-    error="We could not find the container among the running containers"
+    We could not find the container among the running containers
     """
     And the output should contain:
     """
@@ -208,5 +209,4 @@ Feature: Deploy command
     | commerce |
     | dxp      |
     | nightly  |
-    | release  |
     | release  |

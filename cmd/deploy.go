@@ -240,8 +240,7 @@ func getTag(image liferay.Image) string {
 	if err != nil {
 		log.WithFields(log.Fields{
 			"container": image.GetContainerName(),
-			"error":     err,
-		}).Fatal("The container is NOT running")
+		}).Fatal(err.Error())
 	}
 
 	index := strings.LastIndex(imageName, ":")
