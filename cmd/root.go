@@ -1,9 +1,7 @@
 package cmd
 
 import (
-	"fmt"
-	"os"
-
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -20,15 +18,14 @@ var rootCmd = &cobra.Command{
 // Execute execute root command
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		log.WithError(err).Fatal("Error executing lpn. Aborting")
 	}
 }
 
 // SubCommandInfo Shows a message for subcommands
 func SubCommandInfo() {
 	// delegate to subcommands
-	fmt.Println(
+	log.Warn(
 		"Please run this command adding 'ce', 'commerce', 'dxp', 'nightly' or 'release' " +
 			"subcommands.")
 }
