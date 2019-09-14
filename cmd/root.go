@@ -18,7 +18,7 @@ var rootCmd = &cobra.Command{
 // Execute execute root command
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		log.WithError(err).Fatal("Error executing lpn. Aborting")
+		log.Fatal(err)
 	}
 }
 
