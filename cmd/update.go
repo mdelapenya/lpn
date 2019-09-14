@@ -1,9 +1,12 @@
 package cmd
 
 import (
-	"fmt"
+	"os"
+
+	v "github.com/mdelapenya/lpn/assets/version"
 
 	"github.com/equinox-io/equinox"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -26,9 +29,14 @@ var updateCmd = &cobra.Command{
 	Short: "Updates lpn to the latest version",
 	Long:  `Updates lpn (Liferay Portal Nook) to the latest version on stable channel`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(
-			"Updates from Equinox are disabled. Please go to 'hhttps://mdelapenya.github.io/lpn/releases.html'" +
+		current, _ := v.Asset("VERSION.txt")
+
+		log.WithFields(log.Fields{
+			"currentVersion": string(current),
+		}).Warn(
+			"Updates from Equinox are disabled. Please go to 'https://mdelapenya.github.io/lpn/releases.html'" +
 				" to download your release")
+		os.Exit(1)
 	},
 }
 
@@ -42,10 +50,12 @@ func equinoxUpdate() error {
 	resp, err := equinox.Check(appID, opts)
 	switch {
 	case err == equinox.NotAvailableErr:
-		fmt.Println("No update available, already at the latest version!")
+		log.Debug("No update available, already at the latest version!")
 		return nil
 	case err != nil:
-		fmt.Println("Update failed:", err)
+		log.WithFields(log.Fields{
+			"error": err,
+		}).Error("Update failed")
 		return err
 	}
 
@@ -55,6 +65,11 @@ func equinoxUpdate() error {
 		return err
 	}
 
-	fmt.Printf("Updated to new version: %s!\n", resp.ReleaseVersion)
+	current, err := v.Asset("VERSION.txt")
+
+	log.WithFields(log.Fields{
+		"currentVersion": string(current),
+		"newVersion":     resp.ReleaseVersion,
+	}).Info("Updated to new version")
 	return nil
 }
