@@ -2,12 +2,16 @@ Feature: Rmi command
   As a newcomer to lpn
   I want to be able to remove the images used by the tool
 
-  Scenario Outline: Rm command when image exists
+  Scenario Outline: Rmi command when image exists
     Given I run `lpn pull <type> -t <tag>`
     When I run `lpn rmi <type> -t <tag>`
     Then the output should contain:
     """
-    [<image>:<tag>] was deleted.
+    Image has been removed
+    """
+    And the output should contain:
+    """
+    image="docker.io/<image>:<tag>"
     """
     And the exit status should be 0
 
@@ -19,13 +23,17 @@ Feature: Rmi command
     | nightly | liferay/portal-snapshot | master |
     | release | mdelapenya/liferay-portal | latest |
 
-  Scenario Outline: Rm command when image does not exist
+  Scenario Outline: Rmi command when image does not exist
     Given I run `lpn rmi <type> -t <tag>`
     Then the output should contain:
     """
-    Impossible to remove the image [<image>:<tag>]
+    Impossible to remove the image
     """
-    And the exit status should be 1
+    And the output should contain:
+    """
+    image="docker.io/<image>:<tag>"
+    """
+    And the exit status should be 0
 
   Examples:
     | type    | image | tag |

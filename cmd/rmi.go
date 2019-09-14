@@ -1,13 +1,12 @@
 package cmd
 
 import (
-	"log"
-
 	date "github.com/mdelapenya/lpn/date"
 	docker "github.com/mdelapenya/lpn/docker"
 	internal "github.com/mdelapenya/lpn/internal"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -115,6 +114,9 @@ var rmiReleaseCmd = &cobra.Command{
 func removeDockerImage(image liferay.Image) {
 	err := docker.RemoveDockerImage(image.GetFullyQualifiedName())
 	if err != nil {
-		log.Fatalln("Impossible to remove the image [" + image.GetFullyQualifiedName() + "]")
+		log.WithFields(log.Fields{
+			"image": image.GetFullyQualifiedName(),
+			"error": err,
+		}).Warn("Impossible to remove the image")
 	}
 }
