@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	license "github.com/mdelapenya/lpn/assets/license"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/spf13/cobra"
 )
@@ -19,7 +20,10 @@ var licenseCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		licenseFile, err := license.Asset("LICENSE.txt")
 		if err != nil {
-			fmt.Println(err.Error())
+			log.WithFields(log.Fields{
+				"error":   err,
+				"command": cmd.Use,
+			}).Error("Error executing Command")
 			return
 		}
 

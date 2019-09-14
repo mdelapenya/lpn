@@ -11,15 +11,15 @@ Feature: Version command
     """
     And the output should contain:
     """
-    Client version:
+    dockerClient=
     """
     And the output should contain:
     """
-    Server version:
+    dockerServer=
     """
     And the output should contain:
     """
-    Go version:
+    golang=
     """
     And the output should contain:
     """
