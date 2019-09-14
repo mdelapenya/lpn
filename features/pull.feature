@@ -6,12 +6,20 @@ Feature: Pull command
     Given I run `lpn pull <type> -t <tag>`
     Then the output should contain:
     """
-   Pulling [<repository>:<tag>]
+    Image is up to date for <repository>:<tag>
+    """
+    And the output should contain:
+    """
+    id=<tag>
     """
     And I run `lpn checkImage <type> -t <tag>`
     And the output should contain:
     """
-    The image [<repository>:<tag>] has been pulled from Docker Hub
+    Image has been pulled from Docker Hub
+    """
+    And the output should contain:
+    """
+    image="docker.io/<repository>:<tag>"
     """
     And the exit status should be 0
 
@@ -27,7 +35,11 @@ Feature: Pull command
     Given I run `lpn pull <type> -t foo`
     Then the output should contain:
     """
-    The image [<image>] could not be pulled
+    The image could not be pulled
+    """
+    And the output should contain:
+    """
+    dockerImage="docker.io/<image>"
     """
     And the exit status should be 1
 
@@ -44,12 +56,20 @@ Feature: Pull command
     When I run `lpn pull <type> -t <tag> -f`
     Then the output should contain:
     """
-    [<repository>:<tag>] was deleted.
+    Image has been removed
+    """
+    And the output should contain:
+    """
+    image="docker.io/<repository>:<tag>"
     """
     And I run `lpn checkImage <type> -t <tag>`
     And the output should contain:
     """
-    The image [<repository>:<tag>] has been pulled from Docker Hub
+    Image has been pulled from Docker Hub
+    """
+    And the output should contain:
+    """
+    image="docker.io/<repository>:<tag>"
     """
     And the exit status should be 0
 
@@ -66,12 +86,11 @@ Feature: Pull command
     When I run `lpn pull <type> -t <tag> -f`
     Then the output should contain:
     """
-    The image [<repository>:<tag>] was not found in the local cache. Skipping removal
+    The image was not found in the local cache. Skipping removal
     """
-    And I run `lpn checkImage <type> -t <tag>`
     And the output should contain:
     """
-    The image [<repository>:<tag>] has been pulled from Docker Hub
+    image="docker.io/<repository>:<tag>"
     """
     And the exit status should be 0
 
