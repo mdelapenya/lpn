@@ -7,7 +7,11 @@ Feature: CheckImage command
     When I run `lpn checkImage <type> -t <tag>`
     Then the output should contain:
     """
-    The image [<image>:<tag>] has been pulled from Docker Hub
+    Image has been pulled from Docker Hub
+    """
+    And the output should contain:
+    """
+    image="docker.io/<image>:<tag>"
     """
     And the exit status should be 0
 
@@ -21,7 +25,11 @@ Feature: CheckImage command
     When I run `lpn checkImage <type> -t <tag>`
     Then the output should contain:
     """
-    The image [<image>:<tag>] has been pulled from Docker Hub
+    Image has been pulled from Docker Hub
+    """
+    And the output should contain:
+    """
+    image="docker.io/<image>:<tag>"
     """
     And the exit status should be 0
 
@@ -35,9 +43,13 @@ Feature: CheckImage command
     Given I run `lpn checkImage <type> -t foo`
     Then the output should contain:
     """
-    The image [<image>] has NOT been pulled from Docker Hub
+    Image has NOT been pulled from Docker Hub
     """
-    And the exit status should be 1
+    And the output should contain:
+    """
+    image="docker.io/<image>"
+    """
+    And the exit status should be 0
   
   Examples:
     | type    | image |
