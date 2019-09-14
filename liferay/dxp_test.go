@@ -3,8 +3,13 @@ package liferay
 import (
 	"testing"
 
+	internal "github.com/mdelapenya/lpn/internal"
 	"github.com/stretchr/testify/assert"
 )
+
+func init() {
+	internal.CheckWorkspace()
+}
 
 func TestDeployFolderDXP(t *testing.T) {
 	dxp := DXP{}
@@ -35,7 +40,7 @@ func TestGetFullyQualifiedNameDXP(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("liferay/dxp:foo", dxp.GetFullyQualifiedName())
+	assert.Equal("docker.io/liferay/dxp:foo", dxp.GetFullyQualifiedName())
 }
 
 func TestGetLiferayHomeDXP(t *testing.T) {

@@ -24,7 +24,7 @@ func (d DXP) GetDockerHubTagsURL() string {
 
 // GetFullyQualifiedName returns the fully qualified name of the image
 func (d DXP) GetFullyQualifiedName() string {
-	return d.GetRepository() + ":" + d.GetTag()
+	return "docker.io/" + d.GetRepository() + ":" + d.GetTag()
 }
 
 // GetLiferayHome returns the Liferay home for DXP

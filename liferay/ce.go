@@ -24,7 +24,7 @@ func (c CE) GetDockerHubTagsURL() string {
 
 // GetFullyQualifiedName returns the fully qualified name of the image
 func (c CE) GetFullyQualifiedName() string {
-	return c.GetRepository() + ":" + c.GetTag()
+	return "docker.io/" + c.GetRepository() + ":" + c.GetTag()
 }
 
 // GetLiferayHome returns the Liferay home for CE

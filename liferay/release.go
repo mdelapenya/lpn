@@ -24,7 +24,7 @@ func (r Release) GetDockerHubTagsURL() string {
 
 // GetFullyQualifiedName returns the fully qualified name of the image
 func (r Release) GetFullyQualifiedName() string {
-	return r.GetRepository() + ":" + r.GetTag()
+	return "docker.io/" + r.GetRepository() + ":" + r.GetTag()
 }
 
 // GetLiferayHome returns the Liferay home for releases

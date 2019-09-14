@@ -3,8 +3,13 @@ package liferay
 import (
 	"testing"
 
+	internal "github.com/mdelapenya/lpn/internal"
 	"github.com/stretchr/testify/assert"
 )
+
+func init() {
+	internal.CheckWorkspace()
+}
 
 func TestDeployFolderNightly(t *testing.T) {
 	nightly := Nightly{}
@@ -35,7 +40,7 @@ func TestGetFullyQualifiedNameNightly(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("liferay/portal-snapshot:foo", nightly.GetFullyQualifiedName())
+	assert.Equal("docker.io/liferay/portal-snapshot:foo", nightly.GetFullyQualifiedName())
 }
 
 func TestGetLiferayHomeNightly(t *testing.T) {

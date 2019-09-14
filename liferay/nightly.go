@@ -24,7 +24,7 @@ func (n Nightly) GetDockerHubTagsURL() string {
 
 // GetFullyQualifiedName returns the fully qualified name of the image
 func (n Nightly) GetFullyQualifiedName() string {
-	return n.GetRepository() + ":" + n.GetTag()
+	return "docker.io/" + n.GetRepository() + ":" + n.GetTag()
 }
 
 // GetLiferayHome returns the Liferay home for nightly builds

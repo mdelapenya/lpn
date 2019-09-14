@@ -3,8 +3,13 @@ package liferay
 import (
 	"testing"
 
+	internal "github.com/mdelapenya/lpn/internal"
 	"github.com/stretchr/testify/assert"
 )
+
+func init() {
+	internal.CheckWorkspace()
+}
 
 func TestDeployFolderRelease(t *testing.T) {
 	release := Release{}
@@ -35,7 +40,7 @@ func TestGetFullyQualifiedNameRelease(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("mdelapenya/liferay-portal:foo", release.GetFullyQualifiedName())
+	assert.Equal("docker.io/mdelapenya/liferay-portal:foo", release.GetFullyQualifiedName())
 }
 
 func TestGetLiferayHomeReleaseLatest(t *testing.T) {
