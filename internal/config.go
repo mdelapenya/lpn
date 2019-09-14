@@ -1,10 +1,11 @@
 package internal
 
 import (
-	"log"
 	"os"
+	"os/user"
 	"path/filepath"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
@@ -117,8 +118,31 @@ type NameConfig struct {
 	Portal map[string]string `mapstructure:"portal"`
 }
 
+// CheckWorkspace creates this tool workspace under user's home, in a hidden directory named ".wt"
+func CheckWorkspace() {
+	usr, _ := user.Current()
+
+	w := filepath.Join(usr.HomeDir, ".lpn")
+
+	if _, err := os.Stat(w); os.IsNotExist(err) {
+		err = os.MkdirAll(w, 0755)
+		if err != nil {
+			log.Fatalf("Cannot create workdir for LPN at "+w, err)
+		}
+
+		log.Println("lpn workdir created at " + w)
+	}
+
+	LpnWorkspace = w
+
+	LpnConfig = NewConfig(w)
+}
+
 func initConfigFile(workspace string, configFile string, defaults map[string]interface{}) *os.File {
-	log.Printf("Creating %s with default values in %s.", configFile, workspace)
+	log.WithFields(log.Fields{
+		"configFile": configFile,
+		"workspace":  workspace,
+	}).Debug("Creating config file with default values")
 
 	configFilePath := filepath.Join(workspace, configFile)
 
