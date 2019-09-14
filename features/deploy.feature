@@ -9,7 +9,15 @@ Feature: Deploy command
     And I run `lpn deploy <type> -f modules/a.jar`
     Then the output should contain:
     """
-    [modules/a.jar] deployed successfully to <home>
+    File deployed successfully to deploy dir
+    """
+    And the output should contain:
+    """
+    file=modules/a.jar
+    """
+    And the output should contain:
+    """
+    deployDir=<home>
     """
     And I run `docker exec lpn-<type> ls -l <home> | grep "a.jar" | wc -l | xargs`
     And the output should contain:
@@ -27,7 +35,7 @@ Feature: Deploy command
     | release | latest | /liferay/deploy |
     | release | 7-ce-ga5-tomcat-hsql | /usr/local/liferay-ce-portal-7.0-ga5/deploy |
 
-  Scenario Outline: Deploy multiple file when container exists
+  Scenario Outline: Deploy multiple files when container exists
     Given an empty file named "modules/a.jar"
     And an empty file named "modules/b.jar"
     When I run `lpn run <type> -t <tag>`
@@ -35,11 +43,19 @@ Feature: Deploy command
     And I run `lpn deploy <type> -f modules/a.jar,modules/b.jar`
     Then the output should contain:
     """
-    [modules/a.jar] deployed successfully to <home>
+    File deployed successfully to deploy dir
     """
     And the output should contain:
     """
-    [modules/b.jar] deployed successfully to <home>
+    file=modules/a.jar
+    """
+    And the output should contain:
+    """
+    file=modules/b.jar
+    """
+    And the output should contain:
+    """
+    deployDir=<home>
     """
     And I run `docker exec lpn-<type> ls -l <home> | grep "a.jar" | wc -l | xargs`
     And the output should contain:
@@ -89,7 +105,11 @@ Feature: Deploy command
     And I run `lpn deploy <type> -d modules`
     Then the output should contain:
     """
-    [modules/a.jar] deployed successfully to <home>
+    File deployed successfully to deploy dir
+    """
+    And the output should contain:
+    """
+    file=modules/a.jar
     """
     And I run `docker exec lpn-<type> ls -l <home> | grep "a.jar" | wc -l | xargs`
     And the output should contain:
@@ -98,7 +118,7 @@ Feature: Deploy command
     """
     And the output should contain:
     """
-    [modules/b.jar] deployed successfully to <home>
+    file=modules/b.jar
     """
     And I run `docker exec lpn-<type> ls -l <home> | grep "b.jar" | wc -l | xargs`
     And the output should contain:
@@ -107,7 +127,7 @@ Feature: Deploy command
     """
     And the output should contain:
     """
-    [modules/c.jar] deployed successfully to <home>
+    file=modules/c.jar
     """
     And I run `docker exec lpn-<type> ls -l <home> | grep "c.jar" | wc -l | xargs`
     And the output should contain:
@@ -133,7 +153,11 @@ Feature: Deploy command
     And I run `lpn deploy <type> -d modules`
     Then the output should not contain:
     """
-    [modules/skip1] deployed successfully to <home>
+    File deployed successfully to deploy dir
+    """
+    And the output should noy contain:
+    """
+    file=modules/skip1
     """
     And I run `docker exec lpn-<type> ls -l <home> | grep "skip1" | wc -l | xargs`
     And the output should contain:
@@ -142,7 +166,11 @@ Feature: Deploy command
     """
     And the output should not contain:
     """
-    [modules/skip2] deployed successfully to <home>
+    File deployed successfully to deploy dir
+    """
+    And the output should not contain:
+    """
+    file=modules/skip2
     """
     And I run `docker exec lpn-<type> ls -l <home> | grep "skip2" | wc -l | xargs`
     And the output should contain:
@@ -166,8 +194,13 @@ Feature: Deploy command
     When I run `lpn deploy <type> -d modules`
     Then the output should contain:
     """
-    The container [lpn-<type>] is NOT running.
+    The container is NOT running
     """
+    And the output should contain:
+    """
+    container=lpn-<type>
+    """
+    And the exit status should be 1
     And I run `lpn rm <type>`
 
     Examples:

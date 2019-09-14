@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"io/ioutil"
-	"log"
 	"os"
 	"path"
 	"strings"
@@ -11,6 +10,7 @@ import (
 	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -131,7 +131,11 @@ var deployRelease = &cobra.Command{
 func deployDirectory(image liferay.Image, dirPath string) {
 	files, err := ioutil.ReadDir(dirPath)
 	if err != nil {
-		log.Fatalln("The directory is not valid", err)
+		log.WithFields(log.Fields{
+			"deployDir": dirPath,
+			"image":     image.GetFullyQualifiedName(),
+			"err":       err,
+		}).Fatal("The directory is not valid")
 	}
 
 	var onlyFilePaths []string
@@ -208,9 +212,15 @@ func deployPaths(image liferay.Image, paths []string) {
 	for i := 0; i < len(paths); i++ {
 		select {
 		case <-resultChannel:
-			log.Println("[" + paths[i] + "] deployed successfully to " + image.GetDeployFolder())
+			log.WithFields(log.Fields{
+				"file":      paths[i],
+				"deployDir": image.GetDeployFolder(),
+			}).Info("File deployed successfully to deploy dir")
 		case err := <-errorChannel:
-			log.Println("Impossible to deploy the file to the container", err)
+			log.WithFields(log.Fields{
+				"file":  paths[i],
+				"error": err,
+			}).Warn("Impossible to deploy the file to the container")
 		}
 	}
 }
@@ -228,7 +238,10 @@ func doDeploy(image liferay.Image) {
 func getTag(image liferay.Image) string {
 	imageName, err := docker.GetDockerImageFromRunningContainer(image)
 	if err != nil {
-		log.Fatalln("The container [" + image.GetContainerName() + "] is NOT running.")
+		log.WithFields(log.Fields{
+			"container": image.GetContainerName(),
+			"error":     err,
+		}).Fatal("The container is NOT running")
 	}
 
 	index := strings.LastIndex(imageName, ":")
@@ -238,6 +251,6 @@ func getTag(image liferay.Image) string {
 
 func validateArguments() {
 	if filePath == "" && directoryPath == "" {
-		log.Fatalln("Please pass a valid path to a file or to a directory as argument")
+		log.Fatal("Please pass a valid path to a file or to a directory as argument")
 	}
 }
