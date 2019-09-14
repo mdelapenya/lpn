@@ -267,7 +267,7 @@ func GetDockerImageFromRunningContainer(image liferay.Image) (string, error) {
 	log.WithFields(log.Fields{
 		"container": image.GetContainerName(),
 		"error":     err,
-	}).Error("We could not find the container among the running containers")
+	}).Debug("We could not find the container among the running containers")
 
 	return "", err
 }

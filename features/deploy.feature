@@ -194,7 +194,7 @@ Feature: Deploy command
     When I run `lpn deploy <type> -d modules`
     Then the output should contain:
     """
-    The container is NOT running
+    error="We could not find the container among the running containers"
     """
     And the output should contain:
     """
