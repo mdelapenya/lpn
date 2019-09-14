@@ -82,6 +82,28 @@ images:
 [...]
 ```
 
+### Tools logs
+The CLI uses [`Logrus`](https://github.com/sirupsen/logrus) as default Logger, so it's possible to configure the logger using [Logging levels](https://github.com/sirupsen/logrus#level-logging) to enrich the output of the tool.
+
+To set the log level, please set the environment variable `LPN_LOG_LEVEL` to one of the following values, being `INFO` the default one:
+
+```
+$ export LPN_LOG_LEVEL=TRACE
+$ export LPN_LOG_LEVEL=DEBUG
+$ export LPN_LOG_LEVEL=INFO
+$ export LPN_LOG_LEVEL=WARNING
+$ export LPN_LOG_LEVEL=ERROR
+$ export LPN_LOG_LEVEL=FATAL
+$ export LPN_LOG_LEVEL=PANIC
+```
+
+It's also possible to add current timestamp to each log line. To do so, please set the environment variable `LPN_LOG_INCLUDE_TIMESTAMP`, with "true" (case-insensitive).
+
+```
+$ export LPN_LOG_INCLUDE_TIMESTAMP=TRUE
+$ export LPN_LOG_INCLUDE_TIMESTAMP=true
+```
+
 ## What does lpn do?
 
 With `lpn` you'll be able to:

@@ -4,6 +4,7 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -118,8 +119,10 @@ type NameConfig struct {
 	Portal map[string]string `mapstructure:"portal"`
 }
 
-// CheckWorkspace creates this tool workspace under user's home, in a hidden directory named ".wt"
+// CheckWorkspace creates this tool workspace under user's home, in a hidden directory named ".lpn"
 func CheckWorkspace() {
+	configureLogger()
+
 	usr, _ := user.Current()
 
 	w := filepath.Join(usr.HomeDir, ".lpn")
@@ -136,6 +139,32 @@ func CheckWorkspace() {
 	LpnWorkspace = w
 
 	LpnConfig = NewConfig(w)
+}
+
+func configureLogger() {
+	includeTimestamp := os.Getenv("LPN_LOG_INCLUDE_TIMESTAMP")
+	fullTimestamp := (strings.ToUpper(includeTimestamp) == "TRUE")
+
+	log.SetFormatter(&log.TextFormatter{
+		FullTimestamp: fullTimestamp,
+	})
+
+	switch logLevel := os.Getenv("LPN_LOG_LEVEL"); logLevel {
+	case "TRACE":
+		log.SetLevel(log.TraceLevel)
+	case "DEBUG":
+		log.SetLevel(log.DebugLevel)
+	case "WARNING":
+		log.SetLevel(log.WarnLevel)
+	case "ERROR":
+		log.SetLevel(log.ErrorLevel)
+	case "FATAL":
+		log.SetLevel(log.FatalLevel)
+	case "PANIC":
+		log.SetLevel(log.PanicLevel)
+	default:
+		log.SetLevel(log.InfoLevel)
+	}
 }
 
 func initConfigFile(workspace string, configFile string, defaults map[string]interface{}) *os.File {
