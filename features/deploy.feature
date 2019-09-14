@@ -201,13 +201,12 @@ Feature: Deploy command
     container=lpn-<type>
     """
     And the exit status should be 1
-    And I run `lpn rm <type>`
 
     Examples:
-    | type | home |
-    | ce      | /opt/liferay/deploy |
-    | commerce | /opt/liferay/deploy |
-    | dxp     | /opt/liferay/deploy |
-    | nightly | /opt/liferay/deploy |
-    | release | /liferay/deploy |
-    | release | /usr/local/liferay-ce-portal-7.0-ga5/deploy |
+    | type     |
+    | ce       |
+    | commerce |
+    | dxp      |
+    | nightly  |
+    | release  |
+    | release  |
