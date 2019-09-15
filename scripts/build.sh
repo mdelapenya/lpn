@@ -5,7 +5,7 @@ function git_branch_name() {
 }
 
 readonly BRANCH="${TRAVIS_BRANCH:-$(git_branch_name)}"
-readonly GO_VERSION="1.9"
+readonly GO_VERSION="1.12"
 readonly GO_WORKSPACE="/usr/local/go/src/github.com/mdelapenya/lpn"
 readonly VERSION="$(cat ./VERSION.txt)"
 
