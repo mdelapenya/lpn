@@ -432,14 +432,20 @@ func RemoveDockerImage(dockerImageName string) error {
 		types.ImageRemoveOptions{
 			Force: true,
 		})
-
-	if err == nil {
+	if err != nil {
 		log.WithFields(log.Fields{
 			"image": dockerImageName,
-		}).Info("Image has been removed")
+			"error": err,
+		}).Warn("Impossible to remove the image")
+
+		return err
 	}
 
-	return err
+	log.WithFields(log.Fields{
+		"image": dockerImageName,
+	}).Info("Image has been removed")
+
+	return nil
 }
 
 // RunDatabaseDockerImage runs the image, setting the HTTP port and a volume for the data folder
