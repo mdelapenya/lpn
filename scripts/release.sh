@@ -90,7 +90,7 @@ function release() {
 
   echo ">>> Binaries for $VERSION built successfully."
 
-  result=$(git tag "$VERSION")
+  result=$(git tag "v$VERSION")
 
   if [[ "$result" != "" ]]; then
     echo "$result. Please bump a version editing VERSION.txt file. Existing tags are:"
