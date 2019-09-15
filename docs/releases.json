@@ -1,9 +1,42 @@
 [
     {
         "channel": "stable",
-        "version": "0.12.0",
+        "version": "0.13.0",
         "equinox": false,
         "latest": true,
+        "releaseDate": "2019-09-15 17:00",
+        "changelog": {
+            "enhacements": [
+                {
+                    "description": "Add prune command to remove containers and images."
+                },
+                {
+                    "description": "Add Sirupsen's logrus as default logger."
+                },
+                {
+                    "description": "Use Go modules and Go v1.12.x"
+                }
+            ],
+            "fixes": [
+                {
+                    "description": "Use canonical image when pulling Docker iamges."
+                },
+                {
+                    "description": "Fix tags command when no data is present."
+                }
+            ],
+            "breakings": [
+                {
+                    "description": "Use new tags for mdelapenya's Docker images."
+                }
+            ]
+        }
+    },
+    {
+        "channel": "stable",
+        "version": "0.12.0",
+        "equinox": false,
+        "latest": false,
         "releaseDate": "2019-04-10 01:00",
         "changelog": {
             "enhacements": [
