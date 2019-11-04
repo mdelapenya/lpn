@@ -13,7 +13,7 @@ env:
     - LPN_LOG_LEVEL=DEBUG
     - LPN_LOG_INCLUDE_TIMESTAMP=TRUE
   matrix:
-    - LPN_COMMAND=checkContainer
+    - LPN_COMMAND=checkc
     - LPN_COMMAND=checkImage
     - LPN_COMMAND=deploy
     - LPN_COMMAND=license

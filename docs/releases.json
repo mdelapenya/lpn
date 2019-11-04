@@ -10,6 +10,11 @@
                 {
                     "description": "Add verbose flag to all commands and subcommands, which activates logger on Debug level."
                 }
+            ],
+            "breakings": [
+                {
+                    "description": "Rename checkContainer to checkc."
+                }
             ]
         }
     },

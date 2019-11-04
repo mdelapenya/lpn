@@ -1,10 +1,10 @@
-Feature: CheckContainer command
+Feature: checkc command
   As a newcomer to lpn
   I want to be able to check if the "lpn" container for each type is running
 
-  Scenario Outline: CheckContainer command when latest container is running
+  Scenario Outline: checkc command when latest container is running
     Given I run `lpn run <type> -t <tag>`
-    When I run `lpn checkContainer <type>`
+    When I run `lpn checkc <type>`
     Then the output should contain:
     """
     Container DOES exist in the system
@@ -21,9 +21,9 @@ Feature: CheckContainer command
     | nightly | master |
     | release | latest |
 
-  Scenario Outline: CheckContainer command when container is running
+  Scenario Outline: checkc command when container is running
     Given I run `lpn run <type> -t <tag>`
-    When I run `lpn checkContainer <type>`
+    When I run `lpn checkc <type>`
     Then the output should contain:
     """
     Container DOES exist in the system
@@ -41,8 +41,8 @@ Feature: CheckContainer command
     | commerce | 1.1.1 |
     | dxp     | 7.0.10.8  |
 
-  Scenario Outline: CheckContainer command when container is not running
-    Given I run `lpn checkContainer <type>`
+  Scenario Outline: checkc command when container is not running
+    Given I run `lpn checkc <type>`
     Then the output should contain:
     """
     Container does NOT exist in the system

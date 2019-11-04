@@ -154,7 +154,7 @@ Usage:
   lpn [command]
 
 Available Commands:
-  checkContainer Checks if there is a container created by lpn (Liferay Portal Nook)
+  checkc Checks if there is a container created by lpn (Liferay Portal Nook)
   checkImage     Checks if the proper Liferay Portal image has been pulled by lpn (Liferay Portal Nook)
   deploy         Deploys a file to Liferay Portal's deploy folder in the container run by lpn
   help           Help about any command
@@ -323,11 +323,11 @@ This command does not accept any flag to configure its execution.
 
 Examples:
 ```shell
-$ lpn checkContainer ce
-$ lpn checkContainer dxp
-$ lpn checkContainer release
-$ lpn checkContainer nightly
-$ lpn checkContainer commerce
+$ lpn checkc ce
+$ lpn checkc dxp
+$ lpn checkc release
+$ lpn checkc nightly
+$ lpn checkc commerce
 ```
 
 ## Starting a stopped container
