@@ -27,6 +27,9 @@ func init() {
 
 		subcommand.Flags().BoolVarP(&forceRemoval, "forceRemoval", "f", false, "Removes the cached, local image, if exists")
 		subcommand.Flags().StringVarP(&tagToPull, "tag", "t", "", "Sets the image tag to pull")
+
+		subcommand.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "Runs commands with Debug log level")
+		subcommand.VisitParents(addVerboseFlag)
 	}
 }
 
@@ -42,6 +45,9 @@ var pullCmd = &cobra.Command{
 		}
 
 		return nil
+	},
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		enableDebugLevel()
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()

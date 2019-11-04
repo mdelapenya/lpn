@@ -17,6 +17,9 @@ func init() {
 		subcommand := subcommands[i]
 
 		logCmd.AddCommand(subcommand)
+
+		subcommand.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "Runs commands with Debug log level")
+		subcommand.VisitParents(addVerboseFlag)
 	}
 }
 
@@ -24,6 +27,9 @@ var logCmd = &cobra.Command{
 	Use:   "log",
 	Short: "Displays logs for the Liferay Portal instance",
 	Long:  `Displays logs for the Liferay Portal instance, identified by [lpn] plus image type.`,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		enableDebugLevel()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()
 	},

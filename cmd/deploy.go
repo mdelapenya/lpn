@@ -37,6 +37,9 @@ func init() {
 			&directoryPath, "dir", "d", "",
 			`The directory to deploy its content. Only first-level files will be deployed, so no
 							recursive deployment will happen`)
+
+		subcommand.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "Runs commands with Debug log level")
+		subcommand.VisitParents(addVerboseFlag)
 	}
 }
 
@@ -44,6 +47,9 @@ var deployCmd = &cobra.Command{
 	Use:   "deploy",
 	Short: "Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn",
 	Long:  `Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn`,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		enableDebugLevel()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()
 	},

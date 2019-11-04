@@ -18,6 +18,9 @@ func init() {
 	for i := 0; i < len(subcommands); i++ {
 		subcommand := subcommands[i]
 
+		subcommand.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "Runs commands with Debug log level")
+		subcommand.VisitParents(addVerboseFlag)
+
 		checkCmd.AddCommand(subcommand)
 	}
 }
@@ -27,6 +30,9 @@ var checkCmd = &cobra.Command{
 	Short: "Checks if there is a container created by lpn",
 	Long: `Checks if there is a container created by lpn (Liferay Portal Nook).
 	Uses docker container inspect to check if there is a container with name "lpn" plus image type created by lpn (Liferay Portal Nook)`,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		enableDebugLevel()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()
 	},

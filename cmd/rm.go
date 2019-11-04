@@ -17,6 +17,9 @@ func init() {
 		subcommand := subcommands[i]
 
 		rmCmd.AddCommand(subcommand)
+
+		subcommand.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "Runs commands with Debug log level")
+		subcommand.VisitParents(addVerboseFlag)
 	}
 }
 
@@ -24,6 +27,9 @@ var rmCmd = &cobra.Command{
 	Use:   "rm",
 	Short: "Removes the Liferay Portal nook instance",
 	Long:  `Removes the Liferay Portal nook instance, identified by [lpn] plus each image type.`,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		enableDebugLevel()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()
 	},

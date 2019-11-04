@@ -1,5 +1,19 @@
 [
     {
+        "channel": "unstable",
+        "version": "0.14.0",
+        "equinox": false,
+        "latest": true,
+        "releaseDate": "2019-10-21 21:00",
+        "changelog": {
+            "enhacements": [
+                {
+                    "description": "Add verbose flag to all commands and subcommands, which activates logger on Debug level."
+                }
+            ]
+        }
+    },
+    {
         "channel": "stable",
         "version": "0.13.0",
         "equinox": false,

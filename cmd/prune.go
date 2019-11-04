@@ -11,12 +11,18 @@ import (
 
 func init() {
 	rootCmd.AddCommand(pruneCmd)
+
+	pruneCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "Runs commands with Debug log level")
+	pruneCmd.VisitParents(addVerboseFlag)
 }
 
 var pruneCmd = &cobra.Command{
 	Use:   "prune",
 	Short: "Prunes LPN state",
 	Long:  `This command prunes LPN state: containers and images`,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		enableDebugLevel()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		images := []liferay.Image{
 			liferay.CE{Tag: internal.LpnConfig.GetPortalImageTag("ce")},

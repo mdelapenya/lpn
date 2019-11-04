@@ -38,6 +38,9 @@ func init() {
 		subcommand.Flags().StringVarP(&datastore, "datastore", "s", "hsql", "Creates a database service for the running instance. Supported values are [hsql|mysql|postgresql] (default HSQL)")
 		subcommand.Flags().StringVarP(&tagToRun, "tag", "t", "", "Sets the image tag to run")
 		subcommand.Flags().StringVarP(&memory, "memory", "m", "", "Sets the memory for the JVM memory configuration of Liferay Portal's bundle.")
+
+		subcommand.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "Runs commands with Debug log level")
+		subcommand.VisitParents(addVerboseFlag)
 	}
 }
 
@@ -53,6 +56,9 @@ var runCmd = &cobra.Command{
 		}
 
 		return nil
+	},
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		enableDebugLevel()
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()

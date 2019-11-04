@@ -26,6 +26,9 @@ func init() {
 		checkImageCmd.AddCommand(subcommand)
 
 		subcommand.Flags().StringVarP(&tagToCheck, "tag", "t", "", "Sets the image tag to check")
+
+		subcommand.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "Runs commands with Debug log level")
+		subcommand.VisitParents(addVerboseFlag)
 	}
 }
 
@@ -42,6 +45,9 @@ var checkImageCmd = &cobra.Command{
 		}
 
 		return nil
+	},
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		enableDebugLevel()
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()

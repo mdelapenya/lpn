@@ -61,6 +61,9 @@ func init() {
 		subcommand.Flags().IntVarP(&imagesPage, "page", "p", 1, "Sets the page element where tags exist.")
 
 		tagsCmd.AddCommand(subcommand)
+
+		subcommand.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "Runs commands with Debug log level")
+		subcommand.VisitParents(addVerboseFlag)
 	}
 }
 
@@ -76,6 +79,9 @@ var tagsCmd = &cobra.Command{
 		}
 
 		return nil
+	},
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		enableDebugLevel()
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()

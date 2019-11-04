@@ -121,7 +121,7 @@ type NameConfig struct {
 
 // CheckWorkspace creates this tool workspace under user's home, in a hidden directory named ".lpn"
 func CheckWorkspace() {
-	configureLogger()
+	ConfigureLogger(os.Getenv("LPN_LOG_LEVEL"))
 
 	usr, _ := user.Current()
 
@@ -141,7 +141,10 @@ func CheckWorkspace() {
 	LpnConfig = NewConfig(w)
 }
 
-func configureLogger() {
+// ConfigureLogger defines two logger settings:
+// 	1. log format including timestamp (true or false)
+// 	2. log level, where valid values are TRACE, DEBUG, INFO, WARN, ERROR, FATAL, PANIC
+func ConfigureLogger(logLevel string) {
 	includeTimestamp := os.Getenv("LPN_LOG_INCLUDE_TIMESTAMP")
 	fullTimestamp := (strings.ToUpper(includeTimestamp) == "TRUE")
 
@@ -149,7 +152,7 @@ func configureLogger() {
 		FullTimestamp: fullTimestamp,
 	})
 
-	switch logLevel := os.Getenv("LPN_LOG_LEVEL"); logLevel {
+	switch logLevel {
 	case "TRACE":
 		log.SetLevel(log.TraceLevel)
 	case "DEBUG":

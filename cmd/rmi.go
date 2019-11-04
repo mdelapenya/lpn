@@ -22,6 +22,9 @@ func init() {
 		subcommand.Flags().StringVarP(&tagToRemove, "tag", "t", "", "Sets the image tag to remove")
 
 		rmiCmd.AddCommand(subcommand)
+
+		subcommand.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "Runs commands with Debug log level")
+		subcommand.VisitParents(addVerboseFlag)
 	}
 }
 
@@ -29,6 +32,9 @@ var rmiCmd = &cobra.Command{
 	Use:   "rmi",
 	Short: "Removes the Liferay Portal image",
 	Long:  `Removes the Liferay Portal image related to the lpn instances.`,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		enableDebugLevel()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()
 	},

@@ -2,12 +2,12 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"os/exec"
 	"runtime"
 
 	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/spf13/cobra"
 )
@@ -21,6 +21,9 @@ func init() {
 	for i := 0; i < len(subcommands); i++ {
 		subcommand := subcommands[i]
 
+		subcommand.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "Runs commands with Debug log level")
+		subcommand.VisitParents(addVerboseFlag)
+
 		openCmd.AddCommand(subcommand)
 	}
 }
@@ -29,6 +32,9 @@ var openCmd = &cobra.Command{
 	Use:   "open",
 	Short: "Opens a browser with the Liferay Portal nook instance",
 	Long:  `Opens a browser with the Liferay Portal nook instance, identified by [lpn] plus each image type.`,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		enableDebugLevel()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		SubCommandInfo()
 	},
@@ -92,6 +98,10 @@ var openReleaseCmd = &cobra.Command{
 // openBrowser opens a browser the running container
 func openBrowser(image liferay.Image) {
 	url := "http://localhost:" + docker.GetTomcatPort(image)
+
+	log.WithFields(log.Fields{
+		"url": url,
+	}).Debug("Opening portal URL")
 
 	var err error
 
