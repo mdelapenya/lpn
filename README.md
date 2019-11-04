@@ -147,7 +147,7 @@ This could be an example of how the `help` subcommand shows:
 ```shell
 $ lpn help
 A Fast and Flexible CLI for managing Liferay Portal's Docker images
-				built with love by mdelapenya and friends in Go.
+				built with ❤️ by mdelapenya and friends in Go.
 
 Usage:
   lpn [flags]
