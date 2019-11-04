@@ -1,10 +1,10 @@
-Feature: CheckImage command
+Feature: checki command
   As a newcomer to lpn
   I want to be able to check if the images representing nightly builds or releases are present
 
-  Scenario Outline: CheckImage command for latest tag
+  Scenario Outline: checki command for latest tag
     Given I run `lpn pull <type> -t <tag>`
-    When I run `lpn checkImage <type> -t <tag>`
+    When I run `lpn checki <type> -t <tag>`
     Then the output should contain:
     """
     Image has been pulled from Docker Hub
@@ -20,9 +20,9 @@ Feature: CheckImage command
     | nightly | liferay/portal-snapshot | master |
     | release | mdelapenya/liferay-portal | latest |
 
-  Scenario Outline: CheckImage command
+  Scenario Outline: checki command
     Given I run `lpn pull <type> -t <tag>`
-    When I run `lpn checkImage <type> -t <tag>`
+    When I run `lpn checki <type> -t <tag>`
     Then the output should contain:
     """
     Image has been pulled from Docker Hub
@@ -39,8 +39,8 @@ Feature: CheckImage command
     | commerce | liferay/commerce  | 1.1.1 |
     | dxp  | liferay/dxp | 7.0.10.8  |
 
-  Scenario Outline: CheckImage command when an image is not found
-    Given I run `lpn checkImage <type> -t foo`
+  Scenario Outline: checki command when an image is not found
+    Given I run `lpn checki <type> -t foo`
     Then the output should contain:
     """
     Image has NOT been pulled from Docker Hub

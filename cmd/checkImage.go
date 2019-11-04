@@ -33,7 +33,7 @@ func init() {
 }
 
 var checkImageCmd = &cobra.Command{
-	Use:   "checkImage",
+	Use:   "checki",
 	Short: "Checks if the proper Liferay Portal image has been pulled by lpn",
 	Long: `Checks if the proper Liferay Portal image has been pulled by lpn.
 	Uses "docker image inspect" to check if the proper Liferay Portal image has 
@@ -41,7 +41,7 @@ var checkImageCmd = &cobra.Command{
 	the tag "latest" will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
-			return errors.New("checkImage requires zero or one argument representing the image tag")
+			return errors.New("checki requires zero or one argument representing the image tag")
 		}
 
 		return nil
@@ -63,7 +63,7 @@ var checkImageCE = &cobra.Command{
 	the default tag (see configuration file) will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
-			return errors.New("checkImage release requires zero or one argument representing the image tag")
+			return errors.New("checki release requires zero or one argument representing the image tag")
 		}
 
 		return nil
@@ -88,7 +88,7 @@ var checkImageCommerce = &cobra.Command{
 	the tag "latest" will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
-			return errors.New("checkImage commerce requires zero or one argument representing the image tag")
+			return errors.New("checki commerce requires zero or one argument representing the image tag")
 		}
 
 		return nil
@@ -113,7 +113,7 @@ var checkImageDXP = &cobra.Command{
 	the default tag (see configuration file) will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
-			return errors.New("checkImage release requires zero or one argument representing the image tag")
+			return errors.New("checki release requires zero or one argument representing the image tag")
 		}
 
 		return nil
@@ -138,7 +138,7 @@ var checkImageNightly = &cobra.Command{
 	the tag "` + date.CurrentDate + `" will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
-			return errors.New("checkImage nightly requires zero or one argument representing the image tag")
+			return errors.New("checki nightly requires zero or one argument representing the image tag")
 		}
 
 		return nil
@@ -163,7 +163,7 @@ var checkImageRelease = &cobra.Command{
 	the tag "latest" will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
-			return errors.New("checkImage release requires zero or one argument representing the image tag")
+			return errors.New("checki release requires zero or one argument representing the image tag")
 		}
 
 		return nil

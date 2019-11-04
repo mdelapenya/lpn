@@ -154,8 +154,8 @@ Usage:
   lpn [command]
 
 Available Commands:
-  checkc Checks if there is a container created by lpn (Liferay Portal Nook)
-  checkImage     Checks if the proper Liferay Portal image has been pulled by lpn (Liferay Portal Nook)
+  checkc        Checks if there is a container created by lpn (Liferay Portal Nook)
+  checki        Checks if the proper Liferay Portal image has been pulled by lpn (Liferay Portal Nook)
   deploy         Deploys a file to Liferay Portal's deploy folder in the container run by lpn
   help           Help about any command
   license        Print the license of lpn
@@ -308,11 +308,11 @@ Depending on the image type, the default value for `--tag` flag would be:
 
 Examples:
 ```shell
-$ lpn checkImage ce --tag "6.1.2-ga3"
-$ lpn checkImage dxp --tag "7.0.10.8"
-$ lpn checkImage release
-$ lpn checkImage nightly --tag "20181026"
-$ lpn checkImage commerce
+$ lpn checki ce --tag "6.1.2-ga3"
+$ lpn checki dxp --tag "7.0.10.8"
+$ lpn checki release
+$ lpn checki nightly --tag "20181026"
+$ lpn checki commerce
 ```
 
 ## Checking if a container is running

@@ -14,7 +14,7 @@ env:
     - LPN_LOG_INCLUDE_TIMESTAMP=TRUE
   matrix:
     - LPN_COMMAND=checkc
-    - LPN_COMMAND=checkImage
+    - LPN_COMMAND=checki
     - LPN_COMMAND=deploy
     - LPN_COMMAND=license
     - LPN_COMMAND=pull

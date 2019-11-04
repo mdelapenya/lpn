@@ -13,6 +13,9 @@
             ],
             "breakings": [
                 {
+                    "description": "Rename checkImage to checki."
+                },
+                {
                     "description": "Rename checkContainer to checkc."
                 }
             ]

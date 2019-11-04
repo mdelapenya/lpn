@@ -12,7 +12,7 @@ Feature: Pull command
     """
     id=<tag>
     """
-    And I run `lpn checkImage <type> -t <tag>`
+    And I run `lpn checki <type> -t <tag>`
     And the output should contain:
     """
     Image has been pulled from Docker Hub
@@ -62,7 +62,7 @@ Feature: Pull command
     """
     image="docker.io/<repository>:<tag>"
     """
-    And I run `lpn checkImage <type> -t <tag>`
+    And I run `lpn checki <type> -t <tag>`
     And the output should contain:
     """
     Image has been pulled from Docker Hub
