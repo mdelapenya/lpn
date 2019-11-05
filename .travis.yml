@@ -32,7 +32,7 @@ before_install:
 install:
   - |
     if [ "$LPN_COMMAND" != "license" ] && [ "$LPN_COMMAND" != "tags" ] && [ "$LPN_COMMAND" != "version" ]; then
-      ./scripts/pull-images.sh
+      ./.github/scripts/pull-images.sh
     fi
   - GO111MODULE=on go build -o ./bin/lpn
 
