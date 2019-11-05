@@ -27,10 +27,7 @@ env:
     - LPN_COMMAND=version
 
 before_install:
-  - sudo apt update -y
-  - sudo apt install realpath -y
-  - gem install bundler
-  - bundle install
+  - ./.github/scripts/install-dependencies.sh
 
 install:
   - |
