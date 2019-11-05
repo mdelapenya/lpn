@@ -30,13 +30,11 @@ func init() {
 
 		subcommand.Flags().StringVarP(
 			&filePath, "files", "f", "",
-			`The file or files to deploy. A comma-separated list of files is accepted to deploy
-							multiple files at the same time`)
+			`The file or files to deploy. A comma-separated list of files is accepted to deploy multiple files at the same time`)
 
 		subcommand.Flags().StringVarP(
 			&directoryPath, "dir", "d", "",
-			`The directory to deploy its content. Only first-level files will be deployed, so no
-							recursive deployment will happen`)
+			`The directory to deploy its content. Only first-level files will be deployed, so no recursive deployment will happen`)
 
 		subcommand.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "Runs commands with Debug log level")
 		subcommand.VisitParents(addVerboseFlag)
