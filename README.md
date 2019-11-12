@@ -1,6 +1,6 @@
 # lpn (Liferay Portal Nook)
 
-![Build Action Status](https://github.com/mdelapenya/lpn/workflows/Build project/badge.svg)
+![](https://github.com/mdelapenya/lpn/workflows/Build%20project/badge.svg)
 
 [![Codecov Coverage](https://codecov.io/gh/mdelapenya/lpn/branch/master/graph/badge.svg)](https://codecov.io/gh/mdelapenya/lpn)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mdelapenya/lpn)](https://goreportcard.com/report/github.com/mdelapenya/lpn)
