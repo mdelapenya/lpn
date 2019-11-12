@@ -1,6 +1,7 @@
 # lpn (Liferay Portal Nook)
 
-[![Build Status](https://travis-ci.org/liferay/lpn.svg?branch=master)](https://travis-ci.org/liferay/lpn)
+![Build Action Status](https://github.com/liferay/lpn/workflows/Build/badge.svg)
+
 [![Codecov Coverage](https://codecov.io/gh/liferay/lpn/branch/master/graph/badge.svg)](https://codecov.io/gh/liferay/lpn)
 [![Go Report Card](https://goreportcard.com/badge/github.com/liferay/lpn)](https://goreportcard.com/report/github.com/liferay/lpn)
 
