@@ -1,6 +1,6 @@
 [
     {
-        "channel": "unstable",
+        "channel": "stable",
         "version": "0.14.0",
         "equinox": false,
         "latest": true,
@@ -28,7 +28,7 @@
         "channel": "stable",
         "version": "0.13.0",
         "equinox": false,
-        "latest": true,
+        "latest": false,
         "releaseDate": "2019-09-15 17:00",
         "changelog": {
             "enhacements": [
