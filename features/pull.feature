@@ -28,7 +28,7 @@ Feature: Pull command
     | ce      | 7.0.6-ga7 | liferay/portal |
     | commerce | 1.1.1 | liferay/commerce |
     | dxp     | 7.0.10.8 | liferay/dxp |
-    | nightly | master | liferay/portal-snapshot |
+    | nightly | master | mdelapenya/portal-snapshot |
     | release | latest | mdelapenya/liferay-portal |
 
   Scenario Outline: Pull command when image does not exist
@@ -48,7 +48,7 @@ Feature: Pull command
     | ce      | liferay/portal:foo |
     | commerce | liferay/commerce:foo |
     | dxp     | liferay/dxp:foo |
-    | nightly | liferay/portal-snapshot:foo |
+    | nightly | mdelapenya/portal-snapshot:foo |
     | release | mdelapenya/liferay-portal:foo |
 
   Scenario Outline: Pull command forcing the removal of already present image
@@ -78,7 +78,7 @@ Feature: Pull command
     | ce      | 7.0.6-ga7 | liferay/portal |
     | commerce | 1.1.1 | liferay/commerce |
     | dxp     | 7.0.10.8 | liferay/dxp |
-    | nightly | master | liferay/portal-snapshot |
+    | nightly | master | mdelapenya/portal-snapshot |
     | release | latest | mdelapenya/liferay-portal |
 
   Scenario Outline: Pull command forcing the removal of a non present image

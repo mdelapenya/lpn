@@ -17,7 +17,7 @@ Feature: checki command
 
   Examples:
     | type    | image | tag |
-    | nightly | liferay/portal-snapshot | master |
+    | nightly | mdelapenya/portal-snapshot | master |
     | release | mdelapenya/liferay-portal | latest |
 
   Scenario Outline: checki command
@@ -56,5 +56,5 @@ Feature: checki command
     | ce | liferay/portal:foo |
     | commerce | liferay/commerce:foo |
     | dxp | liferay/dxp:foo |
-    | nightly | liferay/portal-snapshot:foo |
+    | nightly | mdelapenya/portal-snapshot:foo |
     | release | mdelapenya/liferay-portal:foo |

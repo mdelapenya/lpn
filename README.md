@@ -64,7 +64,7 @@ images:
       image: liferay/dxp
       tag: 7.0.10.8
     nightly:
-      image: liferay/portal-snapshot
+      image: mdelapenya/portal-snapshot
       tag: latest
     release:
       image: mdelapenya/liferay-portal
@@ -111,7 +111,7 @@ With `lpn` you'll be able to:
 
 - Run Liferay Portal containers using the released version you prefer:
   - Liferay Portal official images, obtained from [here for CE](https://hub.docker.com/r/liferay/portal/tags/) and [here for DXP](https://hub.docker.com/r/liferay/dxp/tags/).
-  - Liferay Portal nightly builds, obtained from [here](https://hub.docker.com/r/liferay/portal-snapshot/tags/).
+  - Liferay Portal nightly builds, obtained from [here](https://hub.docker.com/r/mdelapenya/portal-snapshot/tags/).
   - Liferay Portal releases, obtained from [here](https://hub.docker.com/r/mdelapenya/liferay-portal/tags/).
   - Liferay Portal including specific products, like Commerce.
 - Run a real database to store portal data

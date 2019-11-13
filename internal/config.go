@@ -51,7 +51,7 @@ var portalImages = map[string]ImageConfig{
 		Tag:   "7.0.10.8",
 	},
 	"nightly": {
-		Image: "liferay/portal-snapshot",
+		Image: "mdelapenya/portal-snapshot",
 		Tag:   "master",
 	},
 	"release": {

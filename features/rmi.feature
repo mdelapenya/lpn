@@ -20,7 +20,7 @@ Feature: Rmi command
     | ce      | liferay/portal | 7.0.6-ga7 |
     | commerce | liferay/commerce | 1.1.1 |
     | dxp     | liferay/dxp | 7.0.10.8 |
-    | nightly | liferay/portal-snapshot | master |
+    | nightly | mdelapenya/portal-snapshot | master |
     | release | mdelapenya/liferay-portal | latest |
 
   Scenario Outline: Rmi command when image does not exist
@@ -40,5 +40,5 @@ Feature: Rmi command
     | ce      | liferay/portal | foo |
     | commerce | liferay/commerce | foo |
     | dxp     | liferay/dxp | foo |
-    | nightly | liferay/portal-snapshot | foo |
+    | nightly | mdelapenya/portal-snapshot | foo |
     | release | mdelapenya/liferay-portal | foo |
