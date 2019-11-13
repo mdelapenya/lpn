@@ -13,6 +13,9 @@
             ],
             "breakings": [
                 {
+                    "description": "Do not use liferay/portal-snapshot for Nightlies: we are going to use mdelapenya/portal-snapshot, a clone of Liferay's build process that executes daily on Travis-CI)"
+                },
+                {
                     "description": "Rename checkImage to checki."
                 },
                 {
