@@ -21,3 +21,12 @@ jobs:
 
       - name: Build
         run: go build -v .
+  unit-test:
+    name: Unit Tests
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Run Unit tests
+        run: go test ./...
