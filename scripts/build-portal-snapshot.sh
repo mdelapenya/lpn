@@ -77,6 +77,10 @@ function clone_build_scripts {
     git clone https://github.com/liferay/liferay-docker.git
 }
 
+function docker_login {
+    echo "$DOCKER_PASSWORD" | docker login --username mdelapenya --password-stdin
+}
+
 function main {
     clone_build_scripts || true
 
@@ -88,6 +92,8 @@ function main {
 	prepare_temp_directory ${RELEASE_FILE_URL}
 
 	prepare_tomcat
+
+    docker_login
 
 	build_docker_image
 
