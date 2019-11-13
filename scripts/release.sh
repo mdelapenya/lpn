@@ -53,11 +53,11 @@ function git_dirty() {
 }
 
 function git_num_untracked_files() {
-  [[ $(git status --porcelain 2>/dev/null | grep "^??" | wc -l | xargs) ]]
+  expr $(git status --porcelain 2>/dev/null | grep "^??" | wc -l | xargs)
 }
 
 function git_num_tracked_files() {
-  [[ $(git status --porcelain 2>/dev/null | grep "^M" | wc -l | xargs) ]]
+  expr $(git status --porcelain 2>/dev/null | grep "^M" | wc -l | xargs)
 }
 
 function main() {
