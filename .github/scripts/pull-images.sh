@@ -35,8 +35,6 @@ _pull_image() {
 
 pull_images_concurrently() {
   local desired_images="$1"
-  local name
-  local version
   local image_name
 
   declare -a pidlist

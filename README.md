@@ -21,11 +21,11 @@ If you are in the Golang world, you could install this tool from source code.
 
 For that reason you need to:
 
-- [Install Golang runtime](https://golang.org/doc/install)
-- Make sure that you have `GOPATH` environment variable defined to the location you want to have your Golang projects
-- Add `$GOPATH\bin` to your `$PATH`, like this: `export PATH=${PATH}:${GOPATH//://bin:}/bin`
-- Clone this repo under `$GOPATH`: `git clone https://github.com/mdelapenya/lpn $GOPATH/src/github.com/mdelapenya/lpn`
-- From inside the project, run `go install`
+  - [Install Golang runtime](https://golang.org/doc/install)
+  - Make sure that you have `GOPATH` environment variable defined to the location you want to have your Golang projects
+  - Add `$GOPATH\bin` to your `$PATH`, like this: `export PATH=${PATH}:${GOPATH//://bin:}/bin`
+  - Clone this repo under `$GOPATH`: `git clone https://github.com/mdelapenya/lpn $GOPATH/src/github.com/mdelapenya/lpn`
+  - From inside the project, run `go install`
 
 Now you can use `lpn` from your command line.
 
@@ -88,7 +88,7 @@ The CLI uses [`Logrus`](https://github.com/sirupsen/logrus) as default Logger, s
 
 To set the log level, please set the environment variable `LPN_LOG_LEVEL` to one of the following values, being `INFO` the default one:
 
-```
+```shell
 $ export LPN_LOG_LEVEL=TRACE
 $ export LPN_LOG_LEVEL=DEBUG
 $ export LPN_LOG_LEVEL=INFO
@@ -100,7 +100,7 @@ $ export LPN_LOG_LEVEL=PANIC
 
 It's also possible to add current timestamp to each log line. To do so, please set the environment variable `LPN_LOG_INCLUDE_TIMESTAMP`, with "true" (case-insensitive).
 
-```
+```shell
 $ export LPN_LOG_INCLUDE_TIMESTAMP=TRUE
 $ export LPN_LOG_INCLUDE_TIMESTAMP=true
 ```
@@ -109,34 +109,34 @@ $ export LPN_LOG_INCLUDE_TIMESTAMP=true
 
 With `lpn` you'll be able to:
 
-- Run Liferay Portal containers using the released version you prefer:
-  - Liferay Portal official images, obtained from [here for CE](https://hub.docker.com/r/liferay/portal/tags/) and [here for DXP](https://hub.docker.com/r/liferay/dxp/tags/).
-  - Liferay Portal nightly builds, obtained from [here](https://hub.docker.com/r/mdelapenya/portal-snapshot/tags/).
-  - Liferay Portal releases, obtained from [here](https://hub.docker.com/r/mdelapenya/liferay-portal/tags/).
-  - Liferay Portal including specific products, like Commerce.
-- Run a real database to store portal data
-- Deploy applications to the running containers:
-  - Imagine a developer gives you a non-released JAR/WAR file to test it. You could deploy and test it in seconds!
-- Check logs of the running containers
-- And more!
+  - Run Liferay Portal containers using the released version you prefer:
+    - Liferay Portal official images, obtained from [here for CE](https://hub.docker.com/r/liferay/portal/tags/) and [here for DXP](https://hub.docker.com/r/liferay/dxp/tags/).
+    - Liferay Portal nightly builds, obtained from [here](https://hub.docker.com/r/mdelapenya/portal-snapshot/tags/).
+    - Liferay Portal releases, obtained from [here](https://hub.docker.com/r/mdelapenya/liferay-portal/tags/).
+    - Liferay Portal including specific products, like Commerce.
+  - Run a real database to store portal data
+  - Deploy applications to the running containers:
+    - Imagine a developer gives you a non-released JAR/WAR file to test it. You could deploy and test it in seconds!
+  - Check logs of the running containers
+  - And more!
 
 ## Usage
 
 The available capabilities present in the tool are the following:
 
-- Run a container from the desired Liferay Portal/DXP image.
-- Configure a Liferay Portal/DXP container to be run alongside a real database.
-- Configure a Liferay Portal/DXP container to be run using a custom portal-ext configuration file.
-- Deploy a file or the content of a directory to the deploy folder of a Liferay Portal/DXP running container.
-- Display logs of a Liferay Portal/DXP running container.
-- Pull Liferay Portal/DXP images on demand.
-- List the available tags to pull from the Docker Hub repository of a Liferay Portal/DXP image.
-- Check if a Liferay Portal/DXP image was already pulled.
-- Check if a container of the desired Liferay Portal/DXP image is running.
-- Stop a Liferay Portal/DXP running container, and possibly all its dependant services, like a database.
-- Remove a Liferay Portal/DXP running container.
-- Remove a Liferay Portal/DXP image from your local Docker installation.
-- Open a Liferay Portal/DXP running container in the default browser.
+  - Run a container from the desired Liferay Portal/DXP image.
+  - Configure a Liferay Portal/DXP container to be run alongside a real database.
+  - Configure a Liferay Portal/DXP container to be run using a custom portal-ext configuration file.
+  - Deploy a file or the content of a directory to the deploy folder of a Liferay Portal/DXP running container.
+  - Display logs of a Liferay Portal/DXP running container.
+  - Pull Liferay Portal/DXP images on demand.
+  - List the available tags to pull from the Docker Hub repository of a Liferay Portal/DXP image.
+  - Check if a Liferay Portal/DXP image was already pulled.
+  - Check if a container of the desired Liferay Portal/DXP image is running.
+  - Stop a Liferay Portal/DXP running container, and possibly all its dependant services, like a database.
+  - Remove a Liferay Portal/DXP running container.
+  - Remove a Liferay Portal/DXP image from your local Docker installation.
+  - Open a Liferay Portal/DXP running container in the default browser.
 
 ### Which are the available commands?
 
@@ -176,11 +176,11 @@ Use "lpn [command] --help" for more information about a command.
 
 Once you have typed the proper command, to specify with which image type you want to execute the command, there are the following subcommands:
 
-- ce
-- dxp
-- release
-- nightly
-- commerce
+  - ce
+  - dxp
+  - release
+  - nightly
+  - commerce
 
 So any command needs the combination of one of the subcommands above. So to run a DXP image, you would need to execute `lpn run dxp`.
 

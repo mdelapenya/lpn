@@ -5,9 +5,6 @@ function git_branch_name() {
 }
 
 readonly BRANCH="${TRAVIS_BRANCH:-$(git_branch_name)}"
-readonly DIR="$(realpath $(dirname ${BASH_SOURCE[0]}))"
-readonly GO_VERSION="1.9"
-readonly GO_WORKSPACE="/usr/local/go/src/github.com/mdelapenya/lpn"
 readonly VERSION=$(cat ./VERSION.txt)
 
 if [[ "$BRANCH" != "master" ]]; then
@@ -56,11 +53,11 @@ function git_dirty() {
 }
 
 function git_num_untracked_files() {
-  expr $(git status --porcelain 2>/dev/null | grep "^??" | wc -l | xargs)
+  [[ $(git status --porcelain 2>/dev/null | grep "^??" | wc -l | xargs) ]]
 }
 
 function git_num_tracked_files() {
-  expr $(git status --porcelain 2>/dev/null | grep "^M" | wc -l | xargs)
+  [[ $(git status --porcelain 2>/dev/null | grep "^M" | wc -l | xargs) ]]
 }
 
 function main() {
