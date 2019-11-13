@@ -91,7 +91,7 @@ function main {
 
 	build_docker_image
 
-	push_docker_images ${2}
+	push_docker_images ${1}
 
 	clean_up_temp_directory
 }
