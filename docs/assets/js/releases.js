@@ -160,7 +160,15 @@ function getDownloadLinks(release) {
         version = release.version + "-snapshot"
     }
 
-    let basePath = `https://github.com/mdelapenya/lpn/releases/download/` + version;
+    let basePath = `https://github.com/mdelapenya/lpn/releases/download/`;
+
+    var semVer = version.split(".");
+    var minor = semVer[1];
+    if (minor > 10) {
+        basePath += `v`;
+    }
+
+    basePath += version;
 
     let linksHtml = '';
 
