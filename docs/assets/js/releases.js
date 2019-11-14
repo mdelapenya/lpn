@@ -13,21 +13,23 @@ function appendVersion(version) {
 }
 
 function appendTabsContent(version) {
+    let basePath = sanitizeBasePath(version);
+
     let tabsContent = `<div class="tab-pane fade show active" id="mac" role="tabpanel" aria-labelledby="mac-tab">
-    <pre class="mb-0"><code class="code-soy"><span>curl <span class="variable">"https://github.com/mdelapenya/lpn/releases/download/${version}/darwin64-lpn"</span> \
+    <pre class="mb-0"><code class="code-soy"><span>curl <span class="variable">"${basePath}/darwin64-lpn"</span> \
 --output <span class="variable">/tmp/lpn</span></span>
 <span>chmod +x <span class="variable">/tmp/lpn</span></span>
 <span><span class="string">sudo</span> mv <span class="variable">/tmp/lpn /usr/local/bin/lpn</span></span></code></pre>
 </div>
 <div class="tab-pane fade" id="linux" role="tabpanel" aria-labelledby="linux-tab">
-    <pre class="mb-0"><code class="code-soy"><span>curl <span class="variable">"https://github.com/mdelapenya/lpn/releases/download/${version}/linux64-lpn"</span> \
+    <pre class="mb-0"><code class="code-soy"><span>curl <span class="variable">"${basePath}/linux64-lpn"</span> \
 --output <span class="variable">/tmp/lpn</span></span>
 <span>chmod +x <span class="variable">/tmp/lpn</span></span>
 <span><span class="string">sudo</span> mv <span class="string">/tmp/lpn /usr/local/bin/lpn</span></span></code></pre>
 </div>
 <div class="tab-pane fade" id="win" role="tabpanel" aria-labelledby="win-tab">
     <pre class="mb-0"><code class="code-soy"><span>md <span class="variable">"C:\\Program Files (x86)\\lpn"</span></span>
-<span>curl <span class="variable">"https://github.com/mdelapenya/lpn/releases/download/${version}/win64-lpn.exe"</span> -OutFile <span class="variable">"C:\\Program Files (x86)\\lpn\\lpn.exe"</span></span>
+<span>curl <span class="variable">"${basePath}/win64-lpn.exe"</span> -OutFile <span class="variable">"C:\\Program Files (x86)\\lpn\\lpn.exe"</span></span>
 <span>set <span class="string">PATH="%PATH%;C:\\Program Files (x86)\\lpn\"</span></span></code></pre>
 </div>`
 
@@ -160,15 +162,7 @@ function getDownloadLinks(release) {
         version = release.version + "-snapshot"
     }
 
-    let basePath = `https://github.com/mdelapenya/lpn/releases/download/`;
-
-    var semVer = version.split(".");
-    var minor = semVer[1];
-    if (minor > 10) {
-        basePath += `v`;
-    }
-
-    basePath += version;
+    let basePath = sanitizeBasePath(version);
 
     let linksHtml = '';
 
@@ -189,4 +183,18 @@ function getDownloadLinks(release) {
     });
 
     return header + `<ul class="release-list links">` + linksHtml + `</ul>`;
+}
+
+function sanitizeBasePath(version) {
+    let basePath = `https://github.com/mdelapenya/lpn/releases/download/`;
+
+    var semVer = version.split(".");
+    var minor = semVer[1];
+    if (minor > 10) {
+        basePath += `v`;
+    }
+
+    basePath += version;
+
+    return basePath
 }
