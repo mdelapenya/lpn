@@ -38,7 +38,7 @@ before_cache:
 before_install:
   - ./.github/scripts/install-dependencies.sh
   # Load cached docker images
-  - mkdir ${HOME}/docker && docker load -i ${HOME}/docker/images.tar || true
+  - docker load -i ${HOME}/docker/images.tar || true
 
 install:
   - |
