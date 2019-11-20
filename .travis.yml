@@ -10,6 +10,7 @@ go:
 
 env:
   global:
+    - GO111MODULE=on
     - LPN_LOG_LEVEL=DEBUG
     - LPN_LOG_INCLUDE_TIMESTAMP=TRUE
   matrix:
