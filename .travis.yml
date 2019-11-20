@@ -38,4 +38,5 @@ install:
 
 script:
   - |
+    gotestsum --format short-verbose ./...
     cucumber features/$LPN_COMMAND.feature
