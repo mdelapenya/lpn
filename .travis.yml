@@ -26,8 +26,18 @@ env:
     - LPN_COMMAND=tags
     - LPN_COMMAND=version
 
+cache:
+  directories:
+    - ${HOME}/docker
+
+before_cache:
+  # Save tagged docker images
+  - docker save -o ${HOME}/docker/images.tar $(docker images -a -q)
+
 before_install:
   - ./.github/scripts/install-dependencies.sh
+  # Load cached docker images
+  - mkdir ${HOME}/docker && docker load -i ${HOME}/docker/images.tar || true
 
 install:
   - |
