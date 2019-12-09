@@ -1,14 +1,1 @@
-.equinox/config.yaml
-.equinox/equinox.key
-.equinox/token
 .github/releases
-
-coverage.txt
-
-debug.test
-
-lpn
-lpn.exe
-darwin*-lpn
-linux*-lpn
-win*-lpn.exe
