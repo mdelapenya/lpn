@@ -7,4 +7,4 @@ before_script:
   - ./.github/scripts/install-dependencies.sh
 
 script:
-  - ./scripts/build-portal-snapshot.sh push
+  - ./.github/scripts/build-portal-snapshot.sh push
