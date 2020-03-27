@@ -1,10 +1,18 @@
 name: Build project
-on: [push]
+
+on:
+  push:
+    branches:    
+      - develop
+      - master
 
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - name: Set up Go 1.13
         uses: actions/setup-go@v1
@@ -21,12 +29,6 @@ jobs:
 
       - name: Build
         run: go build -v .
-  unit-test:
-    name: Unit Tests
-    strategy:
-      matrix:
-        platform: [ubuntu-latest, macos-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
+
       - name: Run Unit tests
         run: go test ./...
