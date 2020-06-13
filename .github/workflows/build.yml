@@ -33,5 +33,5 @@ jobs:
 
       - name: Run Unit tests
         run: |
-          go get gotest.tools/gotestsum
+          go get -u gotest.tools/gotestsum
           gotestsum --format short-verbose ./...
