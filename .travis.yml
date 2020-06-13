@@ -23,12 +23,13 @@ env:
   - LPN_COMMAND=version
 
 before_install:
-  - sudo apt update -y
-  - sudo apt install realpath -y
-  - curl -L -s https://github.com/golang/dep/releases/download/v0.4.1/dep-linux-amd64 -o $GOPATH/bin/dep
-  - chmod +x $GOPATH/bin/dep
-  - gem install aruba
-  - curl https://cdn.wedeploy.com/cli/latest/wedeploy.sh -sL | bash
+  - |
+    sudo apt update -y
+    sudo apt install realpath -y
+    go get gotest.tools/gotestsum
+    gem update --system 3.0.8
+    gem install bundler
+    bundle install
 
 install:
   - |
