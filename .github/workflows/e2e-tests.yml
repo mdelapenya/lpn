@@ -19,7 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        platform: [ubuntu-latest, macos-latest, windows-latest]
         command: [checkc, checki, deploy, license, pull, rm, rmi, run, start, stop, tags, version]
     steps:
       - name: Set up Go 1.13
@@ -33,6 +32,7 @@ jobs:
 
       - name: Get dependencies
         run: |
+          ./.github/scripts/install-dependencies.sh
           go get -v -t -d ./...
           if [ "${{ matrix.command }}" != "license" ] && [ "${{ matrix.command }}" != "tags" ] && [ "${{ matrix.command }}" != "version" ]; then
             ./.github/scripts/pull-images.sh
