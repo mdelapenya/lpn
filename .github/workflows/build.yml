@@ -1,21 +1,22 @@
-name: Build project
+name: Unit Tests
 
 on:
   push:
     branches:    
       - develop
       - master
+  pull_request:
+    branches:
+      - master
+      - develop
 
 jobs:
   build:
-    name: Build
+    name: Unit tests
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        platform: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - name: Set up Go 1.13
-        uses: actions/setup-go@v1
+        uses: actions/setup-go@v2.0.3
         with:
           go-version: 1.13
         id: go
@@ -31,4 +32,6 @@ jobs:
         run: go build -v .
 
       - name: Run Unit tests
-        run: go test ./...
+        run: |
+          go get -u gotest.tools/gotestsum
+          gotestsum --format short-verbose ./...

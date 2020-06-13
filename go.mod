@@ -12,10 +12,12 @@ require (
 	github.com/mattn/go-runewidth v0.0.4 // indirect
 	github.com/olekukonko/tablewriter v0.0.1
 	github.com/opencontainers/go-digest v1.0.0-rc1 // indirect
-	github.com/sirupsen/logrus v1.4.1
+	github.com/pkg/errors v0.9.1 // indirect
+	github.com/sirupsen/logrus v1.6.0
 	github.com/spf13/cobra v0.0.5
-	github.com/spf13/pflag v1.0.3
+	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.4.0
-	github.com/stretchr/testify v1.2.2
+	github.com/stretchr/testify v1.3.0
 	github.com/vjeantet/jodaTime v0.0.0-20170816150230-be924ce213fb
+	golang.org/x/sys v0.0.0-20200610111108-226ff32320da // indirect
 )
