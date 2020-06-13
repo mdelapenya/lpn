@@ -26,11 +26,12 @@ jobs:
 
       - name: Get dependencies
         run: |
-          go get gotest.tools/gotestsum
           go get -v -t -d ./...
 
       - name: Build
         run: go build -v .
 
       - name: Run Unit tests
-        run: gotestsum --format short-verbose ./...
+        run: |
+          go get gotest.tools/gotestsum
+          gotestsum --format short-verbose ./...
