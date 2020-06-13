@@ -32,7 +32,7 @@ jobs:
 
       - name: Get dependencies
         run: |
-          ./.github/scripts/install-dependencies.sh
+          sudo ./.github/scripts/install-dependencies.sh
           go get -v -t -d ./...
           if [ "${{ matrix.command }}" != "license" ] && [ "${{ matrix.command }}" != "tags" ] && [ "${{ matrix.command }}" != "version" ]; then
             ./.github/scripts/pull-images.sh
