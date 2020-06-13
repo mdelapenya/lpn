@@ -12,7 +12,7 @@
 
 package liferay
 
-import internal "github.com/mdelapenya/lpn/internal"
+import internal "github.com/liferay/lpn/internal"
 
 // Release implementation for Liferay released images
 type Release struct {
@@ -31,7 +31,7 @@ func (r Release) GetDeployFolder() string {
 
 // GetDockerHubTagsURL returns the URL of the available tags on Docker Hub
 func (r Release) GetDockerHubTagsURL() string {
-	return "mdelapenya/liferay-portal"
+	return "liferay/liferay-portal"
 }
 
 // GetFullyQualifiedName returns the fully qualified name of the image

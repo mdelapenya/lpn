@@ -21,7 +21,7 @@ Feature: Pull command
     | commerce | 1.1.1 | liferay/commerce |
     | dxp     | 7.0.10.8 | liferay/dxp |
     | nightly | master | liferay/portal-snapshot |
-    | release | latest | mdelapenya/liferay-portal |
+    | release | latest | liferay/liferay-portal |
 
   Scenario Outline: Pull command when image does not exist
     Given I run `lpn pull <type> -t foo`
@@ -37,7 +37,7 @@ Feature: Pull command
     | commerce | liferay/commerce:foo |
     | dxp     | liferay/dxp:foo |
     | nightly | liferay/portal-snapshot:foo |
-    | release | mdelapenya/liferay-portal:foo |
+    | release | liferay/liferay-portal:foo |
 
   Scenario Outline: Pull command forcing the removal of already present image
     Given I run `lpn pull <type> -t <tag>`
@@ -59,7 +59,7 @@ Feature: Pull command
     | commerce | 1.1.1 | liferay/commerce |
     | dxp     | 7.0.10.8 | liferay/dxp |
     | nightly | master | liferay/portal-snapshot |
-    | release | latest | mdelapenya/liferay-portal |
+    | release | latest | liferay/liferay-portal |
 
   Scenario Outline: Pull command forcing the removal of a non present image
     Given I run `docker rmi -f <repository>:<tag>`
@@ -77,4 +77,4 @@ Feature: Pull command
 
   Examples:
     | type    | tag | repository |
-    | release | latest | mdelapenya/liferay-portal |
+    | release | latest | liferay/liferay-portal |

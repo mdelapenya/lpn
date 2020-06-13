@@ -12,7 +12,7 @@
 
 package liferay
 
-import internal "github.com/mdelapenya/lpn/internal"
+import internal "github.com/liferay/lpn/internal"
 
 // Commerce implementation for Liferay nightly images with Commerce
 type Commerce struct {

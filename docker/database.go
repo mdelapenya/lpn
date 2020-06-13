@@ -12,7 +12,7 @@
 
 package docker
 
-import liferay "github.com/mdelapenya/lpn/liferay"
+import liferay "github.com/liferay/lpn/liferay"
 
 // DBName name of the default database
 const DBName = "lportal"

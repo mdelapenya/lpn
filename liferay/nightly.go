@@ -12,7 +12,7 @@
 
 package liferay
 
-import internal "github.com/mdelapenya/lpn/internal"
+import internal "github.com/liferay/lpn/internal"
 
 // Nightly implementation for Liferay nightly images
 type Nightly struct {

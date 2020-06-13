@@ -15,7 +15,7 @@ package docker
 import (
 	"fmt"
 
-	internal "github.com/mdelapenya/lpn/internal"
+	internal "github.com/liferay/lpn/internal"
 )
 
 // PostgreSQL represents a PostgreSQL image

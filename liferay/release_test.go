@@ -39,7 +39,7 @@ func TestGetDockerHubTagsURLRelease(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("mdelapenya/liferay-portal", release.GetDockerHubTagsURL())
+	assert.Equal("liferay/liferay-portal", release.GetDockerHubTagsURL())
 }
 
 func TestGetFullyQualifiedNameRelease(t *testing.T) {
@@ -47,7 +47,7 @@ func TestGetFullyQualifiedNameRelease(t *testing.T) {
 
 	assert := assert.New(t)
 
-	assert.Equal("mdelapenya/liferay-portal:foo", release.GetFullyQualifiedName())
+	assert.Equal("liferay/liferay-portal:foo", release.GetFullyQualifiedName())
 }
 
 func TestGetLiferayHomeReleaseLatest(t *testing.T) {
@@ -116,7 +116,7 @@ func TestGetReleasesRepository(t *testing.T) {
 	assert := assert.New(t)
 	releases := release.GetRepository()
 
-	assert.Equal("mdelapenya/liferay-portal", releases)
+	assert.Equal("liferay/liferay-portal", releases)
 }
 
 func testGetLiferayHomeRelease7Ga(t *testing.T, ga string) {

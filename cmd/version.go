@@ -15,8 +15,8 @@ package cmd
 import (
 	"fmt"
 
-	v "github.com/mdelapenya/lpn/assets/version"
-	docker "github.com/mdelapenya/lpn/docker"
+	v "github.com/liferay/lpn/assets/version"
+	docker "github.com/liferay/lpn/docker"
 
 	"github.com/spf13/cobra"
 )

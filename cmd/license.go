@@ -15,7 +15,7 @@ package cmd
 import (
 	"fmt"
 
-	license "github.com/mdelapenya/lpn/assets/license"
+	license "github.com/liferay/lpn/assets/license"
 
 	"github.com/spf13/cobra"
 )

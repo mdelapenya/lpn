@@ -17,7 +17,7 @@ Feature: Rmi command
     | commerce | liferay/commerce | 1.1.1 |
     | dxp     | liferay/dxp | 7.0.10.8 |
     | nightly | liferay/portal-snapshot | master |
-    | release | mdelapenya/liferay-portal | latest |
+    | release | liferay/liferay-portal | latest |
 
   Scenario Outline: Rm command when image does not exist
     Given I run `lpn rmi <type> -t <tag>`
@@ -33,4 +33,4 @@ Feature: Rmi command
     | commerce | liferay/commerce | foo |
     | dxp     | liferay/dxp | foo |
     | nightly | liferay/portal-snapshot | foo |
-    | release | mdelapenya/liferay-portal | foo |
+    | release | liferay/liferay-portal | foo |

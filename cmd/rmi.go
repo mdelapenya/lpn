@@ -15,10 +15,10 @@ package cmd
 import (
 	"log"
 
-	date "github.com/mdelapenya/lpn/date"
-	docker "github.com/mdelapenya/lpn/docker"
-	internal "github.com/mdelapenya/lpn/internal"
-	liferay "github.com/mdelapenya/lpn/liferay"
+	date "github.com/liferay/lpn/date"
+	docker "github.com/liferay/lpn/docker"
+	internal "github.com/liferay/lpn/internal"
+	liferay "github.com/liferay/lpn/liferay"
 
 	"github.com/spf13/cobra"
 )

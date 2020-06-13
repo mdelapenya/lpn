@@ -14,7 +14,7 @@ Feature: CheckImage command
   Examples:
     | type    | image | tag |
     | nightly | liferay/portal-snapshot | master |
-    | release | mdelapenya/liferay-portal | latest |
+    | release | liferay/liferay-portal | latest |
 
   Scenario Outline: CheckImage command
     Given I run `lpn pull <type> -t <tag>`
@@ -45,4 +45,4 @@ Feature: CheckImage command
     | commerce | liferay/commerce:foo |
     | dxp | liferay/dxp:foo |
     | nightly | liferay/portal-snapshot:foo |
-    | release | mdelapenya/liferay-portal:foo |
+    | release | liferay/liferay-portal:foo |

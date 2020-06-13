@@ -32,8 +32,8 @@ import (
 	mount "github.com/docker/docker/api/types/mount"
 	client "github.com/docker/docker/client"
 	nat "github.com/docker/go-connections/nat"
-	internal "github.com/mdelapenya/lpn/internal"
-	liferay "github.com/mdelapenya/lpn/liferay"
+	internal "github.com/liferay/lpn/internal"
+	liferay "github.com/liferay/lpn/liferay"
 )
 
 var instance *client.Client

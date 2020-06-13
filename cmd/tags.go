@@ -21,7 +21,7 @@ import (
 	"net/http"
 	"os"
 
-	liferay "github.com/mdelapenya/lpn/liferay"
+	liferay "github.com/liferay/lpn/liferay"
 	tablewriter "github.com/olekukonko/tablewriter"
 
 	"github.com/spf13/cobra"

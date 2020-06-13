@@ -41,7 +41,7 @@ EOF
     --config="${DIR}/config.yaml" \
     --version="$VERSION" \
     --channel="$CHANNEL" \
-    github.com/mdelapenya/lpn
+    github.com/liferay/lpn
 
   echo ">>> Release $VERSION pushed to Equinox successfully."
 }

@@ -12,7 +12,7 @@
 
 package liferay
 
-import internal "github.com/mdelapenya/lpn/internal"
+import internal "github.com/liferay/lpn/internal"
 
 // DXP implementation for Liferay DXP official images
 type DXP struct {

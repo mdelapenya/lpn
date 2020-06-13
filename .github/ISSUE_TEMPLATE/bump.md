@@ -3,7 +3,7 @@ about: 'Provide all the information about how to proceed with the bump of a vers
 name: 'Bump version'
 title: 'Bump [major|minor|patch] version'
 labels: bump
-assignees: mdelapenya
+assignees: liferay
 ---
 
 ## Bump checklist

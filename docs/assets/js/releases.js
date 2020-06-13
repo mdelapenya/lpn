@@ -14,20 +14,20 @@ function appendVersion(version) {
 
 function appendTabsContent(version) {
     let tabsContent = `<div class="tab-pane fade show active" id="mac" role="tabpanel" aria-labelledby="mac-tab">
-    <pre class="mb-0"><code class="code-soy"><span>curl <span class="variable">"https://github.com/mdelapenya/lpn/releases/download/${version}/darwin64-lpn"</span> \
+    <pre class="mb-0"><code class="code-soy"><span>curl <span class="variable">"https://github.com/liferay/lpn/releases/download/${version}/darwin64-lpn"</span> \
 --output <span class="variable">/tmp/lpn</span></span>
 <span>chmod +x <span class="variable">/tmp/lpn</span></span>
 <span><span class="string">sudo</span> mv <span class="variable">/tmp/lpn /usr/local/bin/lpn</span></span></code></pre>
 </div>
 <div class="tab-pane fade" id="linux" role="tabpanel" aria-labelledby="linux-tab">
-    <pre class="mb-0"><code class="code-soy"><span>curl <span class="variable">"https://github.com/mdelapenya/lpn/releases/download/${version}/linux64-lpn"</span> \
+    <pre class="mb-0"><code class="code-soy"><span>curl <span class="variable">"https://github.com/liferay/lpn/releases/download/${version}/linux64-lpn"</span> \
 --output <span class="variable">/tmp/lpn</span></span>
 <span>chmod +x <span class="variable">/tmp/lpn</span></span>
 <span><span class="string">sudo</span> mv <span class="string">/tmp/lpn /usr/local/bin/lpn</span></span></code></pre>
 </div>
 <div class="tab-pane fade" id="win" role="tabpanel" aria-labelledby="win-tab">
     <pre class="mb-0"><code class="code-soy"><span>md <span class="variable">"C:\\Program Files (x86)\\lpn"</span></span>
-<span>curl <span class="variable">"https://github.com/mdelapenya/lpn/releases/download/${version}/win64-lpn.exe"</span> -OutFile <span class="variable">"C:\\Program Files (x86)\\lpn\\lpn.exe"</span></span>
+<span>curl <span class="variable">"https://github.com/liferay/lpn/releases/download/${version}/win64-lpn.exe"</span> -OutFile <span class="variable">"C:\\Program Files (x86)\\lpn\\lpn.exe"</span></span>
 <span>set <span class="string">PATH="%PATH%;C:\\Program Files (x86)\\lpn\"</span></span></code></pre>
 </div>`
 
@@ -120,7 +120,7 @@ function getChangelog(release) {
     let changelogHtml = getChangelogMarkup(changelog.enhacements, enhacements, "Enhacements");
     changelogHtml += getChangelogMarkup(changelog.breakings, breakings, "Breaking Changes");
     changelogHtml += getChangelogMarkup(changelog.fixes, fixes, "Fixes");
-    changelogHtml += `<a href="https://github.com/mdelapenya/lpn/releases/tag/` + release.version + `" class="">See it on Github</a>`;
+    changelogHtml += `<a href="https://github.com/liferay/lpn/releases/tag/` + release.version + `" class="">See it on Github</a>`;
 
     return changelogHtml;
 }
@@ -145,7 +145,7 @@ function getDescription(change) {
 
 function getDownloadLinks(release) {
     if (release.equinox) {
-        const equinoxUrl = 'https://dl.equinox.io/mdelapenya/lpn/stable';
+        const equinoxUrl = 'https://dl.equinox.io/liferay/lpn/stable';
 
         return `<a href='` + equinoxUrl + `' target='_blank'>Download from Equinox</a>`;
     }
@@ -160,7 +160,7 @@ function getDownloadLinks(release) {
         version = release.version + "-snapshot"
     }
 
-    let basePath = `https://github.com/mdelapenya/lpn/releases/download/` + version;
+    let basePath = `https://github.com/liferay/lpn/releases/download/` + version;
 
     let linksHtml = '';
 

@@ -1,10 +1,10 @@
 # lpn (Liferay Portal Nook)
 
-[![Build Status](https://travis-ci.org/mdelapenya/lpn.svg?branch=master)](https://travis-ci.org/mdelapenya/lpn)
-[![Codecov Coverage](https://codecov.io/gh/mdelapenya/lpn/branch/master/graph/badge.svg)](https://codecov.io/gh/mdelapenya/lpn)
-[![Go Report Card](https://goreportcard.com/badge/github.com/mdelapenya/lpn)](https://goreportcard.com/report/github.com/mdelapenya/lpn)
+[![Build Status](https://travis-ci.org/liferay/lpn.svg?branch=master)](https://travis-ci.org/liferay/lpn)
+[![Codecov Coverage](https://codecov.io/gh/liferay/lpn/branch/master/graph/badge.svg)](https://codecov.io/gh/liferay/lpn)
+[![Go Report Card](https://goreportcard.com/badge/github.com/liferay/lpn)](https://goreportcard.com/report/github.com/liferay/lpn)
 
-This is LPN [https://mdelapenya.github.io/lpn/index.html](https://mdelapenya.github.io/lpn/index.html), a CLI that makes it easy running Liferay Portal's Docker images.
+This is LPN [https://liferay.github.io/lpn/index.html](https://liferay.github.io/lpn/index.html), a CLI that makes it easy running Liferay Portal's Docker images.
 
 It wraps Docker commands so you just have to run this tool, and pass the specific tag you want to run.
 
@@ -14,7 +14,7 @@ You have to install Docker on your machine first. Check [this guide](https://doc
 
 ## Installation
 
-For current stable version of `lpn`, please visit [downloads page](https://github.com/mdelapenya/lpn/releases), and select the target platform, based on O.S. and architecture.
+For current stable version of `lpn`, please visit [downloads page](https://github.com/liferay/lpn/releases), and select the target platform, based on O.S. and architecture.
 
 If you are in the Golang world, you could install this tool from source code.
 
@@ -23,7 +23,7 @@ For that reason you need to:
 - [Install Golang runtime](https://golang.org/doc/install)
 - Make sure that you have `GOPATH` environment variable defined to the location you want to have your Golang projects
 - Add `$GOPATH\bin` to your `$PATH`, like this: `export PATH=${PATH}:${GOPATH//://bin:}/bin`
-- Clone this repo under `$GOPATH`: `git clone https://github.com/mdelapenya/lpn $GOPATH/src/github.com/mdelapenya/lpn`
+- Clone this repo under `$GOPATH`: `git clone https://github.com/liferay/lpn $GOPATH/src/github.com/liferay/lpn`
 - From inside the project, run `go install`
 
 Now you can use `lpn` from your command line.
@@ -89,7 +89,7 @@ With `lpn` you'll be able to:
 - Run Liferay Portal containers using the released version you prefer:
   - Liferay Portal official images, obtained from [here for CE](https://hub.docker.com/r/liferay/portal/tags/) and [here for DXP](https://hub.docker.com/r/liferay/dxp/tags/).
   - Liferay Portal nightly builds, obtained from [here](https://hub.docker.com/r/liferay/portal-snapshot/tags/).
-  - Liferay Portal releases, obtained from [here](https://hub.docker.com/r/mdelapenya/liferay-portal/tags/).
+  - Liferay Portal releases, obtained from [here](https://hub.docker.com/r/liferay/liferay-portal/tags/).
   - Liferay Portal including specific products, like Commerce.
 - Run a real database to store portal data
 - Deploy applications to the running containers:
@@ -124,7 +124,7 @@ This could be an example of how the `help` subcommand shows:
 ```shell
 $ lpn help
 A Fast and Flexible CLI for managing Liferay Portal's Docker images
-				built with love by mdelapenya and friends in Go.
+				built with love by liferay and friends in Go.
 
 Usage:
   lpn [flags]

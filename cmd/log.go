@@ -13,8 +13,8 @@
 package cmd
 
 import (
-	docker "github.com/mdelapenya/lpn/docker"
-	liferay "github.com/mdelapenya/lpn/liferay"
+	docker "github.com/liferay/lpn/docker"
+	liferay "github.com/liferay/lpn/liferay"
 
 	"github.com/spf13/cobra"
 )

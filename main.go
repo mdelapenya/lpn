@@ -18,10 +18,10 @@ import (
 	"os/user"
 	"path/filepath"
 
-	"github.com/mdelapenya/lpn/cmd"
+	"github.com/liferay/lpn/cmd"
 
-	docker "github.com/mdelapenya/lpn/docker"
-	internal "github.com/mdelapenya/lpn/internal"
+	docker "github.com/liferay/lpn/docker"
+	internal "github.com/liferay/lpn/internal"
 )
 
 func init() {
