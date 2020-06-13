@@ -26,6 +26,7 @@ jobs:
 
       - name: Get dependencies
         run: |
+          ./.github/scripts/install-dependencies.sh
           go get -v -t -d ./...
 
       - name: Build
