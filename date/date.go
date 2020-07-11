@@ -19,4 +19,6 @@ import (
 )
 
 // CurrentDate represents current date
-var CurrentDate = jodaTime.Format("YYYYMMdd", time.Now())
+func CurrentDate() string {
+	return jodaTime.Format("YYYYMMdd", time.Now())
+}

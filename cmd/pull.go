@@ -149,7 +149,7 @@ var pullNightly = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToPull == "" {
-			tagToPull = date.CurrentDate
+			tagToPull = date.CurrentDate()
 		}
 
 		nightly := liferay.Nightly{Tag: tagToPull}

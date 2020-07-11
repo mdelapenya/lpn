@@ -151,7 +151,7 @@ var runNightlyCmd = &cobra.Command{
 	Use:   "nightly",
 	Short: "Runs a Liferay Portal instance from Nightly Builds",
 	Long: `Runs a Liferay Portal instance, obtained from Nightly Builds repository.
-	If no image tag is passed to the command, the tag representing the current date [` + date.CurrentDate + `] will be used.`,
+	If no image tag is passed to the command, the tag representing the current date [` + date.CurrentDate() + `] will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("run requires zero or one argument representing the image tag to be run")
@@ -161,7 +161,7 @@ var runNightlyCmd = &cobra.Command{
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToRun == "" {
-			tagToRun = date.CurrentDate
+			tagToRun = date.CurrentDate()
 		}
 
 		nightly := liferay.Nightly{Tag: tagToRun}

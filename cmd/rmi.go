@@ -73,7 +73,7 @@ var rmiCommerceCmd = &cobra.Command{
 	Long:  `Removes the Liferay Portal Commerce image from the Docker host.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToRemove == "" {
-			tagToRemove = date.CurrentDate
+			tagToRemove = date.CurrentDate()
 		}
 
 		commerce := liferay.Commerce{Tag: tagToRemove}
@@ -103,7 +103,7 @@ var rmiNightlyCmd = &cobra.Command{
 	Long:  `Removes the Liferay Portal Nightly Build image from the Docker host.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToRemove == "" {
-			tagToRemove = date.CurrentDate
+			tagToRemove = date.CurrentDate()
 		}
 
 		nightly := liferay.Nightly{Tag: tagToRemove}
