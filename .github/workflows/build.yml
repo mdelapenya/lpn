@@ -1,0 +1,20 @@
+name: Build and Push Portal Snapshots
+
+on:
+  push:
+    branches:    
+      - portal-snapshots
+
+jobs:
+  build:
+    name: Build and Push Portal Snapshots
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: ./.github/scripts/install-dependencies.sh
+
+      - name: Build and Push Docker Snapshot
+        run: ./.github/scripts/build-portal-snapshot.sh push
