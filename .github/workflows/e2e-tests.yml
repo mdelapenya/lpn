@@ -36,9 +36,6 @@ jobs:
           sudo gem install bundler
           sudo bundle install
           go get -v -t -d ./...
-          if [ "${{ matrix.command }}" != "license" ] && [ "${{ matrix.command }}" != "tags" ] && [ "${{ matrix.command }}" != "version" ]; then
-            ./.github/scripts/pull-images.sh
-          fi
 
       - name: Build
         run: go build -o ./bin/lpn
