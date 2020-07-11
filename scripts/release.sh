@@ -4,7 +4,8 @@ function git_branch_name() {
   echo $(git symbolic-ref --short HEAD)
 }
 
-readonly BRANCH="${TRAVIS_BRANCH:-$(git_branch_name)}"
+readonly GH_BRANCH="${GITHUB_REF##*/}"
+readonly BRANCH="${GH_BRANCH:-$(git_branch_name)}"
 readonly VERSION=$(cat ./VERSION.txt)
 
 if [[ "$BRANCH" != "master" ]]; then

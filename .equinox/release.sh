@@ -3,7 +3,8 @@
 readonly DIR="$(realpath $(dirname ${BASH_SOURCE[0]}))"
 readonly EQUINOX_APP_ID=app_dK5yVpq7ybd
 VERSION=$(cat ${DIR}/../VERSION.txt)
-readonly BRANCH="${TRAVIS_BRANCH:-develop}"
+readonly GH_BRANCH="${GITHUB_REF##*/}"
+readonly BRANCH="${GH_BRANCH:-develop}"
 
 function main() {
   installEquinox
