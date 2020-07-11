@@ -28,5 +28,5 @@ func TestCurrentDate(t *testing.T) {
 	month := jodaTime.Format("MM", now)
 	day := jodaTime.Format("dd", now)
 
-	assert.Equal(year+month+day, CurrentDate, "Date not properly formed.")
+	assert.Equal(year+month+day, CurrentDate(), "Date not properly formed.")
 }
