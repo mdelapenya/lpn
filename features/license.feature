@@ -7,5 +7,5 @@ Feature: License command
     Then the exit status should be 0
     And the output should contain:
     """
-    Redistributions in binary form must reproduce the above copyright notice
+    Copyright (c) 2000-present Liferay, Inc. All rights reserved.
     """
