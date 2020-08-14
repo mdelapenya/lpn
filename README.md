@@ -4,6 +4,7 @@
 
 [![Codecov Coverage](https://codecov.io/gh/mdelapenya/lpn/branch/master/graph/badge.svg)](https://codecov.io/gh/mdelapenya/lpn)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mdelapenya/lpn)](https://goreportcard.com/report/github.com/mdelapenya/lpn)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmdelapenya%2Flpn.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmdelapenya%2Flpn?ref=badge_shield)
 
 This is LPN [https://mdelapenya.github.io/lpn/index.html](https://mdelapenya.github.io/lpn/index.html), a CLI that makes it easy running Liferay Portal's Docker images.
 
@@ -183,6 +184,9 @@ Once you have typed the proper command, to specify with which image type you wan
   - commerce
 
 So any command needs the combination of one of the subcommands above. So to run a DXP image, you would need to execute `lpn run dxp`.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmdelapenya%2Flpn.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmdelapenya%2Flpn?ref=badge_large)
 
 ## Running a container from a Liferay Portal/DXP image
 
