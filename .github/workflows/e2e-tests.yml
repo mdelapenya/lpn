@@ -21,10 +21,10 @@ jobs:
       matrix:
         command: [checkc, checki, deploy, license, pull, rm, rmi, run, start, stop, tags, version]
     steps:
-      - name: Set up Go 1.13
-        uses: actions/setup-go@v2.0.3
+      - name: Set up Go 1.17
+        uses: actions/setup-go@v3
         with:
-          go-version: 1.13
+          go-version: 1.17
         id: go
 
       - name: Check out code into the Go module directory
