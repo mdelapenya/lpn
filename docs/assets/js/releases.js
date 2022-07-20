@@ -122,7 +122,7 @@ function getChangelog(release) {
     let changelogHtml = getChangelogMarkup(changelog.enhacements, enhacements, "Enhacements");
     changelogHtml += getChangelogMarkup(changelog.breakings, breakings, "Breaking Changes");
     changelogHtml += getChangelogMarkup(changelog.fixes, fixes, "Fixes");
-    changelogHtml += `<a href="https://github.com/mdelapenya/lpn/releases/tag/` + release.version + `" class="">See it on Github</a>`;
+    changelogHtml += `<a href="https://github.com/mdelapenya/lpn/releases/tag/v` + release.version + `" class="">See it on Github</a>`;
 
     return changelogHtml;
 }
