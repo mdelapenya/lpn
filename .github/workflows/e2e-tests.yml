@@ -32,7 +32,7 @@ jobs:
 
       - name: Get dependencies
         run: |
-          sudo gem update --system 3.0.8
+          sudo gem update --system 3.3.18
           sudo gem install bundler
           sudo bundle install
           go get -v -t -d ./...
