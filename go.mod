@@ -19,5 +19,5 @@ require (
 	github.com/spf13/viper v1.4.0
 	github.com/stretchr/testify v1.3.0
 	github.com/vjeantet/jodaTime v0.0.0-20170816150230-be924ce213fb
-	golang.org/x/sys v0.0.0-20200610111108-226ff32320da // indirect
+	golang.org/x/sys v0.1.0 // indirect
 )
