@@ -33,6 +33,11 @@ import (
 // - WithReuseByName: Container persists and is reused across invocations
 // - No automatic cleanup: Container lifecycle managed explicitly
 // - Production-ready: Same behavior as Docker client API implementation
+//
+// For additional persistence guarantees, you can disable Ryuk globally:
+// - Set TESTCONTAINERS_RYUK_DISABLED=true environment variable, OR
+// - Create .testcontainers.properties with ryuk.disabled=true
+// This prevents the reaper sidecar container from auto-removing containers.
 func RunDatabaseDockerImageWithTestcontainers(image DatabaseImage) (testcontainers.Container, error) {
 	ctx := context.Background()
 	containerName := image.GetContainerName()

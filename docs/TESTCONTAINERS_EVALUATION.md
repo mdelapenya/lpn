@@ -98,6 +98,8 @@ After discovering that testcontainers-go supports persistent containers via `Wit
 
 Testcontainers-go is not just for testing. The key capabilities for production use:
 
+**Option 1: Using `WithReuseByName()` (Recommended)**
+
 ```go
 // Production container with persistence
 container, err := mysql.Run(
@@ -109,9 +111,9 @@ container, err := mysql.Run(
     // Key feature: Container persists and is reused
     testcontainers.WithReuseByName("lpn-mysql"),
     // Persistent data volume
-    testcontainers.WithBindMounts(map[string]string{
-        "/path/to/data": "/var/lib/mysql",
-    }),
+    testcontainers.WithMounts(
+        testcontainers.BindMount(volumePath, mountTarget),
+    ),
     // Production labels
     testcontainers.WithLabels(map[string]string{
         "lpn-type": "production",
@@ -120,6 +122,25 @@ container, err := mysql.Run(
 // Container persists until explicitly terminated
 // No automatic cleanup
 ```
+
+**Option 2: Disabling Ryuk Reaper (Alternative)**
+
+For production environments, you can disable the Ryuk reaper container entirely to ensure no automatic cleanup:
+
+```bash
+# Set environment variable to disable Ryuk globally
+export TESTCONTAINERS_RYUK_DISABLED=true
+```
+
+Or create a `.testcontainers.properties` file:
+```properties
+ryuk.disabled=true
+```
+
+This prevents the reaper sidecar container from being created, ensuring all containers persist until manually removed. This is useful for:
+- Production deployments where containers should never be auto-cleaned
+- Development environments where you want containers to survive test runs
+- CI/CD pipelines where cleanup is handled by the pipeline itself
 
 The same API works for testing:
 

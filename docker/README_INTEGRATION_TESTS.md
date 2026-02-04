@@ -104,9 +104,28 @@ Demonstrates production use of testcontainers-go:
 ### Benefits for Production Use
 - ✅ **Persistent containers**: `WithReuseByName()` makes containers reusable
 - ✅ **No automatic cleanup**: Container lifecycle is manually controlled
+- ✅ **Ryuk can be disabled**: Set `TESTCONTAINERS_RYUK_DISABLED=true` to prevent reaper sidecar
 - ✅ **Built-in modules**: Pre-configured for MySQL, PostgreSQL, etc.
 - ✅ **Wait strategies**: Ensures services are ready before returning
 - ✅ **Unified API**: Same library for testing and production
+
+### Additional Production Configuration
+
+**Disable Ryuk Reaper Globally:**
+
+The Ryuk reaper is a sidecar container that automatically cleans up containers. For production use, you can disable it:
+
+```bash
+# Environment variable
+export TESTCONTAINERS_RYUK_DISABLED=true
+```
+
+Or create `.testcontainers.properties`:
+```properties
+ryuk.disabled=true
+```
+
+This ensures no automatic cleanup happens, even if `CleanupContainer()` is accidentally called.
 
 ### Benefits for Testing
 - ✅ **Automatic cleanup**: No leftover containers when using `CleanupContainer()`
@@ -118,6 +137,8 @@ Demonstrates production use of testcontainers-go:
 ## Production vs Testing Pattern
 
 ### Production Pattern (Persistent Containers)
+
+**Option 1: Using `WithReuseByName()`**
 ```go
 // Container persists and can be reused
 container, err := mysql.Run(ctx, "mysql:8.0",
@@ -130,6 +151,20 @@ container, err := mysql.Run(ctx, "mysql:8.0",
 // No CleanupContainer() call - container stays running
 return container, err
 ```
+
+**Option 2: Disable Ryuk Globally (for entire environment)**
+```bash
+# Before running your application
+export TESTCONTAINERS_RYUK_DISABLED=true
+
+# Then run normally - no reaper will be created
+container, err := mysql.Run(ctx, "mysql:8.0",
+    mysql.WithDatabase("lportal"),
+    // Even without WithReuseByName, container persists because Ryuk is disabled
+)
+```
+
+Both options ensure containers persist. `WithReuseByName()` is recommended as it's more explicit and works per-container.
 
 ### Testing Pattern (Ephemeral Containers)
 ```go
