@@ -26,7 +26,8 @@ import (
 	"strings"
 
 	types "github.com/docker/docker/api/types"
-	container "github.com/docker/docker/api/types/container"
+	containertypes "github.com/docker/docker/api/types/container"
+	"github.com/docker/docker/api/types/image"
 	filters "github.com/docker/docker/api/types/filters"
 	mount "github.com/docker/docker/api/types/mount"
 	client "github.com/docker/docker/client"
@@ -98,7 +99,7 @@ func CheckDockerContainerExists(containerName string) bool {
 	dockerClient := getDockerClient()
 
 	containers, err := dockerClient.ContainerList(
-		context.Background(), types.ContainerListOptions{All: true})
+		context.Background(), containertypes.ListOptions{All: true})
 
 	if err != nil {
 		return false
@@ -174,7 +175,7 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 
 	err = dockerClient.CopyToContainer(
 		context.Background(), image.GetContainerName(), image.GetDeployFolder(),
-		&buffer, types.CopyToContainerOptions{AllowOverwriteDirWithFile: true})
+		&buffer, containertypes.CopyToContainerOptions{AllowOverwriteDirWithFile: true})
 
 	if err == nil {
 		targetFilePath := filepath.Join(image.GetDeployFolder(), filepath.Base(file.Name()))
@@ -198,7 +199,7 @@ func execCommandIntoContainer(containerName string, cmd []string) error {
 	dockerClient := getDockerClient()
 
 	response, err := dockerClient.ContainerExecCreate(
-		context.Background(), containerName, types.ExecConfig{
+		context.Background(), containerName, containertypes.ExecOptions{
 			User:         "root",
 			Tty:          false,
 			AttachStdin:  false,
@@ -218,7 +219,7 @@ func execCommandIntoContainer(containerName string, cmd []string) error {
 	}
 
 	err = dockerClient.ContainerExecStart(
-		context.Background(), response.ID, types.ExecStartCheck{
+		context.Background(), response.ID, containertypes.ExecStartOptions{
 			Detach: true,
 			Tty:    false,
 		})
@@ -255,7 +256,7 @@ func GetDockerImageFromRunningContainer(image liferay.Image) (string, error) {
 	dockerClient := getDockerClient()
 
 	containers, err := dockerClient.ContainerList(
-		context.Background(), types.ContainerListOptions{All: true})
+		context.Background(), containertypes.ListOptions{All: true})
 
 	if err != nil {
 		log.WithFields(log.Fields{
@@ -327,7 +328,7 @@ func LogContainer(image liferay.Image) {
 
 	reader, err := dockerClient.ContainerLogs(
 		context.Background(), image.GetContainerName(),
-		types.ContainerLogsOptions{ShowStdout: true, ShowStderr: true, Follow: true})
+		containertypes.LogsOptions{ShowStdout: true, ShowStderr: true, Follow: true})
 	if err != nil {
 		log.WithFields(log.Fields{
 			"container": image.GetContainerName(),
@@ -352,7 +353,7 @@ func PsFilterByLabel(label string) ([]types.Container, error) {
 	filters.Add("label", label)
 
 	return dockerClient.ContainerList(
-		context.Background(), types.ContainerListOptions{
+		context.Background(), containertypes.ListOptions{
 			Size:    true,
 			All:     true,
 			Since:   "container",
@@ -369,7 +370,7 @@ func PullDockerImage(dockerImage string) {
 	}).Debug("Pulling Docker image.")
 
 	out, err := dockerClient.ImagePull(
-		context.Background(), dockerImage, types.ImagePullOptions{})
+		context.Background(), dockerImage, image.PullOptions{})
 
 	if err == nil {
 		parseImagePull(out)
@@ -421,7 +422,7 @@ func RemoveDockerContainer(image liferay.Image) error {
 	for _, container := range containers {
 		name := strings.TrimLeft(container.Names[0], "/")
 		err = dockerClient.ContainerRemove(
-			context.Background(), name, types.ContainerRemoveOptions{
+			context.Background(), name, containertypes.RemoveOptions{
 				RemoveVolumes: true,
 				Force:         true,
 			})
@@ -441,7 +442,7 @@ func RemoveDockerImage(dockerImageName string) error {
 
 	_, err := dockerClient.ImageRemove(
 		context.Background(), dockerImageName,
-		types.ImageRemoveOptions{
+		image.RemoveOptions{
 			Force: true,
 		})
 	if err != nil {
@@ -506,7 +507,7 @@ func RunDatabaseDockerImage(image DatabaseImage) error {
 
 	containerCreationResponse, err := dockerClient.ContainerCreate(
 		context.Background(),
-		&container.Config{
+		&containertypes.Config{
 			Image:        image.GetFullyQualifiedName(),
 			Env:          environmentVariables,
 			ExposedPorts: exposedPorts,
@@ -515,11 +516,11 @@ func RunDatabaseDockerImage(image DatabaseImage) error {
 				"lpn-type": image.GetLpnType(),
 			},
 		},
-		&container.HostConfig{
+		&containertypes.HostConfig{
 			PortBindings: portBindings,
 			Mounts:       mounts,
 		},
-		nil, image.GetContainerName())
+		nil, nil, image.GetContainerName())
 	if err != nil {
 		log.WithFields(log.Fields{
 			"container":    image.GetContainerName(),
@@ -533,7 +534,7 @@ func RunDatabaseDockerImage(image DatabaseImage) error {
 	}
 
 	err = dockerClient.ContainerStart(
-		context.Background(), containerCreationResponse.ID, types.ContainerStartOptions{})
+		context.Background(), containerCreationResponse.ID, containertypes.StartOptions{})
 	if err == nil {
 		log.WithFields(log.Fields{
 			"container":    image.GetContainerName(),
@@ -626,7 +627,7 @@ func RunLiferayDockerImage(
 
 	containerCreationResponse, err := dockerClient.ContainerCreate(
 		context.Background(),
-		&container.Config{
+		&containertypes.Config{
 			Image:        image.GetFullyQualifiedName(),
 			Env:          environmentVariables,
 			ExposedPorts: exposedPorts,
@@ -634,12 +635,12 @@ func RunLiferayDockerImage(
 				"lpn-type": image.GetType(),
 			},
 		},
-		&container.HostConfig{
+		&containertypes.HostConfig{
 			Links:        links,
 			PortBindings: portBindings,
 			Mounts:       []mount.Mount{},
 		},
-		nil, image.GetContainerName())
+		nil, nil, image.GetContainerName())
 	if err != nil {
 		log.WithFields(log.Fields{
 			"container":    image.GetContainerName(),
@@ -652,7 +653,7 @@ func RunLiferayDockerImage(
 	}
 
 	err = dockerClient.ContainerStart(
-		context.Background(), containerCreationResponse.ID, types.ContainerStartOptions{})
+		context.Background(), containerCreationResponse.ID, containertypes.StartOptions{})
 	if err == nil {
 		log.WithFields(log.Fields{
 			"container":    image.GetContainerName(),
@@ -688,7 +689,7 @@ func StartDockerContainer(image liferay.Image) error {
 		}
 
 		err = dockerClient.ContainerStart(
-			context.Background(), name, types.ContainerStartOptions{})
+			context.Background(), name, containertypes.StartOptions{})
 		if err == nil {
 			log.WithFields(log.Fields{
 				"container": name,
@@ -697,7 +698,7 @@ func StartDockerContainer(image liferay.Image) error {
 	}
 
 	err = dockerClient.ContainerStart(
-		context.Background(), image.GetContainerName(), types.ContainerStartOptions{})
+		context.Background(), image.GetContainerName(), containertypes.StartOptions{})
 	if err == nil {
 		log.WithFields(log.Fields{
 			"container": image.GetContainerName(),
@@ -721,7 +722,7 @@ func StopDockerContainer(image liferay.Image) error {
 
 	for _, container := range containers {
 		name := strings.TrimLeft(container.Names[0], "/")
-		err = dockerClient.ContainerStop(context.Background(), name, nil)
+		err = dockerClient.ContainerStop(context.Background(), name, containertypes.StopOptions{})
 		if err == nil {
 			log.WithFields(log.Fields{
 				"container": name,
