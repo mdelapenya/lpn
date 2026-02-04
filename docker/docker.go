@@ -520,7 +520,9 @@ func RunDatabaseDockerImage(image DatabaseImage) error {
 			PortBindings: portBindings,
 			Mounts:       mounts,
 		},
-		nil, nil, image.GetContainerName())
+		nil, // NetworkingConfig not needed for basic container setup
+		nil, // Platform not specified, use default
+		image.GetContainerName())
 	if err != nil {
 		log.WithFields(log.Fields{
 			"container":    image.GetContainerName(),
@@ -640,7 +642,9 @@ func RunLiferayDockerImage(
 			PortBindings: portBindings,
 			Mounts:       []mount.Mount{},
 		},
-		nil, nil, image.GetContainerName())
+		nil, // NetworkingConfig not needed, using legacy Links
+		nil, // Platform not specified, use default
+		image.GetContainerName())
 	if err != nil {
 		log.WithFields(log.Fields{
 			"container":    image.GetContainerName(),

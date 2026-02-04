@@ -46,7 +46,8 @@ func TestPostgreSQLContainerIntegration(t *testing.T) {
 		postgres.WithUsername(DBUser),
 		postgres.WithPassword(DBPassword),
 	)
-	// Register cleanup BEFORE error check - critical for resource cleanup
+	// CRITICAL: Register cleanup BEFORE error check to prevent resource leaks
+	// The cleanup function handles nil containers gracefully
 	testcontainers.CleanupContainer(t, pgContainer)
 	require.NoError(t, err)
 
@@ -101,7 +102,8 @@ func TestMySQLContainerIntegration(t *testing.T) {
 		mysql.WithUsername(DBUser),
 		mysql.WithPassword(DBPassword),
 	)
-	// Register cleanup BEFORE error check
+	// CRITICAL: Register cleanup BEFORE error check to prevent resource leaks
+	// The cleanup function handles nil containers gracefully
 	testcontainers.CleanupContainer(t, mysqlContainer)
 	require.NoError(t, err)
 
@@ -159,6 +161,7 @@ func TestPostgreSQLSnapshot(t *testing.T) {
 		postgres.WithUsername(DBUser),
 		postgres.WithPassword(DBPassword),
 	)
+	// CRITICAL: Register cleanup BEFORE error check to prevent resource leaks
 	testcontainers.CleanupContainer(t, pgContainer)
 	require.NoError(t, err)
 
