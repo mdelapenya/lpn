@@ -156,11 +156,14 @@ This modernizes the codebase and ensures compatibility with current Docker versi
 ## Running the Tests
 
 ```bash
-# Run all integration tests
-go test -v ./docker -run Integration -timeout 5m
+# Run all tests (skips PostgreSQL tests in short mode)
+go test ./... -short
 
-# Run specific test
+# Run MySQL integration test (passing)
 go test -v ./docker -run TestMySQLContainerIntegration -timeout 5m
+
+# Run all integration tests (including PostgreSQL if networking allows)
+go test -v ./docker -timeout 5m
 ```
 
 ## Conclusion

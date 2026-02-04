@@ -31,6 +31,10 @@ import (
 // provides a cleaner, more reliable approach for integration testing compared to
 // managing container lifecycle manually.
 func TestPostgreSQLContainerIntegration(t *testing.T) {
+	if testing.Short() {
+		t.Skip("Skipping PostgreSQL integration test in short mode due to IPv6 networking issues")
+	}
+	
 	ctx := context.Background()
 
 	// Start PostgreSQL container with testcontainers-go
@@ -142,6 +146,10 @@ func TestMySQLContainerIntegration(t *testing.T) {
 // like database snapshots for test isolation. This is a unique feature that
 // helps with maintaining clean test state.
 func TestPostgreSQLSnapshot(t *testing.T) {
+	if testing.Short() {
+		t.Skip("Skipping PostgreSQL snapshot test in short mode due to IPv6 networking issues")
+	}
+	
 	ctx := context.Background()
 
 	pgContainer, err := postgres.Run(
