@@ -35,6 +35,10 @@ import (
 	internal "github.com/mdelapenya/lpn/internal"
 	liferay "github.com/mdelapenya/lpn/liferay"
 	log "github.com/sirupsen/logrus"
+	"github.com/testcontainers/testcontainers-go"
+	"github.com/testcontainers/testcontainers-go/modules/mysql"
+	"github.com/testcontainers/testcontainers-go/modules/postgres"
+	"github.com/testcontainers/testcontainers-go/wait"
 )
 
 var instance *client.Client
@@ -462,93 +466,109 @@ func RemoveDockerImage(dockerImageName string) error {
 }
 
 // RunDatabaseDockerImage runs the image, setting the HTTP port and a volume for the data folder
+// Now uses testcontainers-go for container management with persistent, reusable containers.
+//
+// Key features:
+// - WithReuseByName: Container persists and is reused across invocations
+// - No automatic cleanup: Container lifecycle managed explicitly
+// - Production-ready with built-in wait strategies
+//
+// For additional persistence guarantees, you can disable Ryuk globally:
+// - Set TESTCONTAINERS_RYUK_DISABLED=true environment variable, OR
+// - Create .testcontainers.properties with ryuk.disabled=true
 func RunDatabaseDockerImage(image DatabaseImage) error {
-	if CheckDockerContainerExists(image.GetContainerName()) {
+	ctx := context.Background()
+	containerName := image.GetContainerName()
+
+	// Check if container already exists and is running
+	if CheckDockerContainerExists(containerName) {
 		log.WithFields(log.Fields{
-			"container": image.GetContainerName(),
+			"container": containerName,
 		}).Debug("Not starting a new container because it's already running")
 
 		return nil
 	}
 
-	natPort, _ := nat.NewPort("tcp", fmt.Sprintf("%d", image.GetPort()))
-
-	environmentVariables := []string{}
-
-	environmentVariables = append(environmentVariables, image.GetEnvVariables().Database)
-	environmentVariables = append(environmentVariables, image.GetEnvVariables().Password)
-	environmentVariables = append(environmentVariables, image.GetEnvVariables().User)
-
-	exposedPorts := map[nat.Port]struct{}{
-		natPort: {},
-	}
-
-	portBindings := make(map[nat.Port][]nat.PortBinding)
-
-	var mounts []mount.Mount
-
-	path := filepath.Join(internal.LpnWorkspace, image.GetContainerName())
+	// Create mount path for data persistence
+	volumePath := filepath.Join(internal.LpnWorkspace, containerName)
+	os.MkdirAll(volumePath, os.ModePerm)
+	
 	log.WithFields(log.Fields{
-		"container": image.GetContainerName(),
-		"volume":    path,
+		"container": containerName,
+		"volume":    volumePath,
 	}).Debug("Mounting database data folder")
 
-	os.MkdirAll(path, os.ModePerm)
+	var container testcontainers.Container
+	var err error
 
-	mounts = append(mounts, mount.Mount{
-		Type:   mount.TypeBind,
-		Source: path,
-		Target: image.GetDataFolder(),
-	})
-
-	PullDockerImage(image.GetFullyQualifiedName())
-
-	dockerClient := getDockerClient()
-
-	containerCreationResponse, err := dockerClient.ContainerCreate(
-		context.Background(),
-		&containertypes.Config{
-			Image:        image.GetFullyQualifiedName(),
-			Env:          environmentVariables,
-			ExposedPorts: exposedPorts,
-			Labels: map[string]string{
+	// Use appropriate module based on database type
+	switch image.GetType() {
+	case "mysql":
+		container, err = mysql.Run(
+			ctx,
+			image.GetFullyQualifiedName(),
+			mysql.WithDatabase(DBName),
+			mysql.WithUsername(DBUser),
+			mysql.WithPassword(DBPassword),
+			// Reuse existing container if it exists
+			testcontainers.WithReuseByName(containerName),
+			// Mount volume for data persistence
+			testcontainers.WithMounts(
+				testcontainers.BindMount(volumePath, testcontainers.ContainerMountTarget(image.GetDataFolder())),
+			),
+			// Add labels for identification
+			testcontainers.WithLabels(map[string]string{
 				"db-type":  image.GetType(),
 				"lpn-type": image.GetLpnType(),
-			},
-		},
-		&containertypes.HostConfig{
-			PortBindings: portBindings,
-			Mounts:       mounts,
-		},
-		nil, // NetworkingConfig not needed for basic container setup
-		nil, // Platform not specified, use default
-		image.GetContainerName())
+			}),
+			// Wait for database to be ready
+			testcontainers.WithWaitStrategy(
+				wait.ForLog("port: 3306  MySQL Community Server"),
+			),
+		)
+
+	case "postgresql":
+		container, err = postgres.Run(
+			ctx,
+			image.GetFullyQualifiedName(),
+			postgres.WithDatabase(DBName),
+			postgres.WithUsername(DBUser),
+			postgres.WithPassword(DBPassword),
+			// Reuse existing container if it exists
+			testcontainers.WithReuseByName(containerName),
+			// Mount volume for data persistence
+			testcontainers.WithMounts(
+				testcontainers.BindMount(volumePath, testcontainers.ContainerMountTarget(image.GetDataFolder())),
+			),
+			// Add labels for identification
+			testcontainers.WithLabels(map[string]string{
+				"db-type":  image.GetType(),
+				"lpn-type": image.GetLpnType(),
+			}),
+		)
+
+	default:
+		return fmt.Errorf("unsupported database type: %s", image.GetType())
+	}
+
 	if err != nil {
 		log.WithFields(log.Fields{
-			"container":    image.GetContainerName(),
-			"image":        image.GetFullyQualifiedName(),
-			"env":          environmentVariables,
-			"ports":        exposedPorts,
-			"portBindings": portBindings,
-			"mounts":       mounts,
-			"error":        err,
+			"container": containerName,
+			"image":     image.GetFullyQualifiedName(),
+			"error":     err,
 		}).Fatal("Could not create database container")
+		return err
 	}
 
-	err = dockerClient.ContainerStart(
-		context.Background(), containerCreationResponse.ID, containertypes.StartOptions{})
-	if err == nil {
-		log.WithFields(log.Fields{
-			"container":    image.GetContainerName(),
-			"image":        image.GetFullyQualifiedName(),
-			"env":          environmentVariables,
-			"ports":        exposedPorts,
-			"portBindings": portBindings,
-			"mounts":       mounts,
-		}).Debug("Database container has been started")
-	}
+	log.WithFields(log.Fields{
+		"container": containerName,
+		"image":     image.GetFullyQualifiedName(),
+	}).Debug("Database container has been started")
 
-	return err
+	// Store container reference for later use (optional)
+	_ = container
+
+	return nil
 }
 
 // RunLiferayDockerImage runs the image, setting the HTTP and GoGoShell ports for bundle, debug mode, and
