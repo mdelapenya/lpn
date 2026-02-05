@@ -510,8 +510,8 @@ func RunDatabaseDockerImage(image DatabaseImage) error {
 			mysql.WithDatabase(DBName),
 			mysql.WithUsername(DBUser),
 			mysql.WithPassword(DBPassword),
-			// Reuse existing container if it exists
-			testcontainers.WithReuseByName(containerName),
+			// Set the container name explicitly
+			testcontainers.WithName(containerName),
 			// Mount volume for data persistence
 			testcontainers.WithMounts(
 				testcontainers.BindMount(volumePath, testcontainers.ContainerMountTarget(image.GetDataFolder())),
@@ -534,8 +534,8 @@ func RunDatabaseDockerImage(image DatabaseImage) error {
 			postgres.WithDatabase(DBName),
 			postgres.WithUsername(DBUser),
 			postgres.WithPassword(DBPassword),
-			// Reuse existing container if it exists
-			testcontainers.WithReuseByName(containerName),
+			// Set the container name explicitly
+			testcontainers.WithName(containerName),
 			// Mount volume for data persistence
 			testcontainers.WithMounts(
 				testcontainers.BindMount(volumePath, testcontainers.ContainerMountTarget(image.GetDataFolder())),

@@ -11,6 +11,10 @@ import (
 // setupTestConfig initializes the global LpnConfig for tests
 func setupTestConfig() {
 	if internal.LpnConfig == nil {
+		// Set up a temporary workspace for tests
+		tmpDir := "/tmp/lpn-test-workspace"
+		internal.LpnWorkspace = tmpDir
+		
 		internal.LpnConfig = &internal.LPNConfig{
 			Container: internal.NamesConfig{
 				Names: internal.NameConfig{
