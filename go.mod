@@ -24,14 +24,21 @@ require (
 require (
 	dario.cat/mergo v1.0.2 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
+	github.com/ActiveState/termtest v0.7.2 // indirect
+	github.com/ActiveState/termtest/conpty v0.5.0 // indirect
+	github.com/ActiveState/termtest/expect v0.7.0 // indirect
+	github.com/ActiveState/termtest/xpty v0.6.0 // indirect
+	github.com/ActiveState/vt10x v1.3.1 // indirect
 	github.com/Azure/go-ansiterm v0.0.0-20210617225240-d185dfc1b5a1 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
+	github.com/Netflix/go-expect v0.0.0-20201125194554-85d881c3777e // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/containerd/errdefs v1.0.0 // indirect
 	github.com/containerd/errdefs/pkg v0.3.0 // indirect
 	github.com/containerd/log v0.1.0 // indirect
 	github.com/containerd/platforms v0.2.1 // indirect
 	github.com/cpuguy83/dockercfg v0.3.2 // indirect
+	github.com/creack/pty v1.1.18 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/distribution/reference v0.6.0 // indirect
 	github.com/docker/go-units v0.5.0 // indirect
@@ -46,6 +53,7 @@ require (
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect
+	github.com/kr/pty v1.1.8 // indirect
 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect
 	github.com/magiconair/properties v1.8.10 // indirect
 	github.com/mattn/go-runewidth v0.0.4 // indirect
