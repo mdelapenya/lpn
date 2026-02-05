@@ -3,7 +3,7 @@ package docker
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	liferay "github.com/mdelapenya/lpn/liferay"
 )
 
@@ -41,10 +41,10 @@ func TestGetDatabase(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			db := GetDatabase(mockImage, tt.datastore)
 			if tt.wantNil {
-				assert.Nil(t, db)
+				require.Nil(t, db)
 			} else {
-				assert.NotNil(t, db)
-				assert.Equal(t, tt.wantType, db.GetType())
+				require.NotNil(t, db)
+				require.Equal(t, tt.wantType, db.GetType())
 			}
 		})
 	}
@@ -58,39 +58,39 @@ func TestMySQLImage(t *testing.T) {
 	}
 
 	t.Run("GetType", func(t *testing.T) {
-		assert.Equal(t, "mysql", mysql.GetType())
+		require.Equal(t, "mysql", mysql.GetType())
 	})
 
 	t.Run("GetPort", func(t *testing.T) {
-		assert.Equal(t, 3306, mysql.GetPort())
+		require.Equal(t, 3306, mysql.GetPort())
 	})
 
 	t.Run("GetDataFolder", func(t *testing.T) {
-		assert.Equal(t, "/var/lib/mysql", mysql.GetDataFolder())
+		require.Equal(t, "/var/lib/mysql", mysql.GetDataFolder())
 	})
 
 	t.Run("GetTag", func(t *testing.T) {
-		assert.Equal(t, "8.0", mysql.GetTag())
+		require.Equal(t, "8.0", mysql.GetTag())
 	})
 
 	t.Run("GetLpnType", func(t *testing.T) {
-		assert.Equal(t, "ce", mysql.GetLpnType())
+		require.Equal(t, "ce", mysql.GetLpnType())
 	})
 
 	t.Run("GetJDBCConnection", func(t *testing.T) {
 		jdbc := mysql.GetJDBCConnection()
-		assert.Equal(t, "com.mysql.jdbc.Driver", jdbc.DriverClassName)
-		assert.Equal(t, DBUser, jdbc.User)
-		assert.Equal(t, DBPassword, jdbc.Password)
-		assert.Contains(t, jdbc.URL, "jdbc:mysql://")
-		assert.Contains(t, jdbc.URL, DBName)
+		require.Equal(t, "com.mysql.jdbc.Driver", jdbc.DriverClassName)
+		require.Equal(t, DBUser, jdbc.User)
+		require.Equal(t, DBPassword, jdbc.Password)
+		require.Contains(t, jdbc.URL, "jdbc:mysql://")
+		require.Contains(t, jdbc.URL, DBName)
 	})
 
 	t.Run("GetEnvVariables", func(t *testing.T) {
 		env := mysql.GetEnvVariables()
-		assert.Equal(t, "MYSQL_DATABASE="+DBName, env.Database)
-		assert.Equal(t, "MYSQL_ROOT_PASSWORD="+DBPassword, env.Password)
-		assert.Equal(t, "MYSQL_USER="+DBUser, env.User)
+		require.Equal(t, "MYSQL_DATABASE="+DBName, env.Database)
+		require.Equal(t, "MYSQL_ROOT_PASSWORD="+DBPassword, env.Password)
+		require.Equal(t, "MYSQL_USER="+DBUser, env.User)
 	})
 }
 
@@ -102,52 +102,52 @@ func TestPostgreSQLImage(t *testing.T) {
 	}
 
 	t.Run("GetType", func(t *testing.T) {
-		assert.Equal(t, "postgresql", postgres.GetType())
+		require.Equal(t, "postgresql", postgres.GetType())
 	})
 
 	t.Run("GetPort", func(t *testing.T) {
-		assert.Equal(t, 5432, postgres.GetPort())
+		require.Equal(t, 5432, postgres.GetPort())
 	})
 
 	t.Run("GetDataFolder", func(t *testing.T) {
-		assert.Equal(t, "/var/lib/postgresql/data", postgres.GetDataFolder())
+		require.Equal(t, "/var/lib/postgresql/data", postgres.GetDataFolder())
 	})
 
 	t.Run("GetTag", func(t *testing.T) {
-		assert.Equal(t, "16-alpine", postgres.GetTag())
+		require.Equal(t, "16-alpine", postgres.GetTag())
 	})
 
 	t.Run("GetLpnType", func(t *testing.T) {
-		assert.Equal(t, "ce", postgres.GetLpnType())
+		require.Equal(t, "ce", postgres.GetLpnType())
 	})
 
 	t.Run("GetJDBCConnection", func(t *testing.T) {
 		jdbc := postgres.GetJDBCConnection()
-		assert.Equal(t, "org.postgresql.Driver", jdbc.DriverClassName)
-		assert.Equal(t, DBUser, jdbc.User)
-		assert.Equal(t, DBPassword, jdbc.Password)
-		assert.Contains(t, jdbc.URL, "jdbc:postgresql://")
-		assert.Contains(t, jdbc.URL, DBName)
+		require.Equal(t, "org.postgresql.Driver", jdbc.DriverClassName)
+		require.Equal(t, DBUser, jdbc.User)
+		require.Equal(t, DBPassword, jdbc.Password)
+		require.Contains(t, jdbc.URL, "jdbc:postgresql://")
+		require.Contains(t, jdbc.URL, DBName)
 	})
 
 	t.Run("GetEnvVariables", func(t *testing.T) {
 		env := postgres.GetEnvVariables()
-		assert.Equal(t, "POSTGRES_DB="+DBName, env.Database)
-		assert.Equal(t, "POSTGRES_PASSWORD="+DBPassword, env.Password)
-		assert.Equal(t, "POSTGRES_USER="+DBUser, env.User)
+		require.Equal(t, "POSTGRES_DB="+DBName, env.Database)
+		require.Equal(t, "POSTGRES_PASSWORD="+DBPassword, env.Password)
+		require.Equal(t, "POSTGRES_USER="+DBUser, env.User)
 	})
 }
 
 // TestGetAlias tests the GetAlias function
 func TestGetAlias(t *testing.T) {
-	assert.Equal(t, "db", GetAlias())
+	require.Equal(t, "db", GetAlias())
 }
 
 // TestDatabaseConstants tests the database constants
 func TestDatabaseConstants(t *testing.T) {
-	assert.Equal(t, "lportal", DBName)
-	assert.Equal(t, "my-secret-pw", DBPassword)
-	assert.Equal(t, "liferay", DBUser)
+	require.Equal(t, "lportal", DBName)
+	require.Equal(t, "my-secret-pw", DBPassword)
+	require.Equal(t, "liferay", DBUser)
 }
 
 // TestRunDatabaseDockerImageMySQL is an integration test for MySQL container creation
@@ -170,10 +170,10 @@ func TestRunDatabaseDockerImageMySQL(t *testing.T) {
 
 	// Test our RunDatabaseDockerImage function
 	err := RunDatabaseDockerImage(mysql)
-	assert.NoError(t, err, "RunDatabaseDockerImage should not error")
+	require.NoError(t, err, "RunDatabaseDockerImage should not error")
 
 	// Verify container was created
-	assert.True(t, CheckDockerContainerExists(containerName), 
+	require.True(t, CheckDockerContainerExists(containerName), 
 		"Container %s should exist after RunDatabaseDockerImage", containerName)
 
 	t.Cleanup(func() {
@@ -201,10 +201,10 @@ func TestRunDatabaseDockerImagePostgreSQL(t *testing.T) {
 
 	// Test our RunDatabaseDockerImage function
 	err := RunDatabaseDockerImage(postgres)
-	assert.NoError(t, err, "RunDatabaseDockerImage should not error")
+	require.NoError(t, err, "RunDatabaseDockerImage should not error")
 
 	// Verify container was created
-	assert.True(t, CheckDockerContainerExists(containerName),
+	require.True(t, CheckDockerContainerExists(containerName),
 		"Container %s should exist after RunDatabaseDockerImage", containerName)
 
 	t.Cleanup(func() {
@@ -226,14 +226,14 @@ func TestRunDatabaseDockerImageAlreadyExists(t *testing.T) {
 
 	// First call should create the container
 	err := RunDatabaseDockerImage(mysql)
-	assert.NoError(t, err, "First call to RunDatabaseDockerImage should not error")
+	require.NoError(t, err, "First call to RunDatabaseDockerImage should not error")
 
 	// Second call should not fail (should skip creation and reuse existing container)
 	err = RunDatabaseDockerImage(mysql)
-	assert.NoError(t, err, "Second call to RunDatabaseDockerImage should not error")
+	require.NoError(t, err, "Second call to RunDatabaseDockerImage should not error")
 
 	// Verify container still exists
-	assert.True(t, CheckDockerContainerExists(mysql.GetContainerName()),
+	require.True(t, CheckDockerContainerExists(mysql.GetContainerName()),
 		"Container should still exist after second call")
 
 	t.Cleanup(func() {
