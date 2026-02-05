@@ -98,26 +98,47 @@ func CheckDocker() bool {
 	return true
 }
 
-// CheckDockerContainerExists checks if the container is running
+// CheckDockerContainerExists checks if the container exists by label
+// It looks for containers with the label "lpn-container-name" matching the provided name
 func CheckDockerContainerExists(containerName string) bool {
 	dockerClient := getDockerClient()
 
+	// Use label filter to find containers by lpn-container-name label
 	containers, err := dockerClient.ContainerList(
-		context.Background(), containertypes.ListOptions{All: true})
+		context.Background(), containertypes.ListOptions{
+			All: true,
+			Filters: filters.NewArgs(
+				filters.Arg("label", "lpn-container-name="+containerName),
+			),
+		})
 
 	if err != nil {
 		return false
 	}
 
-	for _, container := range containers {
-		containerName := "/" + containerName
+	return len(containers) > 0
+}
 
-		if containerName == container.Names[0] {
-			return true
-		}
+// GetContainerIDByLabel returns the container ID for a container with the given label
+// Returns empty string if no container found
+func GetContainerIDByLabel(containerName string) string {
+	dockerClient := getDockerClient()
+
+	// Use label filter to find containers by lpn-container-name label
+	containers, err := dockerClient.ContainerList(
+		context.Background(), containertypes.ListOptions{
+			All: true,
+			Filters: filters.NewArgs(
+				filters.Arg("label", "lpn-container-name="+containerName),
+			),
+		})
+
+	if err != nil || len(containers) == 0 {
+		return ""
 	}
 
-	return false
+	// Return the ID of the first matching container
+	return containers[0].ID
 }
 
 // CheckDockerImageExists checks if the image is already present
@@ -202,8 +223,18 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 func execCommandIntoContainer(containerName string, cmd []string) error {
 	dockerClient := getDockerClient()
 
+	containerID := GetContainerIDByLabel(containerName)
+	if containerID == "" {
+		err := fmt.Errorf("container not found")
+		log.WithFields(log.Fields{
+			"container": containerName,
+			"error":     err,
+		}).Error("Could not find container")
+		return err
+	}
+
 	response, err := dockerClient.ContainerExecCreate(
-		context.Background(), containerName, containertypes.ExecOptions{
+		context.Background(), containerID, containertypes.ExecOptions{
 			User:         "root",
 			Tty:          false,
 			AttachStdin:  false,
@@ -298,11 +329,18 @@ func GetDockerVersion() (string, types.Version, error) {
 	return dockerClient.ClientVersion(), serverVersion, err
 }
 
-// inspect inspects a container
+// inspect inspects a container by label
 func inspect(containerName string) types.ContainerJSON {
 	dockerClient := getDockerClient()
 
-	containerJSON, err := dockerClient.ContainerInspect(context.Background(), containerName)
+	containerID := GetContainerIDByLabel(containerName)
+	if containerID == "" {
+		log.WithFields(log.Fields{
+			"container": containerName,
+		}).Fatal("Container not found")
+	}
+
+	containerJSON, err := dockerClient.ContainerInspect(context.Background(), containerID)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"container": containerName,
@@ -510,16 +548,15 @@ func RunDatabaseDockerImage(image DatabaseImage) error {
 			mysql.WithDatabase(DBName),
 			mysql.WithUsername(DBUser),
 			mysql.WithPassword(DBPassword),
-			// Set the container name explicitly
-			testcontainers.WithName(containerName),
 			// Mount volume for data persistence
 			testcontainers.WithMounts(
 				testcontainers.BindMount(volumePath, testcontainers.ContainerMountTarget(image.GetDataFolder())),
 			),
-			// Add labels for identification
+			// Add labels for identification - use label instead of container name
 			testcontainers.WithLabels(map[string]string{
-				"db-type":  image.GetType(),
-				"lpn-type": image.GetLpnType(),
+				"lpn-container-name": containerName,
+				"db-type":            image.GetType(),
+				"lpn-type":           image.GetLpnType(),
 			}),
 			// Wait for database to be ready
 			testcontainers.WithWaitStrategy(
@@ -534,16 +571,15 @@ func RunDatabaseDockerImage(image DatabaseImage) error {
 			postgres.WithDatabase(DBName),
 			postgres.WithUsername(DBUser),
 			postgres.WithPassword(DBPassword),
-			// Set the container name explicitly
-			testcontainers.WithName(containerName),
 			// Mount volume for data persistence
 			testcontainers.WithMounts(
 				testcontainers.BindMount(volumePath, testcontainers.ContainerMountTarget(image.GetDataFolder())),
 			),
-			// Add labels for identification
+			// Add labels for identification - use label instead of container name
 			testcontainers.WithLabels(map[string]string{
-				"db-type":  image.GetType(),
-				"lpn-type": image.GetLpnType(),
+				"lpn-container-name": containerName,
+				"db-type":            image.GetType(),
+				"lpn-type":           image.GetLpnType(),
 			}),
 		)
 

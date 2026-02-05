@@ -1,10 +1,8 @@
 package docker
 
 import (
-	"context"
 	"testing"
 
-	containertypes "github.com/docker/docker/api/types/container"
 	"github.com/mdelapenya/lpn/internal"
 	liferay "github.com/mdelapenya/lpn/liferay"
 	"github.com/stretchr/testify/require"
@@ -60,17 +58,6 @@ func setupTestConfig() {
 			},
 		}
 	}
-}
-
-// removeContainerByName removes a Docker container by name for test cleanup
-func removeContainerByName(containerName string) error {
-	dockerClient := getDockerClient()
-	ctx := context.Background()
-	
-	return dockerClient.ContainerRemove(ctx, containerName, containertypes.RemoveOptions{
-		RemoveVolumes: true,
-		Force:         true,
-	})
 }
 
 // TestGetDatabase tests the GetDatabase function returns correct database types
@@ -233,25 +220,11 @@ func TestRunDatabaseDockerImageMySQL(t *testing.T) {
 
 	containerName := mysql.GetContainerName()
 
-	// Clean up any existing container first
-	t.Cleanup(func() {
-		if CheckDockerContainerExists(containerName) {
-			removeContainerByName(containerName)
-			t.Logf("Cleaned up container %s", containerName)
-		}
-	})
-
-	// Remove existing container before test
-	if CheckDockerContainerExists(containerName) {
-		removeContainerByName(containerName)
-		t.Logf("Removed existing container %s before test", containerName)
-	}
-
 	// Test our RunDatabaseDockerImage function
 	err := RunDatabaseDockerImage(mysql)
 	require.NoError(t, err, "RunDatabaseDockerImage should not error")
 
-	// Verify container was created
+	// Verify container was created and is findable by label
 	require.True(t, CheckDockerContainerExists(containerName), 
 		"Container %s should exist after RunDatabaseDockerImage", containerName)
 }
@@ -273,25 +246,11 @@ func TestRunDatabaseDockerImagePostgreSQL(t *testing.T) {
 
 	containerName := postgres.GetContainerName()
 
-	// Clean up any existing container first
-	t.Cleanup(func() {
-		if CheckDockerContainerExists(containerName) {
-			removeContainerByName(containerName)
-			t.Logf("Cleaned up container %s", containerName)
-		}
-	})
-
-	// Remove existing container before test
-	if CheckDockerContainerExists(containerName) {
-		removeContainerByName(containerName)
-		t.Logf("Removed existing container %s before test", containerName)
-	}
-
 	// Test our RunDatabaseDockerImage function
 	err := RunDatabaseDockerImage(postgres)
 	require.NoError(t, err, "RunDatabaseDockerImage should not error")
 
-	// Verify container was created
+	// Verify container was created and is findable by label
 	require.True(t, CheckDockerContainerExists(containerName),
 		"Container %s should exist after RunDatabaseDockerImage", containerName)
 }
@@ -312,20 +271,6 @@ func TestRunDatabaseDockerImageAlreadyExists(t *testing.T) {
 	}
 
 	containerName := mysql.GetContainerName()
-
-	// Clean up any existing container first
-	t.Cleanup(func() {
-		if CheckDockerContainerExists(containerName) {
-			removeContainerByName(containerName)
-			t.Logf("Cleaned up container %s", containerName)
-		}
-	})
-
-	// Remove existing container before test
-	if CheckDockerContainerExists(containerName) {
-		removeContainerByName(containerName)
-		t.Logf("Removed existing container %s before test", containerName)
-	}
 
 	// First call should create the container
 	err := RunDatabaseDockerImage(mysql)
