@@ -3,9 +3,58 @@ package docker
 import (
 	"testing"
 
+	"github.com/mdelapenya/lpn/internal"
 	"github.com/stretchr/testify/require"
 	liferay "github.com/mdelapenya/lpn/liferay"
 )
+
+// setupTestConfig initializes the global LpnConfig for tests
+func setupTestConfig() {
+	if internal.LpnConfig == nil {
+		internal.LpnConfig = &internal.LPNConfig{
+			Container: internal.NamesConfig{
+				Names: internal.NameConfig{
+					Db: map[string]string{
+						"ce":         "db-ce",
+						"commerce":   "db-commerce",
+						"dxp":        "db-dxp",
+						"nightly":    "db-nightly",
+						"release":    "db-release",
+						"test":       "db-test",       // Add test type
+						"test-reuse": "db-test-reuse", // Add test-reuse type
+					},
+					Portal: map[string]string{
+						"ce":         "lpn-ce",
+						"commerce":   "lpn-commerce",
+						"dxp":        "lpn-dxp",
+						"nightly":    "lpn-nightly",
+						"release":    "lpn-release",
+						"test":       "lpn-test",
+						"test-reuse": "lpn-test-reuse",
+					},
+				},
+			},
+			Images: internal.ImagesConfig{
+				Db: map[string]internal.ImageConfig{
+					"mysql": {
+						Image: "docker.io/mdelapenya/mysql-utf8",
+						Tag:   "5.7",
+					},
+					"postgres": {
+						Image: "postgres",
+						Tag:   "9.6-alpine",
+					},
+				},
+				Portal: map[string]internal.ImageConfig{
+					"ce": {
+						Image: "liferay/portal",
+						Tag:   "7.0.6-ga7",
+					},
+				},
+			},
+		}
+	}
+}
 
 // TestGetDatabase tests the GetDatabase function returns correct database types
 func TestGetDatabase(t *testing.T) {
@@ -157,6 +206,9 @@ func TestRunDatabaseDockerImageMySQL(t *testing.T) {
 		t.Skip("Skipping integration test in short mode")
 	}
 
+	// Initialize test config
+	setupTestConfig()
+
 	mysql := MySQL{
 		LpnType: "test",
 		Tag:     "8.0",
@@ -188,6 +240,9 @@ func TestRunDatabaseDockerImagePostgreSQL(t *testing.T) {
 		t.Skip("Skipping integration test in short mode")
 	}
 
+	// Initialize test config
+	setupTestConfig()
+
 	postgres := PostgreSQL{
 		LpnType: "test",
 		Tag:     "16-alpine",
@@ -218,6 +273,9 @@ func TestRunDatabaseDockerImageAlreadyExists(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Skipping integration test in short mode")
 	}
+
+	// Initialize test config
+	setupTestConfig()
 
 	mysql := MySQL{
 		LpnType: "test-reuse",
