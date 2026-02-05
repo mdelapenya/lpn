@@ -103,7 +103,7 @@ func TestGetDatabase(t *testing.T) {
 func TestMySQLImage(t *testing.T) {
 	mysql := MySQL{
 		LpnType: "ce",
-		Tag:     "8.0",
+		Tag:     "5.7",
 	}
 
 	t.Run("GetType", func(t *testing.T) {
@@ -119,7 +119,7 @@ func TestMySQLImage(t *testing.T) {
 	})
 
 	t.Run("GetTag", func(t *testing.T) {
-		require.Equal(t, "8.0", mysql.GetTag())
+		require.Equal(t, "5.7", mysql.GetTag())
 	})
 
 	t.Run("GetLpnType", func(t *testing.T) {
@@ -211,7 +211,7 @@ func TestRunDatabaseDockerImageMySQL(t *testing.T) {
 
 	mysql := MySQL{
 		LpnType: "test",
-		Tag:     "8.0",
+		Tag:     "5.7",
 	}
 
 	// Clean up any existing container first
@@ -279,7 +279,7 @@ func TestRunDatabaseDockerImageAlreadyExists(t *testing.T) {
 
 	mysql := MySQL{
 		LpnType: "test-reuse",
-		Tag:     "8.0",
+		Tag:     "5.7",
 	}
 
 	// First call should create the container
