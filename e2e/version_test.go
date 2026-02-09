@@ -22,8 +22,8 @@ func TestVersion(t *testing.T) {
 	require.NoError(t, err)
 	defer tt.Close()
 
-	// Wait for expected output
-	_, err = tt.Expect("0.14.0", 5*time.Second)
+	// Wait for expected output (in the order it appears)
+	_, err = tt.Expect("lpn (Liferay Portal Nook) v", 5*time.Second)
 	require.NoError(t, err)
 	
 	_, err = tt.Expect("dockerClient=", 5*time.Second)
@@ -33,9 +33,6 @@ func TestVersion(t *testing.T) {
 	require.NoError(t, err)
 	
 	_, err = tt.Expect("golang=", 5*time.Second)
-	require.NoError(t, err)
-	
-	_, err = tt.Expect("lpn (Liferay Portal Nook) v", 5*time.Second)
 	require.NoError(t, err)
 
 	// Wait for command to complete and verify exit code

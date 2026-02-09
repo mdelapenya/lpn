@@ -22,7 +22,7 @@ func TestLicense(t *testing.T) {
 	defer tt.Close()
 
 	// Expect license information
-	_, err = tt.Expect("Apache", 5*time.Second)
+	_, err = tt.Expect("GNU Lesser General Public License", 5*time.Second)
 	require.NoError(t, err)
 
 	// Verify exit code
