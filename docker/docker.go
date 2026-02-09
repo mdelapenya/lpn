@@ -38,7 +38,6 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/mysql"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
-	"github.com/testcontainers/testcontainers-go/wait"
 )
 
 var instance *client.Client
@@ -556,10 +555,8 @@ func RunDatabaseDockerImage(image DatabaseImage) error {
 				"db-type":            image.GetType(),
 				"lpn-type":           image.GetLpnType(),
 			}),
-			// Wait for database to be ready
-			testcontainers.WithWaitStrategy(
-				wait.ForLog("port: 3306  MySQL Community Server"),
-			),
+			// Note: mysql.Run() has a built-in wait strategy that checks for MySQL readiness
+			// No need to override it with a custom wait strategy
 		)
 
 	case "postgresql":
