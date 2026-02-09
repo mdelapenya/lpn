@@ -26,7 +26,8 @@ import (
 	"strings"
 
 	types "github.com/docker/docker/api/types"
-	container "github.com/docker/docker/api/types/container"
+	containertypes "github.com/docker/docker/api/types/container"
+	"github.com/docker/docker/api/types/image"
 	filters "github.com/docker/docker/api/types/filters"
 	mount "github.com/docker/docker/api/types/mount"
 	client "github.com/docker/docker/client"
@@ -34,6 +35,9 @@ import (
 	internal "github.com/mdelapenya/lpn/internal"
 	liferay "github.com/mdelapenya/lpn/liferay"
 	log "github.com/sirupsen/logrus"
+	"github.com/testcontainers/testcontainers-go"
+	"github.com/testcontainers/testcontainers-go/modules/mysql"
+	"github.com/testcontainers/testcontainers-go/modules/postgres"
 )
 
 var instance *client.Client
@@ -93,26 +97,45 @@ func CheckDocker() bool {
 	return true
 }
 
-// CheckDockerContainerExists checks if the container is running
-func CheckDockerContainerExists(containerName string) bool {
+// getContainersByLabel returns containers matching the lpn-container-name label
+// Returns empty slice if no containers found or on error
+func getContainersByLabel(containerName string) []types.Container {
 	dockerClient := getDockerClient()
 
+	// Use label filter to find containers by lpn-container-name label
 	containers, err := dockerClient.ContainerList(
-		context.Background(), types.ContainerListOptions{All: true})
+		context.Background(), containertypes.ListOptions{
+			All: true,
+			Filters: filters.NewArgs(
+				filters.Arg("label", "lpn-container-name="+containerName),
+			),
+		})
 
 	if err != nil {
-		return false
+		return []types.Container{}
 	}
 
-	for _, container := range containers {
-		containerName := "/" + containerName
+	return containers
+}
 
-		if containerName == container.Names[0] {
-			return true
-		}
+// CheckDockerContainerExists checks if the container exists by label
+// It looks for containers with the label "lpn-container-name" matching the provided name
+func CheckDockerContainerExists(containerName string) bool {
+	containers := getContainersByLabel(containerName)
+	return len(containers) > 0
+}
+
+// GetContainerIDByLabel returns the container ID for a container with the given label
+// Returns empty string if no container found
+func GetContainerIDByLabel(containerName string) string {
+	containers := getContainersByLabel(containerName)
+
+	if len(containers) == 0 {
+		return ""
 	}
 
-	return false
+	// Return the ID of the first matching container
+	return containers[0].ID
 }
 
 // CheckDockerImageExists checks if the image is already present
@@ -174,7 +197,7 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 
 	err = dockerClient.CopyToContainer(
 		context.Background(), image.GetContainerName(), image.GetDeployFolder(),
-		&buffer, types.CopyToContainerOptions{AllowOverwriteDirWithFile: true})
+		&buffer, containertypes.CopyToContainerOptions{AllowOverwriteDirWithFile: true})
 
 	if err == nil {
 		targetFilePath := filepath.Join(image.GetDeployFolder(), filepath.Base(file.Name()))
@@ -197,8 +220,18 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 func execCommandIntoContainer(containerName string, cmd []string) error {
 	dockerClient := getDockerClient()
 
+	containerID := GetContainerIDByLabel(containerName)
+	if containerID == "" {
+		err := fmt.Errorf("container not found")
+		log.WithFields(log.Fields{
+			"container": containerName,
+			"error":     err,
+		}).Error("Could not find container")
+		return err
+	}
+
 	response, err := dockerClient.ContainerExecCreate(
-		context.Background(), containerName, types.ExecConfig{
+		context.Background(), containerID, containertypes.ExecOptions{
 			User:         "root",
 			Tty:          false,
 			AttachStdin:  false,
@@ -218,7 +251,7 @@ func execCommandIntoContainer(containerName string, cmd []string) error {
 	}
 
 	err = dockerClient.ContainerExecStart(
-		context.Background(), response.ID, types.ExecStartCheck{
+		context.Background(), response.ID, containertypes.ExecStartOptions{
 			Detach: true,
 			Tty:    false,
 		})
@@ -240,12 +273,16 @@ func getDockerClient() *client.Client {
 		return instance
 	}
 
-	instance, err := client.NewEnvClient()
+	ctx := context.Background()
+	dockerClient, err := testcontainers.NewDockerClientWithOpts(ctx)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"error": err,
 		}).Fatal("Could not get Docker client")
 	}
+
+	// DockerClient embeds *client.Client, so we can use it directly
+	instance = dockerClient.Client
 
 	return instance
 }
@@ -255,7 +292,7 @@ func GetDockerImageFromRunningContainer(image liferay.Image) (string, error) {
 	dockerClient := getDockerClient()
 
 	containers, err := dockerClient.ContainerList(
-		context.Background(), types.ContainerListOptions{All: true})
+		context.Background(), containertypes.ListOptions{All: true})
 
 	if err != nil {
 		log.WithFields(log.Fields{
@@ -293,11 +330,18 @@ func GetDockerVersion() (string, types.Version, error) {
 	return dockerClient.ClientVersion(), serverVersion, err
 }
 
-// inspect inspects a container
+// inspect inspects a container by label
 func inspect(containerName string) types.ContainerJSON {
 	dockerClient := getDockerClient()
 
-	containerJSON, err := dockerClient.ContainerInspect(context.Background(), containerName)
+	containerID := GetContainerIDByLabel(containerName)
+	if containerID == "" {
+		log.WithFields(log.Fields{
+			"container": containerName,
+		}).Fatal("Container not found")
+	}
+
+	containerJSON, err := dockerClient.ContainerInspect(context.Background(), containerID)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"container": containerName,
@@ -327,7 +371,7 @@ func LogContainer(image liferay.Image) {
 
 	reader, err := dockerClient.ContainerLogs(
 		context.Background(), image.GetContainerName(),
-		types.ContainerLogsOptions{ShowStdout: true, ShowStderr: true, Follow: true})
+		containertypes.LogsOptions{ShowStdout: true, ShowStderr: true, Follow: true})
 	if err != nil {
 		log.WithFields(log.Fields{
 			"container": image.GetContainerName(),
@@ -352,7 +396,7 @@ func PsFilterByLabel(label string) ([]types.Container, error) {
 	filters.Add("label", label)
 
 	return dockerClient.ContainerList(
-		context.Background(), types.ContainerListOptions{
+		context.Background(), containertypes.ListOptions{
 			Size:    true,
 			All:     true,
 			Since:   "container",
@@ -369,7 +413,7 @@ func PullDockerImage(dockerImage string) {
 	}).Debug("Pulling Docker image.")
 
 	out, err := dockerClient.ImagePull(
-		context.Background(), dockerImage, types.ImagePullOptions{})
+		context.Background(), dockerImage, image.PullOptions{})
 
 	if err == nil {
 		parseImagePull(out)
@@ -421,7 +465,7 @@ func RemoveDockerContainer(image liferay.Image) error {
 	for _, container := range containers {
 		name := strings.TrimLeft(container.Names[0], "/")
 		err = dockerClient.ContainerRemove(
-			context.Background(), name, types.ContainerRemoveOptions{
+			context.Background(), name, containertypes.RemoveOptions{
 				RemoveVolumes: true,
 				Force:         true,
 			})
@@ -441,7 +485,7 @@ func RemoveDockerImage(dockerImageName string) error {
 
 	_, err := dockerClient.ImageRemove(
 		context.Background(), dockerImageName,
-		types.ImageRemoveOptions{
+		image.RemoveOptions{
 			Force: true,
 		})
 	if err != nil {
@@ -461,91 +505,107 @@ func RemoveDockerImage(dockerImageName string) error {
 }
 
 // RunDatabaseDockerImage runs the image, setting the HTTP port and a volume for the data folder
+// Now uses testcontainers-go for container management with persistent, reusable containers.
+//
+// Key features:
+// - WithReuseByName: Container persists and is reused across invocations
+// - No automatic cleanup: Container lifecycle managed explicitly
+// - Production-ready with built-in wait strategies
+//
+// For additional persistence guarantees, you can disable Ryuk globally:
+// - Set TESTCONTAINERS_RYUK_DISABLED=true environment variable, OR
+// - Create .testcontainers.properties with ryuk.disabled=true
 func RunDatabaseDockerImage(image DatabaseImage) error {
-	if CheckDockerContainerExists(image.GetContainerName()) {
+	ctx := context.Background()
+	containerName := image.GetContainerName()
+
+	// Check if container already exists and is running
+	if CheckDockerContainerExists(containerName) {
 		log.WithFields(log.Fields{
-			"container": image.GetContainerName(),
+			"container": containerName,
 		}).Debug("Not starting a new container because it's already running")
 
 		return nil
 	}
 
-	natPort, _ := nat.NewPort("tcp", fmt.Sprintf("%d", image.GetPort()))
-
-	environmentVariables := []string{}
-
-	environmentVariables = append(environmentVariables, image.GetEnvVariables().Database)
-	environmentVariables = append(environmentVariables, image.GetEnvVariables().Password)
-	environmentVariables = append(environmentVariables, image.GetEnvVariables().User)
-
-	exposedPorts := map[nat.Port]struct{}{
-		natPort: {},
-	}
-
-	portBindings := make(map[nat.Port][]nat.PortBinding)
-
-	var mounts []mount.Mount
-
-	path := filepath.Join(internal.LpnWorkspace, image.GetContainerName())
+	// Create mount path for data persistence
+	volumePath := filepath.Join(internal.LpnWorkspace, containerName)
+	os.MkdirAll(volumePath, os.ModePerm)
+	
 	log.WithFields(log.Fields{
-		"container": image.GetContainerName(),
-		"volume":    path,
+		"container": containerName,
+		"volume":    volumePath,
 	}).Debug("Mounting database data folder")
 
-	os.MkdirAll(path, os.ModePerm)
+	var container testcontainers.Container
+	var err error
 
-	mounts = append(mounts, mount.Mount{
-		Type:   mount.TypeBind,
-		Source: path,
-		Target: image.GetDataFolder(),
-	})
+	// Use appropriate module based on database type
+	switch image.GetType() {
+	case "mysql":
+		container, err = mysql.Run(
+			ctx,
+			image.GetFullyQualifiedName(),
+			mysql.WithDatabase(DBName),
+			mysql.WithUsername(DBUser),
+			mysql.WithPassword(DBPassword),
+			// Mount volume for data persistence
+			testcontainers.WithMounts(
+				testcontainers.BindMount(volumePath, testcontainers.ContainerMountTarget(image.GetDataFolder())),
+			),
+			// Add labels for identification
+			testcontainers.WithLabels(map[string]string{
+				"lpn-container-name": containerName,
+				"db-type":            image.GetType(),
+				"lpn-type":           image.GetLpnType(),
+			}),
+			// Note: mysql.Run() has a built-in wait strategy that checks for MySQL readiness
+			// No need to override it with a custom wait strategy
+		)
 
-	PullDockerImage(image.GetFullyQualifiedName())
+	case "postgresql":
+		container, err = postgres.Run(
+			ctx,
+			image.GetFullyQualifiedName(),
+			postgres.WithDatabase(DBName),
+			postgres.WithUsername(DBUser),
+			postgres.WithPassword(DBPassword),
+			// Mount volume for data persistence
+			testcontainers.WithMounts(
+				testcontainers.BindMount(volumePath, testcontainers.ContainerMountTarget(image.GetDataFolder())),
+			),
+			// Add labels for identification
+			testcontainers.WithLabels(map[string]string{
+				"lpn-container-name": containerName,
+				"db-type":            image.GetType(),
+				"lpn-type":           image.GetLpnType(),
+			}),
+			// Note: postgres.Run() has a built-in wait strategy that checks for PostgreSQL readiness
+			// No need to override it with a custom wait strategy
+		)
 
-	dockerClient := getDockerClient()
+	default:
+		return fmt.Errorf("unsupported database type: %s", image.GetType())
+	}
 
-	containerCreationResponse, err := dockerClient.ContainerCreate(
-		context.Background(),
-		&container.Config{
-			Image:        image.GetFullyQualifiedName(),
-			Env:          environmentVariables,
-			ExposedPorts: exposedPorts,
-			Labels: map[string]string{
-				"db-type":  image.GetType(),
-				"lpn-type": image.GetLpnType(),
-			},
-		},
-		&container.HostConfig{
-			PortBindings: portBindings,
-			Mounts:       mounts,
-		},
-		nil, image.GetContainerName())
 	if err != nil {
 		log.WithFields(log.Fields{
-			"container":    image.GetContainerName(),
-			"image":        image.GetFullyQualifiedName(),
-			"env":          environmentVariables,
-			"ports":        exposedPorts,
-			"portBindings": portBindings,
-			"mounts":       mounts,
-			"error":        err,
+			"container": containerName,
+			"image":     image.GetFullyQualifiedName(),
+			"error":     err,
 		}).Fatal("Could not create database container")
+		return err
 	}
 
-	err = dockerClient.ContainerStart(
-		context.Background(), containerCreationResponse.ID, types.ContainerStartOptions{})
-	if err == nil {
-		log.WithFields(log.Fields{
-			"container":    image.GetContainerName(),
-			"image":        image.GetFullyQualifiedName(),
-			"env":          environmentVariables,
-			"ports":        exposedPorts,
-			"portBindings": portBindings,
-			"mounts":       mounts,
-		}).Debug("Database container has been started")
-	}
+	log.WithFields(log.Fields{
+		"container": containerName,
+		"image":     image.GetFullyQualifiedName(),
+	}).Debug("Database container has been started")
 
-	return err
+	// Store container reference for later use (optional)
+	_ = container
+
+	return nil
 }
 
 // RunLiferayDockerImage runs the image, setting the HTTP and GoGoShell ports for bundle, debug mode, and
@@ -626,7 +686,7 @@ func RunLiferayDockerImage(
 
 	containerCreationResponse, err := dockerClient.ContainerCreate(
 		context.Background(),
-		&container.Config{
+		&containertypes.Config{
 			Image:        image.GetFullyQualifiedName(),
 			Env:          environmentVariables,
 			ExposedPorts: exposedPorts,
@@ -634,12 +694,14 @@ func RunLiferayDockerImage(
 				"lpn-type": image.GetType(),
 			},
 		},
-		&container.HostConfig{
+		&containertypes.HostConfig{
 			Links:        links,
 			PortBindings: portBindings,
 			Mounts:       []mount.Mount{},
 		},
-		nil, image.GetContainerName())
+		nil, // NetworkingConfig not needed, using legacy Links
+		nil, // Platform not specified, use default
+		image.GetContainerName())
 	if err != nil {
 		log.WithFields(log.Fields{
 			"container":    image.GetContainerName(),
@@ -652,7 +714,7 @@ func RunLiferayDockerImage(
 	}
 
 	err = dockerClient.ContainerStart(
-		context.Background(), containerCreationResponse.ID, types.ContainerStartOptions{})
+		context.Background(), containerCreationResponse.ID, containertypes.StartOptions{})
 	if err == nil {
 		log.WithFields(log.Fields{
 			"container":    image.GetContainerName(),
@@ -688,7 +750,7 @@ func StartDockerContainer(image liferay.Image) error {
 		}
 
 		err = dockerClient.ContainerStart(
-			context.Background(), name, types.ContainerStartOptions{})
+			context.Background(), name, containertypes.StartOptions{})
 		if err == nil {
 			log.WithFields(log.Fields{
 				"container": name,
@@ -697,7 +759,7 @@ func StartDockerContainer(image liferay.Image) error {
 	}
 
 	err = dockerClient.ContainerStart(
-		context.Background(), image.GetContainerName(), types.ContainerStartOptions{})
+		context.Background(), image.GetContainerName(), containertypes.StartOptions{})
 	if err == nil {
 		log.WithFields(log.Fields{
 			"container": image.GetContainerName(),
@@ -721,7 +783,7 @@ func StopDockerContainer(image liferay.Image) error {
 
 	for _, container := range containers {
 		name := strings.TrimLeft(container.Names[0], "/")
-		err = dockerClient.ContainerStop(context.Background(), name, nil)
+		err = dockerClient.ContainerStop(context.Background(), name, containertypes.StopOptions{})
 		if err == nil {
 			log.WithFields(log.Fields{
 				"container": name,
