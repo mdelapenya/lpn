@@ -13,14 +13,11 @@
 package docker
 
 import (
-	"archive/tar"
-	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log/slog"
 	"os"
 	"path/filepath"
@@ -59,28 +56,6 @@ func buildPortBinding(port string, ip string) []nat.PortBinding {
 			HostIP:   ip,
 		},
 	}
-}
-
-func buildTarForDeployment(file *os.File) (bytes.Buffer, error) {
-	fileInfo, _ := file.Stat()
-
-	var buffer bytes.Buffer
-	tarWriter := tar.NewWriter(&buffer)
-	err := tarWriter.WriteHeader(&tar.Header{
-		Name: fileInfo.Name(),
-		Mode: 0777,
-		Size: int64(fileInfo.Size()),
-	})
-	if err != nil {
-		slog.Error("Could not build TAR header", "fileInfoName", fileInfo.Name(), "size", fileInfo.Size(), "error", err)
-		return bytes.Buffer{}, fmt.Errorf("Could not build TAR header: %v", err)
-	}
-
-	b, err := ioutil.ReadFile(file.Name())
-	tarWriter.Write(b)
-	defer tarWriter.Close()
-
-	return buffer, nil
 }
 
 // CheckDocker checks if Docker is installed
@@ -156,85 +131,87 @@ func CheckDockerImageExists(dockerImage string) bool {
 	return false
 }
 
-// CopyFileToContainer copies a file to the running container
-func CopyFileToContainer(image liferay.Image, path string) error {
-	dockerClient := getDockerClient()
-
-	slog.Debug("Deploying file to target", "file", path, "target", image.GetDeployFolder())
-
-	_, err := dockerClient.ContainerStatPath(
-		context.Background(), image.GetContainerName(), image.GetDeployFolder())
+// getContainerWrapper creates a testcontainers.Container wrapper for an existing container
+// This allows us to use testcontainers APIs on containers managed by lpn
+func getContainerWrapper(containerName string) (testcontainers.Container, error) {
+	ctx := context.Background()
+	
+	// Get provider
+	provider, err := testcontainers.NewDockerProvider()
 	if err != nil {
-		slog.Error("Could not get directory in the container", "container", image.GetContainerName(), "target", image.GetDeployFolder(), "error", err)
+		return nil, fmt.Errorf("could not create docker provider: %w", err)
+	}
+
+	// Get container ID
+	containerID := GetContainerIDByLabel(containerName)
+	if containerID == "" {
+		return nil, fmt.Errorf("container not found: %s", containerName)
+	}
+
+	// Get container details
+	dockerClient := getDockerClient()
+	containerJSON, err := dockerClient.ContainerInspect(ctx, containerID)
+	if err != nil {
+		return nil, fmt.Errorf("could not inspect container: %w", err)
+	}
+
+	// Create container summary for ContainerFromType
+	summary := containertypes.Summary{
+		ID:     containerID,
+		Image:  containerJSON.Config.Image,
+		State:  containerJSON.State.Status,
+		Labels: containerJSON.Config.Labels,
+	}
+
+	// Convert to testcontainers.Container
+	container, err := provider.ContainerFromType(ctx, summary)
+	if err != nil {
+		return nil, fmt.Errorf("could not create container wrapper: %w", err)
+	}
+
+	return container, nil
+}
+
+// CopyFileToContainer copies a file to the running container using testcontainers API
+func CopyFileToContainer(image liferay.Image, path string) error {
+	ctx := context.Background()
+	containerName := image.GetContainerName()
+	deployFolder := image.GetDeployFolder()
+
+	slog.Debug("Deploying file to target", "file", path, "target", deployFolder)
+
+	// Get testcontainers.Container wrapper
+	container, err := getContainerWrapper(containerName)
+	if err != nil {
+		slog.Error("Could not get container wrapper", "container", containerName, "error", err)
 		return err
 	}
 
-	file, err := os.Open(path)
-	if err != nil {
+	// Verify file exists
+	if _, err := os.Stat(path); err != nil {
 		slog.Error("Could not open file to deploy", "file", path, "error", err)
 		return err
 	}
-	defer file.Close()
 
-	buffer, err := buildTarForDeployment(file)
+	// Use testcontainers API to copy file
+	targetFilePath := filepath.Join(deployFolder, filepath.Base(path))
+	err = container.CopyFileToContainer(ctx, path, targetFilePath, 0o777)
 	if err != nil {
+		slog.Error("Could not copy file to container", "container", containerName, "deployDir", deployFolder, "error", err)
 		return err
 	}
 
-	err = dockerClient.CopyToContainer(
-		context.Background(), image.GetContainerName(), image.GetDeployFolder(),
-		&buffer, containertypes.CopyToContainerOptions{AllowOverwriteDirWithFile: true})
-
-	if err == nil {
-		targetFilePath := filepath.Join(image.GetDeployFolder(), filepath.Base(file.Name()))
-		owner := image.GetUser()
-
-		cmd := []string{"chown", owner + ":" + owner, targetFilePath}
-
-		execCommandIntoContainer(image.GetContainerName(), cmd)
-	} else {
-		slog.Error("Could not copy file to container", "container", image.GetContainerName(), "deployDir", image.GetDeployFolder(), "error", err)
-	}
-
-	return err
-}
-
-func execCommandIntoContainer(containerName string, cmd []string) error {
-	dockerClient := getDockerClient()
-
-	containerID := GetContainerIDByLabel(containerName)
-	if containerID == "" {
-		err := fmt.Errorf("container not found")
-		slog.Error("Could not find container", "container", containerName, "error", err)
-		return err
-	}
-
-	response, err := dockerClient.ContainerExecCreate(
-		context.Background(), containerID, containertypes.ExecOptions{
-			User:         "root",
-			Tty:          false,
-			AttachStdin:  false,
-			AttachStderr: false,
-			AttachStdout: false,
-			Detach:       true,
-			Cmd:          cmd,
-		})
-
+	// Change ownership of the deployed file
+	owner := image.GetUser()
+	cmd := []string{"chown", owner + ":" + owner, targetFilePath}
+	
+	_, _, err = container.Exec(ctx, cmd)
 	if err != nil {
-		slog.Error("Could not create command in the container", "container", containerName, "cmd", cmd, "error", err)
-		return err
+		slog.Error("Could not change file ownership", "container", containerName, "file", targetFilePath, "error", err)
+		// Don't return error here as file was copied successfully
 	}
 
-	err = dockerClient.ContainerExecStart(
-		context.Background(), response.ID, containertypes.ExecStartOptions{
-			Detach: true,
-			Tty:    false,
-		})
-	if err != nil {
-		slog.Error("Could not start command in the container", "container", containerName, "cmd", cmd, "detach", true, "tty", false, "error", err)
-	}
-
-	return err
+	return nil
 }
 
 func getDockerClient() *client.Client {
