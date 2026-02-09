@@ -196,7 +196,7 @@ func readTags(image liferay.Image, count int, page int) {
 	tagsResponse := new(tagsResponse)
 	err = json.NewDecoder(res.Body).Decode(tagsResponse)
 	if err != nil {
-		slog.Error("Error decoding response from the server", "err", err)
+		slog.Error("Error decoding response from the server", "error", err)
 		os.Exit(1)
 	}
 
