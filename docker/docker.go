@@ -135,7 +135,7 @@ func CheckDockerImageExists(dockerImage string) bool {
 // This allows us to use testcontainers APIs on containers managed by lpn
 func getContainerWrapper(containerName string) (testcontainers.Container, error) {
 	ctx := context.Background()
-	
+
 	// Get provider
 	provider, err := testcontainers.NewDockerProvider()
 	if err != nil {
@@ -204,11 +204,10 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 	// Change ownership of the deployed file
 	owner := image.GetUser()
 	cmd := []string{"chown", owner + ":" + owner, targetFilePath}
-	
+
 	_, _, err = container.Exec(ctx, cmd)
 	if err != nil {
-		slog.Error("Could not change file ownership", "container", containerName, "file", targetFilePath, "error", err)
-		// Don't return error here as file was copied successfully
+		slog.Warn("Could not change file ownership, but file was copied successfully", "container", containerName, "file", targetFilePath, "error", err)
 	}
 
 	return nil
