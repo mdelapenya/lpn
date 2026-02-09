@@ -13,10 +13,11 @@
 package cmd
 
 import (
+	"log/slog"
+
 	v "github.com/mdelapenya/lpn/assets/version"
 	docker "github.com/mdelapenya/lpn/docker"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -32,20 +33,12 @@ var versionCmd = &cobra.Command{
 		version, err := v.Asset("VERSION.txt")
 
 		if err != nil {
-			log.WithFields(log.Fields{
-				"error":   err,
-				"command": cmd.Use,
-			}).Error("Error executing Command")
+			slog.Error("Error executing Command", "error", err, "command", cmd.Use)
 			return
 		}
 
 		dockerClientVersion, dockerServerVersion, _ := docker.GetDockerVersion()
 
-		log.WithFields(log.Fields{
-			"lpn":          string(version),
-			"dockerClient": dockerClientVersion,
-			"dockerServer": dockerServerVersion.Version,
-			"golang":       dockerServerVersion.GoVersion,
-		}).Infof("lpn (Liferay Portal Nook) v%s -- HEAD", version)
+		slog.Info("lpn (Liferay Portal Nook) v"+string(version)+" -- HEAD", "lpn", string(version), "dockerClient", dockerClientVersion, "dockerServer", dockerServerVersion.Version, "golang", dockerServerVersion.GoVersion)
 	},
 }

@@ -14,6 +14,7 @@ package cmd
 
 import (
 	"io/ioutil"
+	"log/slog"
 	"os"
 	"path"
 	"strings"
@@ -22,7 +23,6 @@ import (
 	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -147,11 +147,8 @@ var deployRelease = &cobra.Command{
 func deployDirectory(image liferay.Image, dirPath string) {
 	files, err := ioutil.ReadDir(dirPath)
 	if err != nil {
-		log.WithFields(log.Fields{
-			"deployDir": dirPath,
-			"image":     image.GetFullyQualifiedName(),
-			"err":       err,
-		}).Fatal("The directory is not valid")
+		slog.Error("The directory is not valid", "deployDir", dirPath, "image", image.GetFullyQualifiedName(), "error", err)
+		os.Exit(1)
 	}
 
 	var onlyFilePaths []string
@@ -228,15 +225,9 @@ func deployPaths(image liferay.Image, paths []string) {
 	for i := 0; i < len(paths); i++ {
 		select {
 		case <-resultChannel:
-			log.WithFields(log.Fields{
-				"file":      paths[i],
-				"deployDir": image.GetDeployFolder(),
-			}).Info("File deployed successfully to deploy dir")
+			slog.Info("File deployed successfully to deploy dir", "file", paths[i], "deployDir", image.GetDeployFolder())
 		case err := <-errorChannel:
-			log.WithFields(log.Fields{
-				"file":  paths[i],
-				"error": err,
-			}).Warn("Impossible to deploy the file to the container")
+			slog.Warn("Impossible to deploy the file to the container", "file", paths[i], "error", err)
 		}
 	}
 }
@@ -254,9 +245,8 @@ func doDeploy(image liferay.Image) {
 func getTag(image liferay.Image) string {
 	imageName, err := docker.GetDockerImageFromRunningContainer(image)
 	if err != nil {
-		log.WithFields(log.Fields{
-			"container": image.GetContainerName(),
-		}).Fatal(err.Error())
+		slog.Error(err.Error(), "container", image.GetContainerName())
+		os.Exit(1)
 	}
 
 	index := strings.LastIndex(imageName, ":")
@@ -266,6 +256,7 @@ func getTag(image liferay.Image) string {
 
 func validateArguments() {
 	if filePath == "" && directoryPath == "" {
-		log.Fatal("Please pass a valid path to a file or to a directory as argument")
+		slog.Error("Please pass a valid path to a file or to a directory as argument")
+		os.Exit(1)
 	}
 }

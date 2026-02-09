@@ -16,6 +16,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log/slog"
 	"math"
 	"net/http"
 	"os"
@@ -23,7 +24,6 @@ import (
 	liferay "github.com/mdelapenya/lpn/liferay"
 	tablewriter "github.com/olekukonko/tablewriter"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -177,33 +177,27 @@ func readTags(image liferay.Image, count int, page int) {
 	// Request the HTML page.
 	res, err := http.Get(tagsPage)
 	if err != nil {
-		log.WithFields(log.Fields{
-			"error": err,
-		}).Fatal("Error getting response from the server")
+		slog.Error("Error getting response from the server", "error", err)
+		os.Exit(1)
 	}
 	defer res.Body.Close()
 
 	if res.StatusCode == 404 {
-		log.WithFields(log.Fields{
-			"statusCode": res.StatusCode,
-		}).Warn("There are no available tags for that pagination. Please use --page and --size arguments to filter properly")
+		slog.Warn("There are no available tags for that pagination. Please use --page and --size arguments to filter properly", "statusCode", res.StatusCode)
 		return
 	}
 
 	if res.StatusCode != 200 {
-		log.WithFields(log.Fields{
-			"status":     res.Status,
-			"statusCode": res.StatusCode,
-		}).Fatal("Error getting response from the server")
+		slog.Error("Error getting response from the server", "status", res.Status, "statusCode", res.StatusCode)
+		os.Exit(1)
 	}
 
 	// Load the JSON document
 	tagsResponse := new(tagsResponse)
 	err = json.NewDecoder(res.Body).Decode(tagsResponse)
 	if err != nil {
-		log.WithFields(log.Fields{
-			"err": err,
-		}).Fatal("Error decoding response from the server")
+		slog.Error("Error decoding response from the server", "error", err)
+		os.Exit(1)
 	}
 
 	data := [][]string{}
@@ -222,15 +216,10 @@ func readTags(image liferay.Image, count int, page int) {
 			count = tagsResponse.Count
 		}
 
-		log.WithFields(log.Fields{
-			"images":      tagsResponse.Count,
-			"elements":    count,
-			"currentPage": page,
-			"totalPages":  totalPages,
-		}).Infof("There are %d images, showing %d elements in page %d of %d", tagsResponse.Count, count, page, totalPages)
+		slog.Info(fmt.Sprintf("There are %d images, showing %d elements in page %d of %d", tagsResponse.Count, count, page, totalPages), "images", tagsResponse.Count, "elements", count, "currentPage", page, "totalPages", totalPages)
 
 		printTagsAsTable(data, page, totalPages)
 	} else {
-		log.Info("There are no available tags for that pagination. Please use --page and --size arguments to filter properly")
+		slog.Info("There are no available tags for that pagination. Please use --page and --size arguments to filter properly")
 	}
 }

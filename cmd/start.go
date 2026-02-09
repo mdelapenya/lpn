@@ -13,10 +13,11 @@
 package cmd
 
 import (
+	"log/slog"
+
 	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -107,9 +108,6 @@ var startReleaseCmd = &cobra.Command{
 func startDockerContainer(image liferay.Image) {
 	err := docker.StartDockerContainer(image)
 	if err != nil {
-		log.WithFields(log.Fields{
-			"container": image.GetContainerName(),
-			"error":     err,
-		}).Warn("Impossible to start the container")
+		slog.Warn("Impossible to start the container", "container", image.GetContainerName(), "error", err)
 	}
 }

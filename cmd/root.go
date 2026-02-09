@@ -13,8 +13,10 @@
 package cmd
 
 import (
+	"log/slog"
+	"os"
+
 	internal "github.com/mdelapenya/lpn/internal"
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -41,20 +43,21 @@ func enableDebugLevel() {
 	if verbose {
 		internal.ConfigureLogger("DEBUG")
 	}
-	log.Debug("Debug logger activated")
+	slog.Debug("Debug logger activated")
 }
 
 // Execute execute root command
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		log.Fatal(err)
+		slog.Error("Command execution failed", "error", err)
+		os.Exit(1)
 	}
 }
 
 // SubCommandInfo Shows a message for subcommands
 func SubCommandInfo() {
 	// delegate to subcommands
-	log.Warn(
+	slog.Warn(
 		"Please run this command adding 'ce', 'commerce', 'dxp', 'nightly' or 'release' " +
 			"subcommands.")
 }

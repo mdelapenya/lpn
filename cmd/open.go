@@ -14,12 +14,13 @@ package cmd
 
 import (
 	"fmt"
+	"log/slog"
+	"os"
 	"os/exec"
 	"runtime"
 
 	docker "github.com/mdelapenya/lpn/docker"
 	liferay "github.com/mdelapenya/lpn/liferay"
-	log "github.com/sirupsen/logrus"
 
 	"github.com/spf13/cobra"
 )
@@ -111,9 +112,7 @@ var openReleaseCmd = &cobra.Command{
 func openBrowser(image liferay.Image) {
 	url := "http://localhost:" + docker.GetTomcatPort(image)
 
-	log.WithFields(log.Fields{
-		"url": url,
-	}).Debug("Opening portal URL")
+	slog.Debug("Opening portal URL", "url", url)
 
 	var err error
 
@@ -129,6 +128,7 @@ func openBrowser(image liferay.Image) {
 	}
 
 	if err != nil {
-		log.Fatal(err)
+		slog.Error("Failed to open browser", "error", err)
+		os.Exit(1)
 	}
 }
