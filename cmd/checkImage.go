@@ -14,13 +14,13 @@ package cmd
 
 import (
 	"errors"
+	"log/slog"
 
 	date "github.com/mdelapenya/lpn/date"
 	docker "github.com/mdelapenya/lpn/docker"
 	internal "github.com/mdelapenya/lpn/internal"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -196,13 +196,9 @@ func checkImage(image liferay.Image) {
 	exists := docker.CheckDockerImageExists(image.GetFullyQualifiedName())
 
 	if exists == false {
-		log.WithFields(log.Fields{
-			"image": image.GetFullyQualifiedName(),
-		}).Warn("Image has NOT been pulled from Docker Hub")
+		slog.Warn("Image has NOT been pulled from Docker Hub", "image", image.GetFullyQualifiedName())
 		return
 	}
 
-	log.WithFields(log.Fields{
-		"image": image.GetFullyQualifiedName(),
-	}).Info("Image has been pulled from Docker Hub")
+	slog.Info("Image has been pulled from Docker Hub", "image", image.GetFullyQualifiedName())
 }

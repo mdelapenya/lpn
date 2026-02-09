@@ -13,12 +13,12 @@
 package internal
 
 import (
+	"log/slog"
 	"os"
 	"os/user"
 	"path/filepath"
 	"strings"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
@@ -142,10 +142,11 @@ func CheckWorkspace() {
 	if _, err := os.Stat(w); os.IsNotExist(err) {
 		err = os.MkdirAll(w, 0755)
 		if err != nil {
-			log.Fatalf("Cannot create workdir for LPN at "+w, err)
+			slog.Error("Cannot create workdir for LPN", "path", w, "error", err)
+			os.Exit(1)
 		}
 
-		log.Println("lpn workdir created at " + w)
+		slog.Info("lpn workdir created at " + w)
 	}
 
 	LpnWorkspace = w
@@ -160,33 +161,43 @@ func ConfigureLogger(logLevel string) {
 	includeTimestamp := os.Getenv("LPN_LOG_INCLUDE_TIMESTAMP")
 	fullTimestamp := (strings.ToUpper(includeTimestamp) == "TRUE")
 
-	log.SetFormatter(&log.TextFormatter{
-		FullTimestamp: fullTimestamp,
-	})
-
+	var level slog.Level
 	switch logLevel {
-	case "TRACE":
-		log.SetLevel(log.TraceLevel)
-	case "DEBUG":
-		log.SetLevel(log.DebugLevel)
+	case "TRACE", "DEBUG":
+		level = slog.LevelDebug
 	case "WARNING":
-		log.SetLevel(log.WarnLevel)
-	case "ERROR":
-		log.SetLevel(log.ErrorLevel)
-	case "FATAL":
-		log.SetLevel(log.FatalLevel)
-	case "PANIC":
-		log.SetLevel(log.PanicLevel)
+		level = slog.LevelWarn
+	case "ERROR", "FATAL", "PANIC":
+		level = slog.LevelError
 	default:
-		log.SetLevel(log.InfoLevel)
+		level = slog.LevelInfo
 	}
+
+	opts := &slog.HandlerOptions{
+		Level: level,
+	}
+
+	var handler slog.Handler
+	if fullTimestamp {
+		handler = slog.NewTextHandler(os.Stderr, opts)
+	} else {
+		// Without timestamp, use a custom handler that removes time
+		opts.ReplaceAttr = func(groups []string, a slog.Attr) slog.Attr {
+			if a.Key == slog.TimeKey {
+				return slog.Attr{}
+			}
+			return a
+		}
+		handler = slog.NewTextHandler(os.Stderr, opts)
+	}
+
+	slog.SetDefault(slog.New(handler))
 }
 
 func initConfigFile(workspace string, configFile string, defaults map[string]interface{}) *os.File {
-	log.WithFields(log.Fields{
-		"configFile": configFile,
-		"workspace":  workspace,
-	}).Debug("Creating config file with default values")
+	slog.Debug("Creating config file with default values",
+		"configFile", configFile,
+		"workspace", workspace)
 
 	configFilePath := filepath.Join(workspace, configFile)
 
@@ -203,7 +214,8 @@ func initConfigFile(workspace string, configFile string, defaults map[string]int
 
 	err := v.WriteConfig()
 	if err != nil {
-		log.Fatalf(`Cannot save default configuration file at %s: %v`, configFilePath, err)
+		slog.Error("Cannot save default configuration file", "path", configFilePath, "error", err)
+		os.Exit(1)
 	}
 
 	return f
@@ -224,7 +236,8 @@ func NewConfig(workspace string) *LPNConfig {
 		},
 	})
 	if err != nil {
-		log.Fatalf("Error when reading config: %v\n", err)
+		slog.Error("Error when reading config", "error", err)
+		os.Exit(1)
 	}
 
 	return &lpnConfig
@@ -246,7 +259,8 @@ func readConfig(
 	var lpnConfig LPNConfig
 	err = viper.Unmarshal(&lpnConfig)
 	if err != nil {
-		log.Fatalf("Unable to decode configuration into struct, %v", err)
+		slog.Error("Unable to decode configuration into struct", "error", err)
+		os.Exit(1)
 	}
 
 	return lpnConfig, err

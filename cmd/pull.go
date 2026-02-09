@@ -14,13 +14,13 @@ package cmd
 
 import (
 	"errors"
+	"log/slog"
 
 	date "github.com/mdelapenya/lpn/date"
 	docker "github.com/mdelapenya/lpn/docker"
 	internal "github.com/mdelapenya/lpn/internal"
 	liferay "github.com/mdelapenya/lpn/liferay"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -186,9 +186,7 @@ func pullDockerImage(image liferay.Image, forceRemoval bool) {
 	if forceRemoval {
 		err := docker.RemoveDockerImage(image.GetFullyQualifiedName())
 		if err != nil {
-			log.WithFields(log.Fields{
-				"image": image.GetFullyQualifiedName(),
-			}).Info("The image was not found in the local cache. Skipping removal")
+			slog.Info("The image was not found in the local cache. Skipping removal", "image", image.GetFullyQualifiedName())
 		}
 	}
 

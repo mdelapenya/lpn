@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log/slog"
 	"os"
 	"path/filepath"
 	"strings"
@@ -34,7 +35,6 @@ import (
 	nat "github.com/docker/go-connections/nat"
 	internal "github.com/mdelapenya/lpn/internal"
 	liferay "github.com/mdelapenya/lpn/liferay"
-	log "github.com/sirupsen/logrus"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/mysql"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
@@ -72,11 +72,7 @@ func buildTarForDeployment(file *os.File) (bytes.Buffer, error) {
 		Size: int64(fileInfo.Size()),
 	})
 	if err != nil {
-		log.WithFields(log.Fields{
-			"fileInfoName": fileInfo.Name(),
-			"size":         fileInfo.Size(),
-			"error":        err,
-		}).Error("Could not build TAR header")
+		slog.Error("Could not build TAR header", "fileInfoName", fileInfo.Name(), "size", fileInfo.Size(), "error", err)
 		return bytes.Buffer{}, fmt.Errorf("Could not build TAR header: %v", err)
 	}
 
@@ -164,28 +160,18 @@ func CheckDockerImageExists(dockerImage string) bool {
 func CopyFileToContainer(image liferay.Image, path string) error {
 	dockerClient := getDockerClient()
 
-	log.WithFields(log.Fields{
-		"file":   path,
-		"target": image.GetDeployFolder(),
-	}).Debug("Deploying [" + path + "] to " + image.GetDeployFolder())
+	slog.Debug("Deploying file to target", "file", path, "target", image.GetDeployFolder())
 
 	_, err := dockerClient.ContainerStatPath(
 		context.Background(), image.GetContainerName(), image.GetDeployFolder())
 	if err != nil {
-		log.WithFields(log.Fields{
-			"container": image.GetContainerName(),
-			"target":    image.GetDeployFolder(),
-			"error":     err,
-		}).Error("Could not get directory in the container")
+		slog.Error("Could not get directory in the container", "container", image.GetContainerName(), "target", image.GetDeployFolder(), "error", err)
 		return err
 	}
 
 	file, err := os.Open(path)
 	if err != nil {
-		log.WithFields(log.Fields{
-			"file":  path,
-			"error": err,
-		}).Error("Could not open file to deploy")
+		slog.Error("Could not open file to deploy", "file", path, "error", err)
 		return err
 	}
 	defer file.Close()
@@ -207,11 +193,7 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 
 		execCommandIntoContainer(image.GetContainerName(), cmd)
 	} else {
-		log.WithFields(log.Fields{
-			"container": image.GetContainerName(),
-			"deployDir": image.GetDeployFolder(),
-			"error":     err,
-		}).Error("Could not copy file to container")
+		slog.Error("Could not copy file to container", "container", image.GetContainerName(), "deployDir", image.GetDeployFolder(), "error", err)
 	}
 
 	return err
@@ -223,10 +205,7 @@ func execCommandIntoContainer(containerName string, cmd []string) error {
 	containerID := GetContainerIDByLabel(containerName)
 	if containerID == "" {
 		err := fmt.Errorf("container not found")
-		log.WithFields(log.Fields{
-			"container": containerName,
-			"error":     err,
-		}).Error("Could not find container")
+		slog.Error("Could not find container", "container", containerName, "error", err)
 		return err
 	}
 
@@ -242,11 +221,7 @@ func execCommandIntoContainer(containerName string, cmd []string) error {
 		})
 
 	if err != nil {
-		log.WithFields(log.Fields{
-			"container": containerName,
-			"cmd":       cmd,
-			"error":     err,
-		}).Error("Could not create command in the container")
+		slog.Error("Could not create command in the container", "container", containerName, "cmd", cmd, "error", err)
 		return err
 	}
 
@@ -256,13 +231,7 @@ func execCommandIntoContainer(containerName string, cmd []string) error {
 			Tty:    false,
 		})
 	if err != nil {
-		log.WithFields(log.Fields{
-			"container": containerName,
-			"cmd":       cmd,
-			"detach":    true,
-			"tty":       false,
-			"error":     err,
-		}).Error("Could not start command in the container")
+		slog.Error("Could not start command in the container", "container", containerName, "cmd", cmd, "detach", true, "tty", false, "error", err)
 	}
 
 	return err
@@ -276,9 +245,8 @@ func getDockerClient() *client.Client {
 	ctx := context.Background()
 	dockerClient, err := testcontainers.NewDockerClientWithOpts(ctx)
 	if err != nil {
-		log.WithFields(log.Fields{
-			"error": err,
-		}).Fatal("Could not get Docker client")
+		slog.Error("Could not get Docker client", "error", err)
+		os.Exit(1)
 	}
 
 	// DockerClient embeds *client.Client, so we can use it directly
@@ -295,9 +263,7 @@ func GetDockerImageFromRunningContainer(image liferay.Image) (string, error) {
 		context.Background(), containertypes.ListOptions{All: true})
 
 	if err != nil {
-		log.WithFields(log.Fields{
-			"error": err,
-		}).Error("Could not list all containers")
+		slog.Error("Could not list all containers", "error", err)
 		return "", err
 	}
 
@@ -305,18 +271,13 @@ func GetDockerImageFromRunningContainer(image liferay.Image) (string, error) {
 		containerName := "/" + image.GetContainerName()
 
 		if containerName == container.Names[0] {
-			log.WithFields(log.Fields{
-				"container": image.GetContainerName(),
-			}).Debug("Container found!")
+			slog.Debug("Container found!", "container", image.GetContainerName())
 			return container.Image, nil
 		}
 	}
 
 	err = errors.New("We could not find the container among the running containers")
-	log.WithFields(log.Fields{
-		"container": image.GetContainerName(),
-		"error":     err,
-	}).Debug("We could not find the container among the running containers")
+	slog.Debug("We could not find the container among the running containers", "container", image.GetContainerName(), "error", err)
 
 	return "", err
 }
@@ -336,17 +297,14 @@ func inspect(containerName string) types.ContainerJSON {
 
 	containerID := GetContainerIDByLabel(containerName)
 	if containerID == "" {
-		log.WithFields(log.Fields{
-			"container": containerName,
-		}).Fatal("Container not found")
+		slog.Error("Container not found", "container", containerName)
+		os.Exit(1)
 	}
 
 	containerJSON, err := dockerClient.ContainerInspect(context.Background(), containerID)
 	if err != nil {
-		log.WithFields(log.Fields{
-			"container": containerName,
-			"error":     err,
-		}).Fatal("The container could not be inspected")
+		slog.Error("The container could not be inspected", "container", containerName, "error", err)
+		os.Exit(1)
 	}
 
 	return containerJSON
@@ -373,18 +331,14 @@ func LogContainer(image liferay.Image) {
 		context.Background(), image.GetContainerName(),
 		containertypes.LogsOptions{ShowStdout: true, ShowStderr: true, Follow: true})
 	if err != nil {
-		log.WithFields(log.Fields{
-			"container": image.GetContainerName(),
-			"error":     err,
-		}).Fatal("Could not get container logs")
+		slog.Error("Could not get container logs", "container", image.GetContainerName(), "error", err)
+		os.Exit(1)
 	}
 
 	_, err = io.Copy(os.Stdout, reader)
 	if err != nil && err != io.EOF {
-		log.WithFields(log.Fields{
-			"container": image.GetContainerName(),
-			"error":     err,
-		}).Fatal("Error following container logs")
+		slog.Error("Error following container logs", "container", image.GetContainerName(), "error", err)
+		os.Exit(1)
 	}
 }
 
@@ -408,9 +362,7 @@ func PsFilterByLabel(label string) ([]types.Container, error) {
 func PullDockerImage(dockerImage string) {
 	dockerClient := getDockerClient()
 
-	log.WithFields(log.Fields{
-		"dockerImage": dockerImage,
-	}).Debug("Pulling Docker image.")
+	slog.Debug("Pulling Docker image.", "dockerImage", dockerImage)
 
 	out, err := dockerClient.ImagePull(
 		context.Background(), dockerImage, image.PullOptions{})
@@ -418,10 +370,8 @@ func PullDockerImage(dockerImage string) {
 	if err == nil {
 		parseImagePull(out)
 	} else {
-		log.WithFields(log.Fields{
-			"dockerImage": dockerImage,
-			"error":       err,
-		}).Fatal("The image could not be pulled")
+		slog.Error("The image could not be pulled", "dockerImage", dockerImage, "error", err)
+		os.Exit(1)
 	}
 }
 
@@ -433,11 +383,7 @@ func parseImagePull(pullResp io.ReadCloser) {
 			break
 		}
 
-		log.WithFields(log.Fields{
-			"id":       pullResult.ID,
-			"status":   pullResult.Status,
-			"progress": pullResult.Progress,
-		}).Infof("%s %s %s\n", pullResult.ID, pullResult.Status, pullResult.Progress)
+		slog.Info("Image pull progress", "id", pullResult.ID, "status", pullResult.Status, "progress", pullResult.Progress)
 	}
 }
 
@@ -453,11 +399,7 @@ func RemoveDockerContainer(image liferay.Image) error {
 	if len(containers) == 0 {
 		err = errors.New("Error response from daemon: No such container: " + image.GetContainerName())
 
-		log.WithFields(log.Fields{
-			"container": image.GetContainerName(),
-			"label":     label,
-			"error":     err,
-		}).Error("Could not filter container by label")
+		slog.Error("Could not filter container by label", "container", image.GetContainerName(), "label", label, "error", err)
 
 		return err
 	}
@@ -470,9 +412,7 @@ func RemoveDockerContainer(image liferay.Image) error {
 				Force:         true,
 			})
 		if err == nil {
-			log.WithFields(log.Fields{
-				"container": name,
-			}).Info("Container has been removed")
+			slog.Info("Container has been removed", "container", name)
 		}
 	}
 
@@ -489,17 +429,12 @@ func RemoveDockerImage(dockerImageName string) error {
 			Force: true,
 		})
 	if err != nil {
-		log.WithFields(log.Fields{
-			"image": dockerImageName,
-			"error": err,
-		}).Warn("Impossible to remove the image")
+		slog.Warn("Impossible to remove the image", "image", dockerImageName, "error", err)
 
 		return err
 	}
 
-	log.WithFields(log.Fields{
-		"image": dockerImageName,
-	}).Info("Image has been removed")
+	slog.Info("Image has been removed", "image", dockerImageName)
 
 	return nil
 }
@@ -521,9 +456,7 @@ func RunDatabaseDockerImage(image DatabaseImage) error {
 
 	// Check if container already exists and is running
 	if CheckDockerContainerExists(containerName) {
-		log.WithFields(log.Fields{
-			"container": containerName,
-		}).Debug("Not starting a new container because it's already running")
+		slog.Debug("Not starting a new container because it's already running", "container", containerName)
 
 		return nil
 	}
@@ -532,10 +465,7 @@ func RunDatabaseDockerImage(image DatabaseImage) error {
 	volumePath := filepath.Join(internal.LpnWorkspace, containerName)
 	os.MkdirAll(volumePath, os.ModePerm)
 	
-	log.WithFields(log.Fields{
-		"container": containerName,
-		"volume":    volumePath,
-	}).Debug("Mounting database data folder")
+	slog.Debug("Mounting database data folder", "container", containerName, "volume", volumePath)
 
 	var container testcontainers.Container
 	var err error
@@ -589,18 +519,11 @@ func RunDatabaseDockerImage(image DatabaseImage) error {
 	}
 
 	if err != nil {
-		log.WithFields(log.Fields{
-			"container": containerName,
-			"image":     image.GetFullyQualifiedName(),
-			"error":     err,
-		}).Fatal("Could not create database container")
-		return err
+		slog.Error("Could not create database container", "container", containerName, "image", image.GetFullyQualifiedName(), "error", err)
+		os.Exit(1)
 	}
 
-	log.WithFields(log.Fields{
-		"container": containerName,
-		"image":     image.GetFullyQualifiedName(),
-	}).Debug("Database container has been started")
+	slog.Debug("Database container has been started", "container", containerName, "image", image.GetFullyQualifiedName())
 
 	// Store container reference for later use (optional)
 	_ = container
@@ -615,9 +538,7 @@ func RunLiferayDockerImage(
 	debugPort int, memory string) error {
 
 	if CheckDockerContainerExists(image.GetContainerName()) {
-		log.WithFields(log.Fields{
-			"container": image.GetContainerName(),
-		}).Debug("The container is running.")
+		slog.Debug("The container is running.", "container", image.GetContainerName())
 
 		_ = RemoveDockerContainer(image)
 	}
@@ -652,7 +573,8 @@ func RunLiferayDockerImage(
 		case liferay.Release:
 			debugEnvVarName = "DEBUG_MODE"
 		default:
-			log.Fatalln("Non supported type", imageType)
+			slog.Error("Non supported type", "imageType", imageType)
+			os.Exit(1)
 		}
 
 		environmentVariables = append(environmentVariables, debugEnvVarName+"=true")
@@ -703,26 +625,14 @@ func RunLiferayDockerImage(
 		nil, // Platform not specified, use default
 		image.GetContainerName())
 	if err != nil {
-		log.WithFields(log.Fields{
-			"container":    image.GetContainerName(),
-			"image":        image.GetFullyQualifiedName(),
-			"env":          environmentVariables,
-			"ports":        exposedPorts,
-			"portBindings": portBindings,
-			"error":        err,
-		}).Fatal("Could not create container")
+		slog.Error("Could not create container", "container", image.GetContainerName(), "image", image.GetFullyQualifiedName(), "env", environmentVariables, "ports", exposedPorts, "portBindings", portBindings, "error", err)
+		os.Exit(1)
 	}
 
 	err = dockerClient.ContainerStart(
 		context.Background(), containerCreationResponse.ID, containertypes.StartOptions{})
 	if err == nil {
-		log.WithFields(log.Fields{
-			"container":    image.GetContainerName(),
-			"image":        image.GetFullyQualifiedName(),
-			"env":          environmentVariables,
-			"ports":        exposedPorts,
-			"portBindings": portBindings,
-		}).Debug("Container has been started")
+		slog.Debug("Container has been started", "container", image.GetContainerName(), "image", image.GetFullyQualifiedName(), "env", environmentVariables, "ports", exposedPorts, "portBindings", portBindings)
 	}
 
 	return err
@@ -752,18 +662,14 @@ func StartDockerContainer(image liferay.Image) error {
 		err = dockerClient.ContainerStart(
 			context.Background(), name, containertypes.StartOptions{})
 		if err == nil {
-			log.WithFields(log.Fields{
-				"container": name,
-			}).Info("Database container has been started")
+			slog.Info("Database container has been started", "container", name)
 		}
 	}
 
 	err = dockerClient.ContainerStart(
 		context.Background(), image.GetContainerName(), containertypes.StartOptions{})
 	if err == nil {
-		log.WithFields(log.Fields{
-			"container": image.GetContainerName(),
-		}).Info("Container has been started")
+		slog.Info("Container has been started", "container", image.GetContainerName())
 	}
 
 	return err
@@ -785,9 +691,7 @@ func StopDockerContainer(image liferay.Image) error {
 		name := strings.TrimLeft(container.Names[0], "/")
 		err = dockerClient.ContainerStop(context.Background(), name, containertypes.StopOptions{})
 		if err == nil {
-			log.WithFields(log.Fields{
-				"container": name,
-			}).Info("Container has been stopped")
+			slog.Info("Container has been stopped", "container", name)
 		}
 	}
 

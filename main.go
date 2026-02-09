@@ -13,7 +13,8 @@
 package main
 
 import (
-	"log"
+	"log/slog"
+	"os"
 
 	"github.com/mdelapenya/lpn/cmd"
 
@@ -27,7 +28,8 @@ func init() {
 	installed := docker.CheckDocker()
 
 	if !installed {
-		log.Fatalln(`Docker is not installed. Please visit "https://docs.docker.com/install/#desktop" to install it before using lpn`)
+		slog.Error(`Docker is not installed. Please visit "https://docs.docker.com/install/#desktop" to install it before using lpn`)
+		os.Exit(1)
 	}
 }
 

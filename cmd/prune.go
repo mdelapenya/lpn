@@ -1,10 +1,11 @@
 package cmd
 
 import (
+	"log/slog"
+
 	docker "github.com/mdelapenya/lpn/docker"
 	internal "github.com/mdelapenya/lpn/internal"
 	liferay "github.com/mdelapenya/lpn/liferay"
-	log "github.com/sirupsen/logrus"
 
 	"github.com/spf13/cobra"
 )
@@ -35,7 +36,7 @@ var pruneCmd = &cobra.Command{
 		removeLPNContainers(images)
 		removeLPNImages(images)
 
-		log.Info("LPN state has been pruned!")
+		slog.Info("LPN state has been pruned!")
 	},
 }
 
