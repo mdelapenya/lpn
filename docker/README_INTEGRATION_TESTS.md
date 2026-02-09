@@ -1,39 +1,32 @@
 # Testcontainers-go Integration Tests
 
-This directory contains integration tests and production alternatives that demonstrate the use of [testcontainers-go](https://github.com/testcontainers/testcontainers-go) for both testing AND production container management.
+This directory contains integration tests for database container management using [testcontainers-go](https://github.com/testcontainers/testcontainers-go).
 
 ## Overview
 
-**Key Finding**: Testcontainers-go is NOT just for testing! It supports persistent containers via `WithReuseByName()`, making it suitable for production use.
-
-This demonstrates a **hybrid approach** where:
-- **Production code** can use EITHER Docker client API OR testcontainers-go
-- **Integration tests** use testcontainers-go for reliable, isolated, ephemeral test containers
-- **Same library** serves both purposes with different configurations
+LPN now uses testcontainers-go for database container management with **label-based container identification** instead of hardcoded names. This approach:
+- **Eliminates container name conflicts** - testcontainers auto-generates unique names
+- **Uses labels for identification** - containers are found via the `lpn-container-name` label
+- **Simplifies testing** - no cleanup code needed
+- **Supports production** - disable Ryuk to prevent automatic cleanup
 
 ## Files
 
-### Production Alternative (`database_testcontainers.go`)
+### Production Implementation (`docker.go`)
 
-Alternative implementation using testcontainers-go for production container management:
-- `RunDatabaseDockerImageWithTestcontainers()` - Start persistent database containers
-- `StopDatabaseContainerWithTestcontainers()` - Stop without removing
-- `RemoveDatabaseContainerWithTestcontainers()` - Permanent removal
-
-**Key feature**: `WithReuseByName()` makes containers persist across invocations.
+The `RunDatabaseDockerImage()` function uses testcontainers-go for database management:
+- Containers identified by `lpn-container-name` label
+- Auto-generated container names (no conflicts)
+- Data persistence with bind mounts
+- Built-in wait strategies ensure readiness
 
 ### Testing (`database_integration_test.go`)
 
-Integration tests with ephemeral containers:
-- `TestMySQLContainerIntegration` ✅ - Always passing
-- `TestPostgreSQLContainerIntegration` ⚠️ - Skipped in short mode (IPv6 issue)
-- `TestPostgreSQLSnapshot` - Advanced features demo
-
-### Production Pattern Tests (`database_testcontainers_production_test.go`)
-
-Validates production use of testcontainers-go:
-- `TestMySQLProductionWithTestcontainers` - Persistent container pattern
-- `TestPostgreSQLProductionWithTestcontainers` - PostgreSQL persistence
+Tests focusing on our code, not the library:
+- **Unit Tests**: Test database selection, struct methods, aliases, constants
+- **Integration Tests**: Test `RunDatabaseDockerImage()` with MySQL and PostgreSQL
+- Containers identified by labels
+- No cleanup code needed - testcontainers handles lifecycle
 
 ## Running the Tests
 
@@ -41,70 +34,32 @@ Validates production use of testcontainers-go:
 ```bash
 go test ./... -short
 ```
-This skips PostgreSQL tests that may have IPv6 networking issues in some environments.
+This runs unit tests and skips integration tests.
 
-### Run MySQL integration test
-```bash
-go test -v ./docker -run TestMySQLContainerIntegration -timeout 5m
-```
-
-### Run all integration tests (including PostgreSQL)
+### Run with integration tests
 ```bash
 go test -v ./docker -timeout 5m
 ```
 
-## Test Files
+### Run only unit tests
+```bash
+go test -v ./docker -short
+```
 
-### `database_integration_test.go` - Testing with Ephemeral Containers
+## Container Identification
 
-Contains three integration tests for testing scenarios:
+LPN uses label-based container identification instead of hardcoded names:
 
-1. **TestMySQLContainerIntegration** ✅
-   - Demonstrates MySQL container integration testing
-   - Always passes in all environments
-   - Shows automatic lifecycle management
-   - **Ephemeral**: Container is removed after test
-
-2. **TestPostgreSQLContainerIntegration** ⚠️
-   - Demonstrates PostgreSQL container integration testing
-   - Skipped in short mode due to IPv6 networking issues
-   - Container starts successfully, connection may fail in some environments
-   - **Ephemeral**: Container is removed after test
-
-3. **TestPostgreSQLSnapshot**
-   - Demonstrates advanced snapshot/restore features
-   - Skipped in short mode
-   - Shows unique testcontainers-go capabilities
-   - **Ephemeral**: Container is removed after test
-
-### `database_testcontainers.go` - Production Container Management
-
-Alternative production implementation using testcontainers-go:
-- Uses `WithReuseByName()` for persistent containers
-- Containers survive across multiple runs
-- Manual lifecycle control (no automatic cleanup)
-- Same capabilities as Docker client API
-
-### `database_testcontainers_production_test.go` - Production Pattern Tests
-
-Demonstrates production use of testcontainers-go:
-
-1. **TestMySQLProductionWithTestcontainers**
-   - Shows container persistence with `WithReuseByName()`
-   - Validates data survives stop/start cycles
-   - Skipped in short mode
-
-2. **TestPostgreSQLProductionWithTestcontainers**
-   - Same pattern for PostgreSQL
-   - Validates container reuse
-   - Skipped in short mode
+- **Label**: `lpn-container-name` stores the logical container name
+- **Auto-generated names**: Testcontainers creates unique container names
+- **No conflicts**: Multiple test runs don't conflict
+- **Lookup**: All operations use `getContainersByLabel()` helper
 
 ## Why Testcontainers-go for Production?
 
 ### Benefits for Production Use
-- ✅ **Persistent containers**: `WithReuseByName()` makes containers reusable
-- ✅ **No automatic cleanup**: Container lifecycle is manually controlled
-- ✅ **Ryuk can be disabled**: Set `TESTCONTAINERS_RYUK_DISABLED=true` to prevent reaper sidecar
+- ✅ **Label-based identification**: Eliminates container name conflicts
+- ✅ **No automatic cleanup**: Ryuk can be disabled globally
 - ✅ **Built-in modules**: Pre-configured for MySQL, PostgreSQL, etc.
 - ✅ **Wait strategies**: Ensures services are ready before returning
 - ✅ **Unified API**: Same library for testing and production
@@ -125,111 +80,104 @@ Or create `.testcontainers.properties`:
 ryuk.disabled=true
 ```
 
-This ensures no automatic cleanup happens, even if `CleanupContainer()` is accidentally called.
+This ensures no automatic cleanup happens.
 
 ### Benefits for Testing
-- ✅ **Automatic cleanup**: No leftover containers when using `CleanupContainer()`
+- ✅ **Automatic cleanup**: Testcontainers handles container lifecycle
 - ✅ **Port conflict avoidance**: Dynamic port allocation
 - ✅ **Test isolation**: Each test gets fresh containers
 - ✅ **Simplified setup**: No manual Docker commands
-- ✅ **Advanced features**: Snapshots, wait strategies, etc.
+- ✅ **Label-based lookup**: No cleanup code needed
 
 ## Production vs Testing Pattern
 
 ### Production Pattern (Persistent Containers)
 
-**Option 1: Using `WithReuseByName()`**
-```go
-// Container persists and can be reused
-container, err := mysql.Run(ctx, "mysql:8.0",
-    mysql.WithDatabase("lportal"),
-    testcontainers.WithReuseByName("my-db-container"), // Key: Container persists!
-    testcontainers.WithMounts(                         // Data persists!
-        testcontainers.BindMount(volumePath, mountTarget),
-    ),
-)
-// No CleanupContainer() call - container stays running
-return container, err
-```
+Containers persist by disabling Ryuk globally:
 
-**Option 2: Disable Ryuk Globally (for entire environment)**
 ```bash
 # Before running your application
 export TESTCONTAINERS_RYUK_DISABLED=true
-
-# Then run normally - no reaper will be created
-container, err := mysql.Run(ctx, "mysql:8.0",
-    mysql.WithDatabase("lportal"),
-    // Even without WithReuseByName, container persists because Ryuk is disabled
-)
 ```
 
-Both options ensure containers persist. `WithReuseByName()` is recommended as it's more explicit and works per-container.
+```go
+// Container persists - Ryuk is disabled
+container, err := mysql.Run(ctx, "mysql:8.0",
+    mysql.WithDatabase("lportal"),
+    testcontainers.WithLabels(map[string]string{
+        "lpn-container-name": "my-db",  // Identified by label
+    }),
+    testcontainers.WithMounts(
+        testcontainers.BindMount(volumePath, mountTarget),
+    ),
+)
+```
 
 ### Testing Pattern (Ephemeral Containers)
 ```go
 // Container is automatically cleaned up after test
 container, err := mysql.Run(ctx, "mysql:8.0",
     mysql.WithDatabase("testdb"),
+    testcontainers.WithLabels(map[string]string{
+        "lpn-container-name": "test-db",
+    }),
 )
-testcontainers.CleanupContainer(t, container) // Automatic cleanup
 require.NoError(t, err)
-// Container will be removed when test completes
+// Container lifecycle managed by testcontainers
 ```
-
-## Why Not Just for Testing?
 
 ## Integration Test Pattern
 
-Following testcontainers-go best practices:
+Following testcontainers-go best practices with label-based identification:
 
 ```go
 func TestDatabaseIntegration(t *testing.T) {
     ctx := context.Background()
     
-    // Start container
-    container, err := module.Run(ctx, "image:tag", options...)
-    
-    // CRITICAL: Register cleanup BEFORE error check
-    // This prevents resource leaks
-    testcontainers.CleanupContainer(t, container)
-    
-    // Then check for errors
+    // Start container with label for identification
+    container, err := mysql.Run(ctx, "mysql:8.0",
+        mysql.WithDatabase("testdb"),
+        testcontainers.WithLabels(map[string]string{
+            "lpn-container-name": "test-mysql",
+        }),
+    )
     require.NoError(t, err)
     
-    // Use container for testing
-    // ...
+    // Testcontainers handles cleanup automatically
+    // Use container for testing...
 }
 ```
 
 ## Production Container Pattern
 
 ```go
-func StartProductionDatabase(image DatabaseImage) (testcontainers.Container, error) {
+func StartProductionDatabase(image DatabaseImage) error {
     ctx := context.Background()
+    containerName := image.GetContainerName()
     
-    // Start container with reuse
+    // Start container with label identification
     container, err := mysql.Run(ctx, 
         image.GetFullyQualifiedName(),
         mysql.WithDatabase(DBName),
-        testcontainers.WithReuseByName(containerName), // Persists!
-        testcontainers.WithMounts(...),                // Data persists!
+        testcontainers.WithLabels(map[string]string{
+            "lpn-container-name": containerName,  // Identify by label
+            "db-type":            image.GetType(),
+            "lpn-type":           "production",
+        }),
+        testcontainers.WithMounts(...),  // Data persists
     )
     
-    // NO CleanupContainer() call - container stays running
-    return container, err
+    return err
 }
 ```
 
-The key difference is the presence/absence of `testcontainers.CleanupContainer()` and the use of `WithReuseByName()`.
+The key difference is the Ryuk reaper state (enabled for tests, disabled for production).
 
 ## More Information
 
-See [TESTCONTAINERS_EVALUATION.md](../docs/TESTCONTAINERS_EVALUATION.md) for:
-- Complete evaluation rationale
-- Architectural analysis
-- Code comparisons
-- Detailed recommendations
+For implementation details, see:
+- `docker/docker.go` - Production implementation with label-based lookup
+- `docker/database_integration_test.go` - Integration tests
 
 ## Dependencies
 
@@ -238,20 +186,3 @@ See [TESTCONTAINERS_EVALUATION.md](../docs/TESTCONTAINERS_EVALUATION.md) for:
 - `github.com/testcontainers/testcontainers-go/modules/mysql v0.40.0`
 - `github.com/lib/pq` - PostgreSQL driver
 - `github.com/go-sql-driver/mysql` - MySQL driver
-
-## Known Issues
-
-### PostgreSQL IPv6 Networking
-Some test environments have IPv6 localhost connection issues with PostgreSQL containers. The tests handle this by:
-- Skipping in short mode (`go test -short`)
-- Passing in environments with proper IPv6 configuration
-- Not affecting production code at all
-
-To run despite this issue:
-```bash
-# Skip problematic tests
-go test ./... -short
-
-# Or run specific working tests
-go test -v ./docker -run TestMySQLContainerIntegration
-```
