@@ -98,9 +98,9 @@ func CheckDocker() bool {
 	return true
 }
 
-// CheckDockerContainerExists checks if the container exists by label
-// It looks for containers with the label "lpn-container-name" matching the provided name
-func CheckDockerContainerExists(containerName string) bool {
+// getContainersByLabel returns containers matching the lpn-container-name label
+// Returns empty slice if no containers found or on error
+func getContainersByLabel(containerName string) []types.Container {
 	dockerClient := getDockerClient()
 
 	// Use label filter to find containers by lpn-container-name label
@@ -113,27 +113,25 @@ func CheckDockerContainerExists(containerName string) bool {
 		})
 
 	if err != nil {
-		return false
+		return []types.Container{}
 	}
 
+	return containers
+}
+
+// CheckDockerContainerExists checks if the container exists by label
+// It looks for containers with the label "lpn-container-name" matching the provided name
+func CheckDockerContainerExists(containerName string) bool {
+	containers := getContainersByLabel(containerName)
 	return len(containers) > 0
 }
 
 // GetContainerIDByLabel returns the container ID for a container with the given label
 // Returns empty string if no container found
 func GetContainerIDByLabel(containerName string) string {
-	dockerClient := getDockerClient()
+	containers := getContainersByLabel(containerName)
 
-	// Use label filter to find containers by lpn-container-name label
-	containers, err := dockerClient.ContainerList(
-		context.Background(), containertypes.ListOptions{
-			All: true,
-			Filters: filters.NewArgs(
-				filters.Arg("label", "lpn-container-name="+containerName),
-			),
-		})
-
-	if err != nil || len(containers) == 0 {
+	if len(containers) == 0 {
 		return ""
 	}
 
