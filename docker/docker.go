@@ -273,13 +273,16 @@ func getDockerClient() *client.Client {
 		return instance
 	}
 
-	var err error
-	instance, err = client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
+	ctx := context.Background()
+	dockerClient, err := testcontainers.NewDockerClientWithOpts(ctx)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"error": err,
 		}).Fatal("Could not get Docker client")
 	}
+
+	// DockerClient embeds *client.Client, so we can use it directly
+	instance = dockerClient.Client
 
 	return instance
 }
