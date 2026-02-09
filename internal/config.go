@@ -142,7 +142,7 @@ func CheckWorkspace() {
 	if _, err := os.Stat(w); os.IsNotExist(err) {
 		err = os.MkdirAll(w, 0755)
 		if err != nil {
-			slog.Error("Cannot create workdir for LPN at "+w, "error", err)
+			slog.Error("Cannot create workdir for LPN", "path", w, "error", err)
 			os.Exit(1)
 		}
 

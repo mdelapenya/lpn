@@ -160,7 +160,7 @@ func CheckDockerImageExists(dockerImage string) bool {
 func CopyFileToContainer(image liferay.Image, path string) error {
 	dockerClient := getDockerClient()
 
-	slog.Debug("Deploying ["+path+"] to "+image.GetDeployFolder(), "file", path, "target", image.GetDeployFolder())
+	slog.Debug("Deploying file to target", "file", path, "target", image.GetDeployFolder())
 
 	_, err := dockerClient.ContainerStatPath(
 		context.Background(), image.GetContainerName(), image.GetDeployFolder())
@@ -383,7 +383,7 @@ func parseImagePull(pullResp io.ReadCloser) {
 			break
 		}
 
-		slog.Info(fmt.Sprintf("%s %s %s\n", pullResult.ID, pullResult.Status, pullResult.Progress), "id", pullResult.ID, "status", pullResult.Status, "progress", pullResult.Progress)
+		slog.Info("Image pull progress", "id", pullResult.ID, "status", pullResult.Status, "progress", pullResult.Progress)
 	}
 }
 
