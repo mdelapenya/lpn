@@ -196,7 +196,7 @@ func readTags(image liferay.Image, count int, page int) {
 	tagsResponse := new(tagsResponse)
 	err = json.NewDecoder(res.Body).Decode(tagsResponse)
 	if err != nil {
-		slog.Error("Error decoding response from the server", "error", err)
+		slog.Error("Error decoding response from the server", "err", err)
 		os.Exit(1)
 	}
 
@@ -216,7 +216,7 @@ func readTags(image liferay.Image, count int, page int) {
 			count = tagsResponse.Count
 		}
 
-		slog.Info(fmt.Sprintf("There are %d images, showing %d elements in page %d of %d", tagsResponse.Count, count, page, totalPages), "images", tagsResponse.Count, "elements", count, "currentPage", page, "totalPages", totalPages)
+		slog.Info("Displaying image tags", "images", tagsResponse.Count, "elements", count, "currentPage", page, "totalPages", totalPages)
 
 		printTagsAsTable(data, page, totalPages)
 	} else {

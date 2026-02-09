@@ -182,15 +182,13 @@ func ConfigureLogger(logLevel string) {
 		handler = slog.NewTextHandler(os.Stderr, opts)
 	} else {
 		// Without timestamp, use a custom handler that removes time
-		handler = slog.NewTextHandler(os.Stderr, &slog.HandlerOptions{
-			Level: level,
-			ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
-				if a.Key == slog.TimeKey {
-					return slog.Attr{}
-				}
-				return a
-			},
-		})
+		opts.ReplaceAttr = func(groups []string, a slog.Attr) slog.Attr {
+			if a.Key == slog.TimeKey {
+				return slog.Attr{}
+			}
+			return a
+		}
+		handler = slog.NewTextHandler(os.Stderr, opts)
 	}
 
 	slog.SetDefault(slog.New(handler))
