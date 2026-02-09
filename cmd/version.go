@@ -13,6 +13,7 @@
 package cmd
 
 import (
+	"fmt"
 	"log/slog"
 
 	v "github.com/mdelapenya/lpn/assets/version"
@@ -39,6 +40,7 @@ var versionCmd = &cobra.Command{
 
 		dockerClientVersion, dockerServerVersion, _ := docker.GetDockerVersion()
 
-		slog.Info("lpn (Liferay Portal Nook) -- HEAD", "lpn", string(version), "dockerClient", dockerClientVersion, "dockerServer", dockerServerVersion.Version, "golang", dockerServerVersion.GoVersion)
+		msg := fmt.Sprintf("lpn (Liferay Portal Nook) v%s -- HEAD", version)
+		slog.Info(msg, "lpn", string(version), "dockerClient", dockerClientVersion, "dockerServer", dockerServerVersion.Version, "golang", dockerServerVersion.GoVersion)
 	},
 }
