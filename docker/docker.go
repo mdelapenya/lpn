@@ -273,7 +273,8 @@ func getDockerClient() *client.Client {
 		return instance
 	}
 
-	instance, err := client.NewEnvClient()
+	var err error
+	instance, err = client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
 	if err != nil {
 		log.WithFields(log.Fields{
 			"error": err,
@@ -549,11 +550,15 @@ func RunDatabaseDockerImage(image DatabaseImage) error {
 			testcontainers.WithMounts(
 				testcontainers.BindMount(volumePath, testcontainers.ContainerMountTarget(image.GetDataFolder())),
 			),
-			// Add labels for identification - use label instead of container name
-			testcontainers.WithLabels(map[string]string{
-				"lpn-container-name": containerName,
-				"db-type":            image.GetType(),
-				"lpn-type":           image.GetLpnType(),
+			// Add labels for identification - use CustomizeRequest to ensure labels are set
+			testcontainers.CustomizeRequest(testcontainers.GenericContainerRequest{
+				ContainerRequest: testcontainers.ContainerRequest{
+					Labels: map[string]string{
+						"lpn-container-name": containerName,
+						"db-type":            image.GetType(),
+						"lpn-type":           image.GetLpnType(),
+					},
+				},
 			}),
 			// Note: mysql.Run() has a built-in wait strategy that checks for MySQL readiness
 			// No need to override it with a custom wait strategy
@@ -570,11 +575,15 @@ func RunDatabaseDockerImage(image DatabaseImage) error {
 			testcontainers.WithMounts(
 				testcontainers.BindMount(volumePath, testcontainers.ContainerMountTarget(image.GetDataFolder())),
 			),
-			// Add labels for identification - use label instead of container name
-			testcontainers.WithLabels(map[string]string{
-				"lpn-container-name": containerName,
-				"db-type":            image.GetType(),
-				"lpn-type":           image.GetLpnType(),
+			// Add labels for identification - use CustomizeRequest to ensure labels are set
+			testcontainers.CustomizeRequest(testcontainers.GenericContainerRequest{
+				ContainerRequest: testcontainers.ContainerRequest{
+					Labels: map[string]string{
+						"lpn-container-name": containerName,
+						"db-type":            image.GetType(),
+						"lpn-type":           image.GetLpnType(),
+					},
+				},
 			}),
 		)
 
