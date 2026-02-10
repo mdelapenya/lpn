@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/testcontainers/testcontainers-go"
 	tcexec "github.com/testcontainers/testcontainers-go/exec"
@@ -59,23 +58,23 @@ func TestCopyFileToContainer(t *testing.T) {
 
 	// Test: Copy file to container
 	err = CopyFileToContainer(mockImage, testFile)
-	assert.NoError(t, err, "CopyFileToContainer should succeed")
+	require.NoError(t, err, "CopyFileToContainer should succeed")
 
 	// Verify: Check that the file exists in the container using multiplexed Exec
 	targetPath := filepath.Join(mockImage.deployFolder, "test-deploy.txt")
 	exitCode, reader, err := container.Exec(ctx, []string{"test", "-f", targetPath}, tcexec.Multiplexed())
 	require.NoError(t, err)
-	assert.Equal(t, 0, exitCode, "File should exist in container")
+	require.Equal(t, 0, exitCode, "File should exist in container")
 
 	// Verify: Read the file content using multiplexed Exec
 	exitCode, reader, err = container.Exec(ctx, []string{"cat", targetPath}, tcexec.Multiplexed())
 	require.NoError(t, err)
-	assert.Equal(t, 0, exitCode, "Should be able to read the file")
+	require.Equal(t, 0, exitCode, "Should be able to read the file")
 	
 	// Read the output
 	content, err := io.ReadAll(reader)
 	require.NoError(t, err)
-	assert.Equal(t, string(testContent), string(content), "File content should match exactly")
+	require.Equal(t, string(testContent), string(content), "File content should match exactly")
 }
 
 // TestDeployTextFileToContainer tests deploying a text file to a container and verifying it with multiplexed Exec
@@ -131,23 +130,23 @@ func TestDeployTextFileToContainer(t *testing.T) {
 	targetPath := filepath.Join(mockImage.deployFolder, "deployment-test.txt")
 	exitCode, reader, err = container.Exec(ctx, []string{"test", "-f", targetPath}, tcexec.Multiplexed())
 	require.NoError(t, err)
-	assert.Equal(t, 0, exitCode, "Deployed file should exist in container at "+targetPath)
+	require.Equal(t, 0, exitCode, "Deployed file should exist in container at "+targetPath)
 	io.ReadAll(reader) // drain the reader
 
 	// Verify: Read and check the file content using multiplexed Exec
 	exitCode, reader, err = container.Exec(ctx, []string{"cat", targetPath}, tcexec.Multiplexed())
 	require.NoError(t, err)
-	assert.Equal(t, 0, exitCode, "Should be able to read the deployed file")
+	require.Equal(t, 0, exitCode, "Should be able to read the deployed file")
 	
 	// Read and verify the content
 	deployedContent, err := io.ReadAll(reader)
 	require.NoError(t, err)
-	assert.Equal(t, testContent, string(deployedContent), "Deployed file content should match original")
+	require.Equal(t, testContent, string(deployedContent), "Deployed file content should match original")
 
 	// Verify: Check file permissions using multiplexed Exec
 	exitCode, reader, err = container.Exec(ctx, []string{"stat", "-c", "%a", targetPath}, tcexec.Multiplexed())
 	require.NoError(t, err)
-	assert.Equal(t, 0, exitCode, "Should be able to stat the deployed file")
+	require.Equal(t, 0, exitCode, "Should be able to stat the deployed file")
 	
 	permissions, err := io.ReadAll(reader)
 	require.NoError(t, err)
@@ -156,11 +155,11 @@ func TestDeployTextFileToContainer(t *testing.T) {
 	// Verify: Check file ownership using multiplexed Exec
 	exitCode, reader, err = container.Exec(ctx, []string{"stat", "-c", "%U:%G", targetPath}, tcexec.Multiplexed())
 	require.NoError(t, err)
-	assert.Equal(t, 0, exitCode, "Should be able to check file ownership")
+	require.Equal(t, 0, exitCode, "Should be able to check file ownership")
 	
 	ownership, err := io.ReadAll(reader)
 	require.NoError(t, err)
-	assert.Contains(t, string(ownership), "root", "File should be owned by root user")
+	require.Contains(t, string(ownership), "root", "File should be owned by root user")
 }
 
 // TestCopyFileToContainerNonExistentFile tests error handling for non-existent files
@@ -196,7 +195,7 @@ func TestCopyFileToContainerNonExistentFile(t *testing.T) {
 
 	// Test: Try to copy a non-existent file
 	err = CopyFileToContainer(mockImage, "/tmp/nonexistent-file-12345.txt")
-	assert.Error(t, err, "Should return error for non-existent file")
+	require.Error(t, err, "Should return error for non-existent file")
 }
 
 // TestCopyFileToContainerNonExistentContainer tests error handling for non-existent container
@@ -217,7 +216,7 @@ func TestCopyFileToContainerNonExistentContainer(t *testing.T) {
 
 	// Test: Try to copy to non-existent container
 	err = CopyFileToContainer(mockImage, testFile)
-	assert.Error(t, err, "Should return error for non-existent container")
+	require.Error(t, err, "Should return error for non-existent container")
 }
 
 // mockLiferayImage is a mock implementation of liferay.Image for testing
