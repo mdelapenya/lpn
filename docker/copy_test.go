@@ -21,7 +21,7 @@ func TestCopyFileToContainer(t *testing.T) {
 	// Start a simple container for testing (using alpine as it's lightweight)
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
-			Image: "alpine:latest",
+			Image: "alpine:3.19",
 			Cmd:   []string{"sleep", "300"},
 			Labels: map[string]string{
 				"lpn-container-name": "test-deploy-container",
@@ -70,7 +70,7 @@ func TestCopyFileToContainer(t *testing.T) {
 	exitCode, reader, err = container.Exec(ctx, []string{"cat", targetPath}, tcexec.Multiplexed())
 	require.NoError(t, err)
 	require.Equal(t, 0, exitCode, "Should be able to read the file")
-	
+
 	// Read the output
 	content, err := io.ReadAll(reader)
 	require.NoError(t, err)
@@ -85,7 +85,7 @@ func TestDeployTextFileToContainer(t *testing.T) {
 	// Start a simple container for testing (using alpine as it's lightweight)
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
-			Image: "alpine:latest",
+			Image: "alpine:3.19",
 			Cmd:   []string{"sleep", "300"},
 			Labels: map[string]string{
 				"lpn-container-name": "test-deploy-text-container",
@@ -120,7 +120,8 @@ func TestDeployTextFileToContainer(t *testing.T) {
 	exitCode, reader, err := container.Exec(ctx, []string{"mkdir", "-p", "/tmp/deploy"}, tcexec.Multiplexed())
 	require.NoError(t, err)
 	require.Equal(t, 0, exitCode, "mkdir should succeed")
-	io.ReadAll(reader) // drain the reader
+	_, err = io.ReadAll(reader) // drain the reader
+	require.NoError(t, err)
 
 	// Deploy the file to the container
 	err = CopyFileToContainer(mockImage, testFile)
@@ -131,13 +132,14 @@ func TestDeployTextFileToContainer(t *testing.T) {
 	exitCode, reader, err = container.Exec(ctx, []string{"test", "-f", targetPath}, tcexec.Multiplexed())
 	require.NoError(t, err)
 	require.Equal(t, 0, exitCode, "Deployed file should exist in container at "+targetPath)
-	io.ReadAll(reader) // drain the reader
+	_, err = io.ReadAll(reader) // drain the reader
+	require.NoError(t, err)
 
 	// Verify: Read and check the file content using multiplexed Exec
 	exitCode, reader, err = container.Exec(ctx, []string{"cat", targetPath}, tcexec.Multiplexed())
 	require.NoError(t, err)
 	require.Equal(t, 0, exitCode, "Should be able to read the deployed file")
-	
+
 	// Read and verify the content
 	deployedContent, err := io.ReadAll(reader)
 	require.NoError(t, err)
@@ -147,7 +149,7 @@ func TestDeployTextFileToContainer(t *testing.T) {
 	exitCode, reader, err = container.Exec(ctx, []string{"stat", "-c", "%a", targetPath}, tcexec.Multiplexed())
 	require.NoError(t, err)
 	require.Equal(t, 0, exitCode, "Should be able to stat the deployed file")
-	
+
 	permissions, err := io.ReadAll(reader)
 	require.NoError(t, err)
 	t.Logf("Deployed file permissions: %s", string(permissions))
@@ -156,7 +158,7 @@ func TestDeployTextFileToContainer(t *testing.T) {
 	exitCode, reader, err = container.Exec(ctx, []string{"stat", "-c", "%U:%G", targetPath}, tcexec.Multiplexed())
 	require.NoError(t, err)
 	require.Equal(t, 0, exitCode, "Should be able to check file ownership")
-	
+
 	ownership, err := io.ReadAll(reader)
 	require.NoError(t, err)
 	require.Contains(t, string(ownership), "root", "File should be owned by root user")
@@ -170,7 +172,7 @@ func TestCopyFileToContainerNonExistentFile(t *testing.T) {
 	// Start a simple container for testing
 	container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
-			Image: "alpine:latest",
+			Image: "alpine:3.19",
 			Cmd:   []string{"sleep", "300"},
 			Labels: map[string]string{
 				"lpn-container-name": "test-deploy-error-container",

@@ -33,6 +33,7 @@ import (
 	internal "github.com/mdelapenya/lpn/internal"
 	liferay "github.com/mdelapenya/lpn/liferay"
 	"github.com/testcontainers/testcontainers-go"
+	tcexec "github.com/testcontainers/testcontainers-go/exec"
 	"github.com/testcontainers/testcontainers-go/modules/mysql"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
 )
@@ -189,7 +190,7 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 
 	// Verify file exists
 	if _, err := os.Stat(path); err != nil {
-		slog.Error("Could not open file to deploy", "file", path, "error", err)
+		slog.Error("Could not access file to deploy (stat failed)", "file", path, "error", err)
 		return err
 	}
 
@@ -201,11 +202,11 @@ func CopyFileToContainer(image liferay.Image, path string) error {
 		return err
 	}
 
-	// Change ownership of the deployed file
+	// Change ownership of the deployed file (run as root to ensure permissions)
 	owner := image.GetUser()
 	cmd := []string{"chown", owner + ":" + owner, targetFilePath}
 
-	_, _, err = container.Exec(ctx, cmd)
+	_, _, err = container.Exec(ctx, cmd, tcexec.WithUser("root"))
 	if err != nil {
 		slog.Warn("Could not change file ownership, but file was copied successfully", "container", containerName, "file", targetFilePath, "error", err)
 	}
