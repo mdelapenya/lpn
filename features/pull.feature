@@ -4,6 +4,8 @@ Feature: Pull command
 
   Scenario Outline: Pull command when image exists
     Given I run `lpn pull <type> -t <tag>`
+    And the exit status should be 0
+    When I run `lpn pull <type> -t <tag>`
     Then the output should contain:
     """
     Image is up to date for <repository>:<tag>
