@@ -14,7 +14,8 @@ Read these sources before testing to understand what the software is supposed to
 2. **docker/README_INTEGRATION_TESTS.md** — Explains the label-based container identification system, testcontainers-go integration, and database orchestration patterns.
 3. **CLI help output** — Run `lpn --help` and `lpn <command> --help` for each command to see the built-in documentation. Compare this against README.md for discrepancies.
 4. **Source code in `cmd/`** — Each file corresponds to a cobra command. Read these to understand flag definitions, default values, and error handling paths.
-5. **Configuration** — The tool uses `~/.lpn/config.yml` (auto-created on first run). Default image tags: CE=`7.0.6-ga7`, DXP=`7.0.10.8`, Nightly=current date (`YYYYMMDD`), Release=`latest`, Commerce=config-defined.
+5. **Configuration** — The tool uses `~/.lpn/config.yaml` (auto-created on first run). Default image tags from config: CE=`7.0.6-ga7`, DXP=`7.0.10.8`, Nightly=`master` (but `run`/`pull` commands override to current date `YYYYMMDD` when no tag is specified), Release=`latest`, Commerce=`1.1.1`. Database images: MySQL=`docker.io/mdelapenya/mysql-utf8:5.7`, PostgreSQL=`postgres:9.6-alpine`.
+6. **Environment variables** — `LPN_LOG_LEVEL` controls the log level (`TRACE`, `DEBUG`, `INFO`, `WARNING`, `ERROR`, `FATAL`, `PANIC`; default `INFO`). `LPN_LOG_INCLUDE_TIMESTAMP` adds timestamps to log output when set to `TRUE`. These are read at startup in `internal/config.go`.
 
 ---
 
@@ -214,6 +215,23 @@ lpn checki release -t latest
 
 **Observe:** Should now report `Image has been pulled from Docker Hub`.
 
+### 8b. Pull with Force Removal
+
+**Goal:** Verify the `--forceRemoval/-f` flag removes the cached local image before pulling.
+
+```bash
+# First ensure an image is present (use the one pulled in scenario 8)
+lpn checki release -t latest
+
+# Pull again with force removal — should remove the local cache and re-pull
+lpn pull release -t latest -f
+
+# Verify the image is still present after re-pull
+lpn checki release -t latest
+```
+
+**Observe:** With `-f`/`--forceRemoval`, the tool should attempt to remove the local image first. If the image was not cached, it should log `The image was not found in the local cache. Skipping removal` and proceed to pull. If the image was cached, it removes it then pulls again.
+
 ### 9. Pull with Non-Existent Tag (Error Handling)
 
 **Goal:** Verify error handling for invalid image tags.
@@ -274,19 +292,31 @@ If the container takes time to start (Liferay Portal is large), wait up to 2-3 m
 
 ### 11. Deploy Command Validation
 
-**Goal:** Verify deploy command input validation and error handling.
+**Goal:** Verify deploy command input validation, error handling, and help output.
 
 ```bash
-# Deploy without specifying files (should error)
+# Deploy without specifying files or dir (should error)
 lpn deploy ce
+```
 
+**Observe:** Should print `Please pass a valid path to a file or to a directory as argument` and exit with code 1.
+
+```bash
 # Deploy with non-existent file (should error)
 lpn deploy ce -f /tmp/nonexistent-file-12345.jar
+```
 
+**Observe:** Should fail with exit code 1.
+
+```bash
 # Deploy help
 lpn deploy --help
+```
 
-# Verify all deploy subcommands show help
+**Observe:** Should show `Deploys files or a directory to Liferay Portal's deploy folder` and `Available Commands:`.
+
+```bash
+# Verify all deploy subcommands show help with flags --files/-f and --dir/-d
 lpn deploy ce --help
 lpn deploy commerce --help
 lpn deploy dxp --help
@@ -294,7 +324,50 @@ lpn deploy nightly --help
 lpn deploy release --help
 ```
 
-**Observe:** Deploying without files should print `Please pass a valid path to a file or to a directory as argument` and exit with code 1. Deploying with a non-existent file should fail with exit code 1. Help output should show `Deploys files or a directory to Liferay Portal's deploy folder` and list available subcommands.
+**Observe:** Each subcommand help should contain `Deploys files or a directory` and list the `-f`/`--files` and `-d`/`--dir` flags.
+
+### 11b. Deploy Valid File Without Running Container
+
+**Goal:** Verify deploy fails gracefully when deploying a valid file to a non-running container for all flavors.
+
+```bash
+# Create a temporary test file
+echo "test jar content" > /tmp/test-deploy.jar
+
+# Deploy the valid file to each flavor — all should fail since no container is running
+lpn deploy ce -f /tmp/test-deploy.jar
+lpn deploy commerce -f /tmp/test-deploy.jar
+lpn deploy dxp -f /tmp/test-deploy.jar
+lpn deploy nightly -f /tmp/test-deploy.jar
+lpn deploy release -f /tmp/test-deploy.jar
+
+# Clean up
+rm /tmp/test-deploy.jar
+```
+
+**Observe:** Each should fail with exit code 1 because no container is running. The error should be about the container not being found, not about the file being invalid. This confirms the tool validates the file exists before attempting to deploy.
+
+### 11c. Deploy with Directory Flag
+
+**Goal:** Verify the `--dir/-d` flag for directory deployment.
+
+```bash
+# Create a temporary directory with test files
+mkdir -p /tmp/test-deploy-dir
+echo "module A" > /tmp/test-deploy-dir/moduleA.jar
+echo "module B" > /tmp/test-deploy-dir/moduleB.jar
+
+# Deploy a directory without a running container (should fail)
+lpn deploy release -d /tmp/test-deploy-dir
+
+# Deploy with invalid directory (should error)
+lpn deploy release -d /tmp/nonexistent-dir-12345
+
+# Clean up
+rm -rf /tmp/test-deploy-dir
+```
+
+**Observe:** Deploying a directory to a non-running container should fail with exit code 1. Deploying with an invalid directory should print `The directory is not valid` and exit with code 1.
 
 ### 12. Deploy to a Running Container
 
@@ -358,11 +431,11 @@ lpn rm release
 
 ### 15. Run with Custom Flags
 
-**Goal:** Verify custom flags are accepted and applied.
+**Goal:** Verify all `run` flags are accepted and applied.
 
 ```bash
-# Run with debug mode and custom ports
-lpn run release -t latest -p 9090 -g 22222 --debug -D 8787
+# Run with debug mode, custom ports, and memory setting
+lpn run release -t latest -p 9090 -g 22222 --debug -D 8787 -m "-Xmx4096m"
 
 # Verify the container is running
 lpn checkc release
@@ -371,7 +444,16 @@ lpn checkc release
 lpn rm release
 ```
 
-**Observe:** The container should start with the specified ports. Check `docker inspect` output to verify port mappings if needed.
+**Observe:** The container should start with the specified ports and memory setting. The success log should show `httpPort=9090`, `gogoPort=22222`, `debug=true`, `debugPort=8787`, and `memory=-Xmx4096m`. Check `docker inspect` output to verify port mappings if needed.
+
+Run flags reference:
+- `-p`/`--httpPort` (int, default 8080) — HTTP port
+- `-d`/`--debug` (bool, default false) — Enable debug mode
+- `-D`/`--debugPort` (int, default 9000) — Debug port (only applies when debug enabled)
+- `-g`/`--gogoPort` (int, default 11311) — GoGo Shell port
+- `-s`/`--datastore` (string, default "hsql") — Database service: hsql, mysql, or postgresql
+- `-t`/`--tag` (string) — Image tag to run
+- `-m`/`--memory` (string) — JVM memory configuration (e.g., `-Xmx2048m`)
 
 ### 16. Prune Command
 
@@ -424,6 +506,23 @@ lpn version -V 2>&1 | head -20
 ```
 
 **Observe:** With `-V`, output should include debug-level log messages. Compare with non-verbose output to verify additional information is shown.
+
+### 19b. Log Level Environment Variable
+
+**Goal:** Verify the `LPN_LOG_LEVEL` environment variable controls log output independently of the `-V` flag.
+
+```bash
+# Run with DEBUG log level
+LPN_LOG_LEVEL=DEBUG lpn checkc ce 2>&1
+
+# Run with ERROR log level (should suppress info and warning messages)
+LPN_LOG_LEVEL=ERROR lpn checkc ce 2>&1
+
+# Test timestamp inclusion
+LPN_LOG_INCLUDE_TIMESTAMP=TRUE lpn checkc ce 2>&1
+```
+
+**Observe:** With `LPN_LOG_LEVEL=DEBUG`, output should include additional debug-level messages. With `LPN_LOG_LEVEL=ERROR`, only error messages should appear (the "Container does NOT exist" warning should be suppressed). With `LPN_LOG_INCLUDE_TIMESTAMP=TRUE`, each log line should include a timestamp. Valid log levels are: `TRACE`, `DEBUG`, `INFO`, `WARNING`, `ERROR`, `FATAL`, `PANIC`.
 
 ### 20. Stop/Start/Remove Without Running Container
 
@@ -478,7 +577,7 @@ lpn open ce
    - Release: `mdelapenya/liferay-portal` (unofficial)
    - Commerce: `liferay/commerce` (may be discontinued)
 4. Try a different tag: `lpn tags <type>` to see available tags
-5. Check configuration: `cat ~/.lpn/config.yml` for custom repository URLs
+5. Check configuration: `cat ~/.lpn/config.yaml` for custom repository URLs
 
 ### Port Conflicts
 
@@ -516,10 +615,10 @@ lpn open ce
 **Symptoms:** Unexpected default values, wrong image tags, or config-related errors.
 
 **Resolution:**
-1. Check config location: `cat ~/.lpn/config.yml`
-2. Delete to regenerate defaults: `rm ~/.lpn/config.yml` then run any `lpn` command
+1. Check config location: `cat ~/.lpn/config.yaml`
+2. Delete to regenerate defaults: `rm ~/.lpn/config.yaml` then run any `lpn` command
 3. Verify YAML syntax if manually edited
-4. Default tags: CE=`7.0.6-ga7`, DXP=`7.0.10.8`, Release=`latest`, Nightly=current date
+4. Default config tags: CE=`7.0.6-ga7`, DXP=`7.0.10.8`, Release=`latest`, Nightly=`master` (but `run`/`pull` override to current date), Commerce=`1.1.1`
 
 ### Testcontainers Ryuk Cleanup Issues
 
@@ -539,7 +638,7 @@ lpn open ce
 2. Check disk space: `df -h`
 3. Check Docker logs: `docker logs <db-container-name>`
 4. Try with PostgreSQL instead of MySQL (lighter): `lpn run release --datastore postgresql`
-5. Verify the database image can be pulled: `docker pull mysql:8.0` or `docker pull postgres:16`
+5. Verify the database image can be pulled: `docker pull docker.io/mdelapenya/mysql-utf8:5.7` or `docker pull postgres:9.6-alpine` (these are the default database images configured in `internal/config.go`)
 
 ### Slow Container Startup
 
