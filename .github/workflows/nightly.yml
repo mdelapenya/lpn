@@ -1,0 +1,23 @@
+name: Nightly CLI Tester
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  cli-tester:
+    name: Run CLI Tester
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Install Claude
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run CLI Tester
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: claude --dangerously-skip-permissions "load /cli-tester and run tests agains the project, discovering issues"
