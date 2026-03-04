@@ -184,8 +184,9 @@ var pullRelease = &cobra.Command{
 // pullDockerImage uses the image interface to pull it from Docker Hub, removing the cached on if
 func pullDockerImage(image liferay.Image, forceRemoval bool) {
 	if forceRemoval {
-		err := docker.RemoveDockerImage(image.GetFullyQualifiedName())
-		if err != nil {
+		if docker.CheckDockerImageExists(image.GetFullyQualifiedName()) {
+			docker.RemoveDockerImage(image.GetFullyQualifiedName())
+		} else {
 			slog.Info("The image was not found in the local cache. Skipping removal", "image", image.GetFullyQualifiedName())
 		}
 	}
