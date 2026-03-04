@@ -376,7 +376,7 @@ func RemoveDockerContainer(image liferay.Image) error {
 	if len(containers) == 0 {
 		err = errors.New("Error response from daemon: No such container: " + image.GetContainerName())
 
-		slog.Error("Could not filter container by label", "container", image.GetContainerName(), "label", label, "error", err)
+		slog.Debug("No containers found for label", "container", image.GetContainerName(), "label", label)
 
 		return err
 	}
@@ -590,7 +590,8 @@ func RunLiferayDockerImage(
 			Env:          environmentVariables,
 			ExposedPorts: exposedPorts,
 			Labels: map[string]string{
-				"lpn-type": image.GetType(),
+				"lpn-type":           image.GetType(),
+				"lpn-container-name": image.GetContainerName(),
 			},
 		},
 		&containertypes.HostConfig{

@@ -55,7 +55,7 @@ var checkContainerCECmd = &cobra.Command{
 	Use:   "ce",
 	Short: "Checks if there is a CE container created by lpn",
 	Long: `Checks if there is a CE container created by lpn (Liferay Portal Nook).
-	Uses docker container inspect to check if there is a CE container with name [lpn-release] created by lpn (Liferay Portal Nook)`,
+	Uses docker container inspect to check if there is a CE container with name [lpn-ce] created by lpn (Liferay Portal Nook)`,
 	Run: func(cmd *cobra.Command, args []string) {
 		ce := liferay.CE{}
 
@@ -79,7 +79,7 @@ var checkContainerDXPCmd = &cobra.Command{
 	Use:   "dxp",
 	Short: "Checks if there is a DXP container created by lpn",
 	Long: `Checks if there is a DXP container created by lpn (Liferay Portal Nook).
-	Uses docker container inspect to check if there is a DXP container with name [lpn-release] created by lpn (Liferay Portal Nook)`,
+	Uses docker container inspect to check if there is a DXP container with name [lpn-dxp] created by lpn (Liferay Portal Nook)`,
 	Run: func(cmd *cobra.Command, args []string) {
 		dxp := liferay.DXP{}
 

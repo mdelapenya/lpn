@@ -222,13 +222,19 @@ func deployPaths(image liferay.Image, paths []string) {
 
 	// Collect results from workers
 
+	failed := false
 	for i := 0; i < len(paths); i++ {
 		select {
 		case <-resultChannel:
 			slog.Info("File deployed successfully to deploy dir", "file", paths[i], "deployDir", image.GetDeployFolder())
 		case err := <-errorChannel:
-			slog.Warn("Impossible to deploy the file to the container", "file", paths[i], "error", err)
+			slog.Error("Impossible to deploy the file to the container", "file", paths[i], "error", err)
+			failed = true
 		}
+	}
+
+	if failed {
+		os.Exit(1)
 	}
 }
 
