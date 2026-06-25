@@ -58,8 +58,94 @@ jobs:
     concurrency:
       group: ralph-${{ github.event.issue.number }}
       cancel-in-progress: false
+    env:
+      APP_NAME: lpn-ralph
     steps:
       - uses: actions/checkout@v4
+
+      - name: Enable KVM access
+        run: |
+          sudo chmod 666 /dev/kvm
+          ls -la /dev/kvm
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      - name: Download sbx release
+        run: |
+          set -euo pipefail
+          VERSION=$(curl -fsSL \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            https://api.github.com/repos/docker/sbx-releases/releases/latest \
+            | jq -r .tag_name)
+          echo "Resolved latest sbx version: ${VERSION}"
+          echo "SBX_VERSION=${VERSION}" >> "$GITHUB_ENV"
+
+          curl -fsSL \
+            "https://github.com/docker/sbx-releases/releases/download/${VERSION}/DockerSandboxes-linux.tar.gz" \
+            -o /tmp/DockerSandboxes-linux.tar.gz
+          tar xzf /tmp/DockerSandboxes-linux.tar.gz -C /tmp
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install sbx
+        run: |
+          set -euo pipefail
+          sudo PREFIX="${HOME}/.docker/sbx" /tmp/docker-sbx/install.sh
+          echo "${HOME}/.docker/sbx/bin" >> "$GITHUB_PATH"
+
+      - name: Verify sbx installation
+        run: sbx version
+
+      - name: Set up Secret Service for sbx login
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq gnome-keyring dbus
+
+          mkdir -p "$HOME/.local/share/keyrings"
+          cat > "$HOME/.local/share/keyrings/login.keyring" <<'KEYRING'
+          [keyring]
+          display-name=login
+          ctime=1750965549
+          mtime=0
+          lock-on-idle=false
+          lock-after=false
+          KEYRING
+
+          DBUS_SESSION_BUS_ADDRESS=$(dbus-daemon --session --print-address --fork)
+          echo "DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS" >> "$GITHUB_ENV"
+          export DBUS_SESSION_BUS_ADDRESS
+
+          gnome-keyring-daemon --start --components=secrets >/dev/null
+
+          for _ in $(seq 1 50); do
+            if gdbus call --session \
+                --dest org.freedesktop.DBus \
+                --object-path /org/freedesktop/DBus \
+                --method org.freedesktop.DBus.GetNameOwner \
+                org.freedesktop.secrets >/dev/null 2>&1; then
+              echo "Secret Service registered on D-Bus"
+              exit 0
+            fi
+            sleep 0.1
+          done
+          echo "Timed out waiting for org.freedesktop.secrets to register"
+          exit 1
+
+      - name: Sign in to Docker Hub via sbx
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          if [ -z "${DOCKERHUB_USERNAME}" ] || [ -z "${DOCKERHUB_TOKEN}" ]; then
+            echo "DOCKERHUB_USERNAME / DOCKERHUB_TOKEN not configured; skipping sbx login."
+            exit 1
+          fi
+          USER_CLEAN=$(printf '%s' "$DOCKERHUB_USERNAME" | tr -d '[:space:]')
+          TOKEN_CLEAN=$(printf '%s' "$DOCKERHUB_TOKEN"    | tr -d '[:space:]')
+          printf '%s' "$TOKEN_CLEAN" | sbx --app-name "$APP_NAME" login --username "$USER_CLEAN" --password-stdin
+
+      - name: Set sbx default network policy
+        run: sbx --app-name "$APP_NAME" policy set-default balanced
 
       - uses: mdelapenya/claude-ralph-github-action@v0
         timeout-minutes: 55
@@ -92,3 +178,7 @@ jobs:
             - Be confident (overconfident) about your coding abilities
             - Keep it fun but still professional enough to get work done
             Your work summary should reflect this personality while still being informative.
+
+      - name: Sign out of Docker Hub
+        if: always()
+        run: sbx logout --yes || true
