@@ -58,20 +58,25 @@ jobs:
     concurrency:
       group: ralph-${{ github.event.issue.number }}
       cancel-in-progress: false
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      GH_PAT_TOKEN: ${{ secrets.GH_PAT_TOKEN }}
+      DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
+      DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 
       - uses: mdelapenya/claude-ralph-github-action@1b81019e9fea038dec30e90e8bfc6a51bcf93271 # v0.8.0
         timeout-minutes: 55
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          anthropic_api_key: ${{ env.ANTHROPIC_API_KEY }}
           # GH_PAT_TOKEN requires a PAT with the `workflow` scope to allow Ralph
           # to modify files in .github/workflows/. The default GITHUB_TOKEN
           # cannot push workflow changes regardless of permissions settings.
-          github_token: ${{ secrets.GH_PAT_TOKEN }}
+          github_token: ${{ env.GH_PAT_TOKEN }}
           sbx_enabled: true
-          docker_hub_user: ${{ secrets.DOCKER_HUB_USER }}
-          docker_hub_token: ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker_hub_user: ${{ env.DOCKER_HUB_USER }}
+          docker_hub_token: ${{ env.DOCKER_HUB_TOKEN }}
           reviewer_model: opus
           reviewer_tone: |
             You are C-3PO, the protocol droid from Star Wars. Embody these characteristics:
