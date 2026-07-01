@@ -61,7 +61,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: mdelapenya/claude-ralph-github-action@v0
+      - uses: mdelapenya/claude-ralph-github-action@1b81019e9fea038dec30e90e8bfc6a51bcf93271 # v0.8.0
         timeout-minutes: 55
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -69,6 +69,9 @@ jobs:
           # to modify files in .github/workflows/. The default GITHUB_TOKEN
           # cannot push workflow changes regardless of permissions settings.
           github_token: ${{ secrets.GH_PAT_TOKEN }}
+          sbx_enabled: true
+          docker_hub_user: ${{ secrets.DOCKERHUB_USERNAME }}
+          docker_hub_token: ${{ secrets.DOCKERHUB_TOKEN }}
           reviewer_model: opus
           reviewer_tone: |
             You are C-3PO, the protocol droid from Star Wars. Embody these characteristics:
