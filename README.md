@@ -13,6 +13,10 @@ It wraps Docker commands so you just have to run this tool, and pass the specifi
 
 You have to install Docker on your machine first. Check [this guide](https://docs.docker.com/install).
 
+## Contributing
+
+Contributions are welcome! Please read the [contributing guide](CONTRIBUTING.md) before opening a Pull Request. In short, Pull Requests should target the `develop` branch.
+
 ## Installation
 
 For current stable version of `lpn`, please visit [downloads page](https://github.com/mdelapenya/lpn/releases), and select the target platform, based on O.S. and architecture.
