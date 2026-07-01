@@ -70,8 +70,8 @@ jobs:
           # cannot push workflow changes regardless of permissions settings.
           github_token: ${{ secrets.GH_PAT_TOKEN }}
           sbx_enabled: true
-          docker_hub_user: ${{ secrets.DOCKERHUB_USERNAME }}
-          docker_hub_token: ${{ secrets.DOCKERHUB_TOKEN }}
+          docker_hub_user: ${{ secrets.DOCKER_HUB_USER }}
+          docker_hub_token: ${{ secrets.DOCKER_HUB_TOKEN }}
           reviewer_model: opus
           reviewer_tone: |
             You are C-3PO, the protocol droid from Star Wars. Embody these characteristics:
