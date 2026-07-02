@@ -84,7 +84,7 @@ var tagsCmd = &cobra.Command{
 	Short: "Lists all tags for Liferay Portal Docker image",
 	Long: `Lists all tags for Liferay Portal Docker image from the Official repositories (see configuration file).
 		For non-official Docker images, the tool lists tags from the unofficial repositories (see configuration file).
-	For that, please run this command adding "commerce", "release" or "nightly" subcommands.`,
+	For that, please run this command adding "commerce" or "nightly" subcommands.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("tags requires zero or one argument representing the image tag to be pulled")
@@ -145,9 +145,10 @@ var tagsNightlyCmd = &cobra.Command{
 }
 
 var tagsReleaseCmd = &cobra.Command{
-	Use:   "release",
-	Short: "Lists all tags for Liferay Portal Release Docker image",
-	Long:  `Lists all tags for Liferay Portal Release Docker image from one of the unofficial repository`,
+	Use:        "release",
+	Deprecated: releaseDeprecationMessage,
+	Short:      "Lists all tags for Liferay Portal Release Docker image",
+	Long:       `Lists all tags for Liferay Portal Release Docker image from one of the unofficial repository`,
 	Run: func(cmd *cobra.Command, args []string) {
 		release := liferay.Release{}
 

@@ -128,8 +128,9 @@ var deployNightly = &cobra.Command{
 }
 
 var deployRelease = &cobra.Command{
-	Use:   "release",
-	Short: "Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn",
+	Use:        "release",
+	Deprecated: releaseDeprecationMessage,
+	Short:      "Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn",
 	Long: `Deploys files or a directory to Liferay Portal's deploy folder in the container run by lpn.
 	The appropriate tag is calculated from the image the container was build from.`,
 	Run: func(cmd *cobra.Command, args []string) {

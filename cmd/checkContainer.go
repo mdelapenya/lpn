@@ -100,8 +100,9 @@ var checkContainerNightlyCmd = &cobra.Command{
 }
 
 var checkContainerReleaseCmd = &cobra.Command{
-	Use:   "release",
-	Short: "Checks if there is a Release container created by lpn",
+	Use:        "release",
+	Deprecated: releaseDeprecationMessage,
+	Short:      "Checks if there is a Release container created by lpn",
 	Long: `Checks if there is a Release container created by lpn (Liferay Portal Nook).
 	Uses docker container inspect to check if there is a Release container with name [lpn-release] created by lpn (Liferay Portal Nook)`,
 	Run: func(cmd *cobra.Command, args []string) {

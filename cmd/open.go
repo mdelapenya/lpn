@@ -98,9 +98,10 @@ var openNightlyCmd = &cobra.Command{
 }
 
 var openReleaseCmd = &cobra.Command{
-	Use:   "release",
-	Short: "Opens a browser with the Liferay Portal Release instance",
-	Long:  `Opens a browser with  the Liferay Portal Release instance, identified by [lpn-release].`,
+	Use:        "release",
+	Deprecated: releaseDeprecationMessage,
+	Short:      "Opens a browser with the Liferay Portal Release instance",
+	Long:       `Opens a browser with  the Liferay Portal Release instance, identified by [lpn-release].`,
 	Run: func(cmd *cobra.Command, args []string) {
 		release := liferay.Release{}
 

@@ -113,9 +113,10 @@ var rmiNightlyCmd = &cobra.Command{
 }
 
 var rmiReleaseCmd = &cobra.Command{
-	Use:   "release",
-	Short: "Removes the Liferay Portal Release image",
-	Long:  `Removes the Liferay Portal Release image from the Docker host.`,
+	Use:        "release",
+	Deprecated: releaseDeprecationMessage,
+	Short:      "Removes the Liferay Portal Release image",
+	Long:       `Removes the Liferay Portal Release image from the Docker host.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if tagToRemove == "" {
 			tagToRemove = "latest"

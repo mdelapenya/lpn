@@ -54,10 +54,16 @@ func Execute() {
 	}
 }
 
+// releaseDeprecationMessage is appended to the deprecation warning printed by
+// Cobra whenever one of the "release" subcommands is used. The unofficial
+// "release" images are being retired in favour of the official "ce" and "dxp"
+// images.
+const releaseDeprecationMessage = `use the "ce" or "dxp" subcommands instead, as the "release" images are deprecated`
+
 // SubCommandInfo Shows a message for subcommands
 func SubCommandInfo() {
 	// delegate to subcommands
 	slog.Warn(
-		"Please run this command adding 'ce', 'commerce', 'dxp', 'nightly' or 'release' " +
+		"Please run this command adding 'ce', 'commerce', 'dxp' or 'nightly' " +
 			"subcommands.")
 }
