@@ -93,9 +93,10 @@ var rmNightlyCmd = &cobra.Command{
 }
 
 var rmReleaseCmd = &cobra.Command{
-	Use:   "release",
-	Short: "Removes the Liferay Portal Release instance",
-	Long:  `Removes the Liferay Portal Release instance, identified by [lpn-release].`,
+	Use:        "release",
+	Deprecated: releaseDeprecationMessage,
+	Short:      "Removes the Liferay Portal Release instance",
+	Long:       `Removes the Liferay Portal Release instance, identified by [lpn-release].`,
 	Run: func(cmd *cobra.Command, args []string) {
 		release := liferay.Release{}
 

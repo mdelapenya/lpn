@@ -167,8 +167,9 @@ var checkImageNightly = &cobra.Command{
 }
 
 var checkImageRelease = &cobra.Command{
-	Use:   "release",
-	Short: "Checks if the proper Liferay Portal release image has been pulled by lpn",
+	Use:        "release",
+	Deprecated: releaseDeprecationMessage,
+	Short:      "Checks if the proper Liferay Portal release image has been pulled by lpn",
 	Long: `Checks if the proper Liferay Portal release image has been pulled by lpn.
 	Uses docker image inspect to check if the proper Liferay Portal image has 
 	been pulled by lpn (Liferay Portal Nook). If no image tag is passed to the command,

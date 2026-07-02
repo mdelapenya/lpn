@@ -50,7 +50,7 @@ var pullCmd = &cobra.Command{
 	Short: "Pulls a Liferay Portal Docker image",
 	Long: `Pulls a Liferay Portal Docker image from one of the Official repositories (see configuration file).
 		For non-official Docker images, the tool pulls from the official repositories (see configuration file)
-	For that, please run this command adding "ce", "commerce", "dxp", "release" or "nightly" subcommands.`,
+	For that, please run this command adding "ce", "commerce", "dxp" or "nightly" subcommands.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("pull requires zero or one argument representing the image tag to be pulled")
@@ -159,8 +159,9 @@ var pullNightly = &cobra.Command{
 }
 
 var pullRelease = &cobra.Command{
-	Use:   "release",
-	Short: "Pulls a Liferay Portal Docker image from releases",
+	Use:        "release",
+	Deprecated: releaseDeprecationMessage,
+	Short:      "Pulls a Liferay Portal Docker image from releases",
 	Long: `Pulls a Liferay Portal instance, obtained from the unofficial releases repository.
 	If no image tag is passed to the command, the "latest" tag will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {

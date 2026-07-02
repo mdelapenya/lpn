@@ -182,11 +182,13 @@ Once you have typed the proper command, to specify with which image type you wan
 
   - ce
   - dxp
-  - release
   - nightly
   - commerce
+  - release (**deprecated**)
 
 So any command needs the combination of one of the subcommands above. So to run a DXP image, you would need to execute `lpn run dxp`.
+
+> **Deprecation notice:** the `release` subcommands are deprecated in favour of the official `ce` and `dxp` subcommands. They still work for now, but running them prints a deprecation warning and they will be removed in a future release. Please migrate to `ce` or `dxp`.
 
 ## Running a container from a Liferay Portal/DXP image
 

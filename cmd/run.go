@@ -61,7 +61,7 @@ var runCmd = &cobra.Command{
 	Short: "Runs a Liferay Portal instance",
 	Long: `Runs a Liferay Portal instance, obtained from the Official repositories (see configuration file).
 		For non-official Docker images, the tool runs images obtained from the unofficial repositories (see configuration file).
-	For that, please run this command adding "ce", "commerce", "dxp", "release" or "nightly" subcommands.`,
+	For that, please run this command adding "ce", "commerce", "dxp" or "nightly" subcommands.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) > 1 {
 			return errors.New("run requires zero or one argument representing the image tag to be run")
@@ -172,8 +172,9 @@ var runNightlyCmd = &cobra.Command{
 }
 
 var runReleaseCmd = &cobra.Command{
-	Use:   "release",
-	Short: "Runs a Liferay Portal instance from releases",
+	Use:        "release",
+	Deprecated: releaseDeprecationMessage,
+	Short:      "Runs a Liferay Portal instance from releases",
 	Long: `Runs a Liferay Portal instance, obtained from the unofficial releases repository.
 	If no image tag is passed to the command, the "latest" tag will be used.`,
 	Args: func(cmd *cobra.Command, args []string) error {
